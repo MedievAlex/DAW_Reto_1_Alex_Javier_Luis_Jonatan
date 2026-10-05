@@ -1,13 +1,13 @@
 <mxfile host="65bd71144e">
     <diagram id="H1v9NL7d54HQZwtAZfRS" name="MODELO DE DATOS">
-        <mxGraphModel dx="1463" dy="966" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1119" dy="739" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="66" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
                     <mxGeometry height="940" width="660" x="30" y="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-73" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;fontStyle=1" value="NOTIFICACION" vertex="1">
+                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-73" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;fontStyle=1" value="NOTIFICACION&lt;div&gt;(&lt;i&gt;Luis&lt;/i&gt;)&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="240" x="80" y="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-74" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" value="&lt;u style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgba(100, 100, 100, 0.4) rgb(255, 255, 255); font-style: italic;&quot;&gt;id_notificacion&lt;/u&gt;" vertex="1">
@@ -46,7 +46,7 @@
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-85" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: italic;&quot;&gt;int&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="80" x="240" y="280" as="geometry"/>
                 </mxCell>
-                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-86" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;gradientColor=#d5739d;fontStyle=1" value="USUARIO" vertex="1">
+                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-86" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;gradientColor=#d5739d;fontStyle=1" value="USUARIO&lt;div&gt;(&lt;i&gt;Javier&lt;/i&gt;)&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="240" x="400" y="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-99" edge="1" parent="1" source="DJ7KqSOE8SBhkRJeiIBq-87" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" target="DJ7KqSOE8SBhkRJeiIBq-85">
@@ -93,7 +93,7 @@
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-98" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: italic;&quot;&gt;enum&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="80" x="560" y="280" as="geometry"/>
                 </mxCell>
-                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-100" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcd28;strokeColor=#d79b00;gradientColor=#ffa500;fontStyle=1" value="EQUIPAMIENTOS" vertex="1">
+                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-100" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcd28;strokeColor=#d79b00;gradientColor=#ffa500;fontStyle=1" value="EQUIPAMIENTOS&lt;div&gt;(&lt;i&gt;Jonatan&lt;/i&gt;)&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="240" x="400" y="360" as="geometry"/>
                 </mxCell>
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-101" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;" value="&lt;u style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgba(100, 100, 100, 0.4) rgb(255, 255, 255); font-style: italic;&quot;&gt;id_equipamiento&lt;/u&gt;" vertex="1">
@@ -146,7 +146,7 @@
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-122" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: italic;&quot;&gt;int&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="80" x="560" y="640" as="geometry"/>
                 </mxCell>
-                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-123" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;gradientColor=#ffd966;fontStyle=1" value="UBICACIONES" vertex="1">
+                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-123" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;gradientColor=#ffd966;fontStyle=1" value="UBICACIONES&lt;div&gt;(&lt;i&gt;Alex&lt;/i&gt;)&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="240" x="80" y="360" as="geometry"/>
                 </mxCell>
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-148" edge="1" parent="1" source="DJ7KqSOE8SBhkRJeiIBq-124" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" target="DJ7KqSOE8SBhkRJeiIBq-142">
@@ -183,7 +183,7 @@
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-129" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: italic;&quot;&gt;varchar(255)&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="80" x="240" y="480" as="geometry"/>
                 </mxCell>
-                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-137" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;gradientColor=#7ea6e0;fontStyle=1" value="HISTORICO_UBICACIONES" vertex="1">
+                <mxCell id="DJ7KqSOE8SBhkRJeiIBq-137" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;gradientColor=#7ea6e0;fontStyle=1" value="HISTORICO_UBICACIONES&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;(&lt;/span&gt;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgba(100, 100, 100, 0.4) rgb(255, 255, 255);&quot;&gt;Alex&lt;/i&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;)&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="40" width="240" x="260" y="720" as="geometry"/>
                 </mxCell>
                 <mxCell id="DJ7KqSOE8SBhkRJeiIBq-138" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;" value="&lt;u style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgba(100, 100, 100, 0.4) rgb(255, 255, 255); font-style: italic;&quot;&gt;id_historico&lt;/u&gt;" vertex="1">
