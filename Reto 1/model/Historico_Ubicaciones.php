@@ -48,27 +48,27 @@ class Historico_Ubicaciones
     // Setter
     // self - Cambia el valor y devuelve el objeto actualizado
     // void - Solo cambia el valor deseado
-    public function setId(int $his_id): void // Devuelve un int
+    public function setId(int $his_id): void
     {
         $this->his_id = $his_id;
     }
 
-    public function setEquipamiento(int $his_equipamiento): void // Devuelve un int
+    public function setEquipamiento(int $his_equipamiento): void
     {
         $this->his_equipamiento = $his_equipamiento;
     }
     
-    public function setUbicacion(int $his_ubicacion): void // Devuelve un int
+    public function setUbicacion(int $his_ubicacion): void
     {
         $this->his_ubicacion = $his_ubicacion;
     }
 
-    public function setFechaInicio(DateTime $his_fecha_inicio): void // Devuelve una fecha
+    public function setFechaInicio(DateTime $his_fecha_inicio): void
     {
         $this->his_fecha_inicio = $his_fecha_inicio;
     }
     
-    public function setFechaFinal(DateTime $his_fecha_final): void // Devuelve una fecha
+    public function setFechaFinal(DateTime $his_fecha_final): void
     {
         $this->his_fecha_final = $his_fecha_final;
     }
