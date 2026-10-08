@@ -13,5 +13,18 @@
     * *Desarollo WEB en Entorno Cliente*
     * *Desarollo WEB en Entorno Servidor*
     * *Despliegue de Aplicaciones WEB*
+* ## **Estructura de carpetas:**
+    * *RETO 1*
+        * *App*
+            * *api*
+            * *controller*
+            * *dao*
+            * *model*
+            * *view*
+                * *assets*
+                * *html*
+                * *css*
+                * *js*
+        * *Public*
 
 * ## **[Repositorio GitHub](https://github.com/MedievAlex/DAW_Reto_1_Alex_Javier_Luis_Jonatan.git)**
