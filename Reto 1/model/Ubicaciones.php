@@ -54,7 +54,7 @@ class Ubicaciones
     {
         echo ("ID: " . $this->ubi_id . "<br>");
         echo ("Nombre: " . $this->ubi_nombre . "<br>");
-        echo ("Descripcion: " . $this->ubi_descripcion . "km/h<br>");
+        echo ("Descripcion: " . $this->ubi_descripcion . "<br>");
     }
 }
 
