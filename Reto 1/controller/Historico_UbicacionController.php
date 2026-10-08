@@ -1,7 +1,7 @@
 <?php
     require_once("../dao/Historico_UbicacionDAO.php");
 
-class controller
+class Historico_UbicacionController
 {
     private Historico_UbicacionDAO $his_dao;
 
