@@ -7,9 +7,7 @@ class Historico_Ubicacion
     private int $his_equipamiento;
     private int $his_ubicacion;
     private DateTime $his_fecha_inicio;
-    private DateTime $his_fecha_fin; // Gestionar que si es idéntico a la fecha de inicio que no se muestre/registre
-    //private String $his_fecha_inicio;
-    //private String $his_fecha_fin;
+    private DateTime $his_fecha_fin; // [Gestionar que si es idéntico a la fecha de inicio que no se muestre/registre]
 
     // Constructores
     public function __construct(int $his_id, int $his_equipamiento, int $his_ubicacion, DateTime $his_fecha_inicio, DateTime $his_fecha_fin)
@@ -87,8 +85,8 @@ class Historico_Ubicacion
         echo ("ID: " . $this->his_id . "<br>");
         echo ("Equipamiento: " . $this->his_equipamiento . "<br>");
         echo ("Ubicacion: " . $this->his_ubicacion . "<br>");
-        echo ("Inicio: " . date_format($this->his_fecha_inicio, "Y/m/d H:i:s") . "<br>");
-        echo ("Fin: " . date_format($this->his_fecha_fin, "Y/m/d H:i:s") . "<br>");
+        echo ("Inicio: " . date_format($this->his_fecha_inicio, "Y-m-d H:i:s") . "<br>");
+        echo ("Fin: " . date_format($this->his_fecha_fin, "Y-m-d H:i:s") . "<br>");
     }
 }
 
