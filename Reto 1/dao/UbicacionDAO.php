@@ -1,8 +1,9 @@
 <?php
-require_once("Ubicacion.php");
-require_once("ConexionDB.php");
 
-class UbicacionesDAO
+require_once("ConexionDB.php");
+require_once("../model/Ubicacion.php");
+
+class UbicacionDAO
 {
     // ---------------------------------------- VARIABLES
     private mysqli $conexion;
