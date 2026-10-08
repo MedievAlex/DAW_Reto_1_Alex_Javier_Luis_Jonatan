@@ -1,6 +1,6 @@
 <?php
 // Definición de la clase
-class Ubicaciones
+class Ubicacion
 {
     // Atributos
     private int $ubi_id;
