@@ -1,8 +1,8 @@
 <?php
 enum Estado: string {
-    case PENDIENTE = 'pendiente';
-    case EN_PROCESO = 'en_proceso';
-    case REALIZADA = 'realizada';
+    case PENDIENTE = 'PENDIENTE';
+    case EN_PROCESO = 'EN_PROCESO';
+    case REALIZADA = 'REALIZADA';
 }
 
 ?>
