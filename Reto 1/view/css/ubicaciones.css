@@ -1,0 +1,31 @@
+/* ---------------------------------------------- [VARIABLES]*/
+:root {
+    --primary-color-1: #FCA044;
+    --primary-color-2: #FFD857;
+    --primary-color-3: #57A3FF;
+}
+
+/* ---------------------------------------------- [SECTION]*/
+section {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* ---------------------------------------------- [SECTION: Plantas]*/
+section .plantas{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------------------------------------------- [SECTION: Article]*/
+section article{
+    margin: 20px;
+}
+
+/* ---------------------------------------------- [SECTION: Toggle Plantas]*/
+.oculto {
+    display: none;
+}
