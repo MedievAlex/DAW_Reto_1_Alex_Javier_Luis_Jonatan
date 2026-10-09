@@ -1,20 +1,25 @@
 <?php
-class Notificacion
+    require_once ("Usuario.php");
+    require_once ("Estado.php");
+
+class Notificacion extends Usuario
 {
-    private int $id;
+
+    private int $idNotificacion;
     private string $titulo;
     private string $descripcion;
     private DateTime $fecha;
     private Estado $estado;
 
 
-    public function __construct(int $id, string $titulo, string $descripcion, DateTime $fecha, Estado $estado)
+    public function __construct(int $idNotificacion, string $titulo, string $descripcion, DateTime $fecha, Estado $estado)
     {
-        $this->id = $id;
+        $this->idNotificacion = $idNotificacion;
         $this->titulo = $titulo;
         $this->descripcion = $descripcion;
         $this->fecha = $fecha;
         $this->estado = $estado;
+        parent::__construct($idNotificacion);
     }
 
     
@@ -24,8 +29,8 @@ class Notificacion
      *
      * @return int
      */
-    public function getId(): int {
-        return $this->id;
+    public function getIdNotificacion(): int {
+        return $this->idNotificacion;
     }
 
     /**
@@ -35,8 +40,8 @@ class Notificacion
      *
      * @return self
      */
-    public function setId(int $id): self {
-        $this->id = $id;
+    public function setIdNotificacion(int $idNotificacion): self {
+        $this->idNotificacion = $idNotificacion;
         return $this;
     }
 
@@ -123,6 +128,16 @@ class Notificacion
     public function setEstado(Estado $estado): self {
         $this->estado = $estado;
         return $this;
+    }
+
+    // Mostrar
+    public function mostrarInfo()
+    {
+        echo ("ID: " . $this->idNotificacion . "<br>");
+        echo ("Nombre: " . $this->titulo . "<br>");
+        echo ("Descripcion: " . $this->descripcion . "<br>");
+        echo ("Fecha: " . $this->fecha->format('Y-m-d H:i:s') . "<br>");
+        echo ("Estado: " . $this->estado->value . "<br>");
     }
 }
 ?>
