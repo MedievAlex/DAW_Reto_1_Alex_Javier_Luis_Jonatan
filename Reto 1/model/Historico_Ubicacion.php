@@ -17,8 +17,6 @@ class Historico_Ubicacion
         $this->his_ubicacion = $his_ubicacion;
         $this->his_fecha_inicio = $his_fecha_inicio;
         $this->his_fecha_fin = $his_fecha_fin;
-        //$this->his_fecha_fin = new DateTime('NOW');
-        //$this->his_fecha_inicio = date("Y-m-d H:i:s"); // Formato para insertar en la BD SQL
     }
 
     // Getter
