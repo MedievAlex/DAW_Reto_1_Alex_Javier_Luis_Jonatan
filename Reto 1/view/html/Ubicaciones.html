@@ -3,39 +3,72 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <title>Ubicaciones - Centro Fungible</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/ubicaciones.css">
+    <script src="../js/ubicaciones.js" defer></script>
+    <title>Inicio - Centro Fungible</title>
 </head>
 
 <body>
-<!------------------------------------------------------------------------ [HEADER: ] -->
+    <!------------------------------------------------------------------------ [HEADER: ] -->
     <header>
-        
+        <img src="../assets/logo/CF.png" alt="Logo de Centro Fungible">
     </header>
-<!------------------------------------------------------------------------ [NAV: ] -->
+    <!------------------------------------------------------------------------ [NAV: ] -->
     <nav>
-
+        <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
+        <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO</a>
+        <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
+        <button class="boton-perfil">
+            <img src="../assets/icons/icon_perfil.png" alt="Acceso al perfil personal.">
+        </button>
     </nav>
-<!------------------------------------------------------------------------ [SECTION: ] -->
+    <!------------------------------------------------------------------------ [SECTION: ] -->
     <section>
-<!------------------------------------------------------------------------ [SECTION: Article 1 ] -->
-        <article>
+        <div class="plantas">
+            <button id="btn_planta1">1ª PLANTA</button>
+            <button id="btn_planta2">2ª PLANTA</button>
+        </div>
+        <!------------------------------------------------------------------------ [SECTION: Article 1 ] -->
+        <article id="img_planta1" class="">
+
+            <img src="../assets/map/planta_1.jpg" usemap="#map_planta1" alt="Image map" />
+            <map name="map_planta1">
+                <area shape="rect" coords="11,57,164,366" href="" alt="Habitación 101."
+                    onclick="alert('Habitación 101')" />
+                <area shape="rect" coords="11,375,298,553" href="" alt="Habitación 102."
+                    onclick="alert('Habitación 102')" />
+                <area shape="rect" coords="427,57,714,207" href="" alt="Habitación 103."
+                    onclick="alert('Habitación 103')" />
+                <area shape="rect" coords="427,219,714,393" href="" alt="Habitación 104."
+                    onclick="alert('Habitación 104')" />
+                <area shape="rect" coords="426,402,715,553" href="" alt="Habitación 105."
+                    onclick="alert('Habitación 105')" />
+            </map>
 
         </article>
-<!------------------------------------------------------------------------ [SECTION: Article 2 ] -->
-        <article>
 
+        <!------------------------------------------------------------------------ [SECTION: Article 2 ] -->
+        <article id="img_planta2" class="oculto">
+            <img src="../assets/map/planta_2.jpg" usemap="#map_planta2" alt="Image map" />
+            <map name="map_planta2">
+                <area shape="rect" coords="11,57,164,365" alt="Habitación 201" onclick="alert('Habitación 201')" />
+                <area shape="rect" coords="11,376,418,554" alt="Habitación 202" onclick="alert('Habitación 202')" />
+                <area shape="rect" coords="430,376,712,553" alt="Habitación 203" onclick="alert('Habitación 203')" />
+                <area shape="rect" coords="427,56,712,245" alt="Habitación 204" onclick="alert('Habitación 204')" />
+            </map>
         </article>
-
     </section>
-<!------------------------------------------------------------------------ [ASIDE: ] -->
+    <!------------------------------------------------------------------------ [ASIDE: ] -->
     <aside>
 
     </aside>
-<!------------------------------------------------------------------------ [FOOTER: ] -->
+    <!------------------------------------------------------------------------ [FOOTER: ] -->
     <footer>
-
+        <p>Centro Funjible</p>
+        <p>Tlf: 999 888 777</p>
+        <p>© 2026</p>
+        <p>Todos los derechos reservados a LAJJ</p>
     </footer>
 </body>
-
 </html>
