@@ -12,6 +12,39 @@
     --border-radious-value: 10px;
 }
 
+/* ---------------------------------------------- [ANIMACIONES]*/
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(5deg);
+    }
+
+    50% {
+        transform: rotate(0eg);
+    }
+
+    75% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 /* ---------------------------------------------- [BODY]*/
 body {
     background-color: var(--primary-color-2);
@@ -70,7 +103,7 @@ nav a {
     cursor: pointer;
 }
 
-nav img{
+nav img {
     width: 100%;
     height: 100%;
 }
@@ -83,10 +116,12 @@ nav a:hover {
     border: 2px solid var(--primary-color-3);
 }
 
-.boton-perfil, .boton-ajustes {
+.boton-ajustes,
+.boton-notificaciones,
+.boton-perfil {
     background-color: var(--primary-color-3);
 
-    color: #fff;
+    color: white;
 
     border: none;
     border-radius: 50%;
@@ -95,7 +130,7 @@ nav a:hover {
     height: 50px;
 
     padding: 10px;
-    
+
     right: 20px;
     bottom: 20px;
 
@@ -105,12 +140,28 @@ nav a:hover {
     cursor: pointer;
 }
 
+.boton-ajustes {
+    bottom: 160px;
+}
+
+.boton-ajustes:hover {
+    animation: rotate 2s linear infinite;
+}
+
+.boton-notificaciones {
+    bottom: 90px;
+}
+
+.boton-notificaciones:hover {
+    animation: shake 1s linear infinite;
+}
+
 .boton-perfil {
     bottom: 20px;
 }
 
-.boton-ajustes {
-    bottom: 90px;
+.boton-perfil:hover {
+    animation: rotate 2s linear infinite;
 }
 
 /* ---------------------------------------------- [FOOTER]*/
