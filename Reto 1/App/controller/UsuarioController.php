@@ -1,6 +1,5 @@
 <?php
 require_once("../dao/UsuarioDAO.php");
-require_once("../api/Hash.php");
 
 class UsuarioController
 {
@@ -69,7 +68,7 @@ class UsuarioController
     public function registrarUsuario(Usuario $usuario, string $password): bool
     {
         $this->validarPassword($password);
-        $usuario->setPasswordHash(Hash::generar($password));
+        $usuario->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
 
         return $this->usu_dao->crearUsuario($usuario);
     }
@@ -85,7 +84,7 @@ class UsuarioController
             return false;
         }
 
-        $usuario->setPasswordHash(Hash::generar($password));
+        $usuario->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
 
         return $this->usu_dao->editarUsuario($usuario);
     }
@@ -96,13 +95,13 @@ class UsuarioController
     {
         $usuario = $this->usu_dao->buscarUsuarioPorNombreUsuario(trim($usu_nombre_usuario));
 
-        if ($usuario === null || !Hash::verificar($password, $usuario->getPasswordHash())) {
+        if ($usuario === null || !password_verify($password, $usuario->getPasswordHash())) {
             return null;
         }
 
         // si el hash guardado usa un algoritmo antiguo, se regenera
-        if (Hash::necesitaRegenerar($usuario->getPasswordHash())) {
-            $usuario->setPasswordHash(Hash::generar($password));
+        if (password_needs_rehash($usuario->getPasswordHash(), PASSWORD_DEFAULT)) {
+            $usuario->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
             $this->usu_dao->editarUsuario($usuario);
         }
 
