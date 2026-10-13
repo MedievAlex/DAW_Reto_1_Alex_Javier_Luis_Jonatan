@@ -9,6 +9,7 @@
 
     /* ---------------------------------------------- [VARIABLES: Tamaños]*/
     --title-text-size: 20px;
+    --border-radious-value: 30px;
 }
 
 /* ---------------------------------------------- [ARTICLE: Categorias]*/
@@ -18,9 +19,12 @@
     justify-content: space-evenly;
 }
 
-.categorias a{
+.categorias div{
     color: var(--primary-text-color-1);
     text-decoration: none;
+
+    border-top-left-radius: var(--border-radious-value);
+    border-top-right-radius: var(--border-radious-value);
 }
 
 /* ---------------------------------------------- [ARTICLE: Categoria]*/

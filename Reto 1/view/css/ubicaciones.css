@@ -1,35 +1,130 @@
 /* ---------------------------------------------- [VARIABLES]*/
 :root {
+    /* ---------------------------------------------- [VARIABLES: Colores]*/
     --primary-color-1: #FCA044;
     --primary-color-2: #FFD857;
     --primary-color-3: #57A3FF;
+
+    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
+    --title-text-size: 20px;
+    --butto-text-size: 30px;
+    --border-radious-value: 10px;
 }
 
 /* ---------------------------------------------- [SECTION]*/
 section {
     display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-around;
+
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
 }
 
 /* ---------------------------------------------- [SECTION: Plantas]*/
-section .plantas{
+section .plantas {
     margin: 20px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
 }
 
 /* ---------------------------------------------- [SECTION: Article]*/
-section article{
+section article {
     margin: 20px;
 }
 
-/* ---------------------------------------------- [SECTION: Toggle Plantas]*/
+/* ---------------------------------------------- [ARTICLE: Toggle Plantas]*/
+.visible {
+    background-color: var(--primary-color-3);
+}
+
+@media only screen and (max-width: 768px) {
+    .visible {
+        width: calc(100% - 20px);
+        /*Calcula el 50% de la pantalla y le resta 20px al width*/
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .visible {
+        width: calc(100% - 10px);
+        /*Calcula el 100% de la pantalla y le resta 20px al width*/
+    }
+}
+
 .oculto {
     display: none;
 }
 
-.habitacion:focus {
-    border: 5px red solid;
+/* ---------------------------------------------- [SECTION: ScrollBar]*/
+.scroll {
+    width: 100%;
+    height: 70vh;
+
+    overflow: hidden;
+}
+
+.scrollContent {
+    background-color: var(--primary-color-1);
+
+    width: 80%;
+    height: 100%;
+
+    padding: 10px;
+
+    border: none;
+    border-radius: var(--border-radious-value);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+section .equipamientos {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.equipamientos .equipamiento {
+    background-color: var(--primary-color-3);
+
+    padding: 10px;
+
+    border-radius: 20px ;
+
+    margin: 10px;
+}
+
+/* ---------------------------------------------- [SECTION: Equipamiento]*/
+.equipamiento {
+    display: flex;
+    flex-direction: row;
+}
+
+.equipamiento img {
+    width: 20vh;
+    height: 20vh;
+
+    border-radius: 50%;
+}
+
+.equipamiento .detalles {
+    margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detalles .nombre_equipo {
+    width: 100%;
+
+    font-weight: bold;
+}
+
+.detalles .detalles_equipo {
+    width: 100%;
+
+    font-style: oblique;
 }

@@ -20,6 +20,9 @@
         <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
         <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO</a>
         <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
+        <button class="boton-ajustes">
+            <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
+        </button>
         <button class="boton-perfil">
             <img src="../assets/icons/icon_perfil.png" alt="Acceso al perfil personal.">
         </button>
@@ -27,15 +30,15 @@
 
     <!------------------------------------------------------------------------ [SECTION: ] -->
     <section>
-        <!------------------------------------------------------------------------ [ASIDE: ] -->
-        <aside class="plantas">
-            <button id="btn_planta1">1ª PLANTA</button>
-            <button id="btn_planta2">2ª PLANTA</button>
-        </aside>
-
-        <!------------------------------------------------------------------------ [SECTION: Article 1 ] -->
-        <article id="img_planta1" class="">
-            <img src="../assets/map/planta_1.jpg" usemap="#map_planta1" alt="Image map" />
+        <!------------------------------------------------------------------------ [ARTICLE ] -->
+        <article>
+            <div class="plantas">
+                <button id="btn_planta1">1ª PLANTA</button>
+                <button id="btn_planta2">2ª PLANTA</button>
+            </div>
+            <!------------------------------------------------------------------------ [ARTICLE: Map 1 ] -->
+            <img id="img_planta1" class="visible" src="../assets/map/planta_1.jpg" usemap="#map_planta1"
+                alt="Image map" />
             <map name="map_planta1">
                 <area class="habitacion" shape="rect" coords="11,57,164,366" href="" alt="Habitación 101."
                     onclick="alert('Habitación 101')" />
@@ -48,11 +51,10 @@
                 <area class="habitacion" shape="rect" coords="426,402,715,553" href="" alt="Habitación 105."
                     onclick="alert('Habitación 105')" />
             </map>
-        </article>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 2 ] -->
-        <article id="img_planta2" class="oculto">
-            <img src="../assets/map/planta_2.jpg" usemap="#map_planta2" alt="Image map" />
+            <!------------------------------------------------------------------------ [ARTICLE: Map 2 ] -->
+            <img id="img_planta2" class="oculto" src="../assets/map/planta_2.jpg" usemap="#map_planta2"
+                alt="Image map" />
             <map name="map_planta2">
                 <area class="habitacion" shape="rect" coords="11,57,164,365" href="" alt="Habitación 201"
                     onclick="alert('Habitación 201')" />
@@ -64,6 +66,69 @@
                     onclick="alert('Habitación 204')" />
             </map>
         </article>
+
+        <!------------------------------------------------------------------------ [ASIDE: ] -->
+        <div class="scroll">
+            <div class="scrollContent">
+                <div class="equipamientos">
+                    <div class="equipamiento">
+                        <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                        <div class="detalles">
+                            <div class="nombre_equipo">
+                                NOMBRE
+                            </div>
+                            <div class="detalles_equipo">
+                                Marca, Modelo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equipamiento">
+                        <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                        <div class="detalles">
+                            <div class="nombre_equipo">
+                                NOMBRE
+                            </div>
+                            <div class="detalles_equipo">
+                                Marca, Modelo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equipamiento">
+                        <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                        <div class="detalles">
+                            <div class="nombre_equipo">
+                                NOMBRE
+                            </div>
+                            <div class="detalles_equipo">
+                                Marca, Modelo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equipamiento">
+                        <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                        <div class="detalles">
+                            <div class="nombre_equipo">
+                                NOMBRE
+                            </div>
+                            <div class="detalles_equipo">
+                                Marca, Modelo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equipamiento">
+                        <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                        <div class="detalles">
+                            <div class="nombre_equipo">
+                                NOMBRE
+                            </div>
+                            <div class="detalles_equipo">
+                                Marca, Modelo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!------------------------------------------------------------------------ [FOOTER: ] -->

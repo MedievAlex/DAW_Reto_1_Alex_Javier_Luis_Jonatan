@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="H1v9NL7d54HQZwtAZfRS" name="MODELO DE DATOS">
-        <mxGraphModel dx="1119" dy="739" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1486" dy="981" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -1098,7 +1098,7 @@
         </mxGraphModel>
     </diagram>
     <diagram name="CONCEPTO MODELO DE DATOS" id="4ONemua8bm17L6bEkdk9">
-        <mxGraphModel dx="1001" dy="661" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="991" dy="654" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="7HaiE3F_mKETre9PCmww-0"/>
                 <mxCell id="7HaiE3F_mKETre9PCmww-1" parent="7HaiE3F_mKETre9PCmww-0"/>
