@@ -1,0 +1,68 @@
+/* ---------------------------------------------- [VARIABLES]*/
+:root {
+    /* ---------------------------------------------- [VARIABLES: Colores]*/
+    --categoria-color: #ffffff;
+    --categoria-color-borde-1: #cccccc;
+    --categoria-color-borde-2: #777777;
+    
+    --primary-text-color-1: #061930;
+
+    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
+    --title-text-size: 20px;
+}
+
+/* ---------------------------------------------- [ARTICLE: Categorias]*/
+.categorias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.categorias a{
+    color: var(--primary-text-color-1);
+    text-decoration: none;
+}
+
+/* ---------------------------------------------- [ARTICLE: Categoria]*/
+.categoria {
+    width: calc(25% - 20px); /*Calcula el 25% de la pantalla y le resta 20px al width*/
+
+    border: 1px solid var(--categoria-color-borde-1);
+    background-color: var(--categoria-color);
+
+    margin: 40px;
+}
+
+.categoria img {
+    width: 100%;
+    height: auto;
+}
+
+.categoria .desc {
+    font-size: var(--title-text-size);
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+
+    padding: 15px;
+}
+
+.categoria:hover {
+    border: 1px solid var(--categoria-color-borde-2);
+}
+
+.categoria:active {
+    border-width: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+    .categoria {
+        width: calc(50% - 20px); /*Calcula el 50% de la pantalla y le resta 20px al width*/
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .categoria {
+        width: calc(100% - 20px); /*Calcula el 100% de la pantalla y le resta 20px al width*/
+    }
+}
