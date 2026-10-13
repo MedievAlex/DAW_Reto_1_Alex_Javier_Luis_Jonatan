@@ -29,7 +29,7 @@
     }
 
     25% {
-        transform: rotate(5deg);
+        transform: rotate(10deg);
     }
 
     50% {
@@ -37,12 +37,24 @@
     }
 
     75% {
-        transform: rotate(-5deg);
+        transform: rotate(-10deg);
     }
 
     100% {
         transform: rotate(0deg);
     }
+}
+
+@keyframes zoom-in-zoom-out {
+  0% {
+    scale: 100%;
+  }
+  50% {
+    scale: 150%;
+  }
+  100% {
+    scale: 100%;
+  }
 }
 
 /* ---------------------------------------------- [BODY]*/
@@ -84,7 +96,7 @@ nav {
     z-index: 1000;
 }
 
-/* ---------------------------------------------- [NAV: Botones]*/
+/* ---------------------------------------------- [NAV: Cabecera]*/
 nav a {
     background-color: var(--primary-color-3);
 
@@ -116,6 +128,7 @@ nav a:hover {
     border: 2px solid var(--primary-color-3);
 }
 
+/* ---------------------------------------------- [NAV: Botones]*/
 .boton-ajustes,
 .boton-notificaciones,
 .boton-perfil {
@@ -140,28 +153,31 @@ nav a:hover {
     cursor: pointer;
 }
 
+/* ---------------------------------------------- [NAV: Ajustes]*/
 .boton-ajustes {
     bottom: 160px;
 }
 
 .boton-ajustes:hover {
-    animation: rotate 2s linear infinite;
+    animation: rotate 2s linear 1;
 }
 
+/* ---------------------------------------------- [NAV: Notificaciones]*/
 .boton-notificaciones {
     bottom: 90px;
 }
 
 .boton-notificaciones:hover {
-    animation: shake 1s linear infinite;
+    animation: shake 0.15s linear 2;
 }
 
+/* ---------------------------------------------- [NAV: Perfil]*/
 .boton-perfil {
     bottom: 20px;
 }
 
-.boton-perfil:hover {
-    animation: rotate 2s linear infinite;
+.boton-perfil:hover img{
+    animation: zoom-in-zoom-out 1s ease 1;
 }
 
 /* ---------------------------------------------- [FOOTER]*/
