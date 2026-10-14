@@ -1,0 +1,274 @@
+/* ---------------------------------------------- [VARIABLES]*/
+:root {
+    /* ---------------------------------------------- [VARIABLES: Colores]*/
+    --primary-color-1: #FCA044;
+    --primary-color-2: #FFD857;
+    --primary-color-3: #57A3FF;
+
+    --color-black: #061930;
+    --color-white: #fffef4;
+    --color-grey: #8697ac;
+
+    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
+    --butto-text-size: 30px;
+    --border-radious-value: 10px;
+}
+
+:root.oscuro {
+    /* ---------------------------------------------- [VARIABLES: Colores]*/
+    --primary-color-1: #538a48;
+    --primary-color-2: #EDB454;
+    --primary-color-3: #543c5f;
+
+    --color-black: #fffef4;
+    --color-white: #061930;
+    --color-grey: #8697ac;
+}
+
+/* ---------------------------------------------- [MEDIA QUERIES]*/
+
+
+/* ---------------------------------------------- [ANIMACIONES]*/
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(10deg);
+    }
+
+    50% {
+        transform: rotate(0eg);
+    }
+
+    75% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes zoom-in-zoom-out {
+    0% {
+        scale: 100%;
+    }
+
+    50% {
+        scale: 150%;
+    }
+
+    100% {
+        scale: 100%;
+    }
+}
+/* ---------------------------------------------- [BODY]*/
+html {
+}
+
+/* ---------------------------------------------- [BODY]*/
+body {
+    background-color: var(--primary-color-2);
+    
+    font-family: Bahnschrift;
+
+    color: var(--color-black);
+
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------------------------------------------- [BUTTON]*/
+button {
+    background-color: var(--primary-color-3);
+    color: var(--color-black);
+
+    border: none;
+
+    cursor: pointer;
+}
+
+/* ---------------------------------------------- [HEADER]*/
+header {
+    background-color: var(--primary-color-1);
+
+    width: 100%;
+}
+
+header img {
+    width: 30vh;
+
+    display: block;
+    margin: auto;
+}
+
+/* ---------------------------------------------- [NAV]*/
+nav {
+    background-color: var(--primary-color-1);
+
+    display: flex;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* ---------------------------------------------- [NAV: Cabecera]*/
+nav a {
+    background-color: var(--primary-color-3);
+
+    color: var(--color-black);
+    font-size: var(--butto-text-size);
+    text-align: center;
+    text-decoration: none;
+
+    width: 100%;
+
+    padding: 20px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    cursor: pointer;
+}
+
+nav img {
+    width: 100%;
+    height: 100%;
+}
+
+nav a:hover {
+    background-color: var(--primary-color-2);
+}
+
+.header-button a:active {
+    border: 2px solid var(--primary-color-3);
+}
+
+/* ---------------------------------------------- [NAV: Botones]*/
+#boton-ajustes,
+#boton-notificaciones,
+#boton-perfil {
+    width: 50px;
+    height: 50px;
+
+    padding: 10px;
+
+    border-radius: 50%;
+
+    right: 20px;
+    bottom: 20px;
+
+    position: fixed;
+    z-index: 1000;
+
+    cursor: pointer;
+}
+
+#boton-ajustes:focus,
+#boton-notificaciones:focus,
+#boton-perfil:focus {
+    border: 2px var(--primary-color-2) solid;
+}
+
+/* ---------------------------------------------- [NAV: Ajustes]*/
+#boton-ajustes {
+    bottom: 160px;
+}
+
+#boton-ajustes:hover {
+    animation: rotate 2s linear 1;
+}
+
+/* ---------------------------------------------- [NAV: Notificaciones]*/
+#boton-notificaciones {
+    bottom: 90px;
+}
+
+#boton-notificaciones:hover {
+    animation: shake 0.15s linear 2;
+}
+
+/* ---------------------------------------------- [NAV: Perfil]*/
+#boton-perfil {
+    bottom: 20px;
+}
+
+#boton-perfil:hover img {
+    animation: zoom-in-zoom-out 1s ease 1;
+}
+
+/* ---------------------------------------------- [MODAL]*/
+.modal {
+    display: none;
+
+    background-color: var(--color-black);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    width: 100%;
+    height: 100%;
+
+    padding-top: 100px;
+
+    left: 0;
+    top: 0;
+
+    position: fixed;
+    z-index: 100000;
+
+    overflow: auto;
+}
+
+.modalContenido {
+    background-color: var(--primary-color-2);
+
+    width: 80%;
+
+    padding: 20px;
+
+    border: 1px solid var(--color-grey);
+
+    margin: auto;
+}
+
+
+.cerrar {
+    color: var(--color-grey);
+
+    font-size: 28px;
+    font-weight: bold;
+
+    float: right;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: var(--color-black);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* ---------------------------------------------- [FOOTER]*/
+footer {
+    background-color: var(--primary-color-1);
+
+    display: flex;
+    justify-content: center;
+}
+
+footer p {
+    font-style: oblique;
+    padding: 20px;
+}
