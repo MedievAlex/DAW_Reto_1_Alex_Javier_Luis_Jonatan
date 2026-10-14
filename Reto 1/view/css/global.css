@@ -25,6 +25,8 @@
     --color-grey: #8697ac;
 }
 
+/* ---------------------------------------------- [MEDIA QUERIES]*/
+
 
 /* ---------------------------------------------- [ANIMACIONES]*/
 @keyframes rotate {
@@ -72,12 +74,16 @@
         scale: 100%;
     }
 }
+/* ---------------------------------------------- [BODY]*/
+html {
+}
 
 /* ---------------------------------------------- [BODY]*/
 body {
     background-color: var(--primary-color-2);
+    
+    font-family: Bahnschrift;
 
-    font-family: Baskerville;
     color: var(--color-black);
 
     margin: 0;

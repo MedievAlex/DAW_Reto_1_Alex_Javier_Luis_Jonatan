@@ -15,19 +15,22 @@
     --border-radious-value: 10px;
 }
 
-/* ---------------------------------------------- [SECTION]*/
-section {
-    display: flex;
-
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
+/* ---------------------------------------------- [MEDIA QUERIES]*/
 @media only screen and (max-width: 1024px) {
     section {
         flex-direction: column;
     }
+}
+
+/* ---------------------------------------------- [SECTION]*/
+section {
+    display: flex;
+
+    padding: 10px;
+
+    flex-direction: row;
+    justify-content: space-ar;
+    align-items: center;
 }
 
 /* ---------------------------------------------- [SECTION: Plantas]*/
@@ -47,34 +50,21 @@ section article {
     background-color: var(--color-white);
 }
 
-@media only screen and (max-width: 768px) {
-    .visible {
-        /*width: calc(100% - 20px);*/
-        /*Calcula el 50% de la pantalla y le resta 20px al width*/
-    }
-}
-
-@media only screen and (max-width: 480px) {
-    .visible {
-        /*width: calc(100% - 10px);*/
-        /*Calcula el 100% de la pantalla y le resta 20px al width*/
-    }
-}
-
 .oculto {
     display: none;
 }
 
 /* ---------------------------------------------- [SECTION: ScrollBar]*/
 .scroll {
+    padding-right: 10vh;
+
     width: 100%;
-    height: 70vh;
+    height: 80vh;
 
     overflow: hidden;
 }
 
-.scrollContent {
-    width: 80%;
+.equipamientos {
     height: 100%;
 
     padding: 10px;
@@ -82,19 +72,15 @@ section article {
     border: none;
     border-radius: var(--border-radious-value);
 
+    display: flex;
+    flex-direction: column;
+
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
 }
 
-section .equipamientos {
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.equipamientos .equipamiento {
+.equipamiento {
     background-color: var(--primary-color-3);
 
     display: flex;
@@ -107,7 +93,7 @@ section .equipamientos {
     margin: 10px;
 }
 
-.equipamientos .equipamiento:hover {
+.equipamiento:hover {
     background-color: var(--primary-color-1);
 
     border: 2px var(--primary-color-1) solid;
@@ -115,7 +101,7 @@ section .equipamientos {
     cursor: pointer;
 }
 
-.equipamientos .equipamiento:active {
+.equipamiento:active {
     border: 2px solid var(--primary-color-3);
 }
 
