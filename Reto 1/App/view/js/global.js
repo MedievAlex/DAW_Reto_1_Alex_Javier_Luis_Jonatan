@@ -2,7 +2,7 @@
 const btnAjustes = document.getElementById("boton-ajustes");
 const modalAjustes = document.getElementById("modalAjustes");
 const btnCerrarAjustes = document.getElementsByClassName("cerrar")[0];
-const btnTema = document.getElementById("btnTema");
+const btnTemaDefault = document.getElementById("btnTemaDefault");
 const temaClaro = "claro";
 const temaOscuro = "oscuro";
 
@@ -31,7 +31,6 @@ aplicarTema();
 function aplicarTema() {
   let temaActual = localStorage.getItem("tema");
 
-
   if (temaActual == "oscuro") {
     localStorage.setItem("tema", temaOscuro);
     document.documentElement.classList.add(temaOscuro);
@@ -41,7 +40,7 @@ function aplicarTema() {
   }
 }
 
-btnTema.addEventListener('click', function () {
+btnTemaDefault.addEventListener('click', function () {
   document.documentElement.classList.toggle(temaOscuro);
 
   const isDark = document.documentElement.classList.contains(temaOscuro);

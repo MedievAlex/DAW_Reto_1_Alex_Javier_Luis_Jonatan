@@ -1,6 +1,5 @@
 /* ---------------------------------------------- [VARIABLES]*/
 :root {
-    /* ---------------------------------------------- [VARIABLES: Colores]*/
     --primary-color-1: #FCA044;
     --primary-color-2: #FFD857;
     --primary-color-3: #57A3FF;
@@ -9,21 +8,31 @@
     --color-white: #fffef4;
     --color-grey: #8697ac;
 
-    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
     --butto-text-size: 30px;
     --border-radious-value: 10px;
 }
 
 :root.oscuro {
-    /* ---------------------------------------------- [VARIABLES: Colores]*/
     --primary-color-1: #538a48;
-    --primary-color-2: #EDB454;
+    --primary-color-2: #EDBC55;
     --primary-color-3: #543c5f;
 
     --color-black: #fffef4;
     --color-white: #061930;
     --color-grey: #8697ac;
 }
+
+/*
+:root.global {
+    --primary-color-1: #F5254B;
+    --primary-color-2: #D1D1D1;
+    --primary-color-3: #3F34C7;
+
+    --color-black: #061930;
+    --color-white: #fffef4;
+    --color-grey: #8697ac;
+}
+*/
 
 /* ---------------------------------------------- [MEDIA QUERIES]*/
 
@@ -74,15 +83,15 @@
         scale: 100%;
     }
 }
-
 /* ---------------------------------------------- [BODY]*/
 html {
-    font-family: Bahnschrift;
 }
 
 /* ---------------------------------------------- [BODY]*/
 body {
     background-color: var(--primary-color-2);
+    
+    font-family: Bahnschrift;
 
     color: var(--color-black);
 
