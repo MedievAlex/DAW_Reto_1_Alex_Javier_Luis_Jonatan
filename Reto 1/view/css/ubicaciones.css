@@ -24,6 +24,12 @@ section {
     align-items: center;
 }
 
+@media only screen and (max-width: 1024px) {
+    section {
+        flex-direction: column;
+    }
+}
+
 /* ---------------------------------------------- [SECTION: Plantas]*/
 section #plantas {
     margin: 20px;
@@ -43,14 +49,14 @@ section article {
 
 @media only screen and (max-width: 768px) {
     .visible {
-        width: calc(100% - 20px);
+        /*width: calc(100% - 20px);*/
         /*Calcula el 50% de la pantalla y le resta 20px al width*/
     }
 }
 
 @media only screen and (max-width: 480px) {
     .visible {
-        width: calc(100% - 10px);
+        /*width: calc(100% - 10px);*/
         /*Calcula el 100% de la pantalla y le resta 20px al width*/
     }
 }
@@ -91,9 +97,12 @@ section .equipamientos {
 .equipamientos .equipamiento {
     background-color: var(--primary-color-3);
 
+    display: flex;
+    flex-wrap: wrap;
+
     padding: 10px;
 
-    border-radius: 20px ;
+    border-radius: 20px;
 
     margin: 10px;
 }
@@ -117,6 +126,9 @@ section .equipamientos {
 }
 
 .equipamiento img {
+    min-width: 95px;
+    min-height: 95px;
+
     width: 20vh;
     height: 20vh;
 
@@ -143,6 +155,6 @@ section .equipamientos {
     font-style: oblique;
 }
 
-.modalAula{
+.modalAula {
     display: block;
 }
