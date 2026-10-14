@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/categorias.css">
+    <script src="../js/global.js" defer></script>
     <title>Inicio - Centro Fungible</title>
 </head>
 
@@ -19,55 +20,83 @@
         <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
         <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO</a>
         <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
-        <button class="boton-perfil">
+        <button id="boton-ajustes">
+            <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
+        </button>
+        <button id="boton-notificaciones">
+            <img src="../assets/icons/icon_notificacion.png" alt="Acceso a las notificaciones.">
+        </button>
+        <button id="boton-perfil">
             <img src="../assets/icons/icon_perfil.png" alt="Acceso al perfil personal.">
         </button>
     </nav>
 
     <!------------------------------------------------------------------------ [ SECTION: ] -->
     <section>
-        <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
-        <article class="categorias">
+        <!------------------------------------------------------------------------ [MODALES] -->
+        <div id="modalAjustes" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <button id="btnTema">CAMBIAR TEMA</button>
+            </div>
+        </div>
 
-            <a class="categoria" href="Equipaciones.html"> <!-- [ Mostrar todas las Equipaciones ] -->
+        <div id="modalNotificaciones" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <button id="btnTema">NUEVA NOTIFICACION</button>
+            </div>
+        </div>
+
+        <div id="modalPerfil" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <button id="btnTema">TU</button>
+            </div>
+        </div>
+
+        <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
+        <article id="categorias">
+
+            <div class="categoria" href="Equipamientos.html"> <!-- [ Mostrar todas las Equipaciones ] -->
                 <div class="desc">Todos</div>
                 <img src="../assets/img/categoria_todo.jpg" alt="Categoría de equipamientos de sobremesa." width="600"
                     height="400">
-            </a>
+            </div>
 
-            <a class="categoria" href="Equipaciones.html">
+            <div class="categoria" href="Equipamientos.html">
                 <!-- [ Mostrar las Equipaciones de la categoria PORTATILES ] -->
                 <div class="desc">Portatiles</div>
                 <img src="../assets/img/categoria_portatil.jpg" alt="Categoría de equipamientos portatiles." width="600"
                     height="400">
-            </a>
+            </div>
 
-            <a class="categoria" href="Equipaciones.html">
+            <div class="categoria" href="Equipamientos.html">
                 <!-- [ Mostrar las Equipaciones de la categoria SOBREMESA ] -->
                 <div class="desc">Sobremesa</div>
                 <img src="../assets/img/categoria_sobremesa.jpg" alt="Categoría de equipamientos de sobremesa."
                     width="600" height="400">
-            </a>
+            </div>
 
-            <a class="categoria" href="Equipaciones.html">
+            <div class="categoria" href="Equipamientos.html">
                 <!-- [ Mostrar las Equipaciones de la categoria PERIFERICOS ] -->
                 <div class="desc">Perifericos</div>
                 <img src="../assets/img/categoria_perifericos.jpg" alt="Categoría de equipamientos portatiles."
                     width="600" height="400">
-            </a>
+            </div>
 
-            <a class="categoria" href="Equipaciones.html">
+            <div class="categoria" href="Equipamientos.html">
                 <!-- [ Mostrar las Equipaciones de la categoria AUDIOVISUAL ] -->
                 <div class="desc">Audiovisual</div>
                 <img src="../assets/img/categoria_audiovisual.jpg" alt="Categoría de equipamientos de sobremesa."
                     width="600" height="400">
-            </a>
+            </div>
 
-            <a class="categoria" href="Equipaciones.html"> <!-- [ Mostrar las Equipaciones de la categoria OTROS ] -->
+            <div class="categoria" href="Equipamientos.html"> <!-- [ Mostrar las Equipaciones de la categoria OTROS ] -->
                 <div class="desc">Otros</div>
                 <img src="../assets/img/categoria_otros.jpg" alt="Categoría de equipamientos portatiles." width="600"
                     height="400">
-            </a>
+            </div>
 
         </article>
     </section>

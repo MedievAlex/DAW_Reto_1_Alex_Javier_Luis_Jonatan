@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/ubicaciones.css">
+    <script src="../js/global.js" defer></script>
     <script src="../js/ubicaciones.js" defer></script>
     <title>Inicio - Centro Fungible</title>
 </head>
@@ -20,49 +21,159 @@
         <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
         <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO</a>
         <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
-        <button class="boton-perfil">
+        <button id="boton-ajustes">
+            <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
+        </button>
+        <button id="boton-notificaciones">
+            <img src="../assets/icons/icon_notificacion.png" alt="Acceso a las notificaciones.">
+        </button>
+        <button id="boton-perfil">
             <img src="../assets/icons/icon_perfil.png" alt="Acceso al perfil personal.">
         </button>
     </nav>
-
     <!------------------------------------------------------------------------ [SECTION: ] -->
     <section>
-        <!------------------------------------------------------------------------ [ASIDE: ] -->
-        <aside class="plantas">
-            <button id="btn_planta1">1ª PLANTA</button>
-            <button id="btn_planta2">2ª PLANTA</button>
-        </aside>
+        <!------------------------------------------------------------------------ [MODALES] -->
+        <div id="modalAjustes" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <button id="btnTema">CAMBIAR TEMA</button>
+            </div>
+        </div>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 1 ] -->
-        <article id="img_planta1" class="">
-            <img src="../assets/map/planta_1.jpg" usemap="#map_planta1" alt="Image map" />
+        <div id="modalNotificaciones" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas purus sem, blandit ac pulvinar ut,
+                    cursus sed turpis. Sed accumsan tempor feugiat. Aliquam nec magna interdum nunc rutrum rutrum.
+                    Aenean libero mauris, venenatis non lacus vitae, condimentum dictum sem. Aliquam fermentum nulla non
+                    nunc posuere lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                    inceptos himenaeos. In congue nec ligula a dapibus. Nullam eu ultrices dui.
+                </div>
+            </div>
+        </div>
+
+        <div id="modalPerfil" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas purus sem, blandit ac pulvinar ut,
+                    cursus sed turpis. Sed accumsan tempor feugiat. Aliquam nec magna interdum nunc rutrum rutrum.
+                    Aenean libero mauris, venenatis non lacus vitae, condimentum dictum sem. Aliquam fermentum nulla non
+                    nunc posuere lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                    inceptos himenaeos. In congue nec ligula a dapibus. Nullam eu ultrices dui.
+                </div>
+            </div>
+        </div>
+
+        <div id="modalAula" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <p id="nombreAula">Nombre Aula</p>
+                <p id="descripcionAula">Descripcion del aula.</p>
+            </div>
+        </div>
+
+        <!------------------------------------------------------------------------ [ARTICLE ] -->
+        <article>
+
+            <div id="plantas">
+                <button id="btn_planta1">1ª PLANTA</button>
+                <button id="btn_planta2">2ª PLANTA</button>
+            </div>
+            <!------------------------------------------------------------------------ [ARTICLE: Map 1 ] -->
+            <img id="img_planta1" class="visible" src="../assets/map/planta_1.png" usemap="#map_planta1"
+                alt="Image map" />
             <map name="map_planta1">
-                <area class="habitacion" shape="rect" coords="11,57,164,366" href="" alt="Habitación 101."
-                    onclick="alert('Habitación 101')" />
-                <area class="habitacion" shape="rect" coords="11,375,298,553" href="" alt="Habitación 102."
-                    onclick="alert('Habitación 102')" />
-                <area class="habitacion" shape="rect" coords="427,57,714,207" href="" alt="Habitación 103."
-                    onclick="alert('Habitación 103')" />
-                <area class="habitacion" shape="rect" coords="427,219,714,393" href="" alt="Habitación 104."
-                    onclick="alert('Habitación 104')" />
-                <area class="habitacion" shape="rect" coords="426,402,715,553" href="" alt="Habitación 105."
-                    onclick="alert('Habitación 105')" />
+                <!-- Return false para evitar que se refresque la página -->
+                <area id="101" class="habitacion" shape="rect" coords="11,57,164,366" href="" alt="Habitación 101."
+                    onclick="abrirModalAula('101'); return false;" />
+                <area id="102" class="habitacion" shape="rect" coords="11,375,298,553" href="" alt="Habitación 102."
+                    onclick="abrirModalAula('102'); return false;" />
+                <area id="103" class="habitacion" shape="rect" coords="427,57,714,207" href="" alt="Habitación 103."
+                    onclick="abrirModalAula('103'); return false;" />
+                <area id="104" class="habitacion" shape="rect" coords="427,219,714,393" href="" alt="Habitación 104."
+                    onclick="abrirModalAula('104'); return false;" />
+                <area id="105" class="habitacion" shape="rect" coords="426,402,715,553" href="" alt="Habitación 105."
+                    onclick="abrirModalAula('105'); return false;" />
+            </map>
+
+            <!------------------------------------------------------------------------ [ARTICLE: Map 2 ] -->
+            <img id="img_planta2" class="oculto" src="../assets/map/planta_2.png" usemap="#map_planta2"
+                alt="Image map" />
+            <map name="map_planta2">
+                <!-- Return false para evitar que se refresque la página -->
+                <area id="201" class="habitacion" shape="rect" coords="11,57,164,365" href="" alt="Habitación 201"
+                    onclick="abrirModalAula('201'); return false;" />
+                <area id="202" class="habitacion" shape="rect" coords="11,376,418,554" href="" alt="Habitación 202"
+                    onclick="abrirModalAula('202'); return false;" />
+                <area id="203" class="habitacion" shape="rect" coords="430,376,712,553" href="" alt="Habitación 203"
+                    onclick="abrirModalAula('203'); return false;" />
+                <area id="204" class="habitacion" shape="rect" coords="427,56,712,245" href="" alt="Habitación 204"
+                    onclick="abrirModalAula('204'); return false;" />
             </map>
         </article>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 2 ] -->
-        <article id="img_planta2" class="oculto">
-            <img src="../assets/map/planta_2.jpg" usemap="#map_planta2" alt="Image map" />
-            <map name="map_planta2">
-                <area class="habitacion" shape="rect" coords="11,57,164,365" href="" alt="Habitación 201"
-                    onclick="alert('Habitación 201')" />
-                <area class="habitacion" shape="rect" coords="11,376,418,554" href="" alt="Habitación 202"
-                    onclick="alert('Habitación 202')" />
-                <area class="habitacion" shape="rect" coords="430,376,712,553" href="" alt="Habitación 203"
-                    onclick="alert('Habitación 203')" />
-                <area class="habitacion" shape="rect" coords="427,56,712,245" href="" alt="Habitación 204"
-                    onclick="alert('Habitación 204')" />
-            </map>
+        <!------------------------------------------------------------------------ [ASIDE: ] -->
+        <article class="scroll">
+            <div class="equipamientos">
+                <div class="equipamiento">
+                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="detalles">
+                        <div class="nombre_equipo">
+                            NOMBRE
+                        </div>
+                        <div class="detalles_equipo">
+                            Marca, Modelo
+                        </div>
+                    </div>
+                </div>
+                <div class="equipamiento">
+                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="detalles">
+                        <div class="nombre_equipo">
+                            NOMBRE
+                        </div>
+                        <div class="detalles_equipo">
+                            Marca, Modelo
+                        </div>
+                    </div>
+                </div>
+                <div class="equipamiento">
+                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="detalles">
+                        <div class="nombre_equipo">
+                            NOMBRE
+                        </div>
+                        <div class="detalles_equipo">
+                            Marca, Modelo
+                        </div>
+                    </div>
+                </div>
+                <div class="equipamiento">
+                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="detalles">
+                        <div class="nombre_equipo">
+                            NOMBRE
+                        </div>
+                        <div class="detalles_equipo">
+                            Marca, Modelo
+                        </div>
+                    </div>
+                </div>
+                <div class="equipamiento">
+                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="detalles">
+                        <div class="nombre_equipo">
+                            NOMBRE
+                        </div>
+                        <div class="detalles_equipo">
+                            Marca, Modelo
+                        </div>
+                    </div>
+                </div>
+            </div>
         </article>
     </section>
 
