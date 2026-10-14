@@ -1,11 +1,14 @@
 /* ---------------------------------------------- [VARIABLES]*/
 :root {
     /* ---------------------------------------------- [VARIABLES: Colores]*/
-    --categoria-color: #ffffff;
-    --categoria-color-borde-1: #cccccc;
-    --categoria-color-borde-2: #777777;
-    
-    --primary-text-color-1: #061930;
+    --primary-color-1: #FCA044;
+    --primary-color-2: #FFD857;
+    --primary-color-3: #57A3FF;
+
+    --color-black: #061930;
+    --color-white: #fffef4;
+    --color-grey: #8697ac;
+    --color-grey-2: #4d5155;
 
     /* ---------------------------------------------- [VARIABLES: Tamaños]*/
     --title-text-size: 20px;
@@ -13,13 +16,13 @@
 }
 
 /* ---------------------------------------------- [ARTICLE: Categorias]*/
-.categorias {
+#categorias {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
 
-.categorias div{
+#categorias div{
     color: var(--primary-text-color-1);
     text-decoration: none;
 
@@ -31,8 +34,8 @@
 .categoria {
     width: calc(25% - 20px); /*Calcula el 25% de la pantalla y le resta 20px al width*/
 
-    border: 1px solid var(--categoria-color-borde-1);
-    background-color: var(--categoria-color);
+    border: 1px solid var(--color-grey);
+    background-color: white; /*Para que sea igual al fondo de las imágenes*/
 
     margin: 40px;
 }
@@ -52,7 +55,7 @@
 }
 
 .categoria:hover {
-    border: 1px solid var(--categoria-color-borde-2);
+    border: 3px solid var(--color-grey-2);
 }
 
 .categoria:active {

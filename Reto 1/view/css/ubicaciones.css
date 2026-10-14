@@ -5,9 +5,13 @@
     --primary-color-2: #FFD857;
     --primary-color-3: #57A3FF;
 
+    --color-black: #061930;
+    --color-white: #fffef4;
+    --color-grey: #8697ac;
+
     /* ---------------------------------------------- [VARIABLES: Tamaños]*/
     --title-text-size: 20px;
-    --butto-text-size: 30px;
+    --button-text-size: 30px;
     --border-radious-value: 10px;
 }
 
@@ -21,7 +25,7 @@ section {
 }
 
 /* ---------------------------------------------- [SECTION: Plantas]*/
-section .plantas {
+section #plantas {
     margin: 20px;
     display: flex;
     justify-content: space-around;
@@ -34,7 +38,7 @@ section article {
 
 /* ---------------------------------------------- [ARTICLE: Toggle Plantas]*/
 .visible {
-    background-color: var(--primary-color-3);
+    background-color: var(--color-white);
 }
 
 @media only screen and (max-width: 768px) {
@@ -64,8 +68,6 @@ section article {
 }
 
 .scrollContent {
-    background-color: var(--primary-color-1);
-
     width: 80%;
     height: 100%;
 
@@ -94,6 +96,18 @@ section .equipamientos {
     border-radius: 20px ;
 
     margin: 10px;
+}
+
+.equipamientos .equipamiento:hover {
+    background-color: var(--primary-color-1);
+
+    border: 2px var(--primary-color-1) solid;
+
+    cursor: pointer;
+}
+
+.equipamientos .equipamiento:active {
+    border: 2px solid var(--primary-color-3);
 }
 
 /* ---------------------------------------------- [SECTION: Equipamiento]*/
@@ -127,4 +141,8 @@ section .equipamientos {
     width: 100%;
 
     font-style: oblique;
+}
+
+.modalAula{
+    display: block;
 }

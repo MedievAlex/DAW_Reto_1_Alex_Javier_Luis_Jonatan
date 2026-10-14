@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/categorias.css">
+    <script src="../js/global.js" defer></script>
     <title>Inicio - Centro Fungible</title>
 </head>
 
@@ -19,21 +20,43 @@
         <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
         <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO</a>
         <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
-        <button class="boton-ajustes">
+        <button id="boton-ajustes">
             <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
         </button>
-        <button class="boton-notificaciones">
+        <button id="boton-notificaciones">
             <img src="../assets/icons/icon_notificacion.png" alt="Acceso a las notificaciones.">
         </button>
-        <button class="boton-perfil">
+        <button id="boton-perfil">
             <img src="../assets/icons/icon_perfil.png" alt="Acceso al perfil personal.">
         </button>
     </nav>
 
     <!------------------------------------------------------------------------ [ SECTION: ] -->
     <section>
+        <!------------------------------------------------------------------------ [MODALES] -->
+        <div id="modalAjustes" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <button id="btnTema">CAMBIAR TEMA</button>
+            </div>
+        </div>
+
+        <div id="modalNotificaciones" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <button id="btnTema">NUEVA NOTIFICACION</button>
+            </div>
+        </div>
+
+        <div id="modalPerfil" class="modal">
+            <div class="modalContenido">
+                <span class="cerrar">&times;</span>
+                <button id="btnTema">TU</button>
+            </div>
+        </div>
+
         <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
-        <article class="categorias">
+        <article id="categorias">
 
             <div class="categoria" href="Equipamientos.html"> <!-- [ Mostrar todas las Equipaciones ] -->
                 <div class="desc">Todos</div>
