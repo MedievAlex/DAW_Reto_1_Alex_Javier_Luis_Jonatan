@@ -9,6 +9,8 @@ const btnCerrarAula = document.getElementsByClassName("cerrar")[3]; // 0, 1 y 2 
 let nombreAula = document.getElementById("nombreAula");
 let descripcionAula = document.getElementById("descripcionAula");
 
+let equipamientos = document.getElementsByClassName("equipamientos");
+
 /* ---------------------------------------------- [Mostrar Planta 1]*/
 btn_planta1.addEventListener('click', function () {
     img_planta1.classList.remove('oculto');
@@ -30,8 +32,8 @@ btn_planta2.addEventListener('click', function () {
 /* ---------------------------------------------- [MODAL: Aula]*/
 // Abrir modal
 function abrirModalAula(aulaNum) {
-    nombreAula.textContent = "Aula " + aulaNum +".";
-    descripcionAula.textContent = "Habitación " + aulaNum +".";
+    nombreAula.textContent = "Aula " + aulaNum + ".";
+    descripcionAula.textContent = "Habitación " + aulaNum + ".";
 
     modalAula.style.display = "block";
 }
