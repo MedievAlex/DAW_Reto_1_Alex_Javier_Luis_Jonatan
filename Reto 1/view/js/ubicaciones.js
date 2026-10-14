@@ -30,8 +30,8 @@ btn_planta2.addEventListener('click', function () {
 /* ---------------------------------------------- [MODAL: Aula]*/
 // Abrir modal
 function abrirModalAula(aulaNum) {
-    nombreAula = "Aula " + aulaNum +".";
-    descripcionAula = "Habitación" + aulaNum +".";
+    nombreAula.textContent = "Aula " + aulaNum +".";
+    descripcionAula.textContent = "Habitación " + aulaNum +".";
 
     modalAula.style.display = "block";
 }
