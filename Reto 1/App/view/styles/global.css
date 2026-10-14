@@ -74,15 +74,15 @@
         scale: 100%;
     }
 }
+
 /* ---------------------------------------------- [BODY]*/
 html {
+    font-family: Bahnschrift;
 }
 
 /* ---------------------------------------------- [BODY]*/
 body {
     background-color: var(--primary-color-2);
-    
-    font-family: Bahnschrift;
 
     color: var(--color-black);
 
