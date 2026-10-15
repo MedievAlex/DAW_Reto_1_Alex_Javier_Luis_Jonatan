@@ -64,48 +64,26 @@ class UsuarioController
     // ---------------------------------------- HASH DE CONTRASEÑAS
 
     // ---------------------------------------- REGISTRAR USUARIO
-    // genera el hash de la contraseña y crea el usuario
-    public function registrarUsuario(Usuario $usuario, string $password): bool
+    // valida la contraseña; el DAO genera el hash y crea el usuario
+    public function registrarUsuario(Usuario $usuario, string $usu_password): bool
     {
-        $this->validarPassword($password);
-        $usuario->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
+        $this->validarPassword($usu_password);
 
-        return $this->usu_dao->crearUsuario($usuario);
+        return $this->usu_dao->registrarUsuario($usuario, $usu_password);
     }
 
     // ---------------------------------------- CAMBIAR CONTRASEÑA
-    // guarda el hash de la nueva contraseña; false si el usuario no existe
-    public function cambiarPassword(int $usu_id, string $password): bool
+    public function cambiarPassword(int $usu_id, string $usu_password): bool
     {
-        $this->validarPassword($password);
+        $this->validarPassword($usu_password);
 
-        $usuario = $this->usu_dao->buscarUsuarioPorId($usu_id);
-        if ($usuario === null) {
-            return false;
-        }
-
-        $usuario->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
-
-        return $this->usu_dao->editarUsuario($usuario);
+        return $this->usu_dao->cambiarPassword($usu_id, $usu_password);
     }
 
     // ---------------------------------------- INICIAR SESIÓN
-    // devuelve el usuario si la contraseña coincide con el hash, o null si no
-    public function iniciarSesion(string $usu_nombre_usuario, string $password): ?Usuario
+    public function iniciarSesion(string $usu_nombre_usuario, string $usu_password): ?Usuario
     {
-        $usuario = $this->usu_dao->buscarUsuarioPorNombreUsuario(trim($usu_nombre_usuario));
-
-        if ($usuario === null || !password_verify($password, $usuario->getPasswordHash())) {
-            return null;
-        }
-
-        // si el hash guardado usa un algoritmo antiguo, se regenera
-        if (password_needs_rehash($usuario->getPasswordHash(), PASSWORD_DEFAULT)) {
-            $usuario->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
-            $this->usu_dao->editarUsuario($usuario);
-        }
-
-        return $usuario;
+        return $this->usu_dao->iniciarSesion($usu_nombre_usuario, $usu_password);
     }
 
     // ---------------------------------------- VALIDAR CONTRASEÑA

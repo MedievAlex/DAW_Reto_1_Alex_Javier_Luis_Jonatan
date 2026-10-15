@@ -181,6 +181,51 @@ class UsuarioDAO
 
         return $stmt->execute();
     }
+
+    // ---------------------------------------- HASH DE CONTRASEÑAS
+
+    // ---------------------------------------- REGISTRAR USUARIO
+    // genera el hash de la contraseña y crea el usuario
+    public function registrarUsuario(Usuario $usuario, string $usu_password): bool
+    {
+        $usuario->setPasswordHash(password_hash($usu_password, PASSWORD_DEFAULT));
+
+        return $this->crearUsuario($usuario);
+    }
+
+    // ---------------------------------------- CAMBIAR CONTRASEÑA
+    // guarda el hash de la nueva contraseña; false si el usuario no existe
+    public function cambiarPassword(int $usu_id, string $usu_password): bool
+    {
+        $sql = "UPDATE usuarios
+                    SET password_hash = ?
+                    WHERE id_usuario = ?";
+
+        $stmt = $this->conexion->prepare($sql);
+        $usu_password_hash = password_hash($usu_password, PASSWORD_DEFAULT);
+        $stmt->bind_param("si", $usu_password_hash, $usu_id);
+
+        return $stmt->execute() && $stmt->affected_rows > 0;
+    }
+
+    // ---------------------------------------- INICIAR SESIÓN
+    // devuelve el usuario si la contraseña coincide con el hash, o null si no
+    public function iniciarSesion(string $usu_nombre_usuario, string $usu_password): ?Usuario
+    {
+        $usuario = $this->buscarUsuarioPorNombreUsuario(trim($usu_nombre_usuario));
+
+        if ($usuario === null || !password_verify($usu_password, $usuario->getPasswordHash())) {
+            return null;
+        }
+
+        // si el hash guardado usa un algoritmo antiguo, se regenera
+        if (password_needs_rehash($usuario->getPasswordHash(), PASSWORD_DEFAULT)) {
+            $usuario->setPasswordHash(password_hash($usu_password, PASSWORD_DEFAULT));
+            $this->editarUsuario($usuario);
+        }
+
+        return $usuario;
+    }
 }
 
 ?>
