@@ -1,29 +1,39 @@
 /* ---------------------------------------------- [VARIABLES]*/
 :root {
-    /* ---------------------------------------------- [VARIABLES: Colores]*/
     --primary-color-1: #FCA044;
     --primary-color-2: #FFD857;
     --primary-color-3: #57A3FF;
+    --primary-color-3-s: #5681b7;
 
     --color-black: #061930;
     --color-white: #fffef4;
     --color-grey: #8697ac;
 
-    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
     --butto-text-size: 30px;
     --border-radious-value: 10px;
 }
 
 :root.oscuro {
-    /* ---------------------------------------------- [VARIABLES: Colores]*/
     --primary-color-1: #538a48;
-    --primary-color-2: #EDB454;
+    --primary-color-2: #EDBC55;
     --primary-color-3: #543c5f;
 
     --color-black: #fffef4;
     --color-white: #061930;
     --color-grey: #8697ac;
 }
+
+/*
+:root.global {
+    --primary-color-1: #F5254B;
+    --primary-color-2: #D1D1D1;
+    --primary-color-3: #3F34C7;
+
+    --color-black: #061930;
+    --color-white: #fffef4;
+    --color-grey: #8697ac;
+}
+*/
 
 /* ---------------------------------------------- [MEDIA QUERIES]*/
 
@@ -74,14 +84,23 @@
         scale: 100%;
     }
 }
-/* ---------------------------------------------- [BODY]*/
-html {
+
+/* ---------------------------------------------- [VISIBILIDAD]*/
+.visible {
+    display: block;
 }
+
+.oculto {
+    display: none;
+}
+
+/* ---------------------------------------------- [BODY]*/
+html {}
 
 /* ---------------------------------------------- [BODY]*/
 body {
     background-color: var(--primary-color-2);
-    
+
     font-family: Bahnschrift;
 
     color: var(--color-black);
@@ -127,7 +146,8 @@ nav {
 
 /* ---------------------------------------------- [NAV: Cabecera]*/
 nav a {
-    background-color: var(--primary-color-3);
+    background: linear-gradient(0deg, var(--primary-color-3-s), var(--primary-color-3));
+    border: 2px solid linear-gradient(0deg, var(--primary-color-3-s), var(--primary-color-3));
 
     color: var(--color-black);
     font-size: var(--butto-text-size);
@@ -149,12 +169,15 @@ nav img {
     height: 100%;
 }
 
-nav a:hover {
+nav a:hover,
+nav a:focus {
     background-color: var(--primary-color-2);
+    border: 2px solid var(--primary-color-2);
 }
 
-.header-button a:active {
-    border: 2px solid var(--primary-color-3);
+nav a:active {
+    background-color: var(--primary-color-1);
+    border: 2px solid var(--primary-color-1);
 }
 
 /* ---------------------------------------------- [NAV: Botones]*/
@@ -188,7 +211,8 @@ nav a:hover {
     bottom: 160px;
 }
 
-#boton-ajustes:hover {
+#boton-ajustes:hover,
+#boton-ajustes:focus {
     animation: rotate 2s linear 1;
 }
 
@@ -197,7 +221,8 @@ nav a:hover {
     bottom: 90px;
 }
 
-#boton-notificaciones:hover {
+#boton-notificaciones:hover,
+#boton-notificaciones:focus {
     animation: shake 0.15s linear 2;
 }
 
@@ -206,7 +231,8 @@ nav a:hover {
     bottom: 20px;
 }
 
-#boton-perfil:hover img {
+#boton-perfil:hover img,
+#boton-perfil:focus img {
     animation: zoom-in-zoom-out 1s ease 1;
 }
 
