@@ -45,7 +45,13 @@ section article {
     margin: 20px;
 }
 
-/* ---------------------------------------------- [SECTION: ScrollBar]*/
+/* ---------------------------------------------- [ARTICLE: Map]*/
+#aula101:hover{
+    background:#8400ff;
+    display:block;
+}
+
+/* ---------------------------------------------- [ARTICLE: ScrollBar]*/
 .scroll {
     padding-right: 10vh;
 
@@ -102,7 +108,7 @@ section article {
     display: none;
 }
 
-/* ---------------------------------------------- [SECTION: Equipamiento]*/
+/* ---------------------------------------------- [ARTICLE: Equipamiento]*/
 .equipamiento {
     display: flex;
     flex-direction: row;

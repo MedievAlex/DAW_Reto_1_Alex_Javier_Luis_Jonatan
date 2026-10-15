@@ -3,6 +3,7 @@
     --primary-color-1: #FCA044;
     --primary-color-2: #FFD857;
     --primary-color-3: #57A3FF;
+    --primary-color-3-s: #5681b7;
 
     --color-black: #061930;
     --color-white: #fffef4;
@@ -94,13 +95,12 @@
 }
 
 /* ---------------------------------------------- [BODY]*/
-html {
-}
+html {}
 
 /* ---------------------------------------------- [BODY]*/
 body {
     background-color: var(--primary-color-2);
-    
+
     font-family: Bahnschrift;
 
     color: var(--color-black);
@@ -146,8 +146,8 @@ nav {
 
 /* ---------------------------------------------- [NAV: Cabecera]*/
 nav a {
-    background-color: var(--primary-color-3);
-    border: 2px solid var(--primary-color-3);
+    background: linear-gradient(0deg, var(--primary-color-3-s), var(--primary-color-3));
+    border: 2px solid linear-gradient(0deg, var(--primary-color-3-s), var(--primary-color-3));
 
     color: var(--color-black);
     font-size: var(--butto-text-size);
@@ -169,7 +169,8 @@ nav img {
     height: 100%;
 }
 
-nav a:hover, nav a:focus {
+nav a:hover,
+nav a:focus {
     background-color: var(--primary-color-2);
     border: 2px solid var(--primary-color-2);
 }
@@ -210,7 +211,8 @@ nav a:active {
     bottom: 160px;
 }
 
-#boton-ajustes:hover, #boton-ajustes:focus {
+#boton-ajustes:hover,
+#boton-ajustes:focus {
     animation: rotate 2s linear 1;
 }
 
@@ -219,7 +221,8 @@ nav a:active {
     bottom: 90px;
 }
 
-#boton-notificaciones:hover, #boton-notificaciones:focus {
+#boton-notificaciones:hover,
+#boton-notificaciones:focus {
     animation: shake 0.15s linear 2;
 }
 
@@ -228,7 +231,8 @@ nav a:active {
     bottom: 20px;
 }
 
-#boton-perfil:hover img, #boton-perfil:focus img {
+#boton-perfil:hover img,
+#boton-perfil:focus img {
     animation: zoom-in-zoom-out 1s ease 1;
 }
 
