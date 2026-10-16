@@ -42,3 +42,43 @@ function abrirModalAula(aulaNum) {
 btnCerrarAula.addEventListener('click', function () {
     modalAula.style.display = "none";
 });
+
+/* ---------------------------------------- [FUNCIONES]*/
+try {
+    const response = await fetch('UbicacionController.php', { // Peticion al PHP
+        method: 'GET', // Metodo de peticion
+        body: null // Contenido
+    });
+
+    if (!response.ok) {
+        throw new Error("Error HTTP: ${response.status}");
+    }
+
+    resultado.textContent = await response.text();
+
+} catch (error) {
+    resultado.textContent = "Se ha producido un error.";
+    console.error(error);
+}
+
+try {
+    var ubicacion = [
+        'ubi_id' => 1,
+            'ubi_nombre' => "",
+                'ubi_descripcion' => ""
+        ];
+
+    const response = await fetch('miarchivo.php?parametro=valor')
+
+    if (!response.ok) {
+        throw new Error("Error HTTP: ${response.status}");
+    } else {
+
+    }
+
+    resultado.textContent = await response.text();
+
+} catch (error) {
+    resultado.textContent = "Se ha producido un error.";
+    console.error(error);
+}

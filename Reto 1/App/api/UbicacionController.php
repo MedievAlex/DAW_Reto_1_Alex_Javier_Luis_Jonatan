@@ -31,9 +31,16 @@ class UbicacionController
         return json_encode($datos);
     }
 
-    public function buscarUbicacionPorId(int $ubi_id)
+    public function buscarUbicacionPorId()
     {
-        return $this->controller->buscarUbicacionPorId($ubi_id);
+        $ubi_id = $_GET['ubi_id'];
+
+        if ($ubi_id === '') {
+            http_response_code(400);
+            exit('El nombre es obligatorio.');
+        } else {
+            $this->controller->buscarUbicacionPorId($ubi_id);
+        }
     }
 
     public function buscarUbicacionPorNombre(string $ubi_nombre)
@@ -56,5 +63,3 @@ class UbicacionController
         return $this->controller->eliminarUbicacion($ubi_id);
     }
 }
-
-?>
