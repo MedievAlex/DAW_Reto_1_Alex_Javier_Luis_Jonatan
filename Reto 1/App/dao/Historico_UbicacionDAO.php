@@ -30,6 +30,26 @@ class Historico_UbicacionDAO
         return $historicos;
     }
 
+    // ---------------------------------------- BUSCAR POR ID
+    public function buscarHistoricoPorId(int $his_id): ?Historico_Ubicacion
+    {
+        $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin
+                    FROM historico_ubicaciones
+                    WHERE id_historico = ?";
+
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param("i", $his_id);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        if ($fila = $resultado->fetch_assoc()) {
+            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]), new DateTime($fila["fecha_fin"]));
+            return $historico;
+        }
+
+        return null;
+    }
+
     // ---------------------------------------- CARGAR HISTORICOS DE EQUIPAMIENTO
     public function cargarHistoricosDeEquipamiento(int $his_equipamiento): array
     {
@@ -49,26 +69,6 @@ class Historico_UbicacionDAO
         }
 
         return $historicos;
-    }
-
-    // ---------------------------------------- BUSCAR POR ID
-    public function buscarHistoricoPorId(int $his_id): ?Historico_Ubicacion
-    {
-        $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin
-                    FROM historico_ubicaciones
-                    WHERE id_historico = ?";
-
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $his_id);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-
-        if ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]), new DateTime($fila["fecha_fin"]));
-            return $historico;
-        }
-
-        return null;
     }
 
     // ---------------------------------------- CREAR HISTORICO
