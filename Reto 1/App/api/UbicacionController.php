@@ -14,18 +14,15 @@ function response(int $code, bool $sucess, string $message, array $data)
 {
     http_response_code($code);
     echo json_encode([
+        'code' => $code,
         'success' => $sucess,
         'message' => $message,
         'data' => $data
     ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 }
 
-/*public function buscarUbicacionPorNombre(string $ubi_nombre)
-    {
-        return $this->controller->buscarUbicacionPorNombre($ubi_nombre);
-    }
-
-    public function crearUbicacion(Ubicacion $ubicacion)
+/*
+    public function crearUbicacion(Ubicacion $ubicacion) POST
     {
         return $this->controller->crearUbicacion($ubicacion);
     }
