@@ -1,9 +1,9 @@
 <?php
-//require_once("EquipamientoDAO.php");
-require_once("Historico_UbicacionDAO.php");
-require_once("NotificacionDAO.php");
-require_once("UbicacionDAO.php");
-require_once("UsuarioDAO.php");
+//require_once("../dao/EquipamientoDAO.php");
+require_once("../dao/Historico_UbicacionDAO.php");
+require_once("../dao/NotificacionDAO.php");
+require_once("../dao/UbicacionDAO.php");
+require_once("../dao/UsuarioDAO.php");
 
 class Controller
 {
