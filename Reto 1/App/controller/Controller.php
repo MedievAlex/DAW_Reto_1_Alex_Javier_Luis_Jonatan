@@ -62,6 +62,31 @@ class Controller
 
     // ---------------------------------------- NOTIFICACION
 
+    public function consultarNotificaciones()
+    {
+        return $this->not_dao->consultarNotificaciones();
+    }
+
+    public function crearNotificacion(Notificacion $notificacion)
+    {
+        return $this->not_dao->crearNotificacion($notificacion);
+    }
+
+    public function modificarNotificacion(Notificacion $notificacion)
+    {
+        return $this->not_dao->modificarNotificacion($notificacion);
+    }
+
+    public function eliminarNotificacion(int $not_id)
+    {
+        return $this->not_dao->eliminarNotificacion($not_id);
+    }
+
+    public function consultarNotificacionesId(int $id_Usuario)
+    {
+        return $this->not_dao->consultarNotificacionesId($id_Usuario);
+    }
+
 
     // ---------------------------------------- UBICACION
 

@@ -12,6 +12,25 @@ class NotificacionDAO
         $this->conexion = ConexionDB::conexion();
     }
 
+  //Método para consultar todas las notificaciones de la base de datos. Devuelve un array de objetos Notificacion.
+    public function consultarNotificaciones(): array
+    {
+        $sql = "SELECT * FROM notificaciones";
+        $result = $this->conexion->query($sql);
+        $notificaciones = [];
+        while ($row = $result->fetch_assoc()) {
+            $notificacion = new Notificacion(
+                $row['id_usuario'],
+                $row['titulo'],
+                $row['descripcion'],
+                new DateTime($row['fecha_creacion']),
+                Estado::from($row['estado'])
+            );
+            $notificaciones[] = $notificacion;
+        }
+        return $notificaciones;
+    }
+
     //Método para crear una notificacion en la base de datos al recibir un objeto Notificacion. Devuelve true o false según el resultado de la operación.
     public function crearNotificacion(Notificacion $notificacion): bool
     {
@@ -58,7 +77,7 @@ class NotificacionDAO
     }
 
     //Método para consultar las notificaciones de la base de datos
-    public function consultarNotificaciones(int $idUsuario): array
+    public function consultarNotificacionesId(int $idUsuario): array
     {
         $sql = "SELECT * FROM notificaciones WHERE id_usuario= ?";
         $stmt = $this->conexion->prepare($sql);
