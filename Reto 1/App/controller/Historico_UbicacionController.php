@@ -1,20 +1,25 @@
 <?php
-require_once("../dao/Historico_UbicacionDAO.php");
+require_once("../controller/Controller.php");
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+$method = $_SERVER['REQUEST_METHOD'];
 
 class Historico_UbicacionController
 {
-    private Historico_UbicacionDAO $his_dao;
+    private Controller $controller;
 
     public function __construct()
     {
-        $this->his_dao = new Historico_UbicacionDAO();
+        $this->controller = new Controller();
     }
 
     // ---------------------------------------- FUNCIONES
 
     public function cargarHistoricos()
     {
-        $historicos = $this->his_dao->cargarHistoricos();
+        $historicos = $this->controller->cargarHistoricos();
 
         $datos = [];
 
@@ -33,7 +38,7 @@ class Historico_UbicacionController
 
     public function buscarHistoricoPorId(int $his_id)
     {
-        $historico = $this->his_dao->buscarHistoricoPorId($his_id);
+        $historico = $this->controller->buscarHistoricoPorId($his_id);
 
         $datos[] = [
             "id" => $historico->getId(),
@@ -48,7 +53,7 @@ class Historico_UbicacionController
 
     public function cargarHistoricosDeEquipamiento(int $his_equipamiento)
     {
-        $historicos = $this->his_dao->cargarHistoricosDeEquipamiento($his_equipamiento);
+        $historicos = $this->controller->cargarHistoricosDeEquipamiento($his_equipamiento);
 
         $datos = [];
 
@@ -86,16 +91,16 @@ class Historico_UbicacionController
             exit;
         }
 
-        $this->his_dao->crearHistorico();
+        //$this->controller->crearHistorico();
     }
 
     public function editarHistorico(Historico_Ubicacion $historico)
     {
-        return $this->his_dao->editarHistorico($historico);
+        return $this->controller->editarHistorico($historico);
     }
 
     public function eliminarHistorico(int $his_id)
     {
-        return $this->his_dao->eliminarHistorico($his_id);
+        return $this->controller->eliminarHistorico($his_id);
     }
 }
