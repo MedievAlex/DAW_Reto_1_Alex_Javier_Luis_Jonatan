@@ -113,6 +113,7 @@ try {
 
         // ---------------------------------------- [ CREAR ]
         case 'POST':
+            /*
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
@@ -138,7 +139,7 @@ try {
                     }
                 }
             }
-
+            */
             break;
 
         // ---------------------------------------- [ MODIFICAR ] 
