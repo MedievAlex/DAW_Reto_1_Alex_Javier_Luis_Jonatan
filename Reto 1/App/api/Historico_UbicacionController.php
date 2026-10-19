@@ -1,5 +1,6 @@
 <?php
 require_once("../controller/Controller.php");
+require_once("../model/Historico_Ubicacion.php");
 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
