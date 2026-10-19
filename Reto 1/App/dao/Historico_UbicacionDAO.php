@@ -150,8 +150,7 @@ class Historico_UbicacionDAO
         $his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
         $his_id = $historico->getId();
         $stmt->bind_param(
-            "di",
-            //"si",
+            "si",
             $his_fecha_fin,
             $his_id
         );

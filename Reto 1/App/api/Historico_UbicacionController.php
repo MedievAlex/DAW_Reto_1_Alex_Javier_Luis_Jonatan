@@ -113,7 +113,6 @@ try {
 
         // ---------------------------------------- [ CREAR ]
         case 'POST':
-            /*      
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
@@ -125,19 +124,20 @@ try {
                     // Sin datos
                     response(400, false, "El JSON debe tener valores válidos.", []);
                 } else {
-                    $ubicacion = new Ubicacion(
+                    $historico = new Historico_Ubicacion(
                         $datos["id"],
-                        $datos["nombre"],
-                        $datos["descripcion"]
+                        $datos["equipamiento"],
+                        $datos["ubicacion"],
+                        $datos["fecha_ini"],
+                        $datos["fecha_fin"]
                     );
 
-                    if ($controller->crearUbicacion($ubicacion)) {
-                        // Ubicacion registrada correctamente
-                        response(201, true, "Ubicacion registrada correctamente.", []);
+                    if ($controller->crearHistorico($historico)) {
+                        // Historico Ubicacion registrado correctamente
+                        response(201, true, "Historico Ubicacion registrado correctamente.", []);
                     }
                 }
             }
-            */
 
             break;
 

@@ -138,6 +138,7 @@ BEGIN
 END$$
 
 -- Cuando cambia la ubicación actual, se cierra la anterior y se abre la nueva.
+/*
 CREATE TRIGGER trg_equipamiento_traslado
 BEFORE UPDATE ON equipamientos
 FOR EACH ROW
@@ -153,9 +154,11 @@ BEGIN
         VALUES
             (OLD.id_equipamiento, NEW.id_ubicacion_actual, CURRENT_TIMESTAMP, NULL);
     END IF;
-END$$
+END$$ 
+*/
 
 -- Solo puede existir una fila abierta por equipamiento.
+/*
 CREATE TRIGGER trg_historico_unico_abierto_insert
 BEFORE INSERT ON historico_ubicaciones
 FOR EACH ROW
@@ -171,6 +174,7 @@ BEGIN
             SET MESSAGE_TEXT = 'El equipamiento ya tiene una ubicación actual abierta';
     END IF;
 END$$
+*/
 
 -- No se puede borrar la ubicación Almacén.
 CREATE TRIGGER trg_no_borrar_almacen
