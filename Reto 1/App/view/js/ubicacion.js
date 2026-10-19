@@ -62,11 +62,11 @@ try {
 }
 
 try {
-    var ubicacion = [
-        'ubi_id' => 1,
-            'ubi_nombre' => "",
-                'ubi_descripcion' => ""
-        ];
+    var ubicacion = {
+        ubi_id: 1,
+        ubi_nombre: "",
+        ubi_descripcion: ""
+    };
 
     const response = await fetch('miarchivo.php?parametro=valor')
 

@@ -5,16 +5,28 @@ require_once("../model/Ubicacion.php");
 
 class UbicacionDAO
 {
-    // ---------------------------------------- VARIABLES
+    // ---------------------------------------- [ VARIABLES ]
     private mysqli $conexion;
 
-    // ---------------------------------------- CONEXIÓN
+    // ---------------------------------------- [ CONEXIÓN ]
+    /**
+     * Constructor de la clase UbicacionDAO donde se crea la conexión.
+     * 
+     * @author Alex
+     */
     public function __construct()
     {
         $this->conexion = ConexionDB::conexion();
     }
 
-    // ---------------------------------------- CARGAR UBICACIONES
+    // ---------------------------------------- [ CARGAR UBICACIONES ]
+    /**
+     * Función que obtiene todas las Ubicacion.
+     *
+     * @return array $ubicaciones Listado de las Ubicacion obtenidas
+     * 
+     * @author Alex
+     */
     public function cargarUbicaciones(): array
     {
         $ubicaciones = array();
@@ -30,7 +42,15 @@ class UbicacionDAO
         return $ubicaciones;
     }
 
-    // ---------------------------------------- BUSCAR POR ID
+    // ---------------------------------------- [ BUSCAR POR ID ]
+    /**
+     * Función que obtiene una Ubicacion buscada por id.
+     *
+     * @param int $ubi_id ID del historico a buscar
+     * @return Ubicacion $ubicacion Objeto encontrado
+     * 
+     * @author Alex
+     */
     public function buscarUbicacionPorId(int $ubi_id): ?Ubicacion
     {
         $sql = "SELECT id_ubicacion, nombre, descripcion
@@ -50,7 +70,15 @@ class UbicacionDAO
         return null;
     }
 
-    // ---------------------------------------- BUSCAR POR NOMBRE
+    // ---------------------------------------- [ BUSCAR POR NOMBRE ]
+    /**
+     * Función que obtiene una Ubicacion buscada por nombre.
+     *
+     * @param string $ubi_nombre NOMBRE de la Ubicacion a buscar
+     * @return Ubicacion $ubicacion Objeto encontrado
+     * 
+     * @author Alex
+     */
     public function buscarUbicacionPorNombre(string $ubi_nombre): ?Ubicacion
     {
         $sql = "SELECT id_ubicacion, nombre, descripcion
@@ -70,7 +98,15 @@ class UbicacionDAO
         return null;
     }
 
-    // ---------------------------------------- CREAR UBICACION
+    // ---------------------------------------- [ CREAR UBICACION ]
+    /**
+     * Función que crea y registra una Ubicacion nueva.
+     *
+     * @param Ubicacion $ubicacion Objeto a crear
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function crearUbicacion(Ubicacion $ubicacion): bool
     {
         $sql = "INSERT INTO ubicaciones (nombre, descripcion)
@@ -88,7 +124,15 @@ class UbicacionDAO
         return $stmt->execute();
     }
     
-    // ---------------------------------------- EDITAR UBICACION
+    // ---------------------------------------- [ EDITAR UBICACION ]
+    /**
+     * Función que edita una Ubicacion existente.
+     *
+     * @param Ubicacion $ubicacion Objeto a modificar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function editarUbicacion(Ubicacion $ubicacion): bool
     {
         $sql = "UPDATE ubicaciones
@@ -110,7 +154,15 @@ class UbicacionDAO
         return $stmt->execute();
     }
     
-    // ---------------------------------------- ELIMINAR UBICACION
+    // ---------------------------------------- [ ELIMINAR UBICACION ]
+    /**
+     * Función que elimina una Ubicacion.
+     *
+     * @param int $ubi_id id de la Ubicacion a eliminar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function eliminarUbicacion(int $ubi_id): bool
     {
         $sql = "DELETE FROM ubicaciones
@@ -118,7 +170,7 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
         $stmt->bind_param("i", $ubi_id);
-        
+
         return $stmt->execute();
     }
 }

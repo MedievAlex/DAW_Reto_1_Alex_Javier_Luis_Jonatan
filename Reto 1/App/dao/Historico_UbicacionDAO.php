@@ -5,16 +5,28 @@ require_once("../model/Historico_Ubicacion.php");
 
 class Historico_UbicacionDAO
 {
-    // ---------------------------------------- VARIABLES
+    // ---------------------------------------- [ VARIABLES ]
     private mysqli $conexion;
 
-    // ---------------------------------------- CONEXIÓN
+    // ---------------------------------------- [ CONEXIÓN ]
+    /**
+     * Constructor de la clase Historico_UbicacionDAO donde se crea la conexión.
+     * 
+     * @author Alex
+     */
     public function __construct()
     {
         $this->conexion = ConexionDB::conexion();
     }
 
-    // ---------------------------------------- CARGAR HISTORICOS
+    // ---------------------------------------- [ CARGAR HISTORICOS ]
+    /**
+     * Función que obtiene todos los Historico Ubicacion.
+     *
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
+     * 
+     * @author Alex
+     */
     public function cargarHistoricos(): array
     {
         $historicos = array();
@@ -30,7 +42,15 @@ class Historico_UbicacionDAO
         return $historicos;
     }
 
-    // ---------------------------------------- BUSCAR POR ID
+    // ---------------------------------------- [ BUSCAR POR ID ]
+    /**
+     * Función que obtiene un Historico Ubicacion buscado por ID.
+     *
+     * @param int $his_id ID del Historico Ubicacion a buscar
+     * @return Historico_Ubicacion $historico Objeto encontrado
+     * 
+     * @author Alex
+     */
     public function buscarHistoricoPorId(int $his_id): ?Historico_Ubicacion
     {
         $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin
@@ -50,7 +70,15 @@ class Historico_UbicacionDAO
         return null;
     }
 
-    // ---------------------------------------- CARGAR HISTORICOS DE EQUIPAMIENTO
+    // ---------------------------------------- [ CARGAR HISTORICOS DE EQUIPAMIENTO ]
+    /**
+     * Función que obtiene los Historico Ubicacion de un Equipamiento.
+     *
+     * @param int $his_equipamiento ID del Equipamiento a revisar sus Historico Ubicacion
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
+     * 
+     * @author Alex
+     */
     public function cargarHistoricosDeEquipamiento(int $his_equipamiento): array
     {
         $historicos = array();
@@ -71,7 +99,15 @@ class Historico_UbicacionDAO
         return $historicos;
     }
 
-    // ---------------------------------------- CREAR HISTORICO
+    // ---------------------------------------- [ CREAR HISTORICO ]
+    /**
+     * Función que crea y registra un Historico Ubicacion nuevo.
+     *
+     * @param Historico_Ubicacion $historico Objeto a crear
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function crearHistorico(Historico_Ubicacion $historico): bool
     {
         $sql = "INSERT INTO historico_ubicaciones (id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin)
@@ -81,9 +117,7 @@ class Historico_UbicacionDAO
         $his_id = $historico->getId();
         $his_equipamiento = $historico->getEquipamiento();
         $his_ubicacion = $historico->getUbicacion();
-        //$his_fecha_inicio = $historico->getFechaInicio();
         $his_fecha_inicio = date_format($historico->getFechaInicio(), "Y-m-d H:i:s");
-        //$his_fecha_fin = $historico->getFechaFin();
         $his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
         $stmt->bind_param(
             "iiiss",
@@ -96,8 +130,16 @@ class Historico_UbicacionDAO
 
         return $stmt->execute();
     }
-    
-    // ---------------------------------------- EDITAR HISTORICO
+
+    // ---------------------------------------- [ EDITAR HISTORICO ]
+    /**
+     * Función que edita un Historico Ubicacion existente.
+     *
+     * @param Historico_Ubicacion $historico Objeto a modificar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function editarHistorico(Historico_Ubicacion $historico): bool
     {
         $sql = "UPDATE historico_ubicaciones
@@ -105,20 +147,26 @@ class Historico_UbicacionDAO
                     WHERE id_historico = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        //$his_fecha_fin = $historico->getFechaFin();
         $his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
         $his_id = $historico->getId();
         $stmt->bind_param(
-            "di", // -------------------------------------------[PREGUNTAR RESPECTO AL DATETIME]
-            //"si",
+            "si",
             $his_fecha_fin,
             $his_id
         );
 
         return $stmt->execute();
     }
-    
-    // ---------------------------------------- ELIMINAR HISTORICO
+
+    // ---------------------------------------- [ ELIMINAR HISTORICO ]
+    /**
+     * Función que elimina un Historico Ubicacion.
+     *
+     * @param int $his_id ID del Historico Ubicacion a eliminar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function eliminarHistorico(int $his_id): bool
     {
         $sql = "DELETE FROM historico_ubicaciones
@@ -126,7 +174,7 @@ class Historico_UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
         $stmt->bind_param("i", $his_id);
-        
+
         return $stmt->execute();
     }
 }

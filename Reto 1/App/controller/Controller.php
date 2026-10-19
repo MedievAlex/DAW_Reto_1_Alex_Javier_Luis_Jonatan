@@ -1,9 +1,9 @@
 <?php
-//require_once("EquipamientoDAO.php");
-require_once("Historico_UbicacionDAO.php");
-require_once("NotificacionDAO.php");
-require_once("UbicacionDAO.php");
-require_once("UsuarioDAO.php");
+//require_once("../dao/EquipamientoDAO.php");
+require_once("../dao/Historico_UbicacionDAO.php");
+require_once("../dao/NotificacionDAO.php");
+require_once("../dao/UbicacionDAO.php");
+require_once("../dao/UsuarioDAO.php");
 
 class Controller
 {
@@ -25,42 +25,89 @@ class Controller
         $this->usu_dao = new UsuarioDAO();
     }
 
-    // ---------------------------------------- EQUIPAMIENTO
+    // ---------------------------------------- [ EQUIPAMIENTO ]
 
 
-    // ---------------------------------------- HISTORICO
+    // ---------------------------------------- [ HISTORICO ]
 
+    /**
+     * Función que obtiene todos los Historico Ubicacion.
+     *
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
+     * 
+     * @author Alex
+     */
     public function cargarHistoricos()
     {
         return $this->his_dao->cargarHistoricos();
     }
 
+    /**
+     * Función que obtiene un Historico Ubicacion buscado por ID.
+     *
+     * @param int $his_id ID del Historico Ubicacion a buscar
+     * @return Historico_Ubicacion $historico Objeto encontrado
+     * 
+     * @author Alex
+     */
     public function buscarHistoricoPorId(int $his_id)
     {
         return $this->his_dao->buscarHistoricoPorId($his_id);
     }
 
+    /**
+     * Función que obtiene los Historico Ubicacion de un Equipamiento.
+     *
+     * @param int $his_equipamiento ID del Equipamiento a revisar sus Historico Ubicacion
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
+     * 
+     * @author Alex
+     */
     public function cargarHistoricosDeEquipamiento(int $his_equipamiento)
     {
         return $this->his_dao->cargarHistoricosDeEquipamiento($his_equipamiento);
     }
 
+    /**
+     * Función que crea y registra un Historico Ubicacion nuevo.
+     *
+     * @param Historico_Ubicacion $historico Objeto a crear
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function crearHistorico(Historico_Ubicacion $historico)
     {
         $this->his_dao->crearHistorico($historico);
     }
 
+    /**
+     * Función que edita un Historico Ubicacion existente.
+     *
+     * @param Historico_Ubicacion $historico Objeto a modificar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function editarHistorico(Historico_Ubicacion $historico)
     {
         return $this->his_dao->editarHistorico($historico);
     }
 
+    /**
+     * Función que elimina un Historico Ubicacion.
+     *
+     * @param int $his_id ID del Historico Ubicacion a eliminar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function eliminarHistorico(int $his_id)
     {
         return $this->his_dao->eliminarHistorico($his_id);
     }
 
-    // ---------------------------------------- NOTIFICACION
+    // ---------------------------------------- [ NOTIFICACION ]
 
     public function consultarNotificaciones()
     {
@@ -88,39 +135,86 @@ class Controller
     }
 
 
-    // ---------------------------------------- UBICACION
+    // ---------------------------------------- [ UBICACION ]
 
+    /**
+     * Función que obtiene todas las Ubicacion.
+     *
+     * @return array $ubicaciones Listado de las Ubicacion obtenidas
+     * 
+     * @author Alex
+     */
     public function cargarUbicaciones()
     {
         return $this->ubi_dao->cargarUbicaciones();
     }
 
+    /**
+     * Función que obtiene una Ubicacion buscada por id.
+     *
+     * @param int $ubi_id ID del historico a buscar
+     * @return Ubicacion $ubicacion Objeto encontrado
+     * 
+     * @author Alex
+     */
     public function buscarUbicacionPorId(int $ubi_id)
     {
         return $this->ubi_dao->buscarUbicacionPorId($ubi_id);
     }
 
+    /**
+     * Función que obtiene una Ubicacion buscada por nombre.
+     *
+     * @param string $ubi_nombre NOMBRE de la Ubicacion a buscar
+     * @return Ubicacion $ubicacion Objeto encontrado
+     * 
+     * @author Alex
+     */
     public function buscarUbicacionPorNombre(string $ubi_nombre)
     {
         return $this->ubi_dao->buscarUbicacionPorNombre($ubi_nombre);
     }
 
+    /**
+     * Función que crea y registra una Ubicacion nueva.
+     *
+     * @param Ubicacion $ubicacion Objeto a crear
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function crearUbicacion(Ubicacion $ubicacion)
     {
         return $this->ubi_dao->crearUbicacion($ubicacion);
     }
 
+    /**
+     * Función que edita una Ubicacion existente.
+     *
+     * @param Ubicacion $ubicacion Objeto a modificar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function editarUbicacion(Ubicacion $ubicacion)
     {
         return $this->ubi_dao->editarUbicacion($ubicacion);
     }
 
+    /**
+     * Función que elimina una Ubicacion.
+     *
+     * @param int $ubi_id id de la Ubicacion a eliminar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
     public function eliminarUbicacion(int $ubi_id)
     {
         return $this->ubi_dao->eliminarUbicacion($ubi_id);
     }
 
-    // ---------------------------------------- USUARIO
+    // ---------------------------------------- [ USUARIO ]
 
     public function cargarUsuarios()
     {
