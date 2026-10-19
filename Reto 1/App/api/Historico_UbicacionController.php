@@ -174,8 +174,6 @@ try {
 
         // ---------------------------------------- [ ELIMINAR ]  
         case 'DELETE':
-
-            /*
             if (isset($_GET["id"])) {
                 $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
 
@@ -184,22 +182,21 @@ try {
                     response(400, false, "Valor de ID no válida.", []);
                 } else {
 
-                    // Buscar Ubicacion por ID para verificar que existe
-                    $ubicacion = $controller->buscarUbicacionPorId($id);
+                    // Buscar Historico Ubicacion por ID para verificar que existe
+                    $historico = $controller->buscarHistoricoPorId($id);
 
-                    if ($ubicacion) { // Ubicacion existe
-                        // Elimina la ubicacion
-                        if ($controller->eliminarUbicacion($ubicacion->getId())) {
-                            // Ubicacion eliminada correctamente
-                            response(200, true, "Ubicacion eliminada correctamente.", []);
+                    if ($historico) { // Historico Ubicacion existe
+                        // Elimina el Historico Ubicacion
+                        if ($controller->eliminarHistorico($historico->getId())) {
+                            // Historico Ubicacion eliminada correctamente
+                            response(200, true, "Historico Ubicacion eliminado correctamente.", []);
                         }
                     } else {
-                        // Ubicacion no existe
+                        // Historico Ubicacion no existe
                         response(404, false, "Ubicacion no encontrada.", []);
                     }
                 }
             }
-            */
 
             break;
 

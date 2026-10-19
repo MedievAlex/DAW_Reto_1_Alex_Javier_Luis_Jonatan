@@ -171,7 +171,7 @@ try {
                     $ubicacion = $controller->buscarUbicacionPorId($id);
 
                     if ($ubicacion) { // Ubicacion existe
-                        // Elimina la ubicacion
+                        // Elimina la Ubicacion
                         if ($controller->eliminarUbicacion($ubicacion->getId())) {
                             // Ubicacion eliminada correctamente
                             response(200, true, "Ubicacion eliminada correctamente.", []);
