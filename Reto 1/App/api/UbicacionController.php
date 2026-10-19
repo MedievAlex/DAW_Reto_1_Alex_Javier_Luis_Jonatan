@@ -26,22 +26,6 @@ function response(int $code, bool $sucess, string $message, array $data)
     ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 }
 
-/*
-    public function crearUbicacion(Ubicacion $ubicacion) POST
-    {
-        return $this->controller->crearUbicacion($ubicacion);
-    }
-
-    public function editarUbicacion(Ubicacion $ubicacion)
-    {
-        return $this->controller->editarUbicacion($ubicacion);
-    }
-
-    public function eliminarUbicacion(int $ubi_id)
-    {
-        return $this->controller->eliminarUbicacion($ubi_id);
-    }*/
-
 $method = $_SERVER['REQUEST_METHOD'];
 
 try {
@@ -116,8 +100,9 @@ try {
 
             break;
 
-        case 'POST': // CREAR
-            $datos = json_decode(file_get_contents("php://input"), true); // Obtiene los datos del body de la petición
+        case 'POST': // CREAR            
+            $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
+            $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
             if (!is_array($datos)) {
                 // Sin JSON
@@ -143,7 +128,8 @@ try {
             break;
 
         case 'PUT': // MODIFICAR
-            $datos = json_decode(file_get_contents("php://input"), true); // Obtiene los datos del body de la petición
+            $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
+            $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
             if (!is_array($datos)) {
                 // Sin JSON
