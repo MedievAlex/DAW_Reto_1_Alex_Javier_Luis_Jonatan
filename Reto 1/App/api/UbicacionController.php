@@ -8,7 +8,8 @@ require_once("../controller/Controller.php");
  * @param bool $sucess Si ha sido un exito o no
  * @param string $message Mensaje a mostrar en la respuesta
  * @param array $data Datos a enviar en el cuerpo
- * @return int La suma de los dos números
+ * 
+ * @author Alex
  */
 function response(int $code, bool $sucess, string $message, array $data)
 {
