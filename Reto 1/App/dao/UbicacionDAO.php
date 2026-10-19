@@ -5,10 +5,10 @@ require_once("../model/Ubicacion.php");
 
 class UbicacionDAO
 {
-    // ---------------------------------------- VARIABLES
+    // ---------------------------------------- [ VARIABLES ]
     private mysqli $conexion;
 
-    // ---------------------------------------- CONEXIÓN
+    // ---------------------------------------- [ CONEXIÓN ]
     /**
      * Constructor de la clase UbicacionDAO donde se crea la conexión.
      * 
@@ -19,11 +19,11 @@ class UbicacionDAO
         $this->conexion = ConexionDB::conexion();
     }
 
-    // ---------------------------------------- CARGAR UBICACIONES
+    // ---------------------------------------- [ CARGAR UBICACIONES ]
     /**
-     * Función que obtiene todas las ubicaciones.
+     * Función que obtiene todas las Ubicacion.
      *
-     * @return array $ubicaciones Listado de las ubicaciones obtenidas
+     * @return array $ubicaciones Listado de las Ubicacion obtenidas
      * 
      * @author Alex
      */
@@ -42,11 +42,11 @@ class UbicacionDAO
         return $ubicaciones;
     }
 
-    // ---------------------------------------- BUSCAR POR ID
+    // ---------------------------------------- [ BUSCAR POR ID ]
     /**
-     * Función que obtiene una ubicacion buscada por id.
+     * Función que obtiene una Ubicacion buscada por id.
      *
-     * @param int $ubi_id Id del historico a buscar
+     * @param int $ubi_id ID del historico a buscar
      * @return Ubicacion $ubicacion Objeto encontrado
      * 
      * @author Alex
@@ -70,11 +70,11 @@ class UbicacionDAO
         return null;
     }
 
-    // ---------------------------------------- BUSCAR POR NOMBRE
+    // ---------------------------------------- [ BUSCAR POR NOMBRE ]
     /**
-     * Función que obtiene una ubicacion buscada por nombre.
+     * Función que obtiene una Ubicacion buscada por nombre.
      *
-     * @param string $ubi_nombre Id del historico a buscar
+     * @param string $ubi_nombre NOMBRE de la Ubicacion a buscar
      * @return Ubicacion $ubicacion Objeto encontrado
      * 
      * @author Alex
@@ -98,9 +98,9 @@ class UbicacionDAO
         return null;
     }
 
-    // ---------------------------------------- CREAR UBICACION
+    // ---------------------------------------- [ CREAR UBICACION ]
     /**
-     * Función que crea y registra una ubicacion nueva.
+     * Función que crea y registra una Ubicacion nueva.
      *
      * @param Ubicacion $ubicacion Objeto a crear
      * @return bool Valor devuelto por la ejecution de la consulta
@@ -124,9 +124,9 @@ class UbicacionDAO
         return $stmt->execute();
     }
     
-    // ---------------------------------------- EDITAR UBICACION
+    // ---------------------------------------- [ EDITAR UBICACION ]
     /**
-     * Función que edita una ubicacion existente.
+     * Función que edita una Ubicacion existente.
      *
      * @param Ubicacion $ubicacion Objeto a modificar
      * @return bool Valor devuelto por la ejecution de la consulta
@@ -154,11 +154,11 @@ class UbicacionDAO
         return $stmt->execute();
     }
     
-    // ---------------------------------------- ELIMINAR UBICACION
+    // ---------------------------------------- [ ELIMINAR UBICACION ]
     /**
-     * Función que elimina una ubicacion.
+     * Función que elimina una Ubicacion.
      *
-     * @param int $ubi_id Id de la ubicacion a eliminar
+     * @param int $ubi_id id de la Ubicacion a eliminar
      * @return bool Valor devuelto por la ejecution de la consulta
      * 
      * @author Alex

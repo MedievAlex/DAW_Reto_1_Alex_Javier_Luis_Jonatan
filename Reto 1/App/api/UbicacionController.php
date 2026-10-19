@@ -33,6 +33,7 @@ try {
     //$userData = getUserData();
 
     switch ($method) {
+        // ---------------------------------------- [ OBTENER ]  
         case 'GET': // OBTENER
 
             if (isset($_GET["id"]) && !isset($_GET["nombre"])) { // Buscar Ubicacion por ID
@@ -100,6 +101,7 @@ try {
 
             break;
 
+        // ---------------------------------------- [ CREAR ]
         case 'POST': // CREAR            
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
@@ -127,7 +129,8 @@ try {
 
             break;
 
-        case 'PUT': // MODIFICAR
+        // ---------------------------------------- [ MODIFICAR ] 
+        case 'PUT':
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
@@ -154,7 +157,8 @@ try {
 
             break;
 
-        case 'DELETE': // ELIMINAR
+        // ---------------------------------------- [ ELIMINAR ]  
+        case 'DELETE':
             if (isset($_GET["id"])) {
                 $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
 

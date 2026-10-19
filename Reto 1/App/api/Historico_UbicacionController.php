@@ -29,20 +29,18 @@ function response(int $code, bool $sucess, string $message, array $data)
 $method = $_SERVER['REQUEST_METHOD'];
 
 /*
-    public function cargarHistoricos()
-    public function buscarHistoricoPorId(int $his_id)
-    public function cargarHistoricosDeEquipamiento(int $his_equipamiento)
     public function crearHistorico(Historico_Ubicacion $historico)
     public function editarHistorico(Historico_Ubicacion $historico)
     public function eliminarHistorico(int $his_id)
-    */
+*/
 
 try {
     $controller = new Controller();
     //$userData = getUserData();
 
     switch ($method) {
-        case 'GET': // OBTENER
+        // ---------------------------------------- [ OBTENER ]  
+        case 'GET':
             if (isset($_GET["id"]) && !isset($_GET["equipamiento"])) {
                 // Buscar Historico Ubicacion por ID
                 $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
@@ -113,7 +111,8 @@ try {
 
             break;
 
-        case 'POST': // CREAR      
+        // ---------------------------------------- [ CREAR ]
+        case 'POST':
             /*      
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
@@ -142,7 +141,9 @@ try {
 
             break;
 
-        case 'PUT': // MODIFICAR
+        // ---------------------------------------- [ MODIFICAR ] 
+        case 'PUT':
+
             /*
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
@@ -171,7 +172,9 @@ try {
 
             break;
 
-        case 'DELETE': // ELIMINAR
+        // ---------------------------------------- [ ELIMINAR ]  
+        case 'DELETE':
+
             /*
             if (isset($_GET["id"])) {
                 $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion

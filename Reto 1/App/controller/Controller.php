@@ -22,15 +22,15 @@ class Controller
         $this->usu_dao = new UsuarioDAO();
     }
 
-    // ---------------------------------------- EQUIPAMIENTO
+    // ---------------------------------------- [ EQUIPAMIENTO ]
 
 
-    // ---------------------------------------- HISTORICO
+    // ---------------------------------------- [ HISTORICO ]
 
     /**
-     * Función que obtiene todos los historicos.
+     * Función que obtiene todos los Historico Ubicacion.
      *
-     * @return array $historicos Listado de los historico obtenidos
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
      * 
      * @author Alex
      */
@@ -40,9 +40,9 @@ class Controller
     }
 
     /**
-     * Función que obtiene un historico buscado por id.
+     * Función que obtiene un Historico Ubicacion buscado por ID.
      *
-     * @param int $his_id Id del historico a buscar
+     * @param int $his_id ID del Historico Ubicacion a buscar
      * @return Historico_Ubicacion $historico Objeto encontrado
      * 
      * @author Alex
@@ -53,10 +53,10 @@ class Controller
     }
 
     /**
-     * Función que obtiene los historicos de un equipamiento.
+     * Función que obtiene los Historico Ubicacion de un Equipamiento.
      *
-     * @param int $his_equipamiento Id del equipamiento a revisar sus historicos
-     * @return array $historicos Listado de los historico obtenidos
+     * @param int $his_equipamiento ID del Equipamiento a revisar sus Historico Ubicacion
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
      * 
      * @author Alex
      */
@@ -66,7 +66,7 @@ class Controller
     }
 
     /**
-     * Función que crea y registra un historico nuevo.
+     * Función que crea y registra un Historico Ubicacion nuevo.
      *
      * @param Historico_Ubicacion $historico Objeto a crear
      * @return bool Valor devuelto por la ejecution de la consulta
@@ -79,7 +79,7 @@ class Controller
     }
 
     /**
-     * Función que edita un historico existente.
+     * Función que edita un Historico Ubicacion existente.
      *
      * @param Historico_Ubicacion $historico Objeto a modificar
      * @return bool Valor devuelto por la ejecution de la consulta
@@ -92,9 +92,9 @@ class Controller
     }
 
     /**
-     * Función que elimina un historico.
+     * Función que elimina un Historico Ubicacion.
      *
-     * @param int $his_id Id del historico a eliminar
+     * @param int $his_id ID del Historico Ubicacion a eliminar
      * @return bool Valor devuelto por la ejecution de la consulta
      * 
      * @author Alex
@@ -104,15 +104,15 @@ class Controller
         return $this->his_dao->eliminarHistorico($his_id);
     }
 
-    // ---------------------------------------- NOTIFICACION
+    // ---------------------------------------- [ NOTIFICACION ]
 
 
-    // ---------------------------------------- UBICACION
+    // ---------------------------------------- [ UBICACION ]
 
     /**
-     * Función que obtiene todas las ubicaciones.
+     * Función que obtiene todas las Ubicacion.
      *
-     * @return array $ubicaciones Listado de las ubicaciones obtenidas
+     * @return array $ubicaciones Listado de las Ubicacion obtenidas
      * 
      * @author Alex
      */
@@ -122,9 +122,9 @@ class Controller
     }
 
     /**
-     * Función que obtiene una ubicacion buscada por id.
+     * Función que obtiene una Ubicacion buscada por id.
      *
-     * @param int $ubi_id Id del historico a buscar
+     * @param int $ubi_id ID del historico a buscar
      * @return Ubicacion $ubicacion Objeto encontrado
      * 
      * @author Alex
@@ -135,9 +135,9 @@ class Controller
     }
 
     /**
-     * Función que obtiene una ubicacion buscada por nombre.
+     * Función que obtiene una Ubicacion buscada por nombre.
      *
-     * @param string $ubi_nombre Id del historico a buscar
+     * @param string $ubi_nombre NOMBRE de la Ubicacion a buscar
      * @return Ubicacion $ubicacion Objeto encontrado
      * 
      * @author Alex
@@ -148,7 +148,7 @@ class Controller
     }
 
     /**
-     * Función que crea y registra una ubicacion nueva.
+     * Función que crea y registra una Ubicacion nueva.
      *
      * @param Ubicacion $ubicacion Objeto a crear
      * @return bool Valor devuelto por la ejecution de la consulta
@@ -161,7 +161,7 @@ class Controller
     }
 
     /**
-     * Función que edita una ubicacion existente.
+     * Función que edita una Ubicacion existente.
      *
      * @param Ubicacion $ubicacion Objeto a modificar
      * @return bool Valor devuelto por la ejecution de la consulta
@@ -174,9 +174,9 @@ class Controller
     }
 
     /**
-     * Función que elimina una ubicacion.
+     * Función que elimina una Ubicacion.
      *
-     * @param int $ubi_id Id de la ubicacion a eliminar
+     * @param int $ubi_id id de la Ubicacion a eliminar
      * @return bool Valor devuelto por la ejecution de la consulta
      * 
      * @author Alex
@@ -186,7 +186,7 @@ class Controller
         return $this->ubi_dao->eliminarUbicacion($ubi_id);
     }
 
-    // ---------------------------------------- USUARIO
+    // ---------------------------------------- [ USUARIO ]
 
     
 }
