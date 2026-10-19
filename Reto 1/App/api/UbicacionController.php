@@ -143,10 +143,55 @@ try {
             break;
 
         case 'PUT': // MODIFICAR
+            $datos = json_decode(file_get_contents("php://input"), true); // Obtiene los datos del body de la petición
+
+            if (!is_array($datos)) {
+                // Sin JSON
+                response(400, false, "El cuerpo debe de tener un JSON válido.", []);
+            } else {
+                if (!isset($datos["nombre"]) || !isset($datos["descripcion"])) {
+                    // Sin datos
+                    response(400, false, "El JSON debe tener valores válidos.", []);
+                } else {
+                    $ubicacion = new Ubicacion(
+                        $datos["id"],
+                        $datos["nombre"],
+                        $datos["descripcion"]
+                    );
+
+                    if ($controller->editarUbicacion($ubicacion)) {
+                        // Ubicacion editada correctamente
+                        response(200, true, "Ubicacion editada correctamente.", []);
+                    }
+                }
+            }
 
             break;
 
         case 'DELETE': // ELIMINAR
+            if (isset($_GET["id"])) {
+                $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
+
+                if (empty($id) || !is_numeric($id) || $id <= 0) {
+                    // ERROR
+                    response(400, false, "Valor de ID no válida.", []);
+                } else {
+
+                    // Buscar Ubicacion por ID para verificar que existe
+                    $ubicacion = $controller->buscarUbicacionPorId($id);
+
+                    if ($ubicacion) { // Ubicacion existe
+                        // Elimina la ubicacion
+                        if ($controller->eliminarUbicacion($ubicacion->getId())) {
+                            // Ubicacion eliminada correctamente
+                            response(200, true, "Ubicacion eliminada correctamente.", []);
+                        }
+                    } else {
+                        // Ubicacion no existe
+                        response(404, false, "Ubicacion no encontrada.", []);
+                    }
+                }
+            }
 
             break;
 
