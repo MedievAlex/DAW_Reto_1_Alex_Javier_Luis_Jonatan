@@ -1,4 +1,6 @@
 /* ---------------------------------------------- [Constantes]*/
+const UBI_URL = "../../api/UbicacionController.php";
+
 const btn_planta1 = document.getElementById("btn_planta1");
 const btn_planta2 = document.getElementById("btn_planta2");
 const img_planta1 = document.getElementById("img_planta1");
@@ -44,41 +46,79 @@ btnCerrarAula.addEventListener('click', function () {
 });
 
 /* ---------------------------------------- [FUNCIONES]*/
-try {
-    const response = await fetch('UbicacionController.php', { // Peticion al PHP
-        method: 'GET', // Metodo de peticion
-        body: null // Contenido
-    });
+async function petition(url, method, data) {
+    try {
+        const response = await fetch(url, { // Peticion al PHP
+            method: method, // Metodo de peticion
+            headers: { "Content-type": "aplication/json" },
+            body: JSON.stringify(data) // Contenido
+        });
+        const result = await response.json();
 
-    if (!response.ok) {
-        throw new Error("Error HTTP: ${response.status}");
+        if (response.succes) {
+            return result.data;
+        } else {
+            alert("Error al obtener las ubicaciones.");
+            return [];
+        }
+
+    } catch (error) {
+        console.error("Error:", error.message);
+        alert("Error:", error.message);
+        return [];
     }
-
-    resultado.textContent = await response.text();
-
-} catch (error) {
-    resultado.textContent = "Se ha producido un error.";
-    console.error(error);
 }
 
-try {
-    var ubicacion = {
-        ubi_id: 1,
-        ubi_nombre: "",
-        ubi_descripcion: ""
-    };
+async function buscarUbicacionPorId() {
+    let url = "${UBI_URL}?id=${ubicacion.ubi_id}";
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
 
-    const response = await fetch('miarchivo.php?parametro=valor')
+    ubicaciones = peticion(url, method, data);
+}
 
-    if (!response.ok) {
-        throw new Error("Error HTTP: ${response.status}");
-    } else {
+async function buscarUbicacionPorNombre() {
+    let url = "${UBI_URL}?nombre=${ubicacion.ubi_nombre}";
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
 
-    }
+    ubicaciones = peticion(url, method, data);
+}
 
-    resultado.textContent = await response.text();
+async function cargarUbicaciones() {
+    let url = "${UBI_URL}";
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
 
-} catch (error) {
-    resultado.textContent = "Se ha producido un error.";
-    console.error(error);
+    ubicaciones = peticion(url, method, data);
+}
+
+async function crearUbicacion() {
+    let url = "${UBI_URL}";
+    let method = "POST";
+    let data = [];
+    let ubicaciones;
+
+    ubicaciones = peticion(url, method, data);
+}
+
+async function editarUbicacion() {
+    let url = "${UBI_URL}";
+    let method = "PUT";
+    let data = [];
+    let ubicaciones;
+
+    ubicaciones = peticion(url, method, data);
+}
+
+async function eliminarUbicacion() {
+    let url = "${UBI_URL}?id=${ubicacion.ubi_id}";
+    let method = "DELETE";
+    let data = [];
+    let ubicaciones;
+
+    ubicaciones = peticion(url, method, data);
 }
