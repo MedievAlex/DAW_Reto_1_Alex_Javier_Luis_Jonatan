@@ -15,8 +15,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
  * 
  * @author Alex
  */
-function response(int $code, bool $sucess, string $message, array $data)
-{
+function response(int $code, bool $sucess, string $message, array $data){
     http_response_code($code);
     echo json_encode([
         'code' => $code,

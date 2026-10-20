@@ -22,6 +22,8 @@ btn_planta1.addEventListener('click', function () {
     img_planta2.classList.add('oculto');
 });
 
+btn_planta1.addEventListener('click', buscarUbicacionPorId());
+
 /* ---------------------------------------------- [Mostrar Planta 2]*/
 btn_planta2.addEventListener('click', function () {
     img_planta1.classList.remove('visible');
@@ -48,20 +50,34 @@ btnCerrarAula.addEventListener('click', function () {
 /* ---------------------------------------- [FUNCIONES]*/
 async function petition(url, method, data) {
     try {
-        const response = await fetch(url, { // Peticion al PHP
-            method: method, // Metodo de peticion
-            headers: { "Content-type": "aplication/json" },
-            body: JSON.stringify(data) // Contenido
-        });
-        const result = await response.json();
+        if (method == "GET") {
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" }
+            });
+            const result = await response.json();
 
-        if (response.succes) {
-            return result.data;
+            if (response) {
+                return result.data;
+            } else {
+                alert("Error al obtener las ubicaciones.");
+                return [];
+            }
         } else {
-            alert("Error al obtener las ubicaciones.");
-            return [];
-        }
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" },
+                body: JSON.stringify(data) // Contenido
+            });
+            const result = await response.json();
 
+            if (response.succes) {
+                return result.data;
+            } else {
+                alert("Error al obtener las ubicaciones.");
+                return [];
+            }
+        }
     } catch (error) {
         console.error("Error:", error.message);
         alert("Error:", error.message);
@@ -70,55 +86,65 @@ async function petition(url, method, data) {
 }
 
 async function buscarUbicacionPorId() {
-    let url = "${UBI_URL}?id=${ubicacion.ubi_id}";
+    let url = UBI_URL + "?id=" + 2;
     let method = "GET";
     let data = [];
     let ubicaciones;
 
-    ubicaciones = peticion(url, method, data);
+    ubicaciones = petition(url, method, data);
+    console.log(ubicaciones);
+    ubicaciones.then((value) => {
+        console.log(value);
+        alert(value);
+    });
 }
 
 async function buscarUbicacionPorNombre() {
-    let url = "${UBI_URL}?nombre=${ubicacion.ubi_nombre}";
+    let url = UBI_URL + "?nombre=" + "ubicacion.ubi_nombre}";
     let method = "GET";
     let data = [];
     let ubicaciones;
 
-    ubicaciones = peticion(url, method, data);
+    ubicaciones = petition(url, method, data);
+    console.log(ubicaciones);
 }
 
 async function cargarUbicaciones() {
-    let url = "${UBI_URL}";
+    let url = UBI_URL;
     let method = "GET";
     let data = [];
     let ubicaciones;
 
-    ubicaciones = peticion(url, method, data);
+    ubicaciones = petition(url, method, data);
+    console.log(ubicaciones);
 }
 
 async function crearUbicacion() {
-    let url = "${UBI_URL}";
+    let url = UBI_URL;
     let method = "POST";
     let data = [];
     let ubicaciones;
 
-    ubicaciones = peticion(url, method, data);
+    ubicaciones = petition(url, method, data);
+    console.log(ubicaciones.body);
 }
 
 async function editarUbicacion() {
-    let url = "${UBI_URL}";
+    let url = UBI_URL;
     let method = "PUT";
     let data = [];
     let ubicaciones;
 
-    ubicaciones = peticion(url, method, data);
+    ubicaciones = petition(url, method, data);
+    console.log(ubicaciones);
 }
 
 async function eliminarUbicacion() {
-    let url = "${UBI_URL}?id=${ubicacion.ubi_id}";
+    let url = UBI_URL + "?id=" + "${ubicacion.ubi_id}";
     let method = "DELETE";
     let data = [];
     let ubicaciones;
 
-    ubicaciones = peticion(url, method, data);
+    ubicaciones = petition(url, method, data);
+    console.log(ubicaciones);
 }
