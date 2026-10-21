@@ -119,7 +119,9 @@ function leerPassword(array $datos, bool $obligatoria): ?string
 $method = $_SERVER['REQUEST_METHOD'];
 
 // ----------------------------------------PERMISOS 
+
 // Solo el Administrador con la sesión iniciada puede gestionar usuarios
+/*
 session_start();
 
 if (!isset($_SESSION["usuario"])) {
@@ -131,6 +133,7 @@ if ($_SESSION["usuario"]["rol"] !== Usuario::ROL_ADMIN) {
     response(403, false, "Solo el Administrador puede gestionar usuarios.", []);
     exit;
 }
+*/
 
 try {
     $controller = new Controller();
