@@ -1,4 +1,6 @@
 /* ---------------------------------------------- [Constantes]*/
+const UBI_URL = "../../api/UbicacionController.php";
+
 const btn_planta1 = document.getElementById("btn_planta1");
 const btn_planta2 = document.getElementById("btn_planta2");
 const img_planta1 = document.getElementById("img_planta1");
@@ -19,6 +21,8 @@ btn_planta1.addEventListener('click', function () {
     img_planta1.classList.add('visible');
     img_planta2.classList.add('oculto');
 });
+
+btn_planta1.addEventListener('click', crearUbicacion());
 
 /* ---------------------------------------------- [Mostrar Planta 2]*/
 btn_planta2.addEventListener('click', function () {
@@ -44,41 +48,132 @@ btnCerrarAula.addEventListener('click', function () {
 });
 
 /* ---------------------------------------- [FUNCIONES]*/
-try {
-    const response = await fetch('UbicacionController.php', { // Peticion al PHP
-        method: 'GET', // Metodo de peticion
-        body: null // Contenido
-    });
+async function petition(url, method, data) {
+    try {
+        if (method == "GET") {
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" }
+            });
+            const result = await response.json();
 
-    if (!response.ok) {
-        throw new Error("Error HTTP: ${response.status}");
+            if (response.ok) {
+                return result.data;
+            } else {
+                alert(result.message);
+                return [];
+            }
+        } else {
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" },
+                body: JSON.stringify(data) // Contenido
+            });
+            const result = await response.json();
+
+            if (response.succes) {
+                return result.data;
+            } else {
+                alert(result.message);
+                return [];
+            }
+        }
+    } catch (error) {
+        console.error("Error:", error.message);
+        alert("Error:", error.message);
+        return [];
     }
-
-    resultado.textContent = await response.text();
-
-} catch (error) {
-    resultado.textContent = "Se ha producido un error.";
-    console.error(error);
 }
 
-try {
-    var ubicacion = {
-        ubi_id: 1,
-        ubi_nombre: "",
-        ubi_descripcion: ""
-    };
+// Pide una Ubicacion mediante el ID
+function buscarUbicacionPorId() {
+    let url = UBI_URL + "?ubi_id=" + 2;
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
 
-    const response = await fetch('miarchivo.php?parametro=valor')
+    ubicaciones = petition(url, method, data);
 
-    if (!response.ok) {
-        throw new Error("Error HTTP: ${response.status}");
-    } else {
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
+    });
+}
 
-    }
+// Pide una Ubicacion mediante el NOMBRE
+function buscarUbicacionPorNombre() {
+    let url = UBI_URL + "?ubi_nombre=" + "Baño";
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
 
-    resultado.textContent = await response.text();
+    ubicaciones = petition(url, method, data);
 
-} catch (error) {
-    resultado.textContent = "Se ha producido un error.";
-    console.error(error);
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
+    });
+}
+
+// Pide el listado de todas las Ubicaciones
+async function cargarUbicaciones() {
+    let url = UBI_URL;
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
+
+    ubicaciones = petition(url, method, data);
+
+    ubicaciones.then((value) => {
+        value.forEach(ubi => {
+            console.log(ubi);
+            alert(ubi.ubi_nombre);
+        });
+    });
+}
+
+async function crearUbicacion() {
+    let url = UBI_URL;
+    let method = "POST";
+    let data = new Map([
+        ["ubi_id", 2],
+        ["ubi_nombre", "Cafeteria"],
+        ["ubi_descripcion", "Cafeteria cup of café con leche in plaza mayor."]
+    ]);
+    let ubicaciones;
+
+    ubicaciones = petition(url, method, data);
+
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0]);
+    });
+}
+
+async function editarUbicacion() {
+    let url = UBI_URL;
+    let method = "PUT";
+    let data = [];
+    let ubicaciones;
+
+    ubicaciones = petition(url, method, data);
+
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
+    });
+}
+
+async function eliminarUbicacion() {
+    let url = UBI_URL + "?ubi_id=" + "${ubicacion.ubi_id}";
+    let method = "DELETE";
+    let data = [];
+    let ubicaciones;
+
+    ubicaciones = petition(url, method, data);
+
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
+    });
 }
