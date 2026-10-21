@@ -22,7 +22,7 @@ btn_planta1.addEventListener('click', function () {
     img_planta2.classList.add('oculto');
 });
 
-btn_planta1.addEventListener('click', buscarUbicacionPorId());
+btn_planta1.addEventListener('click', buscarUbicacionPorNombre());
 
 /* ---------------------------------------------- [Mostrar Planta 2]*/
 btn_planta2.addEventListener('click', function () {
@@ -60,7 +60,7 @@ async function petition(url, method, data) {
             if (response.ok) {
                 return result.data;
             } else {
-                alert("Error al obtener las ubicaciones.");
+                alert(result.message);
                 return [];
             }
         } else {
@@ -74,7 +74,7 @@ async function petition(url, method, data) {
             if (response.succes) {
                 return result.data;
             } else {
-                alert("Error al obtener las ubicaciones.");
+                alert(result.message);
                 return [];
             }
         }
@@ -85,6 +85,7 @@ async function petition(url, method, data) {
     }
 }
 
+// Pide una Ubicacion mediante el ID
 function buscarUbicacionPorId() {
     let url = UBI_URL + "?ubi_id=" + 2;
     let method = "GET";
@@ -99,20 +100,22 @@ function buscarUbicacionPorId() {
     });
 }
 
-async function buscarUbicacionPorNombre() {
-    let url = UBI_URL + "?ubi_nombre=" + "ubicacion.ubi_nombre}";
+// Pide una Ubicacion mediante el NOMBRE
+function buscarUbicacionPorNombre() {
+    let url = UBI_URL + "?ubi_nombre=" + "Baño";
     let method = "GET";
     let data = [];
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
-    
+
     ubicaciones.then((value) => {
         console.log(value[0]);
-        alert(value[0].nombre);
+        alert(value[0].ubi_nombre);
     });
 }
 
+// Pide el listado de todas las Ubicaciones
 async function cargarUbicaciones() {
     let url = UBI_URL;
     let method = "GET";
@@ -120,21 +123,31 @@ async function cargarUbicaciones() {
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
-    console.log(ubicaciones);
+
+    ubicaciones.then((value) => {
+        value.forEach(ubi => {
+            console.log(ubi);
+            alert(ubi.ubi_nombre);
+        });
+    });
 }
 
 async function crearUbicacion() {
     let url = UBI_URL;
     let method = "POST";
     let data = new Map([
-        ["ubi_id", 9],
-        ["ubi_nombre", 8],
-        ["ubi_descripcion", 7]
+        ["ubi_id", 2],
+        ["ubi_nombre", "Cafeteria"],
+        ["ubi_descripcion", "Cafeteria cup of café con leche in plaza mayor."]
     ]);
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
-    console.log(ubicaciones.body);
+
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
+    });
 }
 
 async function editarUbicacion() {
@@ -144,7 +157,11 @@ async function editarUbicacion() {
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
-    console.log(ubicaciones);
+
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
+    });
 }
 
 async function eliminarUbicacion() {
@@ -154,5 +171,9 @@ async function eliminarUbicacion() {
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
-    console.log(ubicaciones);
+
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
+    });
 }
