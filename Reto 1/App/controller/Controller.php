@@ -129,9 +129,14 @@ class Controller
         return $this->not_dao->eliminarNotificacion($not_id);
     }
 
-    public function consultarNotificacionesId(int $id_Usuario)
+    public function consultarNotificacionesIdUsu(int $id_Usuario)
     {
-        return $this->not_dao->consultarNotificacionesId($id_Usuario);
+        return $this->not_dao->consultarNotificacionesIdUsu($id_Usuario);
+    }
+
+    public function consultarNotificacionesId(int $id_Notificacion)
+    {
+        return $this->not_dao->consultarNotificacionesId($id_Notificacion);
     }
 
 
