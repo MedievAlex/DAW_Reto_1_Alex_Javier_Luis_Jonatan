@@ -53,13 +53,13 @@ async function petition(url, method, data) {
                 method: method, // Metodo de peticion
                 headers: { "Content-type": "aplication/json" }
             });
-            const result = await response.json();
 
-            if (response.ok) {
+            const result = await response.json(); 
+
+            if (result.success) {
                 return result.data;
             } else {
-                alert(result.message);
-                return [];
+                return [{ "message": result.message }];
             }
         } else {
             const response = await fetch(url, { // Peticion al PHP
@@ -69,11 +69,10 @@ async function petition(url, method, data) {
             });
             const result = await response.json();
 
-            if (response.succes) {
-                return result.data;
+            if (result.success) {
+                return result.message;
             } else {
-                alert(result.message);
-                return [];
+                return [{ "message": result.message }];
             }
         }
     } catch (error) {
@@ -88,11 +87,11 @@ function buscarUbicacionPorId() {
     let url = UBI_URL + "?ubi_id=" + 2;
     let method = "GET";
     let data = [];
-    let ubicaciones;
+    let ubicacion;
 
-    ubicaciones = petition(url, method, data);
+    ubicacion = petition(url, method, data);
 
-    ubicaciones.then((value) => {
+    ubicacion.then((value) => {
         console.log(value[0]);
         alert(value[0].ubi_nombre);
     });
@@ -103,11 +102,11 @@ function buscarUbicacionPorNombre() {
     let url = UBI_URL + "?ubi_nombre=" + "Baño";
     let method = "GET";
     let data = [];
-    let ubicaciones;
+    let ubicacion;
 
-    ubicaciones = petition(url, method, data);
+    ubicacion = petition(url, method, data);
 
-    ubicaciones.then((value) => {
+    ubicacion.then((value) => {
         console.log(value[0]);
         alert(value[0].ubi_nombre);
     });
@@ -130,48 +129,51 @@ async function cargarUbicaciones() {
     });
 }
 
+// Crea la Ubicacion enviada
 async function crearUbicacion() {
     let url = UBI_URL;
     let method = "POST";
-    let data = new Map([
-        ["ubi_id", 2],
-        ["ubi_nombre", "Cafeteria"],
-        ["ubi_descripcion", "Cafeteria cup of café con leche in plaza mayor."]
-    ]);
-    let ubicaciones;
+    let data = {
+        ubi_id: 15,
+        ubi_nombre: "Baño",
+        ubi_descripcion: "Baño viejo a reformar."
+    };
+    let ubicacion;
 
-    ubicaciones = petition(url, method, data);
+    ubicacion = petition(url, method, data);
 
-    ubicaciones.then((value) => {
-        console.log(value[0]);
-        alert(value[0]);
+    ubicacion.then((value) => {
+        console.log(value[0].message);
+        alert(value[0].message);
     });
 }
+
+btn_planta1.addEventListener('click', eliminarUbicacion());
 
 async function editarUbicacion() {
     let url = UBI_URL;
     let method = "PUT";
     let data = [];
-    let ubicaciones;
+    let ubicacion;
 
-    ubicaciones = petition(url, method, data);
+    ubicacion = petition(url, method, data);
 
-    ubicaciones.then((value) => {
-        console.log(value[0]);
-        alert(value[0].ubi_nombre);
+    ubicacion.then((value) => {
+        console.log(value[0].message);
+        alert(value[0].message);
     });
 }
 
 async function eliminarUbicacion() {
-    let url = UBI_URL + "?ubi_id=" + "${ubicacion.ubi_id}";
+    let url = UBI_URL + "?ubi_id=" + 18;
     let method = "DELETE";
     let data = [];
-    let ubicaciones;
+    let ubicacion;
 
-    ubicaciones = petition(url, method, data);
+    ubicacion = petition(url, method, data);
 
-    ubicaciones.then((value) => {
-        console.log(value[0]);
-        alert(value[0].ubi_nombre);
+    ubicacion.then((value) => {
+        console.log(value[0].message);
+        alert(value[0].message);
     });
 }

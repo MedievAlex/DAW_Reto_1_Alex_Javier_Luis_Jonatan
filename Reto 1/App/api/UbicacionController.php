@@ -34,7 +34,6 @@ try {
     switch ($method) {
         // ---------------------------------------- [ OBTENER ]  
         case 'GET': // OBTENER
-
             if (isset($_GET["ubi_id"]) && !isset($_GET["ubi_nombre"])) { // Buscar Ubicacion por ID
                 $id = filter_var($_GET["ubi_id"]); // Obtiene el valor de la variable de la peticion
 
