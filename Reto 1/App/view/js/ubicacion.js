@@ -57,7 +57,7 @@ async function petition(url, method, data) {
             });
             const result = await response.json();
 
-            if (response) {
+            if (response.ok) {
                 return result.data;
             } else {
                 alert("Error al obtener las ubicaciones.");
@@ -85,28 +85,32 @@ async function petition(url, method, data) {
     }
 }
 
-async function buscarUbicacionPorId() {
-    let url = UBI_URL + "?id=" + 2;
+function buscarUbicacionPorId() {
+    let url = UBI_URL + "?ubi_id=" + 2;
     let method = "GET";
     let data = [];
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
-    console.log(ubicaciones);
+
     ubicaciones.then((value) => {
-        console.log(value);
-        alert(value);
+        console.log(value[0]);
+        alert(value[0].ubi_nombre);
     });
 }
 
 async function buscarUbicacionPorNombre() {
-    let url = UBI_URL + "?nombre=" + "ubicacion.ubi_nombre}";
+    let url = UBI_URL + "?ubi_nombre=" + "ubicacion.ubi_nombre}";
     let method = "GET";
     let data = [];
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
-    console.log(ubicaciones);
+    
+    ubicaciones.then((value) => {
+        console.log(value[0]);
+        alert(value[0].nombre);
+    });
 }
 
 async function cargarUbicaciones() {
@@ -122,7 +126,11 @@ async function cargarUbicaciones() {
 async function crearUbicacion() {
     let url = UBI_URL;
     let method = "POST";
-    let data = [];
+    let data = new Map([
+        ["ubi_id", 9],
+        ["ubi_nombre", 8],
+        ["ubi_descripcion", 7]
+    ]);
     let ubicaciones;
 
     ubicaciones = petition(url, method, data);
@@ -140,7 +148,7 @@ async function editarUbicacion() {
 }
 
 async function eliminarUbicacion() {
-    let url = UBI_URL + "?id=" + "${ubicacion.ubi_id}";
+    let url = UBI_URL + "?ubi_id=" + "${ubicacion.ubi_id}";
     let method = "DELETE";
     let data = [];
     let ubicaciones;

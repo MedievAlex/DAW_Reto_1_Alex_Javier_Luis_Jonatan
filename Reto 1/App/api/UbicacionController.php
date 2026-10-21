@@ -35,8 +35,8 @@ try {
         // ---------------------------------------- [ OBTENER ]  
         case 'GET': // OBTENER
 
-            if (isset($_GET["id"]) && !isset($_GET["nombre"])) { // Buscar Ubicacion por ID
-                $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
+            if (isset($_GET["ubi_id"]) && !isset($_GET["ubi_nombre"])) { // Buscar Ubicacion por ID
+                $id = filter_var($_GET["ubi_id"]); // Obtiene el valor de la variable de la peticion
 
                 if (empty($id) || !is_numeric($id) || $id <= 0) {
                     // ERROR
@@ -47,9 +47,9 @@ try {
 
                     if ($ubicacion) { // Ubicacion existe
                         $datos[] = [
-                            "id" => $ubicacion->getId(),
-                            "nombre" => $ubicacion->getNombre(),
-                            "descripcion" => $ubicacion->getDescripcion()
+                            "ubi_id" => $ubicacion->getId(),
+                            "ubi_nombre" => $ubicacion->getNombre(),
+                            "ubi_descripcion" => $ubicacion->getDescripcion()
                         ];
 
                         response(200, true, "Ubicacion obtenida correctamente.", $datos);
@@ -58,8 +58,8 @@ try {
                         response(404, false, "Ubicacion no encontrada.", []);
                     }
                 }
-            } elseif (isset($_GET["nombre"]) && !isset($_GET["id"])) {
-                $nombre = filter_var($_GET["nombre"]); // Obtiene el valor de la variable de la peticion
+            } elseif (isset($_GET["ubi_nombre"]) && !isset($_GET["ubi_id"])) {
+                $nombre = filter_var($_GET["ubi_nombre"]); // Obtiene el valor de la variable de la peticion
 
                 if (empty($nombre) || is_numeric($nombre)) {
                     // ERROR
@@ -71,9 +71,9 @@ try {
                     if ($ubicacion) {
                         // Ubicacion existe
                         $datos[] = [
-                            "id" => $ubicacion->getId(),
-                            "nombre" => $ubicacion->getNombre(),
-                            "descripcion" => $ubicacion->getDescripcion()
+                            "ubi_id" => $ubicacion->getId(),
+                            "ubi_nombre" => $ubicacion->getNombre(),
+                            "ubi_descripcion" => $ubicacion->getDescripcion()
                         ];
 
                         response(200, true, "Ubicacion obtenida correctamente.", $datos);
@@ -89,9 +89,9 @@ try {
 
                 foreach ($ubicaciones as $ubicacion) {
                     $datos[] = [
-                        "id" => $ubicacion->getId(),
-                        "nombre" => $ubicacion->getNombre(),
-                        "descripcion" => $ubicacion->getDescripcion()
+                        "ubi_id" => $ubicacion->getId(),
+                        "ubi_nombre" => $ubicacion->getNombre(),
+                        "ubi_descripcion" => $ubicacion->getDescripcion()
                     ];
                 }
 
@@ -109,14 +109,14 @@ try {
                 // Sin JSON
                 response(400, false, "El cuerpo debe de tener un JSON válido.", []);
             } else {
-                if (!isset($datos["nombre"]) || !isset($datos["descripcion"])) {
+                if (!isset($datos["ubi_nombre"]) || !isset($datos["ubi_descripcion"])) {
                     // Sin datos
                     response(400, false, "El JSON debe tener valores válidos.", []);
                 } else {
                     $ubicacion = new Ubicacion(
-                        $datos["id"],
-                        $datos["nombre"],
-                        $datos["descripcion"]
+                        $datos["ubi_id"],
+                        $datos["ubi_nombre"],
+                        $datos["ubi_descripcion"]
                     );
 
                     if ($controller->crearUbicacion($ubicacion)) {
@@ -137,14 +137,14 @@ try {
                 // Sin JSON
                 response(400, false, "El cuerpo debe de tener un JSON válido.", []);
             } else {
-                if (!isset($datos["nombre"]) || !isset($datos["descripcion"])) {
+                if (!isset($datos["ubi_nombre"]) || !isset($datos["ubi_descripcion"])) {
                     // Sin datos
                     response(400, false, "El JSON debe tener valores válidos.", []);
                 } else {
                     $ubicacion = new Ubicacion(
-                        $datos["id"],
-                        $datos["nombre"],
-                        $datos["descripcion"]
+                        $datos["ubi_id"],
+                        $datos["ubi_nombre"],
+                        $datos["ubi_descripcion"]
                     );
 
                     if ($controller->editarUbicacion($ubicacion)) {
@@ -158,8 +158,8 @@ try {
 
         // ---------------------------------------- [ ELIMINAR ]  
         case 'DELETE':
-            if (isset($_GET["id"])) {
-                $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
+            if (isset($_GET["ubi_id"])) {
+                $id = filter_var($_GET["ubi_id"]); // Obtiene el valor de la variable de la peticion
 
                 if (empty($id) || !is_numeric($id) || $id <= 0) {
                     // ERROR
