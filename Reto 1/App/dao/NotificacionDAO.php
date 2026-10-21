@@ -20,7 +20,7 @@ class NotificacionDAO
         $notificaciones = [];
         while ($row = $result->fetch_assoc()) {
             $notificacion = new Notificacion(
-                $row['id_usuario'],
+                $row['id_notificacion'],
                 $row['titulo'],
                 $row['descripcion'],
                 new DateTime($row['fecha_creacion']),
@@ -76,8 +76,31 @@ class NotificacionDAO
         return $resultado;
     }
 
-    //Método para consultar las notificaciones de la base de datos
-    public function consultarNotificacionesId(int $idUsuario): ?Notificacion
+        //Método para consultar las notificaciones de la base de datos
+    public function consultarNotificacionesId(int $idNotif): ?Notificacion
+    {
+        $sql = "SELECT id_notificacion, titulo, descripcion, fecha_creacion, estado FROM notificaciones WHERE id_notificacion= ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param("i", $idNotif);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            $notificacion = new Notificacion(
+                $idNotif,
+                $row['titulo'],
+                $row['descripcion'],
+                new DateTime($row['fecha_creacion']),
+                Estado::from($row['estado'])
+            );
+            $stmt->close();
+            return $notificacion;
+        }
+        $stmt->close();
+        return null; // Retorna null si no se encuentra ninguna notificación
+    }
+
+    //Método para consultar las notificaciones de la base de datos por id de usuario
+    public function consultarNotificacionesIdUsu(int $idUsuario): ?Notificacion
     {
         $sql = "SELECT id_notificacion, titulo, descripcion, fecha_creacion, estado FROM notificaciones WHERE id_usuario= ?";
         $stmt = $this->conexion->prepare($sql);
