@@ -22,8 +22,6 @@ btn_planta1.addEventListener('click', function () {
     img_planta2.classList.add('oculto');
 });
 
-btn_planta1.addEventListener('click', crearUbicacion());
-
 /* ---------------------------------------------- [Mostrar Planta 2]*/
 btn_planta2.addEventListener('click', function () {
     img_planta1.classList.remove('visible');
