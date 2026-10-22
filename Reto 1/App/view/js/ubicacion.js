@@ -54,14 +54,14 @@ async function petition(url, method, data) {
                 headers: { "Content-type": "aplication/json" }
             });
 
-            const result = await response.json(); 
+            const result = await response.json();
 
             if (result.success) {
                 return result.data;
             } else {
                 return [{ "message": result.message }];
             }
-        } else {
+        } else if (method == "DELETE") {
             const response = await fetch(url, { // Peticion al PHP
                 method: method, // Metodo de peticion
                 headers: { "Content-type": "aplication/json" },
@@ -74,6 +74,19 @@ async function petition(url, method, data) {
             } else {
                 return [{ "message": result.message }];
             }
+        } else {
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" },
+                body: JSON.stringify(data) // Contenido
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                return result.data;
+            } else {
+                return [{ "message": result.message }];
+            }
         }
     } catch (error) {
         console.error("Error:", error.message);
@@ -82,7 +95,7 @@ async function petition(url, method, data) {
     }
 }
 
-// Pide una Ubicacion mediante el ID
+// [ Pide una Ubicacion mediante el ID ]
 function buscarUbicacionPorId() {
     let url = UBI_URL + "?ubi_id=" + 2;
     let method = "GET";
@@ -97,9 +110,9 @@ function buscarUbicacionPorId() {
     });
 }
 
-// Pide una Ubicacion mediante el NOMBRE
+// [ Pide una Ubicacion mediante el NOMBRE ]
 function buscarUbicacionPorNombre() {
-    let url = UBI_URL + "?ubi_nombre=" + "Baño";
+    let url = UBI_URL + "?ubi_nombre=" + "Cafeteria";
     let method = "GET";
     let data = [];
     let ubicacion;
@@ -112,7 +125,7 @@ function buscarUbicacionPorNombre() {
     });
 }
 
-// Pide el listado de todas las Ubicaciones
+// [ Pide el listado de todas las Ubicaciones ]
 async function cargarUbicaciones() {
     let url = UBI_URL;
     let method = "GET";
@@ -129,45 +142,49 @@ async function cargarUbicaciones() {
     });
 }
 
-// Crea la Ubicacion enviada
+// [ Crea la Ubicacion enviada ]
 async function crearUbicacion() {
     let url = UBI_URL;
     let method = "POST";
     let data = {
-        ubi_id: 15,
-        ubi_nombre: "Baño",
-        ubi_descripcion: "Baño viejo a reformar."
+        ubi_id: 1,
+        ubi_nombre: "Cafeteria",
+        ubi_descripcion: "Cafeteria cup of café con leche in plaza mayor."
     };
     let ubicacion;
 
     ubicacion = petition(url, method, data);
 
     ubicacion.then((value) => {
-        console.log(value[0].message);
-        alert(value[0].message);
+        console.log(value[0]);
+        alert(value[0].ubi_nombre + " creada correctamente.");
     });
 }
 
-btn_planta1.addEventListener('click', eliminarUbicacion());
-
+// [ Editar la Ubicacion ]
 async function editarUbicacion() {
     let url = UBI_URL;
     let method = "PUT";
-    let data = [];
+    let data = {
+        ubi_id: 24,
+        ubi_nombre: "Cafeteria",
+        ubi_descripcion: "There is nothing quite like a relaxing cup of café con leche in Plaza Mayor."
+    };
     let ubicacion;
 
     ubicacion = petition(url, method, data);
 
     ubicacion.then((value) => {
-        console.log(value[0].message);
-        alert(value[0].message);
+        console.log(value[0]);
+        alert(value[0].ubi_nombre + " editada correctamente.");
     });
 }
 
+// [ Elimina la Ubicacion ]
 async function eliminarUbicacion() {
-    let url = UBI_URL + "?ubi_id=" + 18;
+    let url = UBI_URL + "?ubi_id=" + 21;
     let method = "DELETE";
-    let data = [];
+    let data = {};
     let ubicacion;
 
     ubicacion = petition(url, method, data);
