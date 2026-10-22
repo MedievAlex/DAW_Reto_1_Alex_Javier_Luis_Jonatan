@@ -34,7 +34,6 @@ try {
     switch ($method) {
         // ---------------------------------------- [ OBTENER ]  
         case 'GET': // OBTENER
-
             if (isset($_GET["ubi_id"]) && !isset($_GET["ubi_nombre"])) { // Buscar Ubicacion por ID
                 $id = filter_var($_GET["ubi_id"]); // Obtiene el valor de la variable de la peticion
 
@@ -118,10 +117,16 @@ try {
                         $datos["ubi_nombre"],
                         $datos["ubi_descripcion"]
                     );
+                    
+                    $datos[] = [
+                        "ubi_id" => $ubicacion->getId(),
+                        "ubi_nombre" => $ubicacion->getNombre(),
+                        "ubi_descripcion" => $ubicacion->getDescripcion()
+                    ];
 
                     if ($controller->crearUbicacion($ubicacion)) {
                         // Ubicacion registrada correctamente
-                        response(201, true, "Ubicacion registrada correctamente.", []);
+                        response(201, true, "Ubicacion registrada correctamente.", $datos);
                     }
                 }
             }
@@ -146,10 +151,16 @@ try {
                         $datos["ubi_nombre"],
                         $datos["ubi_descripcion"]
                     );
+                    
+                    $datos[] = [
+                        "ubi_id" => $ubicacion->getId(),
+                        "ubi_nombre" => $ubicacion->getNombre(),
+                        "ubi_descripcion" => $ubicacion->getDescripcion()
+                    ];
 
                     if ($controller->editarUbicacion($ubicacion)) {
                         // Ubicacion editada correctamente
-                        response(200, true, "Ubicacion editada correctamente.", []);
+                        response(200, true, "Ubicacion editada correctamente.", $datos);
                     }
                 }
             }
