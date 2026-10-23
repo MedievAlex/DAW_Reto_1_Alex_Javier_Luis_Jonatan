@@ -15,7 +15,8 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
  * 
  * @author Alex
  */
-function response(int $code, bool $sucess, string $message, array $data){
+function response(int $code, bool $sucess, string $message, array $data)
+{
     http_response_code($code);
     echo json_encode([
         'code' => $code,
@@ -102,30 +103,34 @@ try {
         // ---------------------------------------- [ CREAR ]
         case 'POST': // CREAR            
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
-            $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
+            $body = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
-            if (!is_array($datos)) {
+            if (!is_array($body)) {
                 // Sin JSON
                 response(400, false, "El cuerpo debe de tener un JSON válido.", []);
             } else {
-                if (!isset($datos["ubi_nombre"]) || !isset($datos["ubi_descripcion"])) {
+                if (!isset($body["ubi_id"]) || !isset($body["ubi_nombre"]) || !isset($body["ubi_descripcion"])) {
                     // Sin datos
                     response(400, false, "El JSON debe tener valores válidos.", []);
                 } else {
                     $ubicacion = new Ubicacion(
-                        $datos["ubi_id"],
-                        $datos["ubi_nombre"],
-                        $datos["ubi_descripcion"]
+                        $body["ubi_id"],
+                        $body["ubi_nombre"],
+                        $body["ubi_descripcion"]
                     );
-                    
-                    $datos[] = [
-                        "ubi_id" => $ubicacion->getId(),
-                        "ubi_nombre" => $ubicacion->getNombre(),
-                        "ubi_descripcion" => $ubicacion->getDescripcion()
-                    ];
 
                     if ($controller->crearUbicacion($ubicacion)) {
                         // Ubicacion registrada correctamente
+                        $ubicaciones = $controller->cargarUbicaciones();
+
+                        $ubicacion = $ubicaciones[count($ubicaciones)-1];
+
+                        $datos[] = [
+                            "ubi_id" => $ubicacion->getId(),
+                            "ubi_nombre" => $ubicacion->getNombre(),
+                            "ubi_descripcion" => $ubicacion->getDescripcion()
+                        ];
+
                         response(201, true, "Ubicacion registrada correctamente.", $datos);
                     }
                 }
@@ -136,30 +141,32 @@ try {
         // ---------------------------------------- [ MODIFICAR ] 
         case 'PUT':
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
-            $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
+            $body = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
-            if (!is_array($datos)) {
+            if (!is_array($body)) {
                 // Sin JSON
                 response(400, false, "El cuerpo debe de tener un JSON válido.", []);
             } else {
-                if (!isset($datos["ubi_nombre"]) || !isset($datos["ubi_descripcion"])) {
+                if (!isset($body["ubi_id"]) || !isset($body["ubi_nombre"]) || !isset($body["ubi_descripcion"])) {
                     // Sin datos
                     response(400, false, "El JSON debe tener valores válidos.", []);
                 } else {
                     $ubicacion = new Ubicacion(
-                        $datos["ubi_id"],
-                        $datos["ubi_nombre"],
-                        $datos["ubi_descripcion"]
+                        $body["ubi_id"],
+                        $body["ubi_nombre"],
+                        $body["ubi_descripcion"]
                     );
-                    
-                    $datos[] = [
-                        "ubi_id" => $ubicacion->getId(),
-                        "ubi_nombre" => $ubicacion->getNombre(),
-                        "ubi_descripcion" => $ubicacion->getDescripcion()
-                    ];
 
                     if ($controller->editarUbicacion($ubicacion)) {
                         // Ubicacion editada correctamente
+                        $ubicacion = $controller->buscarUbicacionPorId($body["ubi_id"]);
+
+                        $datos[] = [
+                            "ubi_id" => $ubicacion->getId(),
+                            "ubi_nombre" => $ubicacion->getNombre(),
+                            "ubi_descripcion" => $ubicacion->getDescripcion()
+                        ];
+
                         response(200, true, "Ubicacion editada correctamente.", $datos);
                     }
                 }
@@ -191,6 +198,9 @@ try {
                         response(404, false, "Ubicacion no encontrada.", []);
                     }
                 }
+            } else {
+                // ERROR
+                response(400, false, "Sin parámetros válidos para la consulta.", []);
             }
 
             break;

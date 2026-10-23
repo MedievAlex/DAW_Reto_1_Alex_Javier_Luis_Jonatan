@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../styles/ubicaciones.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="../js/global.js" defer></script>
+    <script src="../js/historico_ubicacion.js" defer></script>
     <script src="../js/notificacion.js" defer></script>
     <script src="../js/ubicacion.js" defer></script>
     <script src="../js/usuario.js" defer></script>
@@ -87,9 +88,9 @@
                 <button id="btn_planta1">1ª PLANTA</button>
                 <button id="btn_planta2">2ª PLANTA</button>
             </div>
-            <!------------------------------------------------------------------------ [ARTICLE: Map 1 ] -->
-            <map name="map_planta1">
-                <!-- Return false para evitar que se refresque la página -->
+            <!------------------------------------------------------------------------ [ARTICLE: Planta 1 ] -->
+            <!-- Return false para evitar que se refresque la página -->
+            <!-- <map name="map_planta1">
                 <area id="aula101" class="habitacion" shape="rect" coords="11,57,164,366" href="" alt="Habitación 101."
                     onclick="abrirModalAula('101'); return false;" />
                 <area id="aula102" class="habitacion" shape="rect" coords="11,375,298,553" href="" alt="Habitación 102."
@@ -102,11 +103,34 @@
                     alt="Habitación 105." onclick="abrirModalAula('105'); return false;" />
             </map>
             <img id="img_planta1" class="visible" src="../assets/map/planta_1.jpg" usemap="#map_planta1"
-                alt="Image map" />
+                alt="Image map" /> -->
+            <table id="planta1">
+                <tbody>
+                    <tr>
+                        <td class="tg-xj23" colspan="2" rowspan="4">101</td>
+                        <td class="tg-w9kt" colspan="4" rowspan="4"></td>
+                        <td class="tg-xj23" colspan="4" rowspan="2">105</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td class="tg-xj23" colspan="4" rowspan="2">104</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td class="tg-xj23" colspan="4" rowspan="2">102</td>
+                        <td class="tg-w9kt" colspan="2" rowspan="2"></td>
+                        <td class="tg-xj23" colspan="4" rowspan="2">103</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
 
-            <!------------------------------------------------------------------------ [ARTICLE: Map 2 ] -->
-            <map name="map_planta2">
-                <!-- Return false para evitar que se refresque la página -->
+            <!------------------------------------------------------------------------ [ARTICLE: Planta 2 ] -->
+            <!-- Return false para evitar que se refresque la página -->
+            <!-- <map name="map_planta2">
                 <area id="aula201" class="habitacion" shape="rect" coords="11,57,164,365" href="" alt="Habitación 201"
                     onclick="abrirModalAula('201'); return false;" />
                 <area id="aula202" class="habitacion" shape="rect" coords="11,376,418,554" href="" alt="Habitación 202"
@@ -117,7 +141,30 @@
                     onclick="abrirModalAula('204'); return false;" />
             </map>
             <img id="img_planta2" class="oculto" src="../assets/map/planta_2.jpg" usemap="#map_planta2"
-                alt="Image map" />
+                alt="Image map" /> -->
+
+            <table id="planta2">
+                <tbody>
+                    <tr>
+                        <td class="tg-xj23" colspan="2" rowspan="4">201</td>
+                        <td class="tg-3rlw" colspan="4" rowspan="4"></td>
+                        <td class="tg-xj23" colspan="4" rowspan="2">204</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td class="tg-3k5v" colspan="4" rowspan="2"></td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td class="tg-xj23" colspan="6" rowspan="2">202</td>
+                        <td class="tg-xj23" colspan="4" rowspan="2">203</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
         </article>
 
         <!------------------------------------------------------------------------ [ASIDE: ] -->

@@ -17,17 +17,15 @@ class Historico_Ubicacion
      * @param int $his_equipamiento ID EQUIPAMIENTO del Historico Ubicacion
      * @param int $his_ubicacion ID UBICACION del Historico Ubicacion
      * @param DateTime $his_fecha_inicio FECHA INICIO del Historico Ubicacion
-     * @param DateTime $his_fecha_fin FECHA DIN del Historico Ubicacion
      * 
      * @author Alex
      */
-    public function __construct(int $his_id, int $his_equipamiento, int $his_ubicacion, DateTime $his_fecha_inicio, DateTime $his_fecha_fin)
+    public function __construct(int $his_id, int $his_equipamiento, int $his_ubicacion, DateTime $his_fecha_inicio)
     {
         $this->his_id = $his_id;
         $this->his_equipamiento = $his_equipamiento;
         $this->his_ubicacion = $his_ubicacion;
         $this->his_fecha_inicio = $his_fecha_inicio;
-        $this->his_fecha_fin = $his_fecha_fin;
     }
 
     // ---------------------------------------- [ GETTERS ]

@@ -35,7 +35,8 @@ class Historico_UbicacionDAO
         $resultado = $this->conexion->query($sql);
 
         while ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]), new DateTime($fila["fecha_fin"]));
+            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
             $historicos[] = $historico;
         }
 
@@ -63,7 +64,8 @@ class Historico_UbicacionDAO
         $resultado = $stmt->get_result();
 
         if ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]), new DateTime($fila["fecha_fin"]));
+            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
             return $historico;
         }
 
@@ -79,7 +81,7 @@ class Historico_UbicacionDAO
      * 
      * @author Alex
      */
-    public function cargarHistoricosDeEquipamiento(int $his_equipamiento): array
+    public function buscarHistoricosPorEquipamiento(int $his_equipamiento): array
     {
         $historicos = array();
         $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin
@@ -92,7 +94,38 @@ class Historico_UbicacionDAO
         $resultado = $stmt->get_result();
 
         while ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]), new DateTime($fila["fecha_fin"]));
+            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
+            $historicos[] = $historico;
+        }
+
+        return $historicos;
+    }
+
+    // ---------------------------------------- [ CARGAR HISTORICOS DE UBICACION ]
+    /**
+     * Función que obtiene los Historico Ubicacion de una Ubicacion.
+     *
+     * @param int $his_ubicacion ID de la Ubicacion a revisar sus Historico Ubicacion
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
+     * 
+     * @author Alex
+     */
+    public function buscarHistoricosPorUbicacion(int $his_ubicacion): array
+    {
+        $historicos = array();
+        $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin
+                    FROM historico_ubicaciones
+                    WHERE id_ubicacion = ?";
+
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param("i", $his_ubicacion);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        while ($fila = $resultado->fetch_assoc()) {
+            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
             $historicos[] = $historico;
         }
 
@@ -110,22 +143,20 @@ class Historico_UbicacionDAO
      */
     public function crearHistorico(Historico_Ubicacion $historico): bool
     {
-        $sql = "INSERT INTO historico_ubicaciones (id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin)
-                    VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO historico_ubicaciones (id_equipamiento, id_ubicacion, fecha_inicio)
+                    VALUES (?, ?, ?)";
 
         $stmt = $this->conexion->prepare($sql);
-        $his_id = $historico->getId();
+        //$his_id = $historico->getId();
         $his_equipamiento = $historico->getEquipamiento();
         $his_ubicacion = $historico->getUbicacion();
         $his_fecha_inicio = date_format($historico->getFechaInicio(), "Y-m-d H:i:s");
-        $his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
+        //$his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
         $stmt->bind_param(
-            "iiiss",
-            $his_id,
+            "iis",
             $his_equipamiento,
             $his_ubicacion,
-            $his_fecha_inicio,
-            $his_fecha_fin
+            $his_fecha_inicio
         );
 
         return $stmt->execute();

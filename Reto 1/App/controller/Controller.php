@@ -63,9 +63,22 @@ class Controller
      * 
      * @author Alex
      */
-    public function cargarHistoricosDeEquipamiento(int $his_equipamiento)
+    public function buscarHistoricosPorEquipamiento(int $his_equipamiento)
     {
-        return $this->his_dao->cargarHistoricosDeEquipamiento($his_equipamiento);
+        return $this->his_dao->buscarHistoricosPorEquipamiento($his_equipamiento);
+    }
+
+    /**
+     * Función que obtiene los Historico Ubicacion de una Ubicacion.
+     *
+     * @param int $his_ubicacion ID de la Ubicacion a revisar sus Historico Ubicacion
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
+     * 
+     * @author Alex
+     */
+    public function buscarHistoricosPorUbicacion(int $his_ubicacion)
+    {
+        return $this->his_dao->buscarHistoricosPorUbicacion($his_ubicacion);
     }
 
     /**
@@ -306,7 +319,6 @@ class Controller
             );
         }
     }
-    
 }
 
 ?>
