@@ -3,7 +3,7 @@ const HIS_URL = "../../api/Historico_UbicacionController.php";
 
 const btn_planta = document.getElementById("btn_planta1");
 
-btn_planta.addEventListener('click', buscarHistoricoPorId());
+btn_planta.addEventListener('click', cargarHistoricosDeUbicacion());
 
 /* ---------------------------------------- [FUNCIONES]*/
 async function petition(url, method, data) {
@@ -66,7 +66,7 @@ function buscarHistoricoPorId() {
 
     historico.then((value) => {
         console.log(value[0]);
-        alert(value[0].his_nombre);
+        alert(value[0]);
     });
 }
 
@@ -81,7 +81,22 @@ function cargarHistoricosDeEquipamiento() {
 
     historico.then((value) => {
         console.log(value[0]);
-        alert(value[0].ubi_nombre);
+        alert(value[0]);
+    });
+}
+
+// [ Pide un Historico Ubicacion mediante el ID UBICACION ]
+function cargarHistoricosDeUbicacion() {
+    let url = HIS_URL + "?his_ubicacion=" + 2;
+    let method = "GET";
+    let data = [];
+    let historico;
+
+    historico = petition(url, method, data);
+
+    historico.then((value) => {
+        console.log(value[0]);
+        alert(value[0]);
     });
 }
 
@@ -97,7 +112,7 @@ async function cargarHistoricos() {
     historicos.then((value) => {
         value.forEach(ubi => {
             console.log(ubi);
-            alert(ubi.ubi_nombre);
+            alert(ubi);
         });
     });
 }
@@ -118,7 +133,7 @@ async function crearHistorico() {
 
     historico.then((value) => {
         console.log(value[0]);
-        alert(value[0].ubi_nombre + " creado correctamente.");
+        alert(value[0] + " creado correctamente.");
     });
 }
 
@@ -138,7 +153,7 @@ async function crearHistorico() {
 
     historico.then((value) => {
         console.log(value[0]);
-        alert(value[0].ubi_nombre + " editado correctamente.");
+        alert(value[0] + " editado correctamente.");
     });
 }
 

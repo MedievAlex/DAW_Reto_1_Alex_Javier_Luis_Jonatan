@@ -69,6 +69,19 @@ class Controller
     }
 
     /**
+     * Función que obtiene los Historico Ubicacion de una Ubicacion.
+     *
+     * @param int $his_ubicacion ID de la Ubicacion a revisar sus Historico Ubicacion
+     * @return array $historicos Listado de los Historico Ubicacion obtenidos
+     * 
+     * @author Alex
+     */
+    public function cargarHistoricosDeUbicacion(int $his_ubicacion)
+    {
+        return $this->his_dao->cargarHistoricosDeUbicacion($his_ubicacion);
+    }
+
+    /**
      * Función que crea y registra un Historico Ubicacion nuevo.
      *
      * @param Historico_Ubicacion $historico Objeto a crear
@@ -306,7 +319,6 @@ class Controller
             );
         }
     }
-    
 }
 
 ?>
