@@ -63,9 +63,9 @@ class Controller
      * 
      * @author Alex
      */
-    public function cargarHistoricosDeEquipamiento(int $his_equipamiento)
+    public function buscarHistoricosPorEquipamiento(int $his_equipamiento)
     {
-        return $this->his_dao->cargarHistoricosDeEquipamiento($his_equipamiento);
+        return $this->his_dao->buscarHistoricosPorEquipamiento($his_equipamiento);
     }
 
     /**
@@ -76,9 +76,9 @@ class Controller
      * 
      * @author Alex
      */
-    public function cargarHistoricosDeUbicacion(int $his_ubicacion)
+    public function buscarHistoricosPorUbicacion(int $his_ubicacion)
     {
-        return $this->his_dao->cargarHistoricosDeUbicacion($his_ubicacion);
+        return $this->his_dao->buscarHistoricosPorUbicacion($his_ubicacion);
     }
 
     /**

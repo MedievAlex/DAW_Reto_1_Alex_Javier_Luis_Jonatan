@@ -81,7 +81,7 @@ class Historico_UbicacionDAO
      * 
      * @author Alex
      */
-    public function cargarHistoricosDeEquipamiento(int $his_equipamiento): array
+    public function buscarHistoricosPorEquipamiento(int $his_equipamiento): array
     {
         $historicos = array();
         $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin
@@ -111,7 +111,7 @@ class Historico_UbicacionDAO
      * 
      * @author Alex
      */
-    public function cargarHistoricosDeUbicacion(int $his_ubicacion): array
+    public function buscarHistoricosPorUbicacion(int $his_ubicacion): array
     {
         $historicos = array();
         $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin

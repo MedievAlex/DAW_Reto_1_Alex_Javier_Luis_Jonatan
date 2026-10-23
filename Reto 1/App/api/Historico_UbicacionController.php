@@ -76,7 +76,7 @@ try {
                     response(400, false, "Valor de EQUIPAMIENTO (ID) no válido.", []);
                 } else {
                     // Buscar Historico Ubicacion por EQUIPAMIENTO
-                    $historicos = $controller->cargarHistoricosDeEquipamiento($equ_id);
+                    $historicos = $controller->buscarHistoricosPorEquipamiento($equ_id);
                     $datos = [];
 
                     foreach ($historicos as $historico) {
@@ -100,7 +100,7 @@ try {
                     response(400, false, "Valor de UBICACION (ID) no válido.", []);
                 } else {
                     // Buscar Historico Ubicacion por UBICACION
-                    $historicos = $controller->cargarHistoricosDeUbicacion($ubi_id);
+                    $historicos = $controller->buscarHistoricosPorUbicacion($ubi_id);
                     $datos = [];
 
                     foreach ($historicos as $historico) {
