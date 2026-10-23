@@ -46,9 +46,57 @@ section article {
 }
 
 /* ---------------------------------------------- [ARTICLE: Map]*/
-#aula101:hover{
-    background:#8400ff;
-    display:block;
+#aula101:hover {
+    background: #8400ff;
+    display: block;
+}
+
+/* ---------------------------------------------- [ARTICLE: Tabla]*/
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table td {
+    border-color: black;
+    border-style: solid;
+    border-width: 0px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+}
+
+table th {
+    border-color: black;
+    border-style: solid;
+    border-width: 0px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+}
+
+table .tg-3rlw {
+    border-width: 0px 0px 1px 1px;
+    text-align: left;
+    vertical-align: top
+}
+
+table .tg-3k5v {
+    border-width: 1px 0px;
+    text-align: left;
+    vertical-align: top
+}
+
+table .tg-xj23 {
+    border-width: 1px;
+    text-align: left;
+    vertical-align: top
+}
+
+table .tg-w9kt {
+    border-width: 0px 0px 0px 1px;
+    text-align: left;
+    vertical-align: top
 }
 
 /* ---------------------------------------------- [ARTICLE: ScrollBar]*/

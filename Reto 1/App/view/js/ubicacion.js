@@ -3,8 +3,12 @@ const UBI_URL = "../../api/UbicacionController.php";
 
 const btn_planta1 = document.getElementById("btn_planta1");
 const btn_planta2 = document.getElementById("btn_planta2");
+
 const img_planta1 = document.getElementById("img_planta1");
 const img_planta2 = document.getElementById("img_planta2");
+
+const tbl_planta1 = document.getElementById("planta1");
+const tbl_planta2 = document.getElementById("planta2");
 
 const modalAula = document.getElementById("modalAula");
 const btnCerrarAula = document.getElementsByClassName("cerrar")[3]; // 0, 1 y 2 son del global.js
@@ -15,20 +19,20 @@ let equipamientos = document.getElementsByClassName("equipamientos");
 
 /* ---------------------------------------------- [Mostrar Planta 1]*/
 btn_planta1.addEventListener('click', function () {
-    img_planta1.classList.remove('oculto');
-    img_planta2.classList.remove('visible');
+    tbl_planta1.classList.remove('oculto');
+    tbl_planta2.classList.remove('visible');
 
-    img_planta1.classList.add('visible');
-    img_planta2.classList.add('oculto');
+    tbl_planta1.classList.add('visible');
+    tbl_planta2.classList.add('oculto');
 });
 
 /* ---------------------------------------------- [Mostrar Planta 2]*/
 btn_planta2.addEventListener('click', function () {
-    img_planta1.classList.remove('visible');
-    img_planta2.classList.remove('oculto');
+    tbl_planta1.classList.remove('visible');
+    tbl_planta2.classList.remove('oculto');
 
-    img_planta1.classList.add('oculto');
-    img_planta2.classList.add('visible');
+    tbl_planta1.classList.add('oculto');
+    tbl_planta2.classList.add('visible');
 });
 
 /* ---------------------------------------------- [MODAL: Aula]*/
