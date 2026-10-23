@@ -110,22 +110,21 @@ class Historico_UbicacionDAO
      */
     public function crearHistorico(Historico_Ubicacion $historico): bool
     {
-        $sql = "INSERT INTO historico_ubicaciones (id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin)
-                    VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO historico_ubicaciones (id_historico, id_equipamiento, id_ubicacion, fecha_inicio)
+                    VALUES (?, ?, ?, ?)";
 
         $stmt = $this->conexion->prepare($sql);
         $his_id = $historico->getId();
         $his_equipamiento = $historico->getEquipamiento();
         $his_ubicacion = $historico->getUbicacion();
         $his_fecha_inicio = date_format($historico->getFechaInicio(), "Y-m-d H:i:s");
-        $his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
+        //$his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
         $stmt->bind_param(
-            "iiiss",
+            "iiis",
             $his_id,
             $his_equipamiento,
             $his_ubicacion,
-            $his_fecha_inicio,
-            $his_fecha_fin
+            $his_fecha_inicio
         );
 
         return $stmt->execute();

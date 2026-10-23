@@ -161,7 +161,7 @@ async function crearUbicacion() {
     });
 }
 
-// [ Editar la Ubicacion ]
+// [ Editar la Ubicacion con los datos nuevos ]
 async function editarUbicacion() {
     let url = UBI_URL;
     let method = "PUT";

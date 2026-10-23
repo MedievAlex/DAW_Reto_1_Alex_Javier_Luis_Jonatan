@@ -41,9 +41,9 @@ try {
     switch ($method) {
         // ---------------------------------------- [ OBTENER ]  
         case 'GET':
-            if (isset($_GET["id"]) && !isset($_GET["equipamiento"])) {
+            if (isset($_GET["his_id"]) && !isset($_GET["his_equipamiento"])) {
                 // Buscar Historico Ubicacion por ID
-                $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
+                $id = filter_var($_GET["his_id"]); // Obtiene el valor de la variable de la peticion
 
                 if (empty($id) || !is_numeric($id) || $id <= 0) {
                     // ERROR
@@ -54,11 +54,11 @@ try {
 
                     if ($historico) { // Historico Ubicacion existe
                         $datos[] = [
-                            "id" => $historico->getId(),
-                            "equipamiento" => $historico->getEquipamiento(),
-                            "ubicacion" => $historico->getUbicacion(),
-                            "fecha_ini" => $historico->getFechaInicio(),
-                            "fecha_fin" => $historico->getFechaFin()
+                            "his_id" => $historico->getId(),
+                            "his_equipamiento" => $historico->getEquipamiento(),
+                            "his_ubicacion" => $historico->getUbicacion(),
+                            "his_fecha_ini" => $historico->getFechaInicio(),
+                            "his_fecha_fin" => $historico->getFechaFin()
                         ];
 
                         response(200, true, "Historico Ubicacion obtenido correctamente.", $datos);
@@ -67,9 +67,9 @@ try {
                         response(404, false, "Historico Ubicacion no encontrado.", []);
                     }
                 }
-            } elseif (isset($_GET["equipamiento"]) && !isset($_GET["id"])) {
+            } elseif (isset($_GET["his_equipamiento"]) && !isset($_GET["his_id"])) {
                 // Buscar Historico Ubicacion por Equipamiento
-                $equ_id = filter_var($_GET["equipamiento"]); // Obtiene el valor de la variable de la peticion
+                $equ_id = filter_var($_GET["his_equipamiento"]); // Obtiene el valor de la variable de la peticion
 
                 if (empty($equ_id) || !is_numeric($equ_id) || $equ_id <= 0) {
                     // ERROR
@@ -81,11 +81,11 @@ try {
 
                     foreach ($historicos as $historico) {
                         $datos[] = [
-                            "id" => $historico->getId(),
-                            "equipamiento" => $historico->getEquipamiento(),
-                            "ubicacion" => $historico->getUbicacion(),
-                            "fecha_ini" => $historico->getFechaInicio(),
-                            "fecha_fin" => $historico->getFechaFin()
+                            "his_id" => $historico->getId(),
+                            "his_equipamiento" => $historico->getEquipamiento(),
+                            "his_ubicacion" => $historico->getUbicacion(),
+                            "his_fecha_ini" => $historico->getFechaInicio(),
+                            "his_fecha_fin" => $historico->getFechaFin()
                         ];
                     }
 
@@ -98,11 +98,11 @@ try {
 
                 foreach ($historicos as $historico) {
                     $datos[] = [
-                        "id" => $historico->getId(),
-                        "equipamiento" => $historico->getEquipamiento(),
-                        "ubicacion" => $historico->getUbicacion(),
-                        "fecha_ini" => $historico->getFechaInicio(),
-                        "fecha_fin" => $historico->getFechaFin()
+                        "his_id" => $historico->getId(),
+                        "his_equipamiento" => $historico->getEquipamiento(),
+                        "his_ubicacion" => $historico->getUbicacion(),
+                        "his_fecha_ini" => $historico->getFechaInicio(),
+                        "his_fecha_fin" => $historico->getFechaFin()
                     ];
                 }
 
@@ -113,7 +113,6 @@ try {
 
         // ---------------------------------------- [ CREAR ]
         case 'POST':
-            /*
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
@@ -121,31 +120,35 @@ try {
                 // Sin JSON
                 response(400, false, "El cuerpo debe de tener un JSON válido.", []);
             } else {
-                if (!isset($datos["nombre"]) || !isset($datos["descripcion"])) {
+                if (!isset($datos["his_equipamiento"]) || !isset($datos["his_ubicacion"]) || !isset($datos["his_fecha_ini"])) {
                     // Sin datos
                     response(400, false, "El JSON debe tener valores válidos.", []);
                 } else {
                     $historico = new Historico_Ubicacion(
-                        $datos["id"],
-                        $datos["equipamiento"],
-                        $datos["ubicacion"],
-                        $datos["fecha_ini"],
-                        $datos["fecha_fin"]
+                        $datos["his_id"],
+                        $datos["his_equipamiento"],
+                        $datos["his_ubicacion"],
+                        $datos["his_fecha_ini"]
                     );
+
+                    $datos[] = [
+                        "his_id" => $historico->getId(),
+                        "his_equipamiento" => $historico->getEquipamiento(),
+                        "his_ubicacion" => $historico->getUbicacion(),
+                        "his_fecha_ini" => $historico->getFechaInicio()
+                    ];
 
                     if ($controller->crearHistorico($historico)) {
                         // Historico Ubicacion registrado correctamente
-                        response(201, true, "Historico Ubicacion registrado correctamente.", []);
+                        response(201, true, "Historico Ubicacion registrado correctamente.", $datos);
                     }
                 }
             }
-            */
+            
             break;
 
         // ---------------------------------------- [ MODIFICAR ] 
         case 'PUT':
-
-            /*
             $contenido = file_get_contents("php://input"); // Obtiene los datos del body de la petición
             $datos = json_decode($contenido, true); // Decodifica el JSON a un Array asociativo
 
@@ -153,30 +156,40 @@ try {
                 // Sin JSON
                 response(400, false, "El cuerpo debe de tener un JSON válido.", []);
             } else {
-                if (!isset($datos["nombre"]) || !isset($datos["descripcion"])) {
+                if (!isset($datos["his_nombre"]) || !isset($datos["his_descripcion"])) {
                     // Sin datos
                     response(400, false, "El JSON debe tener valores válidos.", []);
                 } else {
-                    $ubicacion = new Ubicacion(
-                        $datos["id"],
-                        $datos["nombre"],
-                        $datos["descripcion"]
+                    $historico = new Historico_Ubicacion(
+                        $datos["his_id"],
+                        $datos["his_equipamiento"],
+                        $datos["his_ubicacion"],
+                        $datos["his_fecha_ini"]
                     );
 
-                    if ($controller->editarUbicacion($ubicacion)) {
-                        // Ubicacion editada correctamente
-                        response(200, true, "Ubicacion editada correctamente.", []);
+                    $historico->setFechaFin($datos["his_fecha_fin"]);
+
+                    $datos[] = [
+                        "his_id" => $historico->getId(),
+                        "his_equipamiento" => $historico->getEquipamiento(),
+                        "his_ubicacion" => $historico->getUbicacion(),
+                        "his_fecha_ini" => $historico->getFechaInicio(),
+                        "his_fecha_fin" => $historico->getFechaFin()
+                    ];
+
+                    if ($controller->editarHistorico($historico)) {
+                        // Historico Ubicacion editado correctamente
+                        response(200, true, "Historico Ubicacion editado correctamente.", $datos);
                     }
                 }
             }
-            */
 
             break;
 
         // ---------------------------------------- [ ELIMINAR ]  
         case 'DELETE':
             if (isset($_GET["id"])) {
-                $id = filter_var($_GET["id"]); // Obtiene el valor de la variable de la peticion
+                $id = filter_var($_GET["his_id"]); // Obtiene el valor de la variable de la peticion
 
                 if (empty($id) || !is_numeric($id) || $id <= 0) {
                     // ERROR
