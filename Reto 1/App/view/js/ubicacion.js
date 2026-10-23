@@ -4,11 +4,13 @@ const UBI_URL = "../../api/UbicacionController.php";
 const btn_planta1 = document.getElementById("btn_planta1");
 const btn_planta2 = document.getElementById("btn_planta2");
 
-const img_planta1 = document.getElementById("img_planta1");
-const img_planta2 = document.getElementById("img_planta2");
+//const img_planta1 = document.getElementById("img_planta1");
+//const img_planta2 = document.getElementById("img_planta2");
 
 const tbl_planta1 = document.getElementById("planta1");
 const tbl_planta2 = document.getElementById("planta2");
+
+const aulas = document.querySelectorAll("aula");
 
 const modalAula = document.getElementById("modalAula");
 const btnCerrarAula = document.getElementsByClassName("cerrar")[3]; // 0, 1 y 2 son del global.js
@@ -98,6 +100,28 @@ async function petition(url, method, data) {
         return [];
     }
 }
+btn_planta1.addEventListener('click', cargarUbicaciones());
+
+// [ Pide el listado de todas las Ubicaciones ]
+async function cargarUbicaciones() {
+    let url = UBI_URL;
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
+
+    ubicaciones = petition(url, method, data);
+
+    ubicaciones.then((value) => {
+        value.forEach(ubi => {
+            console.log(ubi);
+            //alert(ubi.ubi_nombre);
+
+            for (let i = 0; i < ubicaciones.length; i++) {
+                aulas[i].innerText = ubi.ubi_nombre;
+            }
+        });
+    });
+}
 
 // [ Pide una Ubicacion mediante el ID ]
 function buscarUbicacionPorId() {
@@ -126,23 +150,6 @@ function buscarUbicacionPorNombre() {
     ubicacion.then((value) => {
         console.log(value[0]);
         alert(value[0].ubi_nombre);
-    });
-}
-
-// [ Pide el listado de todas las Ubicaciones ]
-async function cargarUbicaciones() {
-    let url = UBI_URL;
-    let method = "GET";
-    let data = [];
-    let ubicaciones;
-
-    ubicaciones = petition(url, method, data);
-
-    ubicaciones.then((value) => {
-        value.forEach(ubi => {
-            console.log(ubi);
-            alert(ubi.ubi_nombre);
-        });
     });
 }
 

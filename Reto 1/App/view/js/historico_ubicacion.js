@@ -1,10 +1,6 @@
 /* ---------------------------------------------- [Constantes]*/
 const HIS_URL = "../../api/Historico_UbicacionController.php";
 
-const btn_planta = document.getElementById("btn_planta1");
-
-btn_planta.addEventListener('click', cargarHistoricosDeUbicacion());
-
 /* ---------------------------------------- [FUNCIONES]*/
 async function petition(url, method, data) {
     try {
@@ -55,6 +51,23 @@ async function petition(url, method, data) {
     }
 }
 
+// [ Pide el listado de todos los Historico Ubicaciones ]
+async function cargarHistoricos() {
+    let url = HIS_URL;
+    let method = "GET";
+    let data = [];
+    let historicos;
+
+    historicos = petition(url, method, data);
+
+    historicos.then((value) => {
+        value.forEach(ubi => {
+            console.log(ubi);
+            alert(ubi);
+        });
+    });
+}
+
 // [ Pide un Historico Ubicacion mediante el ID ]
 function buscarHistoricoPorId() {
     let url = HIS_URL + "?his_id=" + 2;
@@ -97,23 +110,6 @@ function cargarHistoricosDeUbicacion() {
     historico.then((value) => {
         console.log(value[0]);
         alert(value[0]);
-    });
-}
-
-// [ Pide el listado de todos los Historico Ubicaciones ]
-async function cargarHistoricos() {
-    let url = HIS_URL;
-    let method = "GET";
-    let data = [];
-    let historicos;
-
-    historicos = petition(url, method, data);
-
-    historicos.then((value) => {
-        value.forEach(ubi => {
-            console.log(ubi);
-            alert(ubi);
-        });
     });
 }
 

@@ -45,28 +45,13 @@ section article {
     margin: 20px;
 }
 
-/* ---------------------------------------------- [ARTICLE: Map]*/
-#aula101:hover {
-    background: #8400ff;
-    display: block;
-}
-
 /* ---------------------------------------------- [ARTICLE: Tabla]*/
 table {
     border-collapse: collapse;
     border-spacing: 0;
 }
 
-table td {
-    border-color: black;
-    border-style: solid;
-    border-width: 0px;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-}
-
-table th {
+table td, th {
     border-color: black;
     border-style: solid;
     border-width: 0px;
@@ -78,8 +63,17 @@ table th {
 table .aula {
     border-width: 1px;
     text-align: left;
-    vertical-align: top
+    vertical-align: top;
 }
+
+table .aula:hover {
+    background-color: var(--primary-color-3);
+    border: 2px solid var(--primary-color-1);
+    text-align: left;
+    vertical-align: top;
+}
+
+
 
 /* ---------------------------------------------- [ARTICLE: ScrollBar]*/
 .scroll {
