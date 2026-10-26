@@ -1,16 +1,7 @@
 /* ---------------------------------------------- [Constantes]*/
 const UBI_URL = "../../api/UbicacionController.php";
 
-const btn_planta1 = document.getElementById("btn_planta1");
-const btn_planta2 = document.getElementById("btn_planta2");
-
-//const img_planta1 = document.getElementById("img_planta1");
-//const img_planta2 = document.getElementById("img_planta2");
-
-const tbl_planta1 = document.getElementById("planta1");
-const tbl_planta2 = document.getElementById("planta2");
-
-const aulas = document.querySelectorAll("aula");
+const tbody_ubicaciones = document.querySelector("#ubicaciones tbody");
 
 const modalAula = document.getElementById("modalAula");
 const btnCerrarAula = document.getElementsByClassName("cerrar")[3]; // 0, 1 y 2 son del global.js
@@ -18,24 +9,6 @@ let nombreAula = document.getElementById("nombreAula");
 let descripcionAula = document.getElementById("descripcionAula");
 
 let equipamientos = document.getElementsByClassName("equipamientos");
-
-/* ---------------------------------------------- [Mostrar Planta 1]*/
-btn_planta1.addEventListener('click', function () {
-    tbl_planta1.classList.remove('oculto');
-    tbl_planta2.classList.remove('visible');
-
-    tbl_planta1.classList.add('visible');
-    tbl_planta2.classList.add('oculto');
-});
-
-/* ---------------------------------------------- [Mostrar Planta 2]*/
-btn_planta2.addEventListener('click', function () {
-    tbl_planta1.classList.remove('visible');
-    tbl_planta2.classList.remove('oculto');
-
-    tbl_planta1.classList.add('oculto');
-    tbl_planta2.classList.add('visible');
-});
 
 /* ---------------------------------------------- [MODAL: Aula]*/
 // Abrir modal
@@ -47,11 +20,15 @@ function abrirModalAula(aulaNum) {
 }
 
 // Cerrar modal
-btnCerrarAula.addEventListener('click', function () {
+btnCerrarAula.addEventListener("click", function () {
     modalAula.style.display = "none";
 });
 
 /* ---------------------------------------- [FUNCIONES]*/
+document.addEventListener("DOMContentLoaded", () => {
+    cargarUbicaciones();
+});
+
 async function petition(url, method, data) {
     try {
         if (method == "GET") {
@@ -100,7 +77,6 @@ async function petition(url, method, data) {
         return [];
     }
 }
-btn_planta1.addEventListener('click', cargarUbicaciones());
 
 // [ Pide el listado de todas las Ubicaciones ]
 async function cargarUbicaciones() {
@@ -109,16 +85,67 @@ async function cargarUbicaciones() {
     let data = [];
     let ubicaciones;
 
+    let srcOpen = "../assets/icons/icon_drop_open.png";
+    let srcClosed = "../assets/icons/icon_drop_closed.png";
+
     ubicaciones = petition(url, method, data);
 
     ubicaciones.then((value) => {
         value.forEach(ubi => {
             console.log(ubi);
-            //alert(ubi.ubi_nombre);
 
-            for (let i = 0; i < ubicaciones.length; i++) {
-                aulas[i].innerText = ubi.ubi_nombre;
-            }
+            let tr_ubi = document.createElement("tr");// Nueva Ubicacion
+
+            const ubi_nombre = document.createElement("td"); // Nombre
+            ubi_nombre.textContent = ubi.ubi_nombre;
+
+            const ubi_descripcion = document.createElement("td"); // Descripcion
+            ubi_descripcion.textContent = ubi.ubi_descripcion;
+
+            const ubi_btn = document.createElement("td"); // Botones mostrar y ocultar Equipamientos
+            const btn_open = document.createElement("button");
+            btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+            const img_open = document.createElement("img");
+            img_open.src = srcClosed;
+            btn_open.appendChild(img_open);
+            btn_open.classList.add("boton-xs");
+
+            const btn_close = document.createElement("button");
+            btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+            const btn_img = document.createElement("img");
+            btn_img.src = srcOpen;
+            btn_close.appendChild(btn_img);
+            btn_close.classList.add("boton-xs");
+            btn_close.classList.add("oculto");
+
+            // [ Muestra los Equipamientos de la ubicacion ]
+            btn_open.addEventListener("click", () => {
+                btn_open.classList.remove("visible");
+                btn_open.classList.add("oculto");
+
+                btn_close.classList.remove("oculto");
+                btn_close.classList.add("visible");
+            });
+
+            // [ Oculta los Equipamientos de la ubicacion ]
+            btn_close.addEventListener("click", () => {
+                btn_close.classList.remove("visible");
+                btn_close.classList.add("oculto");
+
+                btn_open.classList.remove("oculto");
+                btn_open.classList.add("visible");
+            });
+
+            ubi_btn.appendChild(btn_open);
+            ubi_btn.appendChild(btn_close);
+
+            tr_ubi.appendChild(ubi_nombre);
+            tr_ubi.appendChild(ubi_descripcion);
+            tr_ubi.appendChild(ubi_btn);
+
+            tr_ubi.classList.add("aula");
+
+            tbody_ubicaciones.appendChild(tr_ubi);
         });
     });
 }

@@ -1,9 +1,9 @@
 /* ---------------------------------------------- [VARIABLES]*/
 :root {
     /* ---------------------------------------------- [VARIABLES: Colores]*/
-    --primary-color-1: #FCA044;
-    --primary-color-2: #FFD857;
-    --primary-color-3: #57A3FF;
+    --color-primario: #FFD857;
+    --color-secundario: #FCA044;
+    --color-acento: #57A3FF;
 
     --color-black: #061930;
     --color-white: #fffef4;
@@ -47,33 +47,30 @@ section article {
 
 /* ---------------------------------------------- [ARTICLE: Tabla]*/
 table {
+    width: 50%;
+
     border-collapse: collapse;
     border-spacing: 0;
+
+    table-layout: fixed;
 }
 
 table td, th {
-    border-color: black;
-    border-style: solid;
-    border-width: 0px;
-    overflow: hidden;
+    text-align: left;
+    
     padding: 10px 5px;
+
+    border-color: 1px solid black;
+    
     word-break: normal;
 }
 
-table .aula {
-    border-width: 1px;
-    text-align: left;
-    vertical-align: top;
-}
-
 table .aula:hover {
-    background-color: var(--primary-color-3);
-    border: 2px solid var(--primary-color-1);
+    background-color: var(--color-secundario);
+    border: 2px solid var(--color-acento);
     text-align: left;
     vertical-align: top;
 }
-
-
 
 /* ---------------------------------------------- [ARTICLE: ScrollBar]*/
 .scroll {
@@ -102,7 +99,7 @@ table .aula:hover {
 }
 
 .equipamiento {
-    background-color: var(--primary-color-3);
+    background-color: var(--color-acento);
 
     display: flex;
     flex-wrap: wrap;
@@ -115,15 +112,15 @@ table .aula:hover {
 }
 
 .equipamiento:hover {
-    background-color: var(--primary-color-1);
+    background-color: var(--color-secundario);
 
-    border: 2px var(--primary-color-1) solid;
+    border: 2px var(--color-secundario) solid;
 
     cursor: pointer;
 }
 
 .equipamiento:active {
-    border: 2px solid var(--primary-color-3);
+    border: 2px solid var(--color-acento);
 }
 
 #equipo_nombre,
@@ -190,5 +187,5 @@ table .aula:hover {
 
 .boton-editar:focus,
 .boton-eliminar:focus {
-    border: 2px var(--primary-color-2) solid;
+    border: 2px var(--color-primario) solid;
 }

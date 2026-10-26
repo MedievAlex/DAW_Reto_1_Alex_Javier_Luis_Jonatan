@@ -16,12 +16,12 @@ const btnCerrarPerfil = document.getElementsByClassName("cerrar")[2];
 
 /* ---------------------------------------------- [MODAL: Ajustes]*/
 // Abrir modal
-btnAjustes.addEventListener('click', function () {
+btnAjustes.addEventListener("click", function () {
   modalAjustes.style.display = "block";
 });
 
 // Cerrar modal
-btnCerrarAjustes.addEventListener('click', function () {
+btnCerrarAjustes.addEventListener("click", function () {
   modalAjustes.style.display = "none";
 });
 
@@ -40,38 +40,38 @@ function aplicarTema() {
   }
 }
 
-btnTemaDefault.addEventListener('click', function () {
+btnTemaDefault.addEventListener("click", function () {
   document.documentElement.classList.toggle(temaOscuro);
 
   const isDark = document.documentElement.classList.contains(temaOscuro);
 
   if (isDark) {
-    localStorage.setItem('tema', temaOscuro);
+    localStorage.setItem("tema", temaOscuro);
     document.documentElement.classList.add(temaOscuro);
   } else {
-    localStorage.setItem('tema', temaClaro);
+    localStorage.setItem("tema", temaClaro);
     document.documentElement.classList.add(temaClaro);
   }
 });
 
 /* ---------------------------------------------- [MODAL: Notificaciones]*/
 // Abrir modal
-btnNotificaciones.addEventListener('click', function () {
+btnNotificaciones.addEventListener("click", function () {
   modalNotificaciones.style.display = "block";
 });
 
 // Cerrar modal
-btnCerrarNotificaciones.addEventListener('click', function () {
+btnCerrarNotificaciones.addEventListener("click", function () {
   modalNotificaciones.style.display = "none";
 });
 
 /* ---------------------------------------------- [MODAL: Perfil]*/
 // Abrir modal
-btnPerfil.addEventListener('click', function () {
+btnPerfil.addEventListener("click", function () {
   modalPerfil.style.display = "block";
 });
 
 // Cerrar modal
-btnCerrarPerfil.addEventListener('click', function () {
+btnCerrarPerfil.addEventListener("click", function () {
   modalPerfil.style.display = "none";
 });
