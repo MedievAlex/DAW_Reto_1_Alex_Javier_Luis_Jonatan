@@ -4,42 +4,6 @@
     --border-radious-value: 10px;
 }
 
-/*
-:root {
-    --primary-color-1: #FCA044;
-    --primary-color-2: #FFD857;
-    --primary-color-3: #57A3FF;
-    --primary-color-3-s: #5681b7;
-
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
-
-    --butto-text-size: 30px;
-    --border-radious-value: 10px;
-}
-
-:root.oscuro {
-    --primary-color-1: #538a48;
-    --primary-color-2: #EDBC55;
-    --primary-color-3: #543c5f;
-
-    --color-black: #fffef4;
-    --color-white: #061930;
-    --color-grey: #8697ac;
-}
-
-:root.global {
-    --primary-color-1: #F5254B;
-    --primary-color-2: #D1D1D1;
-    --primary-color-3: #3F34C7;
-
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
-}
-*/
-
 /* ---------------------------------------------- [MEDIA QUERIES]*/
 
 
@@ -223,6 +187,8 @@ nav a {
     background: linear-gradient(0deg, var(--color-acento-sombra), var(--color-acento));
     border: 2px solid linear-gradient(0deg, var(--color-acento-sombra), var(--color-acento));
 
+    align-items: center;
+
     color: var(--texto-acento);
     font-size: var(--butto-text-size);
     text-align: center;
@@ -236,6 +202,11 @@ nav a {
     margin-bottom: 10px;
 
     cursor: pointer;
+}
+
+nav a img{
+    width: 10vh;
+    height: 10vh;
 }
 
 nav img {

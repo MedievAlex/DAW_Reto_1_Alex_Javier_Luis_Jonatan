@@ -34,12 +34,12 @@ table {
     table-layout: fixed;
 }
 
-table td {
-    text-transform: capitalize;
+table th {
+    text-transform: uppercase;
     text-align: center;
 }
 
-table td, th {
+table td {
     text-align: left;
     
     padding: 10px 5px;
