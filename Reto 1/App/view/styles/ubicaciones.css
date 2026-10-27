@@ -34,6 +34,11 @@ table {
     table-layout: fixed;
 }
 
+table td {
+    text-transform: capitalize;
+    text-align: center;
+}
+
 table td, th {
     text-align: left;
     
@@ -47,8 +52,8 @@ table td, th {
 table .aula:hover {
     background-color: var(--color-secundario);
     border: 2px solid var(--color-acento);
+
     text-align: left;
-    vertical-align: top;
 }
 
 /* ---------------------------------------------- [ARTICLE: ScrollBar]*/
@@ -109,6 +114,7 @@ table .aula:hover {
 
 .equ-inf{
     display: flex;
+    align-items: center;
     flex-grow: 1;
     flex-wrap: wrap;
     flex-direction: row;
@@ -154,4 +160,8 @@ table .aula:hover {
 .equ-btn{
     display: flex;
     flex-direction: row;
+}
+
+.equ-btn button{
+    margin: 2px;
 }
