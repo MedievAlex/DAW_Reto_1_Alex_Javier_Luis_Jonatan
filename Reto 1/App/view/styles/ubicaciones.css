@@ -29,8 +29,6 @@ section {
     padding: 10px;
 
     flex-direction: row;
-    justify-content: space-ar;
-    align-items: center;
 }
 
 /* ---------------------------------------------- [SECTION: Plantas]*/
@@ -47,8 +45,6 @@ section article {
 
 /* ---------------------------------------------- [ARTICLE: Tabla]*/
 table {
-    width: 50%;
-
     border-collapse: collapse;
     border-spacing: 0;
 
@@ -76,7 +72,7 @@ table .aula:hover {
 .scroll {
     padding-right: 10vh;
 
-    width: 100%;
+    width: 50%;
     height: 80vh;
 
     overflow: hidden;
@@ -84,8 +80,10 @@ table .aula:hover {
 
 .equipamientos {
     height: 100%;
+    width: 50%;
 
     padding: 10px;
+    padding-right: 10vh;
 
     border: none;
     border-radius: var(--border-radious-value);
@@ -98,11 +96,14 @@ table .aula:hover {
     box-sizing: border-box;
 }
 
+/* ---------------------------------------------- [ARTICLE: Equipamiento]*/
 .equipamiento {
     background-color: var(--color-acento);
 
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
 
     padding: 10px;
 
@@ -123,20 +124,7 @@ table .aula:hover {
     border: 2px solid var(--color-acento);
 }
 
-#equipo_nombre,
-#equipo_marca,
-#equipo_modelo {
-    display: none;
-}
-
-/* ---------------------------------------------- [ARTICLE: Equipamiento]*/
-.equipamiento {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.equipamiento img {
+.equipamiento .img-categoria {
     min-width: 95px;
     min-height: 95px;
 
@@ -166,26 +154,8 @@ table .aula:hover {
     font-style: oblique;
 }
 
-/* ---------------------------------------------- [EQUIPAMIENTO: Botones]*/
-.boton-editar,
-.boton-eliminar {
-    width: 50px;
-    height: 50px;
-
-    padding: 10px;
-
-    border-radius: 50%;
-
-    cursor: pointer;
-}
-
-.boton-editar img,
-.boton-eliminar img {
-    width: 100%;
-    height: 100%;
-}
-
-.boton-editar:focus,
-.boton-eliminar:focus {
-    border: 2px var(--color-primario) solid;
+#equipo_nombre,
+#equipo_marca,
+#equipo_modelo {
+    display: none;
 }
