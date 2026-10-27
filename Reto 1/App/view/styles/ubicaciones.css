@@ -1,20 +1,3 @@
-/* ---------------------------------------------- [VARIABLES]*/
-:root {
-    /* ---------------------------------------------- [VARIABLES: Colores]*/
-    --color-primario: #FFD857;
-    --color-secundario: #FCA044;
-    --color-acento: #57A3FF;
-
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
-
-    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
-    --title-text-size: 20px;
-    --button-text-size: 30px;
-    --border-radious-value: 10px;
-}
-
 /* ---------------------------------------------- [MEDIA QUERIES]*/
 @media only screen and (max-width: 1024px) {
     section {
@@ -78,7 +61,7 @@ table .aula:hover {
     overflow: hidden;
 }
 
-.equipamientos {
+#equipamientos {
     height: 100%;
     width: 50%;
 
@@ -166,4 +149,9 @@ table .aula:hover {
 #equ-mar,
 #equ-mod {
     display: none;
+}
+
+.equ-btn{
+    display: flex;
+    flex-direction: row;
 }

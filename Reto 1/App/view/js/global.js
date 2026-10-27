@@ -2,9 +2,14 @@
 const btnAjustes = document.getElementById("boton-ajustes");
 const modalAjustes = document.getElementById("modalAjustes");
 const btnCerrarAjustes = document.getElementsByClassName("cerrar")[0];
+
 const btnTemaDefault = document.getElementById("btnTemaDefault");
-const temaClaro = "claro";
-const temaOscuro = "oscuro";
+const btnTemaAlt = document.getElementById("btnTemaAlt");
+const btnTemaGlobal = document.getElementById("btnTemaGlobal");
+
+const tema1 = "1";
+const tema2 = "2";
+const tema3 = "3";
 
 const btnNotificaciones = document.getElementById("boton-notificaciones");
 const modalNotificaciones = document.getElementById("modalNotificaciones");
@@ -26,32 +31,37 @@ btnCerrarAjustes.addEventListener("click", function () {
 });
 
 /* ---------------------------------------------- [Cambiar tema]*/
-aplicarTema();
+document.addEventListener("DOMContentLoaded", () => {
+    obtenerTema();
+});
 
-function aplicarTema() {
+function obtenerTema() {
   let temaActual = localStorage.getItem("tema");
 
-  if (temaActual == "oscuro") {
-    localStorage.setItem("tema", temaOscuro);
-    document.documentElement.classList.add(temaOscuro);
+  if (temaActual == 3) {
+    aplicarTema(tema3);
+  } else if (temaActual == 2) {
+    aplicarTema(tema2);
   } else {
-    localStorage.setItem("tema", temaClaro);
-    document.documentElement.classList.add(temaClaro);
+    aplicarTema(tema1);
   }
 }
 
+function aplicarTema(tema) {
+  localStorage.setItem("tema", tema);
+  document.body.setAttribute("data-theme", tema);
+}
+
 btnTemaDefault.addEventListener("click", function () {
-  document.documentElement.classList.toggle(temaOscuro);
+  aplicarTema(1);
+});
 
-  const isDark = document.documentElement.classList.contains(temaOscuro);
+btnTemaAlt.addEventListener("click", function () {
+  aplicarTema(2);
+});
 
-  if (isDark) {
-    localStorage.setItem("tema", temaOscuro);
-    document.documentElement.classList.add(temaOscuro);
-  } else {
-    localStorage.setItem("tema", temaClaro);
-    document.documentElement.classList.add(temaClaro);
-  }
+btnTemaGlobal.addEventListener("click", function () {
+  aplicarTema(3);
 });
 
 /* ---------------------------------------------- [MODAL: Notificaciones]*/

@@ -1,5 +1,11 @@
 /* ---------------------------------------------- [VARIABLES]*/
 :root {
+    --butto-text-size: 30px;
+    --border-radious-value: 10px;
+}
+
+/*
+:root {
     --primary-color-1: #FCA044;
     --primary-color-2: #FFD857;
     --primary-color-3: #57A3FF;
@@ -23,7 +29,6 @@
     --color-grey: #8697ac;
 }
 
-/*
 :root.global {
     --primary-color-1: #F5254B;
     --primary-color-2: #D1D1D1;
@@ -94,12 +99,43 @@
     display: none;
 }
 
-/* ---------------------------------------------- [BODY]*/
+/* ---------------------------------------------- [HTML]*/
 html {}
 
 /* ---------------------------------------------- [BODY]*/
+body[data-theme="1"] {
+    --color-primario: #FFD857;
+    --color-secundario: #FCA044;
+    --color-acento: #57A3FF;
+
+    --color-black: #061930;
+    --color-white: #fffef4;
+    --color-grey: #8697ac;
+}
+
+body[data-theme="2"] {
+    --color-primario: #EDBC55;
+    --color-secundario: #538a48;
+    --color-acento: #543c5f;
+
+    --color-black: #fffef4;
+    --color-white: #061930;
+    --color-grey: #8697ac;
+
+}
+
+body[data-theme="3"] {
+    --color-primario: #D1D1D1;
+    --color-secundario: #F5254B;
+    --color-acento: #3F34C7;
+
+    --color-black: #061930;
+    --color-white: #fffef4;
+    --color-grey: #8697ac;
+}
+
 body {
-    background-color: var(--primary-color-2);
+    background-color: var(--color-primario);
 
     font-family: Bahnschrift;
 
@@ -111,7 +147,7 @@ body {
 
 /* ---------------------------------------------- [BUTTONS]*/
 button {
-    background-color: var(--primary-color-3);
+    background-color: var(--color-acento);
     color: var(--color-black);
 
     border: none;
@@ -139,12 +175,12 @@ button {
 }
 
 .boton-xs:focus {
-    border: 2px var(--primary-color-2) solid;
+    border: 2px var(--color-primario) solid;
 }
 
 /* ---------------------------------------------- [HEADER]*/
 header {
-    background-color: var(--primary-color-1);
+    background-color: var(--color-secundario);
 
     width: 100%;
 }
@@ -158,7 +194,7 @@ header img {
 
 /* ---------------------------------------------- [NAV]*/
 nav {
-    background-color: var(--primary-color-1);
+    background-color: var(--color-secundario);
 
     display: flex;
 
@@ -169,8 +205,8 @@ nav {
 
 /* ---------------------------------------------- [NAV: Cabecera]*/
 nav a {
-    background: linear-gradient(0deg, var(--primary-color-3-s), var(--primary-color-3));
-    border: 2px solid linear-gradient(0deg, var(--primary-color-3-s), var(--primary-color-3));
+    background: linear-gradient(0deg, var(--color-white), var(--color-acento));
+    border: 2px solid linear-gradient(0deg, var(--color-white), var(--color-acento));
 
     color: var(--color-black);
     font-size: var(--butto-text-size);
@@ -194,13 +230,13 @@ nav img {
 
 nav a:hover,
 nav a:focus {
-    background-color: var(--primary-color-2);
-    border: 2px solid var(--primary-color-2);
+    background-color: var(--color-primario);
+    border: 2px solid var(--color-primario);
 }
 
 nav a:active {
-    background-color: var(--primary-color-1);
-    border: 2px solid var(--primary-color-1);
+    background-color: var(--color-secundario);
+    border: 2px solid var(--color-secundario);
 }
 
 /* ---------------------------------------------- [NAV: Botones]*/
@@ -261,7 +297,7 @@ nav .boton-xs {
 }
 
 .modalContenido {
-    background-color: var(--primary-color-2);
+    background-color: var(--color-primario);
 
     width: 80%;
 
@@ -291,7 +327,7 @@ nav .boton-xs {
 
 /* ---------------------------------------------- [FOOTER]*/
 footer {
-    background-color: var(--primary-color-1);
+    background-color: var(--color-secundario);
 
     display: flex;
     justify-content: center;
