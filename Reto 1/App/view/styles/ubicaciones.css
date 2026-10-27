@@ -97,7 +97,7 @@ table .aula:hover {
 }
 
 /* ---------------------------------------------- [ARTICLE: Equipamiento]*/
-.equipamiento {
+.equ {
     background-color: var(--color-acento);
 
     display: flex;
@@ -112,7 +112,7 @@ table .aula:hover {
     margin: 10px;
 }
 
-.equipamiento:hover {
+.equ:hover {
     background-color: var(--color-secundario);
 
     border: 2px var(--color-secundario) solid;
@@ -120,11 +120,18 @@ table .aula:hover {
     cursor: pointer;
 }
 
-.equipamiento:active {
+.equ:active {
     border: 2px solid var(--color-acento);
 }
 
-.equipamiento .img-categoria {
+.equ-inf{
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.equ-inf .equ-img {
     min-width: 95px;
     min-height: 95px;
 
@@ -134,28 +141,29 @@ table .aula:hover {
     border-radius: 50%;
 }
 
-.equipamiento .detalles {
+.equ-inf .det {
     margin: 10px;
 
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.detalles .nombre_equipo {
+.det-inf .equ-nom {
     width: 100%;
 
     font-weight: bold;
 }
 
-.detalles .detalles_equipo {
+.det .equ_det {
     width: 100%;
 
     font-style: oblique;
 }
 
-#equipo_nombre,
-#equipo_marca,
-#equipo_modelo {
+#equ-nom,
+#equ-mar,
+#equ-mod {
     display: none;
 }
