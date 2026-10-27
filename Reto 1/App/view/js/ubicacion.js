@@ -1,39 +1,14 @@
 /* ---------------------------------------------- [Constantes]*/
 const UBI_URL = "../../api/UbicacionController.php";
 
-const btn_planta1 = document.getElementById("btn_planta1");
-const btn_planta2 = document.getElementById("btn_planta2");
-
-const img_planta1 = document.getElementById("img_planta1");
-const img_planta2 = document.getElementById("img_planta2");
-
-const tbl_planta1 = document.getElementById("planta1");
-const tbl_planta2 = document.getElementById("planta2");
+const tbody_ubicaciones = document.querySelector("#ubicaciones table tbody");
 
 const modalAula = document.getElementById("modalAula");
 const btnCerrarAula = document.getElementsByClassName("cerrar")[3]; // 0, 1 y 2 son del global.js
 let nombreAula = document.getElementById("nombreAula");
 let descripcionAula = document.getElementById("descripcionAula");
 
-let equipamientos = document.getElementsByClassName("equipamientos");
-
-/* ---------------------------------------------- [Mostrar Planta 1]*/
-btn_planta1.addEventListener('click', function () {
-    tbl_planta1.classList.remove('oculto');
-    tbl_planta2.classList.remove('visible');
-
-    tbl_planta1.classList.add('visible');
-    tbl_planta2.classList.add('oculto');
-});
-
-/* ---------------------------------------------- [Mostrar Planta 2]*/
-btn_planta2.addEventListener('click', function () {
-    tbl_planta1.classList.remove('visible');
-    tbl_planta2.classList.remove('oculto');
-
-    tbl_planta1.classList.add('oculto');
-    tbl_planta2.classList.add('visible');
-});
+let equipamientos = document.getElementById("equipamientos");
 
 /* ---------------------------------------------- [MODAL: Aula]*/
 // Abrir modal
@@ -45,11 +20,15 @@ function abrirModalAula(aulaNum) {
 }
 
 // Cerrar modal
-btnCerrarAula.addEventListener('click', function () {
+btnCerrarAula.addEventListener("click", function () {
     modalAula.style.display = "none";
 });
 
 /* ---------------------------------------- [FUNCIONES]*/
+document.addEventListener("DOMContentLoaded", () => {
+    cargarUbicaciones();
+});
+
 async function petition(url, method, data) {
     try {
         if (method == "GET") {
@@ -99,6 +78,82 @@ async function petition(url, method, data) {
     }
 }
 
+// [ Pide el listado de todas las Ubicaciones ]
+async function cargarUbicaciones() {
+    let url = UBI_URL;
+    let method = "GET";
+    let data = [];
+    let ubicaciones;
+
+    let srcOpen = "../assets/icons/icon_drop_open.png";
+    let srcClosed = "../assets/icons/icon_drop_closed.png";
+
+    ubicaciones = petition(url, method, data);
+
+    ubicaciones.then((value) => {
+        value.forEach(ubi => {
+            console.log(ubi);
+
+            let tr_ubi = document.createElement("tr");// Nueva Ubicacion
+
+            const ubi_nombre = document.createElement("td"); // Nombre
+            ubi_nombre.textContent = ubi.ubi_nombre;
+
+            const ubi_descripcion = document.createElement("td"); // Descripcion
+            ubi_descripcion.textContent = ubi.ubi_descripcion;
+
+            const ubi_btn = document.createElement("td"); // Botones mostrar y ocultar Equipamientos
+            const btn_open = document.createElement("button");
+            btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+            const img_open = document.createElement("img");
+            img_open.src = srcClosed;
+            btn_open.appendChild(img_open);
+            btn_open.classList.add("boton-xs");
+
+            const btn_close = document.createElement("button");
+            btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+            const btn_img = document.createElement("img");
+            btn_img.src = srcOpen;
+            btn_close.appendChild(btn_img);
+            btn_close.classList.add("boton-xs");
+            btn_close.classList.add("oculto");
+
+            // [ Muestra los Equipamientos de la ubicacion ]
+            btn_open.addEventListener("click", () => {
+                btn_open.classList.remove("visible");
+                btn_open.classList.add("oculto");
+
+                btn_close.classList.remove("oculto");
+                btn_close.classList.add("visible");
+
+                // cargarEquiposDeUbicacion();
+            });
+
+            // [ Oculta los Equipamientos de la ubicacion ]
+            btn_close.addEventListener("click", () => {
+                btn_close.classList.remove("visible");
+                btn_close.classList.add("oculto");
+
+                btn_open.classList.remove("oculto");
+                btn_open.classList.add("visible");
+
+                limpiarEquiposDeUbicacion();
+            });
+
+            ubi_btn.appendChild(btn_open);
+            ubi_btn.appendChild(btn_close);
+
+            tr_ubi.appendChild(ubi_nombre);
+            tr_ubi.appendChild(ubi_descripcion);
+            tr_ubi.appendChild(ubi_btn);
+
+            tr_ubi.classList.add("aula");
+
+            tbody_ubicaciones.appendChild(tr_ubi);
+        });
+    });
+}
+
 // [ Pide una Ubicacion mediante el ID ]
 function buscarUbicacionPorId() {
     let url = UBI_URL + "?ubi_id=" + 2;
@@ -126,23 +181,6 @@ function buscarUbicacionPorNombre() {
     ubicacion.then((value) => {
         console.log(value[0]);
         alert(value[0].ubi_nombre);
-    });
-}
-
-// [ Pide el listado de todas las Ubicaciones ]
-async function cargarUbicaciones() {
-    let url = UBI_URL;
-    let method = "GET";
-    let data = [];
-    let ubicaciones;
-
-    ubicaciones = petition(url, method, data);
-
-    ubicaciones.then((value) => {
-        value.forEach(ubi => {
-            console.log(ubi);
-            alert(ubi.ubi_nombre);
-        });
     });
 }
 
@@ -197,4 +235,100 @@ async function eliminarUbicacion() {
         console.log(value[0].message);
         alert(value[0].message);
     });
+}
+
+// [ Pide el listado de los equipos de una Ubicacion ]
+async function cargarEquiposDeUbicacion() {
+    let url = UBI_URL;
+    let method = "GET";
+    let data = [];
+    let equipamientos;
+
+    let srcEdit = "../assets/icons/icon_editar.png";
+    let srcSave = "../assets/icons/icon_guardar.png";
+    let srcDel = "../assets/icons/icon_eliminar.png";
+
+    limpiarEquiposDeUbicacion();
+
+    equipamientos = petition(url, method, data);
+
+    equipamientos.then((value) => {
+        value.forEach(equ => {
+            console.log(equ);
+
+            let art_equ = document.createElement("article"); // Nuevo Equipamiento
+            art_equ.classList.add("equ");
+
+            let sec_equ_inf = document.createElement("section"); // Información
+            sec_equ_inf.classList.add("equ-inf");
+            let img_equ_img = document.createElement("img");
+            img_equ_img.classList.add("equ-img");
+            img_equ_img.src = "../assets/img/categoria_" + equ.equ_categoria.toLowerCase() + ".jpg";
+            img_equ_img.alt = "Equipamiento " + equ.equ_nombre + ".";
+
+            let div_det = document.createElement("div"); // Detalles del Equipamiento
+            div_det.classList.add("det");
+
+            let div_equ_nom = document.createElement("div"); // Nombre
+            let inp_equ_nom = document.createElement("input");
+            inp_equ_nom.type = "text";
+            inp_equ_nom.id = "equ-nom";
+            inp_equ_mar.placeholder = equ.equ_nombre;
+            div_det.appendChild(div_equ_nom);
+            div_det.appendChild(inp_equ_nom);
+
+            let div_equ_det = document.createElement("div"); // Detalles
+            let inp_equ_mar = document.createElement("input");
+            inp_equ_mar.type = "text";
+            inp_equ_mar.id = "equ-mar";
+            inp_equ_mar.placeholder = equ.equ_marca;
+
+            let inp_equ_mod = document.createElement("input");
+            inp_equ_mod.type = "text";
+            inp_equ_mod.id = "equ-mod";
+            inp_equ_mar.placeholder = equ.equ_modelo;
+            div_det.appendChild(div_equ_det);
+            div_det.appendChild(inp_equ_mar);
+            div_det.appendChild(inp_equ_mod);
+
+            sec_equ_inf.appendChild(img_equ_img); // Imagen en información
+            sec_equ_inf.appendChild(div_det); // Detalles en información
+            
+            let sec_equ_btn = document.createElement("section"); // Botones
+            sec_equ_btn.classList.add("equ-btn");
+
+            const btn_edi = document.createElement("button"); // Boton editar
+            btn_edi.classList.add("boton-xs");
+            const img_btn_edi = document.createElement("img");
+            img_btn_edi.src = srcEdit;
+            btn_edi.alt = "Editar campos del equipamiento " + equ.equ_nombre + ".";
+            btn_edi.appendChild(img_btn_edi);
+
+            const btn_gua = document.createElement("button"); // Boton guardar
+            btn_gua.classList.add("boton-xs");
+            const img_btn_gua = document.createElement("img");
+            img_btn_gua.src = srcSave;
+            btn_gua.alt = "Guardar cambios del equipamiento " + equ.equ_nombre + ".";
+            btn_gua.appendChild(img_btn_gua);
+
+            const btn_eli = document.createElement("button"); // Boton eliminar
+            btn_eli.classList.add("boton-xs");
+            const img_btn_eli = document.createElement("img");
+            img_btn_eli.src = srcDel;
+            btn_eli.alt = "Eliminar equipamiento " + equ.equ_nombre + ".";
+            btn_eli.appendChild(img_btn_eli);
+
+            sec_equ_btn.appendChild(btn_edi);
+            sec_equ_btn.appendChild(btn_gua);
+            sec_equ_btn.appendChild(btn_eli);
+
+            art_equ.appendChild(sec_equ_inf); // Seccion de información al artículo
+            art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
+        });
+    });
+}
+
+// [ Limpia el listado de los equipos de una Ubicacion ]
+function limpiarEquiposDeUbicacion() {
+    equipamientos.innerHTML = '';
 }

@@ -1,20 +1,3 @@
-/* ---------------------------------------------- [VARIABLES]*/
-:root {
-    /* ---------------------------------------------- [VARIABLES: Colores]*/
-    --primary-color-1: #FCA044;
-    --primary-color-2: #FFD857;
-    --primary-color-3: #57A3FF;
-
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
-
-    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
-    --title-text-size: 20px;
-    --button-text-size: 30px;
-    --border-radious-value: 10px;
-}
-
 /* ---------------------------------------------- [MEDIA QUERIES]*/
 @media only screen and (max-width: 1024px) {
     section {
@@ -29,8 +12,6 @@ section {
     padding: 10px;
 
     flex-direction: row;
-    justify-content: space-ar;
-    align-items: center;
 }
 
 /* ---------------------------------------------- [SECTION: Plantas]*/
@@ -45,74 +26,47 @@ section article {
     margin: 20px;
 }
 
-/* ---------------------------------------------- [ARTICLE: Map]*/
-#aula101:hover {
-    background: #8400ff;
-    display: block;
-}
-
 /* ---------------------------------------------- [ARTICLE: Tabla]*/
 table {
     border-collapse: collapse;
     border-spacing: 0;
+
+    table-layout: fixed;
 }
 
-table td {
-    border-color: black;
-    border-style: solid;
-    border-width: 0px;
-    overflow: hidden;
+table td, th {
+    text-align: left;
+    
     padding: 10px 5px;
+
+    border-color: 1px solid black;
+    
     word-break: normal;
 }
 
-table th {
-    border-color: black;
-    border-style: solid;
-    border-width: 0px;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-}
-
-table .tg-3rlw {
-    border-width: 0px 0px 1px 1px;
+table .aula:hover {
+    background-color: var(--color-secundario);
+    border: 2px solid var(--color-acento);
     text-align: left;
-    vertical-align: top
-}
-
-table .tg-3k5v {
-    border-width: 1px 0px;
-    text-align: left;
-    vertical-align: top
-}
-
-table .tg-xj23 {
-    border-width: 1px;
-    text-align: left;
-    vertical-align: top
-}
-
-table .tg-w9kt {
-    border-width: 0px 0px 0px 1px;
-    text-align: left;
-    vertical-align: top
+    vertical-align: top;
 }
 
 /* ---------------------------------------------- [ARTICLE: ScrollBar]*/
 .scroll {
     padding-right: 10vh;
 
-    width: 100%;
+    width: 50%;
     height: 80vh;
 
     overflow: hidden;
 }
 
-.equipamientos {
+#equipamientos {
     height: 100%;
+    width: 50%;
 
     padding: 10px;
+    padding-right: 10vh;
 
     border: none;
     border-radius: var(--border-radious-value);
@@ -125,11 +79,14 @@ table .tg-w9kt {
     box-sizing: border-box;
 }
 
-.equipamiento {
-    background-color: var(--primary-color-3);
+/* ---------------------------------------------- [ARTICLE: Equipamiento]*/
+.equ {
+    background-color: var(--color-acento);
 
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
 
     padding: 10px;
 
@@ -138,32 +95,26 @@ table .tg-w9kt {
     margin: 10px;
 }
 
-.equipamiento:hover {
-    background-color: var(--primary-color-1);
+.equ:hover {
+    background-color: var(--color-secundario);
 
-    border: 2px var(--primary-color-1) solid;
+    border: 2px var(--color-secundario) solid;
 
     cursor: pointer;
 }
 
-.equipamiento:active {
-    border: 2px solid var(--primary-color-3);
+.equ:active {
+    border: 2px solid var(--color-acento);
 }
 
-#equipo_nombre,
-#equipo_marca,
-#equipo_modelo {
-    display: none;
-}
-
-/* ---------------------------------------------- [ARTICLE: Equipamiento]*/
-.equipamiento {
+.equ-inf{
     display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
 }
 
-.equipamiento img {
+.equ-inf .equ-img {
     min-width: 95px;
     min-height: 95px;
 
@@ -173,46 +124,34 @@ table .tg-w9kt {
     border-radius: 50%;
 }
 
-.equipamiento .detalles {
+.equ-inf .det {
     margin: 10px;
 
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.detalles .nombre_equipo {
+.det-inf .equ-nom {
     width: 100%;
 
     font-weight: bold;
 }
 
-.detalles .detalles_equipo {
+.det .equ_det {
     width: 100%;
 
     font-style: oblique;
 }
 
-/* ---------------------------------------------- [EQUIPAMIENTO: Botones]*/
-.boton-editar,
-.boton-eliminar {
-    width: 50px;
-    height: 50px;
-
-    padding: 10px;
-
-    border-radius: 50%;
-
-    cursor: pointer;
+#equ-nom,
+#equ-mar,
+#equ-mod {
+    display: none;
 }
 
-.boton-editar img,
-.boton-eliminar img {
-    width: 100%;
-    height: 100%;
-}
-
-.boton-editar:focus,
-.boton-eliminar:focus {
-    border: 2px var(--primary-color-2) solid;
+.equ-btn{
+    display: flex;
+    flex-direction: row;
 }

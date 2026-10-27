@@ -25,13 +25,13 @@
         <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
         <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO</a>
         <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
-        <button id="boton-ajustes">
+        <button id="boton-ajustes" class="boton-xs">
             <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
         </button>
-        <button id="boton-notificaciones">
+        <button id="boton-notificaciones" class="boton-xs">
             <img src="../assets/icons/icon_notificacion.png" alt="Acceso a las notificaciones.">
         </button>
-        <button id="boton-perfil">
+        <button id="boton-perfil" class="boton-xs">
             <img src="../assets/icons/icon_perfil.png" alt="Acceso al perfil personal.">
         </button>
     </nav>
@@ -81,164 +81,269 @@
             </div>
         </div>
 
-        <!------------------------------------------------------------------------ [ARTICLE ] -->
-        <article>
-
-            <div id="plantas">
-                <button id="btn_planta1">1ª PLANTA</button>
-                <button id="btn_planta2">2ª PLANTA</button>
-            </div>
-            <!------------------------------------------------------------------------ [ARTICLE: Planta 1 ] -->
-            <!-- Return false para evitar que se refresque la página -->
-            <!-- <map name="map_planta1">
-                <area id="aula101" class="habitacion" shape="rect" coords="11,57,164,366" href="" alt="Habitación 101."
-                    onclick="abrirModalAula('101'); return false;" />
-                <area id="aula102" class="habitacion" shape="rect" coords="11,375,298,553" href="" alt="Habitación 102."
-                    onclick="abrirModalAula('102'); return false;" />
-                <area id="aula103" class="habitacion" shape="rect" coords="427,57,714,207" href="" alt="Habitación 103."
-                    onclick="abrirModalAula('103'); return false;" />
-                <area id="aula104" class="habitacion" shape="rect" coords="427,219,714,393" href=""
-                    alt="Habitación 104." onclick="abrirModalAula('104'); return false;" />
-                <area id="aula105" class="habitacion" shape="rect" coords="426,402,715,553" href=""
-                    alt="Habitación 105." onclick="abrirModalAula('105'); return false;" />
-            </map>
-            <img id="img_planta1" class="visible" src="../assets/map/planta_1.jpg" usemap="#map_planta1"
-                alt="Image map" /> -->
-            <table id="planta1">
+        <!------------------------------------------------------------------------ [ARTICLE: Aulas ] -->
+        <article id="ubicaciones">
+            <table>
                 <tbody>
                     <tr>
-                        <td class="tg-xj23" colspan="2" rowspan="4">101</td>
-                        <td class="tg-w9kt" colspan="4" rowspan="4"></td>
-                        <td class="tg-xj23" colspan="4" rowspan="2">105</td>
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                        <td class="tg-xj23" colspan="4" rowspan="2">104</td>
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                        <td class="tg-xj23" colspan="4" rowspan="2">102</td>
-                        <td class="tg-w9kt" colspan="2" rowspan="2"></td>
-                        <td class="tg-xj23" colspan="4" rowspan="2">103</td>
-                    </tr>
-                    <tr>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!------------------------------------------------------------------------ [ARTICLE: Planta 2 ] -->
-            <!-- Return false para evitar que se refresque la página -->
-            <!-- <map name="map_planta2">
-                <area id="aula201" class="habitacion" shape="rect" coords="11,57,164,365" href="" alt="Habitación 201"
-                    onclick="abrirModalAula('201'); return false;" />
-                <area id="aula202" class="habitacion" shape="rect" coords="11,376,418,554" href="" alt="Habitación 202"
-                    onclick="abrirModalAula('202'); return false;" />
-                <area id="aula203" class="habitacion" shape="rect" coords="430,376,712,553" href="" alt="Habitación 203"
-                    onclick="abrirModalAula('203'); return false;" />
-                <area id="aula204" class="habitacion" shape="rect" coords="427,56,712,245" href="" alt="Habitación 204"
-                    onclick="abrirModalAula('204'); return false;" />
-            </map>
-            <img id="img_planta2" class="oculto" src="../assets/map/planta_2.jpg" usemap="#map_planta2"
-                alt="Image map" /> -->
-
-            <table id="planta2">
-                <tbody>
-                    <tr>
-                        <td class="tg-xj23" colspan="2" rowspan="4">201</td>
-                        <td class="tg-3rlw" colspan="4" rowspan="4"></td>
-                        <td class="tg-xj23" colspan="4" rowspan="2">204</td>
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                        <td class="tg-3k5v" colspan="4" rowspan="2"></td>
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                        <td class="tg-xj23" colspan="6" rowspan="2">202</td>
-                        <td class="tg-xj23" colspan="4" rowspan="2">203</td>
-                    </tr>
-                    <tr>
+                        <th>Nombre</td>
+                        <th>Descripción</td>
                     </tr>
                 </tbody>
             </table>
         </article>
 
-        <!------------------------------------------------------------------------ [ASIDE: ] -->
-        <article class="scroll">
-            <div class="equipamientos">
-                <div class="equipamiento">
-                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="detalles">
-                        <div class="nombre_equipo">
+        <!------------------------------------------------------------------------ [ASIDE: Equipamientos ] -->
+        <article id="equipamientos">
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
                             NOMBRE
                         </div>
-                        <input type="text" id="equipo_nombre" placeholder="nombre" required>
-                        <div class="detalles_equipo">
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
                             Marca, Modelo
                         </div>
-                        <input type="text" id="equipo_marca" placeholder="marca" required>
-                        <input type="text" id="equipo_modelo" placeholder="modelo" required>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
                     </div>
-                    <div class="botoner-equipo">
-                        <button class="boton-editar">
-                            <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
-                        </button>
-                        <button class="boton-eliminar">
-                            <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
-                        </button>
-                    </div>
+                </div>
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
 
-                </div>
-                <div class="equipamiento">
-                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="detalles">
-                        <div class="nombre_equipo">
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
                             NOMBRE
                         </div>
-                        <input type="text" id="equipo_nombre" placeholder="nombre" required>
-                        <div class="detalles_equipo">
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
                             Marca, Modelo
                         </div>
-                        <input type="text" id="equipo_marca" placeholder="marca" required>
-                        <input type="text" id="equipo_modelo" placeholder="modelo" required>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
                     </div>
                 </div>
-                <div class="equipamiento">
-                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="detalles">
-                        <div class="nombre_equipo">
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
+
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
                             NOMBRE
                         </div>
-                        <div class="detalles_equipo">
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
                             Marca, Modelo
                         </div>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
                     </div>
                 </div>
-                <div class="equipamiento">
-                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="detalles">
-                        <div class="nombre_equipo">
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
+
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
                             NOMBRE
                         </div>
-                        <div class="detalles_equipo">
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
                             Marca, Modelo
                         </div>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
                     </div>
                 </div>
-                <div class="equipamiento">
-                    <img src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="detalles">
-                        <div class="nombre_equipo">
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
+
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
                             NOMBRE
                         </div>
-                        <div class="detalles_equipo">
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
                             Marca, Modelo
                         </div>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
                     </div>
+                </div>
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
+
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
+                            NOMBRE
+                        </div>
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
+                            Marca, Modelo
+                        </div>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
+                    </div>
+                </div>
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
+
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
+                            NOMBRE
+                        </div>
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
+                            Marca, Modelo
+                        </div>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
+                    </div>
+                </div>
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
+
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
+                            NOMBRE
+                        </div>
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
+                            Marca, Modelo
+                        </div>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
+                    </div>
+                </div>
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
+                </div>
+            </div>
+
+            <div class="equ">
+                <div class="equ-inf">
+                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
+                    <div class="det">
+                        <div class="equ_nom">
+                            NOMBRE
+                        </div>
+                        <input type="text" id="equ-nom" placeholder="nombre" required>
+                        <div class="equ_det">
+                            Marca, Modelo
+                        </div>
+                        <input type="text" id="equ-mar" placeholder="marca" required>
+                        <input type="text" id="equ-mod" placeholder="modelo" required>
+                    </div>
+                </div>
+                <div class="equ-btn">
+                    <button class="boton-xs visible">
+                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
+                    </button>
+                    <button class="boton-xs oculto">
+                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
+                    </button>
+                    <button class="boton-xs">
+                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
+                    </button>
                 </div>
             </div>
         </article>

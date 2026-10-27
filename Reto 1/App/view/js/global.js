@@ -2,9 +2,14 @@
 const btnAjustes = document.getElementById("boton-ajustes");
 const modalAjustes = document.getElementById("modalAjustes");
 const btnCerrarAjustes = document.getElementsByClassName("cerrar")[0];
+
 const btnTemaDefault = document.getElementById("btnTemaDefault");
-const temaClaro = "claro";
-const temaOscuro = "oscuro";
+const btnTemaAlt = document.getElementById("btnTemaAlt");
+const btnTemaGlobal = document.getElementById("btnTemaGlobal");
+
+const tema1 = "1";
+const tema2 = "2";
+const tema3 = "3";
 
 const btnNotificaciones = document.getElementById("boton-notificaciones");
 const modalNotificaciones = document.getElementById("modalNotificaciones");
@@ -16,62 +21,67 @@ const btnCerrarPerfil = document.getElementsByClassName("cerrar")[2];
 
 /* ---------------------------------------------- [MODAL: Ajustes]*/
 // Abrir modal
-btnAjustes.addEventListener('click', function () {
+btnAjustes.addEventListener("click", function () {
   modalAjustes.style.display = "block";
 });
 
 // Cerrar modal
-btnCerrarAjustes.addEventListener('click', function () {
+btnCerrarAjustes.addEventListener("click", function () {
   modalAjustes.style.display = "none";
 });
 
 /* ---------------------------------------------- [Cambiar tema]*/
-aplicarTema();
+document.addEventListener("DOMContentLoaded", () => {
+    obtenerTema();
+});
 
-function aplicarTema() {
+function obtenerTema() {
   let temaActual = localStorage.getItem("tema");
 
-  if (temaActual == "oscuro") {
-    localStorage.setItem("tema", temaOscuro);
-    document.documentElement.classList.add(temaOscuro);
+  if (temaActual == 3) {
+    aplicarTema(tema3);
+  } else if (temaActual == 2) {
+    aplicarTema(tema2);
   } else {
-    localStorage.setItem("tema", temaClaro);
-    document.documentElement.classList.add(temaClaro);
+    aplicarTema(tema1);
   }
 }
 
-btnTemaDefault.addEventListener('click', function () {
-  document.documentElement.classList.toggle(temaOscuro);
+function aplicarTema(tema) {
+  localStorage.setItem("tema", tema);
+  document.body.setAttribute("data-theme", tema);
+}
 
-  const isDark = document.documentElement.classList.contains(temaOscuro);
+btnTemaDefault.addEventListener("click", function () {
+  aplicarTema(1);
+});
 
-  if (isDark) {
-    localStorage.setItem('tema', temaOscuro);
-    document.documentElement.classList.add(temaOscuro);
-  } else {
-    localStorage.setItem('tema', temaClaro);
-    document.documentElement.classList.add(temaClaro);
-  }
+btnTemaAlt.addEventListener("click", function () {
+  aplicarTema(2);
+});
+
+btnTemaGlobal.addEventListener("click", function () {
+  aplicarTema(3);
 });
 
 /* ---------------------------------------------- [MODAL: Notificaciones]*/
 // Abrir modal
-btnNotificaciones.addEventListener('click', function () {
+btnNotificaciones.addEventListener("click", function () {
   modalNotificaciones.style.display = "block";
 });
 
 // Cerrar modal
-btnCerrarNotificaciones.addEventListener('click', function () {
+btnCerrarNotificaciones.addEventListener("click", function () {
   modalNotificaciones.style.display = "none";
 });
 
 /* ---------------------------------------------- [MODAL: Perfil]*/
 // Abrir modal
-btnPerfil.addEventListener('click', function () {
+btnPerfil.addEventListener("click", function () {
   modalPerfil.style.display = "block";
 });
 
 // Cerrar modal
-btnCerrarPerfil.addEventListener('click', function () {
+btnCerrarPerfil.addEventListener("click", function () {
   modalPerfil.style.display = "none";
 });
