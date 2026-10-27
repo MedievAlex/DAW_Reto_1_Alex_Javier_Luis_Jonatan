@@ -1,16 +1,18 @@
 <?php
-//require_once("../dao/EquipamientoDAO.php");
-require_once("../dao/Historico_UbicacionDAO.php");
-require_once("../dao/NotificacionDAO.php");
-require_once("../dao/UbicacionDAO.php");
-require_once("../dao/UsuarioDAO.php");
+
+// Las rutas parten de la carpeta de este controlador.
+require_once __DIR__ . "/../dao/EquipamientoDAO.php";
+require_once __DIR__ . "/../dao/Historico_UbicacionDAO.php";
+require_once __DIR__ . "/../dao/NotificacionDAO.php";
+require_once __DIR__ . "/../dao/UbicacionDAO.php";
+require_once __DIR__ . "/../dao/UsuarioDAO.php";
 
 class Controller
 {
     // la contraseña debe tener entre 8 y 72 caracteres (bcrypt solo usa los primeros 72)
     private const LONGITUD_MINIMA_PASSWORD = 8;
     private const LONGITUD_MAXIMA_PASSWORD = 72;
-    //private EquipamientoDAO $equ_dao;
+    private EquipamientoDAO $equ_dao;
     private Historico_UbicacionDAO $his_dao;
     private NotificacionDAO $not_dao;
     private UbicacionDAO $ubi_dao;
@@ -18,7 +20,7 @@ class Controller
 
     public function __construct()
     {
-        //$this->equ_dao = new EquipamientoDAO();
+        $this->equ_dao = new EquipamientoDAO();
         $this->his_dao = new Historico_UbicacionDAO();
         $this->not_dao = new NotificacionDAO();
         $this->ubi_dao = new UbicacionDAO();
@@ -26,6 +28,95 @@ class Controller
     }
 
     // ---------------------------------------- [ EQUIPAMIENTO ]
+
+/**
+ * Busca un equipamiento por su identificador mediante el DAO.
+ *
+ * @param int $idEquipamiento Identificador del equipamiento.
+ * @return Equipamiento|null Equipamiento encontrado o null si no existe.
+ * @author Jonatan Tajada Rico
+ */
+    public function buscarEquipamientoPorId(int $idEquipamiento): ?Equipamiento{
+    return $this->equ_dao->buscarEquipamientoPorId($idEquipamiento);
+    }
+
+   /**
+ * Obtiene todos los equipamientos mediante el DAO.
+ *
+ * @return Equipamiento[] Lista de equipamientos; vacía si no hay ninguno.
+ * @author Jonatan Tajada Rico
+ */
+    public function listarTodosEquipamientos(): array
+    {
+        return $this->equ_dao->listarTodosEquipamientos();
+    }
+
+/**
+ * Obtiene los equipamientos de una categoría mediante el DAO.
+ *
+ * @param Categoria $categoria Categoría por la que se filtra.
+ * @return Equipamiento[] Lista de coincidencias; vacía si no hay ninguna.
+ * @author Jonatan Tajada Rico
+ */
+    public function filtrarEquipamientosPorCategoria(Categoria $categoria): array
+    {
+        return $this->equ_dao->filtrarEquipamientosPorCategoria($categoria);
+    }
+
+    /**
+ * Registra un nuevo equipamiento mediante el DAO.
+ *
+ * @param Equipamiento $equipamiento Datos del equipamiento que se creará.
+ * @return bool True si la inserción se ejecuta correctamente.
+ * @throws mysqli_sql_exception Si falla la inserción.
+ * @author Jonatan Tajada Rico
+ */
+    public function crearEquipamiento(Equipamiento $equipamiento): bool
+    {
+        return $this->equ_dao->crearEquipamiento($equipamiento);
+    }
+
+    /**
+ * Actualiza los datos generales de un equipamiento mediante el DAO.
+ *
+ * @param Equipamiento $equipamiento Datos actualizados, incluido su ID.
+ * @return bool True si el SQL se ejecuta, aunque no cambie ninguna fila.
+ * @throws InvalidArgumentException Si el equipamiento no tiene ID.
+ * @throws mysqli_sql_exception Si falla la actualización.
+ * @author Jonatan Tajada Rico
+ */
+    public function editarEquipamiento(Equipamiento $equipamiento): bool
+    {
+        return $this->equ_dao->editarEquipamiento($equipamiento);
+    }
+
+/**
+ * Elimina un equipamiento mediante el DAO.
+ *
+ * @param int $idEquipamiento Identificador del equipamiento que se eliminará.
+ * @return bool True si se elimina; false si no existe.
+ * @throws mysqli_sql_exception Si falla la eliminación.
+ * @author Jonatan Tajada Rico
+ */
+    public function eliminarEquipamiento(int $idEquipamiento): bool
+    {
+        return $this->equ_dao->eliminarEquipamiento($idEquipamiento);
+    }
+
+    /**
+ * Traslada un equipamiento y actualiza su histórico mediante el DAO.
+ *
+ * @param int $idEquipamiento Identificador del equipo que se trasladará.
+ * @param int $idNuevaUbicacion Identificador de la ubicación de destino.
+ * @return bool True si se traslada; false si ya está en esa ubicación.
+ * @throws InvalidArgumentException Si los IDs no son positivos o no existe el equipo.
+ * @throws mysqli_sql_exception Si falla el traslado.
+ * @author Jonatan Tajada Rico
+ */
+    public function cambiarUbicacionEquipamiento(int $idEquipamiento, int $idNuevaUbicacion): bool
+    {
+        return $this->equ_dao->cambiarUbicacionEquipamiento( $idEquipamiento, $idNuevaUbicacion);
+    }
 
 
     // ---------------------------------------- [ HISTORICO ]
