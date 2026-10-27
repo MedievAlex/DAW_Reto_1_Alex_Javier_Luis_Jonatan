@@ -53,23 +53,13 @@ async function cargarNotificaciones() {
 
         result.data.forEach((notificacion) => {
             const notificacion_id = notificacion.not_id;
-
             const fechaLimpia = new Date(notificacion.fecha.date).toLocaleString();
+            const fechaFormatoSQL = notificacion.fecha.date.split(".")[0];
 
-            const btnEliminar = document.createElement("button");
-            btnEliminar.className = "btnEliminarNotificacion";
-            btnEliminar.innerHTML = '<img src="../assets/icons/icon_eliminar.png" alt="Eliminar notificación">';
-            btnEliminar.addEventListener("click", (event) => {
-                eliminarNotificacion(notificacion_id, event.currentTarget);
-            });
-
-            const btnModificar = document.createElement("button");
-            btnModificar.className = "btnModificarNotificacion";
-            btnModificar.innerHTML = '<img src="../assets/icons/icon_editar.png" alt="Editar notificación">';
-
+            // Creamos primero los elementos de texto para poder manipularlos luego
             const elemento = document.createElement("article");
             elemento.className = "notificacion";
-            elemento.id = "elementoNotificacion";
+            elemento.id = `elementoNotificacion-${notificacion_id}`;
 
             const titulo = document.createElement("h3");
             titulo.textContent = notificacion.titulo;
@@ -81,6 +71,77 @@ async function cargarNotificaciones() {
             detalles.className = "notificacionDetalles";
             detalles.textContent = `${fechaLimpia} · ${notificacion.estado}`;
 
+            // Botón Eliminar
+            const btnEliminar = document.createElement("button");
+            btnEliminar.className = "btnEliminarNotificacion";
+            btnEliminar.innerHTML = '<img src="../assets/icons/icon_eliminar.png" alt="Eliminar notificación">';
+            btnEliminar.addEventListener("click", (event) => {
+                eliminarNotificacion(notificacion_id, event.currentTarget);
+            });
+
+            // Botón Modificar con estado de edición en línea
+            const btnModificar = document.createElement("button");
+            btnModificar.className = "btnModificarNotificacion";
+            btnModificar.innerHTML = '<img src="../assets/icons/icon_editar.png" alt="Editar notificación">';
+
+            // Variables para controlar la edición de ESTA tarjeta en concreto
+            let editando = false;
+            let inputTitulo = null;
+            let inputFecha = null;
+            let inputDescripcion = null;
+
+            btnModificar.addEventListener("click", () => {
+                if (!editando) {
+                    // Primer click: Convertir h3 y p en campos editables
+                    inputTitulo = document.createElement("input");
+                    inputTitulo.type = "text";
+                    inputTitulo.value = titulo.textContent;
+                    inputTitulo.className = "inputEditarTitulo";
+
+                    inputDescripcion = document.createElement("textarea");
+                    inputDescripcion.value = descripcion.textContent;
+                    inputDescripcion.className = "inputEditarDescripcion";
+
+                    inputFecha = document.createElement("input");
+                    inputFecha.type = "text";
+                    inputFecha.value = fechaFormatoSQL;
+
+                    inputEstado = document.createElement("input");
+                    inputEstado.type = "text";
+                    inputEstado.value = notificacion.estado;
+                    // Reemplazamos los textos por los inputs en el DOM
+                    titulo.replaceWith(inputTitulo);
+                    descripcion.replaceWith(inputDescripcion);
+                    detalles.replaceWith(inputFecha, inputEstado);
+
+                    // Cambiamos el botón para indicar que el siguiente click guarda
+                    btnModificar.textContent = "Guardar";
+                    editando = true;
+                    inputTitulo.focus();
+
+                } else {
+                    // Segundo click: Recoger los nuevos valores y guardar
+                    const nuevoTitulo = inputTitulo.value.trim();
+                    const nuevaDescripcion = inputDescripcion.value.trim();
+                    const nuevaFecha = inputFecha.value.trim();
+                    const nuevoEstado = inputEstado.value.trim();
+
+                    if (!nuevoTitulo || !nuevaDescripcion) {
+                        alert("El título y la descripción no pueden estar vacíos.");
+                    }
+
+                    // Llamamos a la función PUT con los datos nuevos de los inputs
+                    modificarNotificacion(
+                        notificacion_id,
+                        nuevoTitulo,
+                        nuevaDescripcion,
+                        nuevaFecha,
+                        nuevoEstado
+                    );
+                }
+            });
+
+            // Añadimos todo al article y a la lista
             elemento.append(btnEliminar, btnModificar, titulo, descripcion, detalles);
             listaNotificaciones.append(elemento);
         });
@@ -107,11 +168,19 @@ function agregarNotificacion(titulo, descripcion) {
     });
 }
 
-function modificarNotificacion(id, titulo, descripcion) {
+function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
     let url = NOT_URL + "?not_id=" + id;
     let method = "PUT";
-    let data = { titulo: titulo, descripcion: descripcion };
+    let data = {not_id: id, 
+        titulo: titulo, 
+        descripcion: descripcion, 
+        fecha: {
+            date: fecha
+        },
+        estado: estado
+ };
     let resultado;
+
 
     resultado = petition(url, method, data);
     resultado.then((value) => {
