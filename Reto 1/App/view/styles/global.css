@@ -105,8 +105,13 @@ html {}
 /* ---------------------------------------------- [BODY]*/
 body[data-theme="1"] {
     --color-primario: #FFD857;
+    --texto-primario: #061930;
+
     --color-secundario: #FCA044;
+
     --color-acento: #57A3FF;
+    --color-acento-sombra: #3969a3;
+    --texto-acento: #fffef4;
 
     --color-black: #061930;
     --color-white: #fffef4;
@@ -115,8 +120,13 @@ body[data-theme="1"] {
 
 body[data-theme="2"] {
     --color-primario: #EDBC55;
+    --texto-primario: #061930;
+
     --color-secundario: #538a48;
+
     --color-acento: #543c5f;
+    --color-acento-sombra: #805594;
+    --texto-acento: #fffef4;
 
     --color-black: #fffef4;
     --color-white: #061930;
@@ -126,8 +136,13 @@ body[data-theme="2"] {
 
 body[data-theme="3"] {
     --color-primario: #D1D1D1;
+    --texto-primario: #061930;
+
     --color-secundario: #F5254B;
+
     --color-acento: #3F34C7;
+    --color-acento-sombra: #504ba0;
+    --texto-acento: #fffef4;
 
     --color-black: #061930;
     --color-white: #fffef4;
@@ -139,7 +154,7 @@ body {
 
     font-family: Bahnschrift;
 
-    color: var(--color-black);
+    color: var(--texto-primario);
 
     margin: 0;
     padding: 0;
@@ -205,10 +220,10 @@ nav {
 
 /* ---------------------------------------------- [NAV: Cabecera]*/
 nav a {
-    background: linear-gradient(0deg, var(--color-white), var(--color-acento));
-    border: 2px solid linear-gradient(0deg, var(--color-white), var(--color-acento));
+    background: linear-gradient(0deg, var(--color-acento-sombra), var(--color-acento));
+    border: 2px solid linear-gradient(0deg, var(--color-acento-sombra), var(--color-acento));
 
-    color: var(--color-black);
+    color: var(--texto-acento);
     font-size: var(--butto-text-size);
     text-align: center;
     text-decoration: none;

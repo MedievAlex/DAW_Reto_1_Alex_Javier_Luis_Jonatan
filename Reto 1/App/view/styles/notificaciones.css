@@ -13,7 +13,7 @@
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    background-color: #57A3FF;
+    background-color: var(--color-acento);
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -23,7 +23,7 @@
 }
 
 .notificacion:hover {
-    background-color: #FCA044;
+    background-color: var(--color-secundario);
 }
 
 #filtroNotificaciones {
