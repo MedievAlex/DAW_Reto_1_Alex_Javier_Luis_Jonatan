@@ -89,27 +89,10 @@ table .aula:hover {
 
 /* ---------------------------------------------- [ARTICLE: Equipamiento]*/
 .equ {
-    background-color: var(--color-acento);
-
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-
-    padding: 10px;
-
-    border-radius: 20px;
-
-    margin: 10px;
-}
-
-.equ:hover {
-    background-color: var(--color-secundario);
-    color: var(--texto-secundario);
-
-    border: 2px var(--color-secundario) solid;
-
-    cursor: pointer;
 }
 
 .equ:active {

@@ -4,32 +4,6 @@ const btnNotificaciones1 = document.getElementById("boton-notificaciones");
 const listaNotificaciones = document.getElementById("listaNotificaciones");
 const filtroNotificaciones = document.getElementById("filtroNotificaciones");
 
-async function petition(url, method, data) {
-    try {
-        const options = {
-            method: method,
-            headers: { "Content-type": "application/json" }
-        };
-
-        if (method !== "GET") {
-            options.body = JSON.stringify(data);
-        }
-
-        const response = await fetch(url, options);
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "No se pudo completar la operación.");
-        }
-
-        return result;
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert(`Error: ${error.message}`);
-        return { success: false, message: error.message };
-    }
-}
-
 //Método para cargar todas las notificaciones desde el servidor
 async function cargarNotificaciones() {
     if (!listaNotificaciones) {
@@ -58,7 +32,7 @@ async function cargarNotificaciones() {
 
             // Creamos primero los elementos de texto para poder manipularlos luego
             const elemento = document.createElement("article");
-            elemento.className = "notificacion";
+            elemento.classList.add("tarjeta");
             elemento.id = `elementoNotificacion-${notificacion_id}`;
 
             const titulo = document.createElement("h3");
@@ -117,7 +91,11 @@ async function cargarNotificaciones() {
                     detalles.replaceWith(inputFecha, inputEstado);
 
                     // Cambiamos el botón para indicar que el siguiente click guarda
-                    btnModificar.textContent = "Guardar";
+                    //btnModificar.textContent = "Guardar";
+                    btnModificar.textContent = "";
+                    let img_guar = document.createElement("img");
+                    img_guar.src = srcGuardar;
+                    btnModificar.appendChild(img_guar);
                     editando = true;
                     inputTitulo.focus();
 
@@ -161,7 +139,7 @@ function agregarNotificacion(titulo, descripcion) {
     let data = { titulo: titulo, descripcion: descripcion };
     let resultado;
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
     resultado.then((value) => {
         if (value.success) {
             alert("Notificación agregada correctamente.");
@@ -173,18 +151,19 @@ function agregarNotificacion(titulo, descripcion) {
 function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
     let url = NOT_URL + "?not_id=" + id;
     let method = "PUT";
-    let data = {not_id: id, 
-        titulo: titulo, 
-        descripcion: descripcion, 
+    let data = {
+        not_id: id,
+        titulo: titulo,
+        descripcion: descripcion,
         fecha: {
             date: fecha
         },
         estado: estado
- };
+    };
     let resultado;
 
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
     resultado.then((value) => {
         if (value.success) {
             alert("Notificación modificada correctamente.");
@@ -199,7 +178,7 @@ function eliminarNotificacion(id, btnEliminar) {
     let data = [];
     let resultado;
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
     resultado.then((value) => {
         if (value.success) {
             const elementoEliminado = btnEliminar.closest(".notificacion");

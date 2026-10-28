@@ -36,6 +36,56 @@ const srcPerfil = "../assets/icons/icon_perfil.png";
 const srcUsu = "../assets/icons/icon_usuario.png";
 const srcUsuNuevo = "../assets/icons/icon_usuario_nuevo.png";
 
+/* ---------------------------------------------- [PETICION]*/
+async function petition(url, method, data) {
+    try {
+        if (method == "GET") {
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" }
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                return result.data;
+            } else {
+                return [{ "message": result.message }];
+            }
+        } else if (method == "DELETE") {
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" },
+                body: JSON.stringify(data) // Contenido
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                return result.message;
+            } else {
+                return [{ "message": result.message }];
+            }
+        } else {
+            const response = await fetch(url, { // Peticion al PHP
+                method: method, // Metodo de peticion
+                headers: { "Content-type": "aplication/json" },
+                body: JSON.stringify(data) // Contenido
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                return result.data;
+            } else {
+                return [{ "message": result.message }];
+            }
+        }
+    } catch (error) {
+        console.error("Error:", error.message);
+        alert("Error:", error.message);
+        return [];
+    }
+}
+
 /* ---------------------------------------------- [MODAL: Ajustes]*/
 // Abrir modal
 btnAjustes.addEventListener("click", function () {

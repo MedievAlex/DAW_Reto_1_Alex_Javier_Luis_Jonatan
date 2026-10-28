@@ -30,55 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarUbicaciones();
 });
 
-async function petition(url, method, data) {
-    try {
-        if (method == "GET") {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" }
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                return result.data;
-            } else {
-                return [{ "message": result.message }];
-            }
-        } else if (method == "DELETE") {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" },
-                body: JSON.stringify(data) // Contenido
-            });
-            const result = await response.json();
-
-            if (result.success) {
-                return result.message;
-            } else {
-                return [{ "message": result.message }];
-            }
-        } else {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" },
-                body: JSON.stringify(data) // Contenido
-            });
-            const result = await response.json();
-
-            if (result.success) {
-                return result.data;
-            } else {
-                return [{ "message": result.message }];
-            }
-        }
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert("Error:", error.message);
-        return [];
-    }
-}
-
 // [ Pide el listado de todas las Ubicaciones ]
 async function cargarUbicaciones() {
     let url = UBI_URL;
@@ -86,7 +37,7 @@ async function cargarUbicaciones() {
     let data = [];
     let ubicaciones;
 
-    ubicaciones = petition(url, method, data);
+    ubicaciones = petition(url, method, data); // Llama al petition de global.js
 
     ubicaciones.then((value) => {
         value.forEach(ubi => {
@@ -180,7 +131,7 @@ function buscarUbicacionPorId() {
     let data = [];
     let ubicacion;
 
-    ubicacion = petition(url, method, data);
+    ubicacion = petition(url, method, data); // Llama al petition de global.js
 
     ubicacion.then((value) => {
         console.log(value[0]);
@@ -195,7 +146,7 @@ function buscarUbicacionPorNombre() {
     let data = [];
     let ubicacion;
 
-    ubicacion = petition(url, method, data);
+    ubicacion = petition(url, method, data); // Llama al petition de global.js
 
     ubicacion.then((value) => {
         console.log(value[0]);
@@ -214,7 +165,7 @@ async function crearUbicacion() {
     };
     let ubicacion;
 
-    ubicacion = petition(url, method, data);
+    ubicacion = petition(url, method, data); // Llama al petition de global.js
 
     ubicacion.then((value) => {
         console.log(value[0]);
@@ -233,7 +184,7 @@ async function editarUbicacion() {
     };
     let ubicacion;
 
-    ubicacion = petition(url, method, data);
+    ubicacion = petition(url, method, data); // Llama al petition de global.js
 
     ubicacion.then((value) => {
         console.log(value[0]);
@@ -248,7 +199,7 @@ async function eliminarUbicacion() {
     let data = {};
     let ubicacion;
 
-    ubicacion = petition(url, method, data);
+    ubicacion = petition(url, method, data); // Llama al petition de global.js
 
     ubicacion.then((value) => {
         console.log(value[0].message);
@@ -263,13 +214,9 @@ async function cargarEquiposDeUbicacion() {
     let data = [];
     let equipamientos;
 
-    let srcEdit = "../assets/icons/icon_editar.png";
-    let srcSave = "../assets/icons/icon_guardar.png";
-    let srcDel = "../assets/icons/icon_eliminar.png";
-
     limpiarEquiposDeUbicacion();
 
-    equipamientos = petition(url, method, data);
+    equipamientos = petition(url, method, data); // Llama al petition de global.js
 
     equipamientos.then((value) => {
         value.forEach(equ => {
@@ -277,6 +224,7 @@ async function cargarEquiposDeUbicacion() {
 
             let art_equ = document.createElement("article"); // Nuevo Equipamiento
             art_equ.classList.add("equ");
+            art_equ.classList.add("tarjeta");
 
             let sec_equ_inf = document.createElement("section"); // Información
             sec_equ_inf.classList.add("equ-inf");

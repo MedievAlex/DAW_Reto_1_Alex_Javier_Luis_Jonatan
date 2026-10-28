@@ -146,7 +146,7 @@ button {
 
     padding: 10px;
     margin: 2px;
-    
+
     border-radius: 50%;
 
     right: 20px;
@@ -168,19 +168,19 @@ button {
     border: 2px var(--color-primario) solid;
 }
 
-.btn-new{
+.btn-new {
     background-color: var(--color-new);
 }
 
-.btn-edit{
+.btn-edit {
     background-color: var(--color-edit);
 }
 
-.btn-save{
+.btn-save {
     background-color: var(--color-edit);
 }
 
-.btn-delete{
+.btn-delete {
     background-color: var(--color-delete);
 }
 
@@ -232,7 +232,7 @@ nav a {
     cursor: pointer;
 }
 
-nav a img{
+nav a img {
     width: 10vh;
     height: 10vh;
 }
@@ -255,7 +255,7 @@ nav a:focus {
 nav a:active {
     background-color: var(--color-secundario);
     color: var(--texto-secundario);
-    
+
     border: 2px solid var(--color-white);
 }
 
@@ -297,6 +297,29 @@ nav .btn-xs {
 #boton-perfil:hover img,
 #boton-perfil:focus img {
     animation: zoom-in-zoom-out 1s ease 1;
+}
+
+/* ---------------------------------------------- [Tarjetas]*/
+.tarjeta {
+    background-color: var(--color-acento);
+    color: var(--texto-acento);
+
+    box-shadow: var(--button-shadow);
+
+    padding: 10px;
+
+    border-radius: 20px;
+
+    margin: 10px;
+}
+
+.tarjeta:hover {
+    background-color: var(--color-secundario);
+    color: var(--texto-secundario);
+
+    border: 2px var(--color-secundario) solid;
+
+    cursor: pointer;
 }
 
 /* ---------------------------------------------- [MODAL]*/
