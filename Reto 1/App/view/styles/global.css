@@ -1,16 +1,5 @@
 /* ---------------------------------------------- [VARIABLES]*/
 :root {
-    --butto-text-size: 30px;
-    --border-radious-value: 10px;
-}
-
-/*
-:root {
-    --primary-color-1: #FCA044;
-    --primary-color-2: #FFD857;
-    --primary-color-3: #57A3FF;
-    --primary-color-3-s: #5681b7;
-
     --color-black: #061930;
     --color-white: #fffef4;
     --color-grey: #8697ac;
@@ -18,27 +7,6 @@
     --butto-text-size: 30px;
     --border-radious-value: 10px;
 }
-
-:root.oscuro {
-    --primary-color-1: #538a48;
-    --primary-color-2: #EDBC55;
-    --primary-color-3: #543c5f;
-
-    --color-black: #fffef4;
-    --color-white: #061930;
-    --color-grey: #8697ac;
-}
-
-:root.global {
-    --primary-color-1: #F5254B;
-    --primary-color-2: #D1D1D1;
-    --primary-color-3: #3F34C7;
-
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
-}
-*/
 
 /* ---------------------------------------------- [MEDIA QUERIES]*/
 
@@ -105,48 +73,42 @@ html {}
 /* ---------------------------------------------- [BODY]*/
 body[data-theme="1"] {
     --color-primario: #FFD857;
-    --texto-primario: #061930;
+    --color-primario-sombra: #d5b13d;
+    --texto-primario: var(--color-black);
 
     --color-secundario: #FCA044;
+    --texto-secundario: var(--color-black);
 
-    --color-acento: #57A3FF;
-    --color-acento-sombra: #3969a3;
-    --texto-acento: #fffef4;
-
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
+    --color-acento: #144D91;
+    --color-acento-sombra: #517cb1;
+    --texto-acento: var(--color-white);
 }
 
 body[data-theme="2"] {
     --color-primario: #EDBC55;
-    --texto-primario: #061930;
+    --color-primario-sombra: #e0a629;
+    --texto-primario: var(--color-black);
 
-    --color-secundario: #538a48;
+    --color-secundario: #345E2C;
+    --texto-secundario: var(--color-white);
 
-    --color-acento: #543c5f;
-    --color-acento-sombra: #805594;
-    --texto-acento: #fffef4;
-
-    --color-black: #fffef4;
-    --color-white: #061930;
-    --color-grey: #8697ac;
+    --color-acento: #763F8F;
+    --color-acento-sombra: #9a5ab8;
+    --texto-acento: var(--color-white);
 
 }
 
 body[data-theme="3"] {
     --color-primario: #D1D1D1;
-    --texto-primario: #061930;
+    --color-primario-sombra: #c5bdbd;
+    --texto-primario: var(--color-black);
 
-    --color-secundario: #F5254B;
+    --color-secundario: #99172F;
+    --texto-secundario: var(--color-white);
 
     --color-acento: #3F34C7;
     --color-acento-sombra: #504ba0;
-    --texto-acento: #fffef4;
-
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
+    --texto-acento: var(--color-white);
 }
 
 body {
@@ -176,6 +138,7 @@ button {
 
     padding: 10px;
 
+    /*border: 2px solid var(--color-black);*/
     border-radius: 50%;
 
     right: 20px;
@@ -187,6 +150,10 @@ button {
 .boton-xs img {
     width: 100%;
     height: 100%;
+}
+
+.boton-xs:hover {
+    border: 2px var(--color-primario) solid;
 }
 
 .boton-xs:focus {
@@ -224,6 +191,9 @@ nav a {
     border: 2px solid linear-gradient(0deg, var(--color-acento-sombra), var(--color-acento));
 
     color: var(--texto-acento);
+
+    align-items: center;
+
     font-size: var(--butto-text-size);
     text-align: center;
     text-decoration: none;
@@ -238,6 +208,11 @@ nav a {
     cursor: pointer;
 }
 
+nav a img{
+    width: 10vh;
+    height: 10vh;
+}
+
 nav img {
     width: 100%;
     height: 100%;
@@ -245,13 +220,23 @@ nav img {
 
 nav a:hover,
 nav a:focus {
-    background-color: var(--color-primario);
-    border: 2px solid var(--color-primario);
+    background: linear-gradient(0deg, var(--color-primario-sombra), var(--color-primario));
+
+    color: var(--texto-primario);
+    color: var(--texto-primario);
+
+    border: 2px solid var(--color-acento);
 }
 
 nav a:active {
     background-color: var(--color-secundario);
-    border: 2px solid var(--color-secundario);
+    color: var(--texto-secundario);
+    
+    border: 2px solid var(--color-white);
+}
+
+nav .boton-xs:hover {
+    border: 2px solid var(--color-white);
 }
 
 /* ---------------------------------------------- [NAV: Botones]*/
