@@ -73,7 +73,8 @@ async function cargarNotificaciones() {
 
             // Botón Eliminar
             const btnEliminar = document.createElement("button");
-            btnEliminar.className = "btnEliminarNotificacion";
+            btnEliminar.classList.add("btn-xs");
+            btnEliminar.classList.add("btn-delete");
             btnEliminar.innerHTML = '<img src="../assets/icons/icon_eliminar.png" alt="Eliminar notificación">';
             btnEliminar.addEventListener("click", (event) => {
                 eliminarNotificacion(notificacion_id, event.currentTarget);
@@ -81,7 +82,8 @@ async function cargarNotificaciones() {
 
             // Botón Modificar con estado de edición en línea
             const btnModificar = document.createElement("button");
-            btnModificar.className = "btnModificarNotificacion";
+            btnModificar.classList.add("btn-xs");
+            btnModificar.classList.add("btn-edit");
             btnModificar.innerHTML = '<img src="../assets/icons/icon_editar.png" alt="Editar notificación">';
 
             // Variables para controlar la edición de ESTA tarjeta en concreto
