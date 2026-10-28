@@ -51,6 +51,9 @@ table td {
 
 table .aula:hover {
     background-color: var(--color-secundario);
+    border-radius: 5px;
+    color: var(--texto-secundario);
+
     border: 2px solid var(--color-acento);
 
     text-align: left;
@@ -102,6 +105,7 @@ table .aula:hover {
 
 .equ:hover {
     background-color: var(--color-secundario);
+    color: var(--texto-secundario);
 
     border: 2px var(--color-secundario) solid;
 
@@ -120,6 +124,10 @@ table .aula:hover {
     flex-direction: row;
 }
 
+.equ:hover .equ-inf .det{
+    color: var(--texto-secundario);
+}
+
 .equ-inf .equ-img {
     min-width: 95px;
     min-height: 95px;
@@ -131,6 +139,8 @@ table .aula:hover {
 }
 
 .equ-inf .det {
+    color: var(--texto-acento);
+
     margin: 10px;
 
     display: flex;
@@ -163,5 +173,6 @@ table .aula:hover {
 }
 
 .equ-btn button{
+    background-color: var(--color-secundario);
     margin: 2px;
 }

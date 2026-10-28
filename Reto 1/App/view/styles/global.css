@@ -69,12 +69,14 @@ html {}
 /* ---------------------------------------------- [BODY]*/
 body[data-theme="1"] {
     --color-primario: #FFD857;
+    --color-primario-sombra: #d5b13d;
     --texto-primario: #061930;
 
     --color-secundario: #FCA044;
+    --texto-secundario: #061930;
 
-    --color-acento: #57A3FF;
-    --color-acento-sombra: #3969a3;
+    --color-acento: #144D91;
+    --color-acento-sombra: #517cb1;
     --texto-acento: #fffef4;
 
     --color-black: #061930;
@@ -84,12 +86,14 @@ body[data-theme="1"] {
 
 body[data-theme="2"] {
     --color-primario: #EDBC55;
+    --color-primario-sombra: #e0a629;
     --texto-primario: #061930;
 
-    --color-secundario: #538a48;
+    --color-secundario: #345E2C;
+    --texto-secundario: #fffef4;
 
-    --color-acento: #543c5f;
-    --color-acento-sombra: #805594;
+    --color-acento: #763F8F;
+    --color-acento-sombra: #9a5ab8;
     --texto-acento: #fffef4;
 
     --color-black: #fffef4;
@@ -140,6 +144,7 @@ button {
 
     padding: 10px;
 
+    /*border: 2px solid var(--color-black);*/
     border-radius: 50%;
 
     right: 20px;
@@ -151,6 +156,10 @@ button {
 .boton-xs img {
     width: 100%;
     height: 100%;
+}
+
+.boton-xs:hover {
+    border: 2px var(--color-primario) solid;
 }
 
 .boton-xs:focus {
@@ -187,9 +196,10 @@ nav a {
     background: linear-gradient(0deg, var(--color-acento-sombra), var(--color-acento));
     border: 2px solid linear-gradient(0deg, var(--color-acento-sombra), var(--color-acento));
 
+    color: var(--texto-acento);
+
     align-items: center;
 
-    color: var(--texto-acento);
     font-size: var(--butto-text-size);
     text-align: center;
     text-decoration: none;
@@ -216,13 +226,23 @@ nav img {
 
 nav a:hover,
 nav a:focus {
-    background-color: var(--color-primario);
-    border: 2px solid var(--color-primario);
+    background: linear-gradient(0deg, var(--color-primario-sombra), var(--color-primario));
+
+    color: var(--texto-primario);
+    color: var(--texto-primario);
+
+    border: 2px solid var(--color-acento);
 }
 
 nav a:active {
     background-color: var(--color-secundario);
-    border: 2px solid var(--color-secundario);
+    color: var(--texto-secundario);
+    
+    border: 2px solid var(--color-white);
+}
+
+nav .boton-xs:hover {
+    border: 2px solid var(--color-white);
 }
 
 /* ---------------------------------------------- [NAV: Botones]*/
