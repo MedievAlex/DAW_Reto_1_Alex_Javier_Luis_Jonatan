@@ -86,9 +86,6 @@ async function cargarUbicaciones() {
     let data = [];
     let ubicaciones;
 
-    let srcOpen = "../assets/icons/icon_drop_open.png";
-    let srcClosed = "../assets/icons/icon_drop_closed.png";
-
     ubicaciones = petition(url, method, data);
 
     ubicaciones.then((value) => {
@@ -105,20 +102,37 @@ async function cargarUbicaciones() {
             const ubi_descripcion = document.createElement("td"); // Descripcion
             ubi_descripcion.textContent = ubi.ubi_descripcion;
 
-            const ubi_btn = document.createElement("td"); // Botones mostrar y ocultar Equipamientos
-            const btn_open = document.createElement("button");
+            const ubi_btn = document.createElement("td"); // Botones
+
+            const btn_edit = document.createElement("button"); // Editar
+            btn_edit.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+            const img_edit = document.createElement("img");
+            img_edit.src = srcEditar;
+            btn_edit.appendChild(img_edit);
+            btn_edit.classList.add("btn-xs");
+            btn_edit.classList.add("btn-edit");
+
+            const btn_del = document.createElement("button"); // Eliminar
+            btn_del.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+            const img_del = document.createElement("img");
+            img_del.src = srcEliminar;
+            btn_del.appendChild(img_del);
+            btn_del.classList.add("btn-xs");
+            btn_del.classList.add("btn-delete");
+
+            const btn_open = document.createElement("button"); // Abrir
             btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
             const img_open = document.createElement("img");
-            img_open.src = srcClosed;
+            img_open.src = srcCerrar;
             btn_open.appendChild(img_open);
-            btn_open.classList.add("boton-xs");
+            btn_open.classList.add("btn-xs");
 
-            const btn_close = document.createElement("button");
+            const btn_close = document.createElement("button"); // Cerrar
             btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
             const btn_img = document.createElement("img");
-            btn_img.src = srcOpen;
+            btn_img.src = srcAbrir;
             btn_close.appendChild(btn_img);
-            btn_close.classList.add("boton-xs");
+            btn_close.classList.add("btn-xs");
             btn_close.classList.add("oculto");
 
             // [ Muestra los Equipamientos de la ubicacion ]
@@ -143,6 +157,8 @@ async function cargarUbicaciones() {
                 limpiarEquiposDeUbicacion();
             });
 
+            ubi_btn.appendChild(btn_edit);
+            ubi_btn.appendChild(btn_del);
             ubi_btn.appendChild(btn_open);
             ubi_btn.appendChild(btn_close);
 
@@ -307,9 +323,10 @@ async function cargarEquiposDeUbicacion() {
             sec_equ_btn.classList.add("equ-btn");
 
             const btn_edi = document.createElement("button"); // Boton editar
-            btn_edi.classList.add("boton-xs");
+            btn_edi.classList.add("btn-xs");
+            btn_edi.classList.add("btn-edit");
             const img_btn_edi = document.createElement("img");
-            img_btn_edi.src = srcEdit;
+            img_btn_edi.src = srcEditar;
             btn_edi.alt = "Editar campos del equipamiento " + equ.equ_nombre + ".";
             btn_edi.appendChild(img_btn_edi);
 
@@ -319,9 +336,10 @@ async function cargarEquiposDeUbicacion() {
             });
 
             const btn_gua = document.createElement("button"); // Boton guardar
-            btn_gua.classList.add("boton-xs");
+            btn_gua.classList.add("btn-xs");
+            btn_gua.classList.add("btn-save");
             const img_btn_gua = document.createElement("img");
-            img_btn_gua.src = srcSave;
+            img_btn_gua.src = srcGuardar;
             btn_gua.alt = "Guardar cambios del equipamiento " + equ.equ_nombre + ".";
             btn_gua.appendChild(img_btn_gua);
 
@@ -330,9 +348,10 @@ async function cargarEquiposDeUbicacion() {
             });
 
             const btn_eli = document.createElement("button"); // Boton eliminar
-            btn_eli.classList.add("boton-xs");
+            btn_eli.classList.add("btn-xs");
+            btn_eli.classList.add("btn-delete");
             const img_btn_eli = document.createElement("img");
-            img_btn_eli.src = srcDel;
+            img_btn_eli.src = srcEliminar;
             btn_eli.alt = "Eliminar equipamiento " + equ.equ_nombre + ".";
             btn_eli.appendChild(img_btn_eli);
 

@@ -40,7 +40,11 @@ table td {
     word-break: normal;
 }
 
-.aula td:last-child {
+table .aula{
+    border-bottom: 1px solid var(--color-black);
+}
+
+table .aula td:last-child {
     display: flex;
     justify-content: center;
 }
@@ -169,7 +173,6 @@ table .aula:hover {
 
 .equ-btn button {
     background-color: var(--color-secundario);
-    margin: 2px;
 }
 
 .equ:hover .equ-btn button {
