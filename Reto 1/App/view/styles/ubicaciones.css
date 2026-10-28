@@ -176,3 +176,11 @@ table .aula:hover {
     background-color: var(--color-secundario);
     margin: 2px;
 }
+
+.equ:hover .equ-btn button{
+    background-color: var(--color-acento);
+}
+
+.equ-btn button:hover{
+    background-color: var(--color-principal);
+}
