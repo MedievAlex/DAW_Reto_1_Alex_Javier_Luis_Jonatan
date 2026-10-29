@@ -1,8 +1,7 @@
 <?php
-    require_once ("Usuario.php");
     require_once ("Estado.php");
 
-class Notificacion extends Usuario
+class Notificacion
 {
 
     private int $idNotificacion;
@@ -19,7 +18,6 @@ class Notificacion extends Usuario
         $this->descripcion = $descripcion;
         $this->fecha = $fecha;
         $this->estado = $estado;
-        parent::__construct($idNotificacion);
     }
 
     

@@ -1,6 +1,7 @@
 const NOT_URL = "../../api/NotificacionController.php";
 
 const btnNotificaciones1 = document.getElementById("boton-notificaciones");
+const btnAgregarNotificacion = document.getElementById("btnAniadirNot");
 const listaNotificaciones = document.getElementById("listaNotificaciones");
 const filtroNotificaciones = document.getElementById("filtroNotificaciones");
 
@@ -25,6 +26,95 @@ async function cargarNotificaciones() {
             listaNotificaciones.textContent = "No hay notificaciones.";
         }
 
+        btnAgregarNotificacion.addEventListener("click", () => {
+            // Evitamos que se abran varios formularios de creación a la vez
+            if (document.getElementById("elementoNuevoNotificacion")) {
+                return;
+            }
+
+            const usuarioNuevaNot = document.createElement("input");
+            usuarioNuevaNot.className = "inputNuevaNotUsuario";
+            usuarioNuevaNot.type = "number";
+            usuarioNuevaNot.min = "1";
+            usuarioNuevaNot.placeholder = "ID de usuario (ej. 1)";
+
+            const elementoNuevo = document.createElement("article");
+            elementoNuevo.className = "nuevaNotificacion";
+            elementoNuevo.id = "elementoNuevoNotificacion";
+
+            // Input Título
+            const tituloNuevaNot = document.createElement("input");
+            tituloNuevaNot.className = "inputNuevaNotTitulo";
+            tituloNuevaNot.type = "text";
+            tituloNuevaNot.placeholder = "Título de la notificación...";
+
+            // Input Descripción
+            const descripcionNuevaNot = document.createElement("textarea");
+            descripcionNuevaNot.className = "inputNuevaNotDesc";
+            descripcionNuevaNot.placeholder = "Descripción...";
+
+            // Selector de Fecha y Hora (abre el calendario nativo del navegador)
+            const fechaNuevaNot = document.createElement("input");
+            fechaNuevaNot.className = "inputNuevaNotFecha";
+            fechaNuevaNot.type = "datetime-local";
+
+            const estadoNuevaNot = document.createElement("select");
+            estadoNuevaNot.className = "inputNuevaNotEstado";
+
+            // Selector de Estado (por si tu POST en PHP también exige el estado)
+            const estadosPosibles = ["PENDIENTE", "EN_PROCESO", "REALIZADA"];
+            estadosPosibles.forEach((valorEstado) => {
+                const option = document.createElement("option");
+                option.value = valorEstado;
+                option.textContent = valorEstado;
+                estadoNuevaNot.append(option);
+            });
+
+            // Botón para Guardar la nueva notificación
+            const btnGuardarNueva = document.createElement("button");
+            btnGuardarNueva.textContent = "Guardar";
+            btnGuardarNueva.className = "btnGuardarNuevaNot";
+
+            // Botón para Cancelar por si te arrepientes
+            const btnCancelarNueva = document.createElement("button");
+            btnCancelarNueva.textContent = "Cancelar";
+            btnCancelarNueva.className = "btnCancelarNuevaNot";
+            btnCancelarNueva.addEventListener("click", () => {
+                elementoNuevo.remove();
+            });
+
+            btnGuardarNueva.addEventListener("click", () => {
+                const idUsuario = parseInt(usuarioNuevaNot.value, 10);
+                const titulo = tituloNuevaNot.value.trim();
+                const descripcion = descripcionNuevaNot.value.trim();
+                const fechaRaw = fechaNuevaNot.value; // Devuelve "YYYY-MM-DDTHH:MM"
+                const estado = estadoNuevaNot.value.trim();
+
+                if (!titulo || !descripcion || !fechaRaw) {
+                    alert("Por favor, rellena el título, la descripción y selecciona una fecha.");
+                }
+
+                // Convertimos "2026-10-28T10:30" a "2026-10-28 10:30:00" para PHP/MySQL
+                const fechaFormateada = fechaRaw.replace("T", " ") + ":00";
+
+                agregarNotificacion(idUsuario, titulo, descripcion, fechaFormateada, estado);
+            });
+
+            elementoNuevo.append(
+                usuarioNuevaNot,
+                tituloNuevaNot,
+                descripcionNuevaNot,
+                fechaNuevaNot,
+                estadoNuevaNot,
+                btnGuardarNueva,
+                btnCancelarNueva
+            );
+
+            listaNotificaciones.prepend(elementoNuevo);
+            tituloNuevaNot.focus();
+        });
+
+        //Aqui está la logica para cargar las notificaciones
         result.data.forEach((notificacion) => {
             const notificacion_id = notificacion.not_id;
             const fechaLimpia = new Date(notificacion.fecha.date).toLocaleString();
@@ -65,6 +155,7 @@ async function cargarNotificaciones() {
             let inputTitulo = null;
             let inputFecha = null;
             let inputDescripcion = null;
+            let inputEstado = null;
 
             btnModificar.addEventListener("click", () => {
                 if (!editando) {
@@ -82,9 +173,19 @@ async function cargarNotificaciones() {
                     inputFecha.type = "text";
                     inputFecha.value = fechaFormatoSQL;
 
-                    inputEstado = document.createElement("input");
-                    inputEstado.type = "text";
-                    inputEstado.value = notificacion.estado;
+
+                    inputEstado = document.createElement("select");
+                    inputEstado.className = "inputEditarEstado";
+
+                    const estadosPosibles = ["PENDIENTE", "EN_PROCESO", "REALIZADA"];
+                    estadosPosibles.forEach((valorEstado) => {
+                        const opcion = document.createElement("option");
+                        opcion.textContent = valorEstado;
+                        opcion.value = valorEstado;
+
+                        inputEstado.appendChild(opcion);
+                    })
+
                     // Reemplazamos los textos por los inputs en el DOM
                     titulo.replaceWith(inputTitulo);
                     descripcion.replaceWith(inputDescripcion);
@@ -131,12 +232,21 @@ async function cargarNotificaciones() {
     }
 }
 
+//Esto carga las notificaciones al entrar en el modal
 btnNotificaciones1.addEventListener("click", cargarNotificaciones);
 
-function agregarNotificacion(titulo, descripcion) {
+function agregarNotificacion(idUsuario, titulo, descripcion, fecha, estado) {
     let url = NOT_URL;
     let method = "POST";
-    let data = { titulo: titulo, descripcion: descripcion };
+    let data = {
+        not_id: idUsuario,
+        titulo: titulo,
+        descripcion: descripcion,
+        fecha: {
+            date: fecha
+        },
+        estado: estado
+    };
     let resultado;
 
     resultado = petition(url, method, data); // Llama al petition de global.js
@@ -162,8 +272,8 @@ function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
     };
     let resultado;
 
-
     resultado = petition(url, method, data); // Llama al petition de global.js
+  
     resultado.then((value) => {
         if (value.success) {
             alert("Notificación modificada correctamente.");
@@ -184,6 +294,8 @@ function eliminarNotificacion(id, btnEliminar) {
             const elementoEliminado = btnEliminar.closest(".notificacion");
             if (elementoEliminado) {
                 elementoEliminado.remove();
+                console.log("Notificacion eliminada correctamente.")
+                cargarNotificaciones();
             }
 
             if (listaNotificaciones && !listaNotificaciones.querySelector(".notificacion")) {

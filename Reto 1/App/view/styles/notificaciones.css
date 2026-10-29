@@ -101,6 +101,49 @@
     border: none;
 }
 
+.nuevaNotificacion {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: var(--color-acento);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.nuevaNotificacion:hover {
+    background-color: var(--color-secundario);
+}
+
+.inputNuevaNotDesc {
+    display: flex;
+    border-radius: 2px;
+}
+
+.inputNuevaNotTitulo {
+    display: flex;
+    border-radius: 2px;
+}
+
+.inputNuevaNotFecha {
+    display: flex;
+    border-radius: 2px;
+}
+
+.inputNuevaNotEstado {
+    display: flex;
+    border-radius: 2px;
+}
+
+.btnGuardarNuevaNot:hover {
+    background-color: #04be04;
+    padding: 9px 12px;
+}
+
+.btnCancelarNuevaNot:hover {
+    background-color: #ff4d4d;
+    padding: 9px 12px;
+}
+
 select {
     font-family: Bahnschrift;
 }
