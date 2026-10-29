@@ -36,6 +36,7 @@ async function cargarUbicaciones() {
                 value.sort((a, b) => a.ubi_nombre.localeCompare(b.ubi_nombre));
 
                 value.forEach(ubi => {
+                    let ubi_id = ubi.ubi_id;
                     let tr_ubi = document.createElement("tr");// Nueva Ubicacion
 
                     let ubi_nombre = document.createElement("td"); // Nombre
@@ -112,14 +113,8 @@ async function cargarUbicaciones() {
                     });
 
                     // [ Elimina la Ubicacion ]
-                    btn_delete.addEventListener("click", (event) => {
-                        let botonesEliminar = Array.from(document.getElementsByClassName("btn-delete"));
-                        let posicion = botonesEliminar.indexOf(event.currentTarget); // Obtiene la posición del índice del boton
-
-                        let aulas = Array.from(document.getElementsByClassName("aula")); // Obtiene todas las aulas
-                        let aula = aulas[posicion]; // Obtiene el aula de la posición del boton
-
-                        eliminarUbicacion(aula);
+                    btn_delete.addEventListener("click", () => {
+                        eliminarUbicacion(ubi_id);
                     });
 
                     // [ Muestra los Equipamientos de la Ubicacion ]
@@ -275,34 +270,24 @@ async function editarUbicacion() {
 }
 
 // [ Elimina la Ubicacion ]
-async function eliminarUbicacion(aula) {
-    let ubi_nom = aula.getElementsByClassName("ubi_nombre")[0].textContent; // Obtiene el nombre de la aula de la posición del boton
-    let ubi = buscarUbicacionPorNombre(ubi_nom); // [ERROR A REVISAR] Ejecuta este segundo
+async function eliminarUbicacion(ubi_id) {
+    let url = UBI_URL + "?ubi_id=" + ubi_id;
+    let method = "DELETE";
+    let data = {};
+    let ubicacion;
 
-    console.log(ubi); // [ERROR A REVISAR] Ejecuta primero este
+    ubicacion = petition(url, method, data); // Llama al petition de global.js
 
-    ubi.then((value) => {
-        console.log("ID: " + value.ubi_id);
+    ubicacion.then((value) => {
+        console.log(value[0].message);
+        alert(value[0].message);
+
+        if ("success" in value && value.success) {
+
+        } else {
+
+        }
     });
-
-    /*
-        let url = UBI_URL + "?ubi_id=" + ubi_id;
-        let method = "DELETE";
-        let data = {};
-        let ubicacion;
-    
-        ubicacion = petition(url, method, data); // Llama al petition de global.js
-    
-        ubicacion.then((value) => {
-            console.log(value[0].message);
-            alert(value[0].message);
-    
-            if ("success" in value && value.success) {
-    
-            } else {
-    
-            }
-        });*/
 }
 
 // [ Pide el listado de los equipos de una Ubicacion ]
