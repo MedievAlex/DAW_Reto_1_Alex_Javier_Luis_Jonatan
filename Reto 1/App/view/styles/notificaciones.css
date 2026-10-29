@@ -12,7 +12,7 @@
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
-    border-radius: 5px;
+    border-radius: var(--border-radius-s);
     background-color: var(--color-acento);
     color: var(--texto-acento);
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
@@ -32,7 +32,7 @@
     margin-bottom: 10px;
     padding: 5px;
     box-sizing: border-box;
-    border-radius: 3px;
+    border-radius: var(--border-radius-s);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -42,7 +42,7 @@
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: var(--border-radius-s);
     float: right;
     z-index: 1000;
 }
@@ -64,7 +64,7 @@
 
 #btnAniadirNot {
     font-family: Bahnschrift;
-    border-radius: 4px;
+    border-radius: var(--border-radius-s);
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
     background: linear-gradient(to bottom, #04be04, #05e405);
 }
@@ -75,7 +75,7 @@
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: var(--border-radius-s);
     float: right;
     z-index: 1000;
 }
@@ -91,13 +91,13 @@
 
 .inputEditarTitulo {
     display: flex;
-    border-radius: 2px;
+    border-radius: var(--border-radius-s);
     border: none;
 }
 
 .inputEditarDescripcion {
     display: flex;
-    border-radius: 2px;
+    border-radius: var(--border-radius-s);
     border: none;
 }
 

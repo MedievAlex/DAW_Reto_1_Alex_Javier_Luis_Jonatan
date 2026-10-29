@@ -21,8 +21,8 @@ const btnCerrarPerfil = document.getElementsByClassName("cerrar")[2];
 
 /* ---------------------------------------------- [Rutas]*/
 const srcAjustes = "../assets/icons/icon_editar.png";
-const srcAbrir = "../assets/icons/icon_drop_open.png";
-const srcCerrar = "../assets/icons/icon_drop_closed.png";
+const srcAbrir = "../assets/icons/icon_drop_abrir.png";
+const srcCerrar = "../assets/icons/icon_drop_cerrar.png";
 const srcEditar = "../assets/icons/icon_editar.png";
 const srcEliminar = "../assets/icons/icon_eliminar.png";
 const srcPendiente = "../assets/icons/icon_estado_pendiente.png";
@@ -38,52 +38,63 @@ const srcUsuNuevo = "../assets/icons/icon_usuario_nuevo.png";
 
 /* ---------------------------------------------- [PETICION]*/
 async function petition(url, method, data) {
-    try {
-        if (method == "GET") {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" }
-            });
+  try {
+    if (method == "GET") {
+      const response = await fetch(url, { // Peticion al PHP
+        method: method, // Metodo de peticion
+        headers: { "Content-type": "aplication/json" }
+      });
 
-            const result = await response.json();
+      const result = await response.json();
 
-            if (result.success) {
-                return result.data;
-            } else {
-                return [{ "message": result.message }];
-            }
-        } else if (method == "DELETE") {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" },
-                body: JSON.stringify(data) // Contenido
-            });
-            const result = await response.json();
+      if (result.success) {
+        return result.data;
+      } else {
+        return [{
+          "success": result.success,
+          "message": result.message
+        }];
+      }
+    } else if (method == "DELETE") {
+      const response = await fetch(url, { // Peticion al PHP
+        method: method, // Metodo de peticion
+        headers: { "Content-type": "aplication/json" },
+        body: JSON.stringify(data) // Contenido
+      });
+      const result = await response.json();
 
-            if (result.success) {
-                return result.message;
-            } else {
-                return [{ "message": result.message }];
-            }
-        } else {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" },
-                body: JSON.stringify(data) // Contenido
-            });
-            const result = await response.json();
+      if (result.success) {
+        return result.message;
+      } else {
+        return [{
+          "success": result.success,
+          "message": result.message
+        }];
+      }
+    } else {
+      const response = await fetch(url, { // Peticion al PHP
+        method: method, // Metodo de peticion
+        headers: { "Content-type": "aplication/json" },
+        body: JSON.stringify(data) // Contenido
+      });
+      const result = await response.json();
 
-            if (result.success) {
-                return result.data;
-            } else {
-                return [{ "message": result.message }];
-            }
-        }
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert("Error:", error.message);
-        return [];
+      if (result.success) {
+        return result.data;
+      } else {
+        return [{
+          "success": result.success,
+          "message": result.message
+        }];
+      }
     }
+  } catch (error) {
+    console.error("[ERROR]: ", error.message);
+    return [{
+      "success": false,
+      "message": error.message
+    }];
+  }
 }
 
 /* ---------------------------------------------- [MODAL: Ajustes]*/

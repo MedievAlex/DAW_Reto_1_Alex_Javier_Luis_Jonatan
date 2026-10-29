@@ -47,7 +47,7 @@ async function cargarNotificaciones() {
 
             // Botón Eliminar
             const btnEliminar = document.createElement("button");
-            btnEliminar.classList.add("btn-xs");
+            btnEliminar.classList.add("btn-s");
             btnEliminar.classList.add("btn-delete");
             btnEliminar.innerHTML = '<img src="../assets/icons/icon_eliminar.png" alt="Eliminar notificación">';
             btnEliminar.addEventListener("click", (event) => {
@@ -56,7 +56,7 @@ async function cargarNotificaciones() {
 
             // Botón Modificar con estado de edición en línea
             const btnModificar = document.createElement("button");
-            btnModificar.classList.add("btn-xs");
+            btnModificar.classList.add("btn-s");
             btnModificar.classList.add("btn-edit");
             btnModificar.innerHTML = '<img src="../assets/icons/icon_editar.png" alt="Editar notificación">';
 

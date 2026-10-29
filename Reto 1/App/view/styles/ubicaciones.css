@@ -40,7 +40,7 @@ table td {
     word-break: normal;
 }
 
-table .aula{
+table .aula {
     border-bottom: 1px solid var(--color-black);
 }
 
@@ -51,12 +51,16 @@ table .aula td:last-child {
 
 table .aula:hover {
     background-color: var(--color-secundario);
-    border-radius: 5px;
+    border-radius: var(--border-radius-s);
     color: var(--texto-secundario);
 
     border: 2px solid var(--color-acento);
 
     text-align: left;
+}
+
+.btn-close{
+    background-color: var(--color-secundario);
 }
 
 /* ---------------------------------------------- [ARTICLE: ScrollBar]*/
@@ -77,7 +81,7 @@ table .aula:hover {
     padding-right: 10vh;
 
     border: none;
-    border-radius: var(--border-radious-value);
+    border-radius: var(--border-radius-m);
 
     display: flex;
     flex-direction: column;
@@ -117,7 +121,7 @@ table .aula:hover {
     width: 20vh;
     height: 20vh;
 
-    border-radius: 50%;
+    border-radius: var(--border-radius-half);
 }
 
 .equ-inf .det {
@@ -154,19 +158,18 @@ table .aula:hover {
     flex-direction: row;
 }
 
-.equ-btn button {
-    background-color: var(--color-secundario);
-}
-
-.equ:hover .equ-btn button {
-    background-color: var(--color-acento);
-}
-
-.equ-btn button:hover {
-    background-color: var(--color-principal);
-}
-
 /* ---------------------------------------------- [MEDIA QUERIES]*/
+@media only screen and (max-width: 1370px) {
+    .equ-inf {
+        justify-content: center;
+    }
+
+    .equ-btn {
+        width: 100%;
+        justify-content: right;
+    }
+}
+
 @media only screen and (max-width: 1024px) {
     section {
         flex-direction: column;
@@ -187,6 +190,24 @@ table .aula:hover {
 
         padding-right: 20vh;
     }
+
+    .equ-inf {
+        justify-content: auto;
+    }
+
+    .equ-btn {
+        width: auto;
+        justify-content: auto;
+    }
 }
 
-@media only screen and (max-width : 900px) {}
+@media only screen and (max-width : 750px) {
+    .equ-inf {
+        justify-content: center;
+    }
+
+    .equ-btn {
+        width: 100%;
+        justify-content: right;
+    }
+}
