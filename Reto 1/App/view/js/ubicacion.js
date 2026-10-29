@@ -199,6 +199,7 @@ async function buscarUbicacionPorNombre(ubi_nombre) {
     let method = "GET";
     let data = [];
     let ubicacion;
+    let ubi = null;
 
     ubicacion = petition(url, method, data); // Llama al petition de global.js
 
@@ -211,11 +212,16 @@ async function buscarUbicacionPorNombre(ubi_nombre) {
         );
 
         if (valido) {
-            console.log(value[0]);
-            return value[0];
+            ubi = value[0];
+
         } else {
+            ubi = value[0];
         }
+
+        console.log(value[0]);
     });
+
+    return ubi;
 }
 
 // [ Crea la Ubicacion enviada ]
@@ -271,8 +277,13 @@ async function editarUbicacion() {
 // [ Elimina la Ubicacion ]
 async function eliminarUbicacion(aula) {
     let ubi_nom = aula.getElementsByClassName("ubi_nombre")[0].textContent; // Obtiene el nombre de la aula de la posición del boton
-    let ubi_id = buscarUbicacionPorNombre(ubi_nom);
-    console.log("ID: " + ubi_id);
+    let ubi = buscarUbicacionPorNombre(ubi_nom); // [ERROR A REVISAR] Ejecuta este segundo
+
+    console.log(ubi); // [ERROR A REVISAR] Ejecuta primero este
+
+    ubi.then((value) => {
+        console.log("ID: " + value.ubi_id);
+    });
 
     /*
         let url = UBI_URL + "?ubi_id=" + ubi_id;
@@ -460,6 +471,7 @@ function limpiarEquiposDeUbicacion(event_btn) {
     }
 }
 
+// [ Genera la tarjeta del mensaje de error de Ubicacion ]
 function ubiNoValido(message) {
     let tr_err = document.createElement("tr");
     let td_err = document.createElement("td");
@@ -473,6 +485,7 @@ function ubiNoValido(message) {
     tbody_ubicaciones.appendChild(tr_err);
 }
 
+// [ Genera la tarjeta del mensaje de error de Equipamientos ]
 function equNoValido(message) {
     let equ_err = document.createElement("div");
     equ_err.classList.add("err");
