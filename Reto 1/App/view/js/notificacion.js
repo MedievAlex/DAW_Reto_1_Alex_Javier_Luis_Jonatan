@@ -122,7 +122,7 @@ async function cargarNotificaciones() {
 
             // Creamos primero los elementos de texto para poder manipularlos luego
             const elemento = document.createElement("article");
-            elemento.className = "notificacion";
+            elemento.classList.add("tarjeta");
             elemento.id = `elementoNotificacion-${notificacion_id}`;
 
             const titulo = document.createElement("h3");
@@ -137,16 +137,18 @@ async function cargarNotificaciones() {
 
             // Botón Eliminar
             const btnEliminar = document.createElement("button");
-            btnEliminar.className = "btnEliminarNotificacion";
-            btnEliminar.innerHTML = '<img src="../assets/icons/icon_eliminar.png" alt="Eliminar notificación">';
+            btnEliminar.classList.add("btn-s");
+            btnEliminar.classList.add("btn-delete");
+            btnEliminar.innerHTML = '<img src="' + srcEliminar + '" alt="Eliminar notificación">';
             btnEliminar.addEventListener("click", (event) => {
                 eliminarNotificacion(notificacion_id, event.currentTarget);
             });
 
             // Botón Modificar con estado de edición en línea
             const btnModificar = document.createElement("button");
-            btnModificar.className = "btnModificarNotificacion";
-            btnModificar.innerHTML = '<img src="../assets/icons/icon_editar.png" alt="Editar notificación">';
+            btnModificar.classList.add("btn-s");
+            btnModificar.classList.add("btn-edit");
+            btnModificar.innerHTML = '<img src="' + srcEditar + '" alt="Editar notificación">';
 
             // Variables para controlar la edición de ESTA tarjeta en concreto
             let editando = false;
@@ -190,7 +192,11 @@ async function cargarNotificaciones() {
                     detalles.replaceWith(inputFecha, inputEstado);
 
                     // Cambiamos el botón para indicar que el siguiente click guarda
-                    btnModificar.textContent = "Guardar";
+                    //btnModificar.textContent = "Guardar";
+                    btnModificar.textContent = "";
+                    let img_guar = document.createElement("img");
+                    img_guar.src = srcGuardar;
+                    btnModificar.appendChild(img_guar);
                     editando = true;
                     inputTitulo.focus();
 
@@ -243,7 +249,7 @@ function agregarNotificacion(idUsuario, titulo, descripcion, fecha, estado) {
     };
     let resultado;
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
     resultado.then((value) => {
         if (value.success) {
             alert("Notificación agregada correctamente.");
@@ -266,7 +272,8 @@ function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
     };
     let resultado;
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
+  
     resultado.then((value) => {
         if (value.success) {
             alert("Notificación modificada correctamente.");
@@ -281,7 +288,7 @@ function eliminarNotificacion(id, btnEliminar) {
     let data = [];
     let resultado;
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
     resultado.then((value) => {
         if (value.success) {
             const elementoEliminado = btnEliminar.closest(".notificacion");

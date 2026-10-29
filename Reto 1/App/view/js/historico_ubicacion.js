@@ -2,55 +2,6 @@
 const HIS_URL = "../../api/Historico_UbicacionController.php";
 
 /* ---------------------------------------- [FUNCIONES]*/
-async function petition(url, method, data) {
-    try {
-        if (method == "GET") {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" }
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                return result.data;
-            } else {
-                return [{ "message": result.message }];
-            }
-        } else if (method == "DELETE") {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" },
-                body: JSON.stringify(data) // Contenido
-            });
-            const result = await response.json();
-
-            if (result.success) {
-                return result.message;
-            } else {
-                return [{ "message": result.message }];
-            }
-        } else {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "aplication/json" },
-                body: JSON.stringify(data) // Contenido
-            });
-            const result = await response.json();
-
-            if (result.success) {
-                return result.data;
-            } else {
-                return [{ "message": result.message }];
-            }
-        }
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert("Error:", error.message);
-        return [];
-    }
-}
-
 // [ Pide el listado de todos los Historico Ubicaciones ]
 async function cargarHistoricos() {
     let url = HIS_URL;
@@ -58,7 +9,7 @@ async function cargarHistoricos() {
     let data = [];
     let historicos;
 
-    historicos = petition(url, method, data);
+    historicos = petition(url, method, data); // Llama al petition de global.js
 
     historicos.then((value) => {
         value.forEach(ubi => {
@@ -75,7 +26,7 @@ function buscarHistoricoPorId() {
     let data = [];
     let historico;
 
-    historico = petition(url, method, data);
+    historico = petition(url, method, data); // Llama al petition de global.js
 
     historico.then((value) => {
         console.log(value[0]);
@@ -90,7 +41,7 @@ function cargarHistoricosDeEquipamiento() {
     let data = [];
     let historico;
 
-    historico = petition(url, method, data);
+    historico = petition(url, method, data); // Llama al petition de global.js
 
     historico.then((value) => {
         console.log(value[0]);
@@ -105,7 +56,7 @@ function cargarHistoricosDeUbicacion() {
     let data = [];
     let historico;
 
-    historico = petition(url, method, data);
+    historico = petition(url, method, data); // Llama al petition de global.js
 
     historico.then((value) => {
         console.log(value[0]);
@@ -125,7 +76,7 @@ async function crearHistorico() {
     };
     let historico;
 
-    historico = petition(url, method, data);
+    historico = petition(url, method, data); // Llama al petition de global.js
 
     historico.then((value) => {
         console.log(value[0]);
@@ -145,7 +96,7 @@ async function crearHistorico() {
     };
     let historico;
 
-    historico = petition(url, method, data);
+    historico = petition(url, method, data); // Llama al petition de global.js
 
     historico.then((value) => {
         console.log(value[0]);
@@ -160,7 +111,7 @@ async function eliminarUbicacion() {
     let data = {};
     let historico;
 
-    historico = petition(url, method, data);
+    historico = petition(url, method, data); // Llama al petition de global.js
 
     historico.then((value) => {
         console.log(value[0].message);

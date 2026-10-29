@@ -19,6 +19,84 @@ const btnPerfil = document.getElementById("boton-perfil");
 const modalPerfil = document.getElementById("modalPerfil");
 const btnCerrarPerfil = document.getElementsByClassName("cerrar")[2];
 
+/* ---------------------------------------------- [Rutas]*/
+const srcAjustes = "../assets/icons/icon_editar.png";
+const srcAbrir = "../assets/icons/icon_drop_abrir.png";
+const srcCerrar = "../assets/icons/icon_drop_cerrar.png";
+const srcEditar = "../assets/icons/icon_editar.png";
+const srcEliminar = "../assets/icons/icon_eliminar.png";
+const srcPendiente = "../assets/icons/icon_estado_pendiente.png";
+const srcProceso = "../assets/icons/icon_estado_proceso.png";
+const srcRealizado = "../assets/icons/icon_estado_realizado.png";
+const srcGuardar = "../assets/icons/icon_guardar.png";
+const srcHome = "../assets/icons/icon_home.png";
+const srcNot = "../assets/icons/icon_notificacion.png";
+const srcNotNueva = "../assets/icons/icon_notificacion_nueva.png";
+const srcPerfil = "../assets/icons/icon_perfil.png";
+const srcUsu = "../assets/icons/icon_usuario.png";
+const srcUsuNuevo = "../assets/icons/icon_usuario_nuevo.png";
+
+/* ---------------------------------------------- [PETICION]*/
+async function petition(url, method, data) {
+  try {
+    if (method == "GET") {
+      const response = await fetch(url, { // Peticion al PHP
+        method: method, // Metodo de peticion
+        headers: { "Content-type": "aplication/json" }
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        return result.data;
+      } else {
+        return [{
+          "success": result.success,
+          "message": result.message
+        }];
+      }
+    } else if (method == "DELETE") {
+      const response = await fetch(url, { // Peticion al PHP
+        method: method, // Metodo de peticion
+        headers: { "Content-type": "aplication/json" },
+        body: JSON.stringify(data) // Contenido
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        return result.message;
+      } else {
+        return [{
+          "success": result.success,
+          "message": result.message
+        }];
+      }
+    } else {
+      const response = await fetch(url, { // Peticion al PHP
+        method: method, // Metodo de peticion
+        headers: { "Content-type": "aplication/json" },
+        body: JSON.stringify(data) // Contenido
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        return result.data;
+      } else {
+        return [{
+          "success": result.success,
+          "message": result.message
+        }];
+      }
+    }
+  } catch (error) {
+    console.error("[ERROR]: ", error.message);
+    return [{
+      "success": false,
+      "message": error.message
+    }];
+  }
+}
+
 /* ---------------------------------------------- [MODAL: Ajustes]*/
 // Abrir modal
 btnAjustes.addEventListener("click", function () {
@@ -32,7 +110,7 @@ btnCerrarAjustes.addEventListener("click", function () {
 
 /* ---------------------------------------------- [Cambiar tema]*/
 document.addEventListener("DOMContentLoaded", () => {
-    obtenerTema();
+  obtenerTema();
 });
 
 function obtenerTema() {
