@@ -48,13 +48,13 @@ VALUES
 
     ('Aula 103', 'Aula de informatica para proyectos'),
 
-    ('Sala de Profesores', 'Sala destinada al personal docente'),
+    ('Aula 201', 'Sala destinada al personal docente'),
 
-    ('Despacho Direccion', 'Despacho de direccion'),
+    ('Aula 202', 'Despacho de direccion'),
 
-    ('Laboratorio', 'Laboratorio de pruebas y sistemas'),
+    ('Aula 104', 'Laboratorio de pruebas y sistemas'),
 
-    ('Salon de Actos', 'Espacio para presentaciones y eventos');
+    ('Aula 105', 'Espacio para presentaciones y eventos');
 
 
 -- ============================================================

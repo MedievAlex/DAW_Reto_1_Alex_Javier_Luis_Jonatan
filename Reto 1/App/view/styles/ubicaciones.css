@@ -1,0 +1,157 @@
+/* ---------------------------------------------- [MEDIA QUERIES]*/
+@media only screen and (max-width: 1024px) {
+    section {
+        flex-direction: column;
+    }
+}
+
+/* ---------------------------------------------- [SECTION]*/
+section {
+    display: flex;
+
+    padding: 10px;
+
+    flex-direction: row;
+}
+
+/* ---------------------------------------------- [SECTION: Plantas]*/
+section #plantas {
+    margin: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* ---------------------------------------------- [SECTION: Article]*/
+section article {
+    margin: 20px;
+}
+
+/* ---------------------------------------------- [ARTICLE: Tabla]*/
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    table-layout: fixed;
+}
+
+table td, th {
+    text-align: left;
+    
+    padding: 10px 5px;
+
+    border-color: 1px solid black;
+    
+    word-break: normal;
+}
+
+table .aula:hover {
+    background-color: var(--color-secundario);
+    border: 2px solid var(--color-acento);
+    text-align: left;
+    vertical-align: top;
+}
+
+/* ---------------------------------------------- [ARTICLE: ScrollBar]*/
+.scroll {
+    padding-right: 10vh;
+
+    width: 50%;
+    height: 80vh;
+
+    overflow: hidden;
+}
+
+#equipamientos {
+    height: 100%;
+    width: 50%;
+
+    padding: 10px;
+    padding-right: 10vh;
+
+    border: none;
+    border-radius: var(--border-radious-value);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/* ---------------------------------------------- [ARTICLE: Equipamiento]*/
+.equ {
+    background-color: var(--color-acento);
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+
+    padding: 10px;
+
+    border-radius: 20px;
+
+    margin: 10px;
+}
+
+.equ:hover {
+    background-color: var(--color-secundario);
+
+    border: 2px var(--color-secundario) solid;
+
+    cursor: pointer;
+}
+
+.equ:active {
+    border: 2px solid var(--color-acento);
+}
+
+.equ-inf{
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.equ-inf .equ-img {
+    min-width: 95px;
+    min-height: 95px;
+
+    width: 20vh;
+    height: 20vh;
+
+    border-radius: 50%;
+}
+
+.equ-inf .det {
+    margin: 10px;
+
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.det-inf .equ-nom {
+    width: 100%;
+
+    font-weight: bold;
+}
+
+.det .equ_det {
+    width: 100%;
+
+    font-style: oblique;
+}
+
+#equ-nom,
+#equ-mar,
+#equ-mod {
+    display: none;
+}
+
+.equ-btn{
+    display: flex;
+    flex-direction: row;
+}

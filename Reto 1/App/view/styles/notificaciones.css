@@ -1,0 +1,147 @@
+#modalNotificaciones {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+#listaNotificaciones {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.notificacion {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: var(--color-acento);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.notTitulo {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.notificacion:hover {
+    background-color: var(--color-secundario);
+}
+
+#filtroNotificaciones {
+    margin-bottom: 10px;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.btnEliminarNotificacion {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    float: right;
+    z-index: 1000;
+}
+
+.btnEliminarNotificacion:hover {
+    padding: 9px 12px;
+}
+
+.btnEliminarNotificacion img {
+    width: 20px;
+    height: 20px;
+}
+
+.contenedorFiltroYBtn {
+    display: flex;
+    justify-content: space-between;
+    align-content: flex-end;
+}
+
+#btnAniadirNot {
+    font-family: Bahnschrift;
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, #04be04, #05e405);
+}
+
+.btnModificarNotificacion {
+    background-color: #e4703a;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    float: right;
+    z-index: 1000;
+}
+
+.btnModificarNotificacion:hover {
+    padding: 9px 12px;
+}
+
+.btnModificarNotificacion img {
+    width: 20px;
+    height: 20px;
+}
+
+.inputEditarTitulo {
+    display: flex;
+    border-radius: 2px;
+    border: none;
+}
+
+.inputEditarDescripcion {
+    display: flex;
+    border-radius: 2px;
+    border: none;
+}
+
+.nuevaNotificacion {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: var(--color-acento);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.nuevaNotificacion:hover {
+    background-color: var(--color-secundario);
+}
+
+.inputNuevaNotDesc {
+    display: flex;
+    border-radius: 2px;
+}
+
+.inputNuevaNotTitulo {
+    display: flex;
+    border-radius: 2px;
+}
+
+.inputNuevaNotFecha {
+    display: flex;
+    border-radius: 2px;
+}
+
+.inputNuevaNotEstado {
+    display: flex;
+    border-radius: 2px;
+}
+
+.btnGuardarNuevaNot:hover {
+    background-color: #04be04;
+    padding: 9px 12px;
+}
+
+.btnCancelarNuevaNot:hover {
+    background-color: #ff4d4d;
+    padding: 9px 12px;
+}
+
+select {
+    font-family: Bahnschrift;
+}
