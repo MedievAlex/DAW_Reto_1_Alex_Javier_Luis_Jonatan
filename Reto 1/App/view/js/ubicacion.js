@@ -337,6 +337,8 @@ async function cargarEquiposDeUbicacion() {
                     img_equ_img.src = "../assets/img/categoria_" + equ.equ_categoria.toLowerCase() + ".jpg";
                     img_equ_img.alt = "Equipamiento " + equ.equ_nombre + ".";
 
+                    art_equ.appendChild(sec_equ_inf); // Seccion de información al artículo
+
                     let div_det = document.createElement("div"); // Detalles del Equipamiento
                     div_det.classList.add("det");
 
@@ -377,30 +379,16 @@ async function cargarEquiposDeUbicacion() {
                     let sec_equ_btn = document.createElement("section"); // Botones
                     sec_equ_btn.classList.add("equ-btn");
 
-                    let btn_edit = document.createElement("button"); // Boton editar
+                    art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
+
+                    // ---------------------------------------- Boton Editar
+                    let btn_edit = document.createElement("button");
                     btn_edit.classList.add("btn-s");
                     btn_edit.classList.add("btn-edit");
                     let img_btn_edit = document.createElement("img");
                     img_btn_edit.src = srcEditar;
                     btn_edit.alt = "Editar campos del equipamiento " + equ.equ_nombre + ".";
                     btn_edit.appendChild(img_btn_edit);
-
-                    let btn_save = document.createElement("button"); // Boton guardar
-                    btn_save.classList.add("btn-s");
-                    btn_save.classList.add("btn-save");
-                    btn_save.classList.add("oculto");
-                    let img_btn_save = document.createElement("img");
-                    img_btn_save.src = srcGuardar;
-                    btn_save.alt = "Guardar cambios del equipamiento " + equ.equ_nombre + ".";
-                    btn_save.appendChild(img_btn_save);
-
-                    let btn_delete = document.createElement("button"); // Boton eliminar
-                    btn_delete.classList.add("btn-s");
-                    btn_delete.classList.add("btn-delete");
-                    let img_btn_delete = document.createElement("img");
-                    img_btn_delete.src = srcEliminar;
-                    btn_delete.alt = "Eliminar equipamiento " + equ.equ_nombre + ".";
-                    btn_delete.appendChild(img_btn_delete);
 
                     // [ Edita el Equipamiento selecionado ]
                     btn_edit.addEventListener("click", () => {
@@ -411,6 +399,18 @@ async function cargarEquiposDeUbicacion() {
                         btn_save.classList.add("visible");
                     });
 
+                    sec_equ_btn.appendChild(btn_edit);
+
+                    // ---------------------------------------- Boton Guardar
+                    let btn_save = document.createElement("button");
+                    btn_save.classList.add("btn-s");
+                    btn_save.classList.add("btn-save");
+                    btn_save.classList.add("oculto");
+                    let img_btn_save = document.createElement("img");
+                    img_btn_save.src = srcGuardar;
+                    btn_save.alt = "Guardar cambios del equipamiento " + equ.equ_nombre + ".";
+                    btn_save.appendChild(img_btn_save);
+
                     // [ Guarda las modificaciones del Equipamiento editado ]
                     btn_save.addEventListener("click", () => {
                         btn_save.classList.remove("visible");
@@ -420,17 +420,23 @@ async function cargarEquiposDeUbicacion() {
                         btn_edit.classList.add("visible");
                     });
 
+                    sec_equ_btn.appendChild(btn_save);
+
+                    // ---------------------------------------- Boton Eliminar
+                    let btn_delete = document.createElement("button");
+                    btn_delete.classList.add("btn-s");
+                    btn_delete.classList.add("btn-delete");
+                    let img_btn_delete = document.createElement("img");
+                    img_btn_delete.src = srcEliminar;
+                    btn_delete.alt = "Eliminar equipamiento " + equ.equ_nombre + ".";
+                    btn_delete.appendChild(img_btn_delete);
+
                     // [ Elimina el Equipamiento ]
                     btn_delete.addEventListener("click", () => {
 
                     });
 
-                    sec_equ_btn.appendChild(btn_edit);
-                    sec_equ_btn.appendChild(btn_save);
                     sec_equ_btn.appendChild(btn_delete);
-
-                    art_equ.appendChild(sec_equ_inf); // Seccion de información al artículo
-                    art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
 
                     artEqu.appendChild(art_equ);
                 });
