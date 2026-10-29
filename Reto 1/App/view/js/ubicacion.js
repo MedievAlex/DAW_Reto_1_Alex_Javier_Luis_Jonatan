@@ -323,7 +323,16 @@ async function cargarEquiposDeUbicacion() {
             );
 
             if (valido) {
-                value.sort((a, b) => a.equ_nombre.localeCompare(b.equ_nombre));
+                /*
+                let almacen = value.find(a => a.nombre === "Almacén");
+                let ubicacionesFiltradas = Array.from(value).filter(b => b.equ_nombre !== almacen.ubi_nombre); // Quita Ubicacion almacén para ordenar el resto
+                let ubicacionesOrdenadas = ubicacionesFiltradas.sort((a, b) => a.equ_nombre.localeCompare(b.equ_nombre));
+
+                value = [];
+                value.push(almacen);
+                value.push(ubicacionesOrdenadas);
+                */
+                value.sort((a, b) => a.ubi_nombre.localeCompare(b.ubi_nombre));
 
                 value.forEach(equ => {
                     let art_equ = document.createElement("article"); // Nuevo Equipamiento

@@ -46,7 +46,7 @@ table .aula {
 
 table .aula td:last-child {
     display: flex;
-    justify-content: center;
+    justify-content: end;
 }
 
 table .aula:hover {
