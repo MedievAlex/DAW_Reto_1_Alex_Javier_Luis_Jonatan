@@ -39,7 +39,8 @@ async function cargarNotificaciones() {
             usuarioNuevaNot.placeholder = "ID de usuario (ej. 1)";
 
             const elementoNuevo = document.createElement("article");
-            elementoNuevo.className = "nuevaNotificacion";
+            //elementoNuevo.className = "nuevaNotificacion";
+            elementoNuevo.classList.add("tarjeta");
             elementoNuevo.id = "elementoNuevoNotificacion";
 
             // Input Título
