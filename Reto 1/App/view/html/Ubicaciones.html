@@ -11,6 +11,8 @@
     <script src="../js/notificacion.js" defer></script>
     <script src="../js/ubicacion.js" defer></script>
     <script src="../js/usuario.js" defer></script>
+    <script src="../js/mockData.js" defer></script> <!-- Script para utilizar datos falsos -->
+    <link rel="shortcut icon" type="image/ico" href="../assets/logo/CF.ico">
     <title>Ubicaciones - Centro Fungible</title>
 </head>
 
@@ -27,13 +29,13 @@
             <!-- <img src="../assets/icons/icon_home.png"> -->
         </a>
         <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
-        <button id="boton-ajustes" class="boton-xs">
+        <button id="boton-ajustes" class="btn-s">
             <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
         </button>
-        <button id="boton-notificaciones" class="boton-xs">
+        <button id="boton-notificaciones" class="btn-s">
             <img src="../assets/icons/icon_notificacion.png" alt="Acceso a las notificaciones.">
         </button>
-        <button id="boton-perfil" class="boton-xs">
+        <button id="boton-perfil" class="btn-s">
             <img src="../assets/icons/icon_perfil.png" alt="Acceso al perfil personal.">
         </button>
     </nav>
@@ -75,111 +77,18 @@
             </div>
         </div>
 
-        <div id="modalAula" class="modal">
-            <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <p id="nombreAula">Nombre Aula</p>
-                <p id="descripcionAula">Descripcion del aula.</p>
-            </div>
-        </div>
-
         <!------------------------------------------------------------------------ [ARTICLE: Aulas ] -->
         <article id="ubicaciones">
             <table>
                 <tbody>
-                    <tr>
-                        <th>Nombre</td>
-                        <th>Descripción</td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </article>
 
         <!------------------------------------------------------------------------ [ASIDE: Equipamientos ] -->
         <article id="equipamientos">
-            <div class="equ">
-                <div class="equ-inf">
-                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="det">
-                        <div class="equ_nom">
-                            <h3>NOMBRE</h3>
-                        </div>
-                        <input type="text" id="equ-nom" placeholder="nombre" required>
-                        <div class="equ_det">
-                            <p>Marca, Modelo</p>
-                        </div>
-                        <input type="text" id="equ-mar" placeholder="marca" required>
-                        <input type="text" id="equ-mod" placeholder="modelo" required>
-                    </div>
-                </div>
-                <div class="equ-btn">
-                    <button class="boton-xs visible">
-                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
-                    </button>
-                    <button class="boton-xs oculto">
-                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
-                    </button>
-                    <button class="boton-xs">
-                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
-                    </button>
-                </div>
-            </div>
-
-            <div class="equ">
-                <div class="equ-inf">
-                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="det">
-                        <div class="equ_nom">
-                            <h3>NOMBRE</h3>
-                        </div>
-                        <input type="text" id="equ-nom" placeholder="nombre" required>
-                        <div class="equ_det">
-                            <p>Marca, Modelo</p>
-                        </div>
-                        <input type="text" id="equ-mar" placeholder="marca" required>
-                        <input type="text" id="equ-mod" placeholder="modelo" required>
-                    </div>
-                </div>
-                <div class="equ-btn">
-                    <button class="boton-xs visible">
-                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
-                    </button>
-                    <button class="boton-xs oculto">
-                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
-                    </button>
-                    <button class="boton-xs">
-                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
-                    </button>
-                </div>
-            </div>
-
-            <div class="equ">
-                <div class="equ-inf">
-                    <img class="equ-img" src="../assets/img/categoria_portatil.jpg" alt="Portatil" />
-                    <div class="det">
-                        <div class="equ_nom">
-                            <h3>NOMBRE</h3>
-                        </div>
-                        <input type="text" id="equ-nom" placeholder="nombre" required>
-                        <div class="equ_det">
-                            <p>Marca, Modelo</p>
-                        </div>
-                        <input type="text" id="equ-mar" placeholder="marca" required>
-                        <input type="text" id="equ-mod" placeholder="modelo" required>
-                    </div>
-                </div>
-                <div class="equ-btn">
-                    <button class="boton-xs visible">
-                        <img src="../assets/icons/icon_editar.png" alt="Editar equipo.">
-                    </button>
-                    <button class="boton-xs oculto">
-                        <img src="../assets/icons/icon_guardar.png" alt="Guardar cambios.">
-                    </button>
-                    <button class="boton-xs">
-                        <img src="../assets/icons/icon_eliminar.png" alt="Eliminar equipo.">
-                    </button>
-                </div>
-            </div>
+            
         </article>
     </section>
 

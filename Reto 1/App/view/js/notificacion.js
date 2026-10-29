@@ -1,34 +1,9 @@
 const NOT_URL = "../../api/NotificacionController.php";
 
 const btnNotificaciones1 = document.getElementById("boton-notificaciones");
+const btnAgregarNotificacion = document.getElementById("btnAniadirNot");
 const listaNotificaciones = document.getElementById("listaNotificaciones");
 const filtroNotificaciones = document.getElementById("filtroNotificaciones");
-
-async function petition(url, method, data) {
-    try {
-        const options = {
-            method: method,
-            headers: { "Content-type": "application/json" }
-        };
-
-        if (method !== "GET") {
-            options.body = JSON.stringify(data);
-        }
-
-        const response = await fetch(url, options);
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "No se pudo completar la operación.");
-        }
-
-        return result;
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert(`Error: ${error.message}`);
-        return { success: false, message: error.message };
-    }
-}
 
 //Método para cargar todas las notificaciones desde el servidor
 async function cargarNotificaciones() {
@@ -51,6 +26,96 @@ async function cargarNotificaciones() {
             listaNotificaciones.textContent = "No hay notificaciones.";
         }
 
+        btnAgregarNotificacion.addEventListener("click", () => {
+            // Evitamos que se abran varios formularios de creación a la vez
+            if (document.getElementById("elementoNuevoNotificacion")) {
+                return;
+            }
+
+            const usuarioNuevaNot = document.createElement("input");
+            usuarioNuevaNot.className = "inputNuevaNotUsuario";
+            usuarioNuevaNot.type = "number";
+            usuarioNuevaNot.min = "1";
+            usuarioNuevaNot.placeholder = "ID de usuario (ej. 1)";
+
+            const elementoNuevo = document.createElement("article");
+            //elementoNuevo.className = "nuevaNotificacion";
+            elementoNuevo.classList.add("tarjeta");
+            elementoNuevo.id = "elementoNuevoNotificacion";
+
+            // Input Título
+            const tituloNuevaNot = document.createElement("input");
+            tituloNuevaNot.className = "inputNuevaNotTitulo";
+            tituloNuevaNot.type = "text";
+            tituloNuevaNot.placeholder = "Título de la notificación...";
+
+            // Input Descripción
+            const descripcionNuevaNot = document.createElement("textarea");
+            descripcionNuevaNot.className = "inputNuevaNotDesc";
+            descripcionNuevaNot.placeholder = "Descripción...";
+
+            // Selector de Fecha y Hora (abre el calendario nativo del navegador)
+            const fechaNuevaNot = document.createElement("input");
+            fechaNuevaNot.className = "inputNuevaNotFecha";
+            fechaNuevaNot.type = "datetime-local";
+
+            const estadoNuevaNot = document.createElement("select");
+            estadoNuevaNot.className = "inputNuevaNotEstado";
+
+            // Selector de Estado (por si tu POST en PHP también exige el estado)
+            const estadosPosibles = ["PENDIENTE", "EN_PROCESO", "REALIZADA"];
+            estadosPosibles.forEach((valorEstado) => {
+                const option = document.createElement("option");
+                option.value = valorEstado;
+                option.textContent = valorEstado;
+                estadoNuevaNot.append(option);
+            });
+
+            // Botón para Guardar la nueva notificación
+            const btnGuardarNueva = document.createElement("button");
+            btnGuardarNueva.textContent = "Guardar";
+            btnGuardarNueva.className = "btnGuardarNuevaNot";
+
+            // Botón para Cancelar por si te arrepientes
+            const btnCancelarNueva = document.createElement("button");
+            btnCancelarNueva.textContent = "Cancelar";
+            btnCancelarNueva.className = "btnCancelarNuevaNot";
+            btnCancelarNueva.addEventListener("click", () => {
+                elementoNuevo.remove();
+            });
+
+            btnGuardarNueva.addEventListener("click", () => {
+                const idUsuario = parseInt(usuarioNuevaNot.value, 10);
+                const titulo = tituloNuevaNot.value.trim();
+                const descripcion = descripcionNuevaNot.value.trim();
+                const fechaRaw = fechaNuevaNot.value; // Devuelve "YYYY-MM-DDTHH:MM"
+                const estado = estadoNuevaNot.value.trim();
+
+                if (!titulo || !descripcion || !fechaRaw) {
+                    alert("Por favor, rellena el título, la descripción y selecciona una fecha.");
+                }
+
+                // Convertimos "2026-10-28T10:30" a "2026-10-28 10:30:00" para PHP/MySQL
+                const fechaFormateada = fechaRaw.replace("T", " ") + ":00";
+
+                agregarNotificacion(idUsuario, titulo, descripcion, fechaFormateada, estado);
+            });
+
+            elementoNuevo.append(
+                usuarioNuevaNot,
+                tituloNuevaNot,
+                descripcionNuevaNot,
+                fechaNuevaNot,
+                estadoNuevaNot,
+                btnGuardarNueva,
+                btnCancelarNueva
+            );
+
+            listaNotificaciones.prepend(elementoNuevo);
+            tituloNuevaNot.focus();
+        });
+
+        //Aqui está la logica para cargar las notificaciones
         result.data.forEach((notificacion) => {
             const notificacion_id = notificacion.not_id;
             const fechaLimpia = new Date(notificacion.fecha.date).toLocaleString();
@@ -58,7 +123,7 @@ async function cargarNotificaciones() {
 
             // Creamos primero los elementos de texto para poder manipularlos luego
             const elemento = document.createElement("article");
-            elemento.className = "notificacion";
+            elemento.classList.add("tarjeta");
             elemento.id = `elementoNotificacion-${notificacion_id}`;
 
             const titulo = document.createElement("h3");
@@ -73,22 +138,25 @@ async function cargarNotificaciones() {
 
             // Botón Eliminar
             const btnEliminar = document.createElement("button");
-            btnEliminar.className = "btnEliminarNotificacion";
-            btnEliminar.innerHTML = '<img src="../assets/icons/icon_eliminar.png" alt="Eliminar notificación">';
+            btnEliminar.classList.add("btn-s");
+            btnEliminar.classList.add("btn-delete");
+            btnEliminar.innerHTML = '<img src="' + srcEliminar + '" alt="Eliminar notificación">';
             btnEliminar.addEventListener("click", (event) => {
                 eliminarNotificacion(notificacion_id, event.currentTarget);
             });
 
             // Botón Modificar con estado de edición en línea
             const btnModificar = document.createElement("button");
-            btnModificar.className = "btnModificarNotificacion";
-            btnModificar.innerHTML = '<img src="../assets/icons/icon_editar.png" alt="Editar notificación">';
+            btnModificar.classList.add("btn-s");
+            btnModificar.classList.add("btn-edit");
+            btnModificar.innerHTML = '<img src="' + srcEditar + '" alt="Editar notificación">';
 
             // Variables para controlar la edición de ESTA tarjeta en concreto
             let editando = false;
             let inputTitulo = null;
             let inputFecha = null;
             let inputDescripcion = null;
+            let inputEstado = null;
 
             btnModificar.addEventListener("click", () => {
                 if (!editando) {
@@ -106,16 +174,30 @@ async function cargarNotificaciones() {
                     inputFecha.type = "text";
                     inputFecha.value = fechaFormatoSQL;
 
-                    inputEstado = document.createElement("input");
-                    inputEstado.type = "text";
-                    inputEstado.value = notificacion.estado;
+
+                    inputEstado = document.createElement("select");
+                    inputEstado.className = "inputEditarEstado";
+
+                    const estadosPosibles = ["PENDIENTE", "EN_PROCESO", "REALIZADA"];
+                    estadosPosibles.forEach((valorEstado) => {
+                        const opcion = document.createElement("option");
+                        opcion.textContent = valorEstado;
+                        opcion.value = valorEstado;
+
+                        inputEstado.appendChild(opcion);
+                    })
+
                     // Reemplazamos los textos por los inputs en el DOM
                     titulo.replaceWith(inputTitulo);
                     descripcion.replaceWith(inputDescripcion);
                     detalles.replaceWith(inputFecha, inputEstado);
 
                     // Cambiamos el botón para indicar que el siguiente click guarda
-                    btnModificar.textContent = "Guardar";
+                    //btnModificar.textContent = "Guardar";
+                    btnModificar.textContent = "";
+                    let img_guar = document.createElement("img");
+                    img_guar.src = srcGuardar;
+                    btnModificar.appendChild(img_guar);
                     editando = true;
                     inputTitulo.focus();
 
@@ -151,15 +233,24 @@ async function cargarNotificaciones() {
     }
 }
 
+//Esto carga las notificaciones al entrar en el modal
 btnNotificaciones1.addEventListener("click", cargarNotificaciones);
 
-function agregarNotificacion(titulo, descripcion) {
+function agregarNotificacion(idUsuario, titulo, descripcion, fecha, estado) {
     let url = NOT_URL;
     let method = "POST";
-    let data = { titulo: titulo, descripcion: descripcion };
+    let data = {
+        not_id: idUsuario,
+        titulo: titulo,
+        descripcion: descripcion,
+        fecha: {
+            date: fecha
+        },
+        estado: estado
+    };
     let resultado;
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
     resultado.then((value) => {
         if (value.success) {
             alert("Notificación agregada correctamente.");
@@ -171,18 +262,19 @@ function agregarNotificacion(titulo, descripcion) {
 function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
     let url = NOT_URL + "?not_id=" + id;
     let method = "PUT";
-    let data = {not_id: id, 
-        titulo: titulo, 
-        descripcion: descripcion, 
+    let data = {
+        not_id: id,
+        titulo: titulo,
+        descripcion: descripcion,
         fecha: {
             date: fecha
         },
         estado: estado
- };
+    };
     let resultado;
 
-
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
+  
     resultado.then((value) => {
         if (value.success) {
             alert("Notificación modificada correctamente.");
@@ -197,12 +289,14 @@ function eliminarNotificacion(id, btnEliminar) {
     let data = [];
     let resultado;
 
-    resultado = petition(url, method, data);
+    resultado = petition(url, method, data); // Llama al petition de global.js
     resultado.then((value) => {
         if (value.success) {
             const elementoEliminado = btnEliminar.closest(".notificacion");
             if (elementoEliminado) {
                 elementoEliminado.remove();
+                console.log("Notificacion eliminada correctamente.")
+                cargarNotificaciones();
             }
 
             if (listaNotificaciones && !listaNotificaciones.querySelector(".notificacion")) {
