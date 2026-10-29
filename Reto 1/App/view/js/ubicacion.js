@@ -38,6 +38,7 @@ async function cargarUbicaciones() {
                 value.forEach(ubi => {
                     let ubi_id = ubi.ubi_id;
                     let tr_ubi = document.createElement("tr");// Nueva Ubicacion
+                    tr_ubi.classList.add("aula");
 
                     let ubi_nombre = document.createElement("td"); // Nombre
                     let h3_ubi_nombre = document.createElement("h3");
@@ -45,52 +46,23 @@ async function cargarUbicaciones() {
                     h3_ubi_nombre.textContent = ubi.ubi_nombre;
                     ubi_nombre.appendChild(h3_ubi_nombre);
 
+                    tr_ubi.appendChild(ubi_nombre);
+
                     let ubi_descripcion = document.createElement("td"); // Descripcion
                     ubi_descripcion.textContent = ubi.ubi_descripcion;
 
+                    tr_ubi.appendChild(ubi_descripcion);
+
                     let ubi_btn = document.createElement("td"); // Botones
 
-                    let btn_edit = document.createElement("button"); // Boton Editar
+                    // ---------------------------------------- Boton Editar
+                    let btn_edit = document.createElement("button");
                     btn_edit.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
                     let img_edit = document.createElement("img");
                     img_edit.src = srcEditar;
                     btn_edit.appendChild(img_edit);
                     btn_edit.classList.add("btn-s");
                     btn_edit.classList.add("btn-edit");
-
-                    let btn_save = document.createElement("button"); // Boton Guardar
-                    btn_save.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
-                    let img_save = document.createElement("img");
-                    img_save.src = srcGuardar;
-                    btn_save.appendChild(img_save);
-                    btn_save.classList.add("btn-s");
-                    btn_save.classList.add("btn-edit");
-                    btn_save.classList.add("oculto");
-
-                    let btn_delete = document.createElement("button"); // Boton Eliminar
-                    btn_delete.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
-                    let img_delete = document.createElement("img");
-                    img_delete.src = srcEliminar;
-                    btn_delete.appendChild(img_delete);
-                    btn_delete.classList.add("btn-s");
-                    btn_delete.classList.add("btn-delete");
-
-                    let btn_open = document.createElement("button"); // Boton Abrir
-                    btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
-                    let img_open = document.createElement("img");
-                    img_open.src = srcCerrar;
-                    btn_open.appendChild(img_open);
-                    btn_open.classList.add("btn-s");
-                    btn_open.classList.add("btn-open");
-
-                    let btn_close = document.createElement("button"); // Boton Cerrar
-                    btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
-                    let btn_img = document.createElement("img");
-                    btn_img.src = srcAbrir;
-                    btn_close.appendChild(btn_img);
-                    btn_close.classList.add("btn-s");
-                    btn_close.classList.add("btn-close");
-                    btn_close.classList.add("oculto");
 
                     // [ Edita la Ubicacion selecionada ]
                     btn_edit.addEventListener("click", () => {
@@ -102,6 +74,18 @@ async function cargarUbicaciones() {
 
                     });
 
+                    ubi_btn.appendChild(btn_edit);
+
+                    // ---------------------------------------- Boton Guardar
+                    let btn_save = document.createElement("button");
+                    btn_save.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+                    let img_save = document.createElement("img");
+                    img_save.src = srcGuardar;
+                    btn_save.appendChild(img_save);
+                    btn_save.classList.add("btn-s");
+                    btn_save.classList.add("btn-edit");
+                    btn_save.classList.add("oculto");
+
                     // [ Guarda las modificaciones de la Ubicacion editada ]
                     btn_save.addEventListener("click", () => {
                         btn_save.classList.remove("visible");
@@ -112,10 +96,34 @@ async function cargarUbicaciones() {
 
                     });
 
-                    // [ Elimina la Ubicacion ]
-                    btn_delete.addEventListener("click", () => {
-                        eliminarUbicacion(ubi_id);
-                    });
+                    ubi_btn.appendChild(btn_save);
+
+                    // ---------------------------------------- Boton Eliminar
+                    if (ubi.ubi_nombre != "Almacén") {
+                        let btn_delete = document.createElement("button");
+                        btn_delete.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+                        let img_delete = document.createElement("img");
+                        img_delete.src = srcEliminar;
+                        btn_delete.appendChild(img_delete);
+                        btn_delete.classList.add("btn-s");
+                        btn_delete.classList.add("btn-delete");
+
+                        // [ Elimina la Ubicacion ]
+                        btn_delete.addEventListener("click", () => {
+                            eliminarUbicacion(ubi_id);
+                        });
+
+                        ubi_btn.appendChild(btn_delete);
+                    }
+
+                    // ---------------------------------------- Boton Abrir
+                    let btn_open = document.createElement("button");
+                    btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+                    let img_open = document.createElement("img");
+                    img_open.src = srcCerrar;
+                    btn_open.appendChild(img_open);
+                    btn_open.classList.add("btn-s");
+                    btn_open.classList.add("btn-open");
 
                     // [ Muestra los Equipamientos de la Ubicacion ]
                     btn_open.addEventListener("click", (event) => {
@@ -131,6 +139,18 @@ async function cargarUbicaciones() {
                         mockEquipamientos(); // mockData.js
                     });
 
+                    ubi_btn.appendChild(btn_open);
+
+                    // ---------------------------------------- Boton Cerrar
+                    let btn_close = document.createElement("button");
+                    btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+                    let btn_img = document.createElement("img");
+                    btn_img.src = srcAbrir;
+                    btn_close.appendChild(btn_img);
+                    btn_close.classList.add("btn-s");
+                    btn_close.classList.add("btn-close");
+                    btn_close.classList.add("oculto");
+
                     // [ Oculta los Equipamientos de la Ubicacion ]
                     btn_close.addEventListener("click", (event) => {
                         btn_close.classList.remove("visible");
@@ -142,17 +162,9 @@ async function cargarUbicaciones() {
                         limpiarEquiposDeUbicacion(event.currentTarget);
                     });
 
-                    ubi_btn.appendChild(btn_edit);
-                    ubi_btn.appendChild(btn_save);
-                    ubi_btn.appendChild(btn_delete);
-                    ubi_btn.appendChild(btn_open);
                     ubi_btn.appendChild(btn_close);
 
-                    tr_ubi.appendChild(ubi_nombre);
-                    tr_ubi.appendChild(ubi_descripcion);
                     tr_ubi.appendChild(ubi_btn);
-
-                    tr_ubi.classList.add("aula");
 
                     tbody_ubicaciones.appendChild(tr_ubi);
                 });
