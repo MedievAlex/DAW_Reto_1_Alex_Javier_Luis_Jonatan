@@ -4,42 +4,42 @@ function mockUbicaciones() {
 
     value = [{
         "success": false,
-        "message": "Mensaje de error"
+        "message": "Mensaje de error recibido."
     }];
-
-    value = [
-        {
-            ubi_id: 1,
-            ubi_nombre: "Almacén",
-            ubi_descripcion: "Almacén de los equipamientos del centro."
-        },
-        {
-            ubi_id: 2,
-            ubi_nombre: "101 - Aula",
-            ubi_descripcion: "Aula para el curso de Mantenimiento electrónico."
-        },
-        {
-            ubi_id: 3,
-            ubi_nombre: "102 - Aula",
-            ubi_descripcion: "Aula para el curso de Integración social."
-        },
-        {
-            ubi_id: 4,
-            ubi_nombre: "201 - Aula",
-            ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones multiplataforma."
-        },
-        {
-            ubi_id: 5,
-            ubi_nombre: "202 - Aula",
-            ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones web."
-        },
-        {
-            ubi_id: 6,
-            ubi_nombre: "203 - Aula",
-            ubi_descripcion: "Aula para el curso de Ciberseguridad."
-        }
-    ];
-
+        /*
+        value = [
+            {
+                ubi_id: 1,
+                ubi_nombre: "Almacén",
+                ubi_descripcion: "Almacén de los equipamientos del centro."
+            },
+            {
+                ubi_id: 2,
+                ubi_nombre: "101 - Aula",
+                ubi_descripcion: "Aula para el curso de Mantenimiento electrónico."
+            },
+            {
+                ubi_id: 3,
+                ubi_nombre: "102 - Aula",
+                ubi_descripcion: "Aula para el curso de Integración social."
+            },
+            {
+                ubi_id: 4,
+                ubi_nombre: "201 - Aula",
+                ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones multiplataforma."
+            },
+            {
+                ubi_id: 5,
+                ubi_nombre: "202 - Aula",
+                ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones web."
+            },
+            {
+                ubi_id: 6,
+                ubi_nombre: "203 - Aula",
+                ubi_descripcion: "Aula para el curso de Ciberseguridad."
+            }
+        ];
+        */
     if (Array.isArray(value)) {
         let atributos = ["ubi_id", "ubi_nombre", "ubi_descripcion"];
 
@@ -56,6 +56,7 @@ function mockUbicaciones() {
 
                 let ubi_nombre = document.createElement("td"); // Nombre
                 let h3_ubi_nombre = document.createElement("h3");
+                h3_ubi_nombre.classList.add("ubi_nombre");
                 h3_ubi_nombre.textContent = ubi.ubi_nombre;
                 ubi_nombre.appendChild(h3_ubi_nombre);
 
@@ -127,8 +128,14 @@ function mockUbicaciones() {
                 });
 
                 // [ Elimina la Ubicacion ]
-                btn_delete.addEventListener("click", () => {
+                btn_delete.addEventListener("click", (event) => {
+                    let botonesEliminar = Array.from(document.getElementsByClassName("btn-delete"));
+                    let posicion = botonesEliminar.indexOf(event.currentTarget); // Obtiene la posición del índice del boton
 
+                    let aulas = Array.from(document.getElementsByClassName("aula")); // Obtiene todas las aulas
+                    let aula = aulas[posicion]; // Obtiene el aula de la posición del boton
+
+                    eliminarUbicacion(aula);
                 });
 
                 // [ Muestra los Equipamientos de la Ubicacion ]
@@ -172,31 +179,11 @@ function mockUbicaciones() {
             });
 
         } else {
-            let tr_err = document.createElement("tr");
-
-            let td_err = document.createElement("td");
-
-            let ubi_err = document.createElement("div");
-            ubi_err.classList.add("err");
-            ubi_err.textContent = "[ERROR]: " + value[0].message;
-
-            td_err.appendChild(ubi_err);
-            tr_err.appendChild(td_err);
-            tbody_ubicaciones.appendChild(tr_err);
+            ubiNoValido(value[0].message);
         }
 
     } else {
-        let tr_err = document.createElement("tr");
-
-        let td_err = document.createElement("td");
-
-        let ubi_err = document.createElement("div");
-        ubi_err.classList.add("err");
-        ubi_err.textContent = "[ERROR]: Formato de datos incorrecto.";
-
-        td_err.appendChild(ubi_err);
-        tr_err.appendChild(td_err);
-        tbody_ubicaciones.appendChild(tr_err);
+        ubiNoValido("[ERROR]: Formato de datos incorrecto.");
     }
 }
 
@@ -387,24 +374,10 @@ function mockEquipamientos() {
             });
 
         } else {
-            let equ_err = document.createElement("div");
-            equ_err.classList.add("err");
-            equ_err.textContent = "[ERROR]: " + value[0].message;
-
-            artEqu.appendChild(equ_err);
+            equNoValido(value[0].message);
         }
 
     } else {
-        let tr_err = document.createElement("tr");
-
-        let td_err = document.createElement("td");
-
-        let ubi_err = document.createElement("div");
-        ubi_err.classList.add("err");
-        ubi_err.textContent = "[ERROR]: Formato de datos incorrecto.";
-
-        td_err.appendChild(ubi_err);
-        tr_err.appendChild(td_err);
-        tbody_ubicaciones.appendChild(tr_err);
+        equNoValido("Formato de datos incorrecto.");
     }
 }

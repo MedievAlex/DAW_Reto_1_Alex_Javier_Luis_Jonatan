@@ -9,9 +9,9 @@ const artEqu = document.getElementById("equipamientos");
 
 /* ---------------------------------------- [FUNCIONES]*/
 document.addEventListener("DOMContentLoaded", () => {
-    //cargarUbicaciones();
+    cargarUbicaciones();
 
-    mockUbicaciones(); // mockData.js
+    // mockUbicaciones(); // mockData.js
 });
 
 // [ Pide el listado de todas las Ubicaciones ]
@@ -40,6 +40,7 @@ async function cargarUbicaciones() {
 
                     let ubi_nombre = document.createElement("td"); // Nombre
                     let h3_ubi_nombre = document.createElement("h3");
+                    h3_ubi_nombre.classList.add("ubi_nombre");
                     h3_ubi_nombre.textContent = ubi.ubi_nombre;
                     ubi_nombre.appendChild(h3_ubi_nombre);
 
@@ -111,8 +112,14 @@ async function cargarUbicaciones() {
                     });
 
                     // [ Elimina la Ubicacion ]
-                    btn_delete.addEventListener("click", () => {
+                    btn_delete.addEventListener("click", (event) => {
+                        let botonesEliminar = Array.from(document.getElementsByClassName("btn-delete"));
+                        let posicion = botonesEliminar.indexOf(event.currentTarget); // Obtiene la posición del índice del boton
 
+                        let aulas = Array.from(document.getElementsByClassName("aula")); // Obtiene todas las aulas
+                        let aula = aulas[posicion]; // Obtiene el aula de la posición del boton
+
+                        eliminarUbicacion(aula);
                     });
 
                     // [ Muestra los Equipamientos de la Ubicacion ]
@@ -156,37 +163,17 @@ async function cargarUbicaciones() {
                 });
 
             } else {
-                let tr_err = document.createElement("tr");
-
-                let td_err = document.createElement("td");
-
-                let ubi_err = document.createElement("div");
-                ubi_err.classList.add("err");
-                ubi_err.textContent = "[ERROR]: " + value[0].message;
-
-                td_err.appendChild(ubi_err);
-                tr_err.appendChild(td_err);
-                tbody_ubicaciones.appendChild(tr_err);
+                ubiNoValido(value[0].message);
             }
 
         } else {
-            let tr_err = document.createElement("tr");
-
-            let td_err = document.createElement("td");
-
-            let ubi_err = document.createElement("div");
-            ubi_err.classList.add("err");
-            ubi_err.textContent = "[ERROR]: Formato de datos incorrecto.";
-
-            td_err.appendChild(ubi_err);
-            tr_err.appendChild(td_err);
-            tbody_ubicaciones.appendChild(tr_err);
+            ubiNoValido("[ERROR]: Formato de datos incorrecto.");
         }
     });
 }
 
 // [ Pide una Ubicacion mediante el ID ]
-function buscarUbicacionPorId() {
+async function buscarUbicacionPorId() {
     let url = UBI_URL + "?ubi_id=" + 2;
     let method = "GET";
     let data = [];
@@ -207,8 +194,8 @@ function buscarUbicacionPorId() {
 }
 
 // [ Pide una Ubicacion mediante el NOMBRE ]
-function buscarUbicacionPorNombre() {
-    let url = UBI_URL + "?ubi_nombre=" + "Cafeteria";
+async function buscarUbicacionPorNombre(ubi_nombre) {
+    let url = UBI_URL + "?ubi_nombre=" + ubi_nombre;
     let method = "GET";
     let data = [];
     let ubicacion;
@@ -216,13 +203,17 @@ function buscarUbicacionPorNombre() {
     ubicacion = petition(url, method, data); // Llama al petition de global.js
 
     ubicacion.then((value) => {
-        console.log(value[0]);
-        alert(value[0].ubi_nombre);
+        let atributos = ["ubi_id", "ubi_nombre", "ubi_descripcion"];
 
-        if ("success" in value && value.success) {
+        // Verifica si todos los objetos tienen todos los atributos
+        let valido = value.every(obj =>
+            atributos.every(clave => clave in obj)
+        );
 
+        if (valido) {
+            console.log(value[0]);
+            return value[0];
         } else {
-
         }
     });
 }
@@ -278,24 +269,29 @@ async function editarUbicacion() {
 }
 
 // [ Elimina la Ubicacion ]
-async function eliminarUbicacion() {
-    let url = UBI_URL + "?ubi_id=" + 21;
-    let method = "DELETE";
-    let data = {};
-    let ubicacion;
+async function eliminarUbicacion(aula) {
+    let ubi_nom = aula.getElementsByClassName("ubi_nombre")[0].textContent; // Obtiene el nombre de la aula de la posición del boton
+    let ubi_id = buscarUbicacionPorNombre(ubi_nom);
+    console.log("ID: " + ubi_id);
 
-    ubicacion = petition(url, method, data); // Llama al petition de global.js
-
-    ubicacion.then((value) => {
-        console.log(value[0].message);
-        alert(value[0].message);
-
-        if ("success" in value && value.success) {
-
-        } else {
-
-        }
-    });
+    /*
+        let url = UBI_URL + "?ubi_id=" + ubi_id;
+        let method = "DELETE";
+        let data = {};
+        let ubicacion;
+    
+        ubicacion = petition(url, method, data); // Llama al petition de global.js
+    
+        ubicacion.then((value) => {
+            console.log(value[0].message);
+            alert(value[0].message);
+    
+            if ("success" in value && value.success) {
+    
+            } else {
+    
+            }
+        });*/
 }
 
 // [ Pide el listado de los equipos de una Ubicacion ]
@@ -432,35 +428,21 @@ async function cargarEquiposDeUbicacion() {
                 });
 
             } else {
-                let equ_err = document.createElement("div");
-                equ_err.classList.add("err");
-                equ_err.textContent = "[ERROR]: " + value[0].message;
-
-                artEqu.appendChild(equ_err);
+                equNoValido(value[0].message);
             }
 
         } else {
-            let tr_err = document.createElement("tr");
-
-            let td_err = document.createElement("td");
-
-            let ubi_err = document.createElement("div");
-            ubi_err.classList.add("err");
-            ubi_err.textContent = "[ERROR]: Formato de datos incorrecto.";
-
-            td_err.appendChild(ubi_err);
-            tr_err.appendChild(td_err);
-            tbody_ubicaciones.appendChild(tr_err);
+            equNoValido("Formato de datos incorrecto.");
         }
     });
 }
 
 // [ Limpia el listado de los equipos de una Ubicacion ]
-function limpiarEquiposDeUbicacion(boton) {
+function limpiarEquiposDeUbicacion(event_btn) {
     let botonesAbrir = Array.from(document.getElementsByClassName("btn-open"));
     let botonesCerrar = Array.from(document.getElementsByClassName("btn-close"));
 
-    let posicion = botonesAbrir.indexOf(boton); // Obtiene la posición del índice del boton
+    let posicion = botonesAbrir.indexOf(event_btn); // Obtiene la posición del índice del boton
 
     let botonesAbirFiltrados = Array.from(botonesAbrir).filter(b => b !== botonesAbrir[posicion]); // Elimina el botón de la posicion deseada 
     let botonesCerrarFiltrados = Array.from(botonesCerrar).filter(b => b !== botonesCerrar[posicion]); // Elimina el botón de la posicion deseada 
@@ -476,4 +458,25 @@ function limpiarEquiposDeUbicacion(boton) {
         botonesCerrarFiltrados[i].classList.remove("visible");
         botonesCerrarFiltrados[i].classList.add("oculto");
     }
+}
+
+function ubiNoValido(message) {
+    let tr_err = document.createElement("tr");
+    let td_err = document.createElement("td");
+
+    let ubi_err = document.createElement("div");
+    ubi_err.classList.add("err");
+    ubi_err.textContent = "[ERROR]: " + message;
+
+    td_err.appendChild(ubi_err);
+    tr_err.appendChild(td_err);
+    tbody_ubicaciones.appendChild(tr_err);
+}
+
+function equNoValido(message) {
+    let equ_err = document.createElement("div");
+    equ_err.classList.add("err");
+    equ_err.textContent = "[ERROR]: " + message;
+
+    artEqu.appendChild(equ_err);
 }
