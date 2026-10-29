@@ -1,6 +1,6 @@
 <?php
 require_once  ("ConexionDB.php");
-require_once  __DIR__ . "/../model/Notificacion.php";
+require_once  ("../model/Notificacion.php");
 
 class NotificacionDAO
 {

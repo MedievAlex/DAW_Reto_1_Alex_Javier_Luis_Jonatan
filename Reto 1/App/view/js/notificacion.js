@@ -5,32 +5,6 @@ const btnAgregarNotificacion = document.getElementById("btnAniadirNot");
 const listaNotificaciones = document.getElementById("listaNotificaciones");
 const filtroNotificaciones = document.getElementById("filtroNotificaciones");
 
-async function petition(url, method, data) {
-    try {
-        const options = {
-            method: method,
-            headers: { "Content-type": "application/json" }
-        };
-
-        if (method !== "GET") {
-            options.body = JSON.stringify(data);
-        }
-
-        const response = await fetch(url, options);
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "No se pudo completar la operación.");
-        }
-
-        return result;
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert(`Error: ${error.message}`);
-        return { success: false, message: error.message };
-    }
-}
-
 //Método para cargar todas las notificaciones desde el servidor
 async function cargarNotificaciones() {
     if (!listaNotificaciones) {
@@ -197,9 +171,19 @@ async function cargarNotificaciones() {
                     inputFecha.type = "text";
                     inputFecha.value = fechaFormatoSQL;
 
-                    inputEstado = document.createElement("input");
-                    inputEstado.type = "text";
-                    inputEstado.value = notificacion.estado;
+
+                    inputEstado = document.createElement("select");
+                    inputEstado.className = "inputEditarEstado";
+
+                    const estadosPosibles = ["PENDIENTE", "EN_PROCESO", "REALIZADA"];
+                    estadosPosibles.forEach((valorEstado) => {
+                        const opcion = document.createElement("option");
+                        opcion.textContent = valorEstado;
+                        opcion.value = valorEstado;
+
+                        inputEstado.appendChild(opcion);
+                    })
+
                     // Reemplazamos los textos por los inputs en el DOM
                     titulo.replaceWith(inputTitulo);
                     descripcion.replaceWith(inputDescripcion);
@@ -245,7 +229,7 @@ async function cargarNotificaciones() {
 //Esto carga las notificaciones al entrar en el modal
 btnNotificaciones1.addEventListener("click", cargarNotificaciones);
 
-function agregarNotificacion(idUsuario ,titulo, descripcion, fecha, estado) {
+function agregarNotificacion(idUsuario, titulo, descripcion, fecha, estado) {
     let url = NOT_URL;
     let method = "POST";
     let data = {
@@ -282,7 +266,6 @@ function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
     };
     let resultado;
 
-
     resultado = petition(url, method, data);
     resultado.then((value) => {
         if (value.success) {
@@ -304,6 +287,7 @@ function eliminarNotificacion(id, btnEliminar) {
             const elementoEliminado = btnEliminar.closest(".notificacion");
             if (elementoEliminado) {
                 elementoEliminado.remove();
+                console.log("Notificacion eliminada correctamente.")
                 cargarNotificaciones();
             }
 
