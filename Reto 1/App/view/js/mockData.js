@@ -6,40 +6,40 @@ function mockUbicaciones() {
         "success": false,
         "message": "Mensaje de error recibido."
     }];
-        /*
-        value = [
-            {
-                ubi_id: 1,
-                ubi_nombre: "Almacén",
-                ubi_descripcion: "Almacén de los equipamientos del centro."
-            },
-            {
-                ubi_id: 2,
-                ubi_nombre: "101 - Aula",
-                ubi_descripcion: "Aula para el curso de Mantenimiento electrónico."
-            },
-            {
-                ubi_id: 3,
-                ubi_nombre: "102 - Aula",
-                ubi_descripcion: "Aula para el curso de Integración social."
-            },
-            {
-                ubi_id: 4,
-                ubi_nombre: "201 - Aula",
-                ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones multiplataforma."
-            },
-            {
-                ubi_id: 5,
-                ubi_nombre: "202 - Aula",
-                ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones web."
-            },
-            {
-                ubi_id: 6,
-                ubi_nombre: "203 - Aula",
-                ubi_descripcion: "Aula para el curso de Ciberseguridad."
-            }
-        ];
-        */
+    /*
+    value = [
+        {
+            ubi_id: 1,
+            ubi_nombre: "Almacén",
+            ubi_descripcion: "Almacén de los equipamientos del centro."
+        },
+        {
+            ubi_id: 2,
+            ubi_nombre: "101 - Aula",
+            ubi_descripcion: "Aula para el curso de Mantenimiento electrónico."
+        },
+        {
+            ubi_id: 3,
+            ubi_nombre: "102 - Aula",
+            ubi_descripcion: "Aula para el curso de Integración social."
+        },
+        {
+            ubi_id: 4,
+            ubi_nombre: "201 - Aula",
+            ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones multiplataforma."
+        },
+        {
+            ubi_id: 5,
+            ubi_nombre: "202 - Aula",
+            ubi_descripcion: "Aula para el curso de Desarollo de aplicaciones web."
+        },
+        {
+            ubi_id: 6,
+            ubi_nombre: "203 - Aula",
+            ubi_descripcion: "Aula para el curso de Ciberseguridad."
+        }
+    ];
+    */
     if (Array.isArray(value)) {
         let atributos = ["ubi_id", "ubi_nombre", "ubi_descripcion"];
 
@@ -49,7 +49,7 @@ function mockUbicaciones() {
         );
 
         if (valido) {
-            value.sort((a, b) => a.ubi_nombre.localeCompare(b.ubi_nombre));
+            value = ordenarUbicaciones(value);
 
             value.forEach(ubi => {
                 let tr_ubi = document.createElement("tr");// Nueva Ubicacion

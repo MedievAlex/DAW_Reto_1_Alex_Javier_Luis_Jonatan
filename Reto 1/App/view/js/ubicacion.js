@@ -33,7 +33,7 @@ async function cargarUbicaciones() {
             );
 
             if (valido) {
-                value.sort((a, b) => a.ubi_nombre.localeCompare(b.ubi_nombre));
+                value = ordenarUbicaciones(value);
 
                 value.forEach(ubi => {
                     let ubi_id = ubi.ubi_id;
@@ -323,16 +323,7 @@ async function cargarEquiposDeUbicacion() {
             );
 
             if (valido) {
-                /*
-                let almacen = value.find(a => a.nombre === "Almacén");
-                let ubicacionesFiltradas = Array.from(value).filter(b => b.equ_nombre !== almacen.ubi_nombre); // Quita Ubicacion almacén para ordenar el resto
-                let ubicacionesOrdenadas = ubicacionesFiltradas.sort((a, b) => a.equ_nombre.localeCompare(b.equ_nombre));
-
-                value = [];
-                value.push(almacen);
-                value.push(ubicacionesOrdenadas);
-                */
-                value.sort((a, b) => a.ubi_nombre.localeCompare(b.ubi_nombre));
+                value.sort((a, b) => a.equ_nombre.localeCompare(b.equ_nombre));
 
                 value.forEach(equ => {
                     let art_equ = document.createElement("article"); // Nuevo Equipamiento
@@ -458,6 +449,21 @@ async function cargarEquiposDeUbicacion() {
             equNoValido("Formato de datos incorrecto.");
         }
     });
+}
+
+// [ Ordena alfabéticamente las Ubicaciones ]
+function ordenarUbicaciones(value) {
+    let almacen = value.find(a => a.ubi_nombre === "Almacén"); // Busca la Ubicación Almacén
+    let ubicacionesFiltradas = Array.from(value).filter(b => b.ubi_nombre !== almacen.ubi_nombre); // Quita Ubicacion Almacén para ordenar el resto
+    let ubicacionesOrdenadas = ubicacionesFiltradas.sort((a, b) => a.ubi_nombre.localeCompare(b.ubi_nombre)); // Ordena las demás Ubicaciones
+
+    value = [];
+    value.push(almacen);
+    ubicacionesOrdenadas.forEach(ubi => {
+        value.push(ubi);
+    });
+
+    return value;
 }
 
 // [ Limpia el listado de los equipos de una Ubicacion ]
