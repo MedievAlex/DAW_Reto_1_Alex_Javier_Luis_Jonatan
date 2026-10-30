@@ -64,7 +64,7 @@ async function cargarUbicaciones() {
                     btn_edit.classList.add("btn-s");
                     btn_edit.classList.add("btn-edit");
 
-                    // [ Edita la Ubicacion selecionada ]
+                    // [ Edita la Ubicacion selecionada ] PENDIENTE
                     btn_edit.addEventListener("click", () => {
                         btn_edit.classList.remove("visible");
                         btn_edit.classList.add("oculto");
@@ -86,7 +86,7 @@ async function cargarUbicaciones() {
                     btn_save.classList.add("btn-edit");
                     btn_save.classList.add("oculto");
 
-                    // [ Guarda las modificaciones de la Ubicacion editada ]
+                    // [ Guarda las modificaciones de la Ubicacion editada ] PENDIENTE
                     btn_save.addEventListener("click", () => {
                         btn_save.classList.remove("visible");
                         btn_save.classList.add("oculto");
@@ -108,10 +108,16 @@ async function cargarUbicaciones() {
                         btn_delete.classList.add("btn-s");
                         btn_delete.classList.add("btn-delete");
 
-                        // [ Elimina la Ubicacion ]
+                        // [ Elimina la Ubicacion ] PENDIENTE
                         btn_delete.addEventListener("click", () => {
                             eliminarUbicacion(ubi_id);
                         });
+
+                        if (verificarEquipamientos(ubi_id)) {
+                            btn_delete.disabled = true;
+                        } else {
+                            btn_delete.disabled = false;
+                        }
 
                         ubi_btn.appendChild(btn_delete);
                     }
@@ -448,6 +454,21 @@ async function cargarEquiposDeUbicacion() {
         } else {
             equNoValido("Formato de datos incorrecto.");
         }
+    });
+}
+
+// [ Verifica si la Ubicacion tiene Equpamientos ]
+async function verificarEquipamientos(ubi_id) {
+    let url = UBI_URL + "?equ_ubi_id=" + ubi_id;
+    let method = "GET";
+    let data = [];
+    let tieneEqu;
+
+    tieneEqu = petition(url, method, data); // Llama al petition de global.js
+
+    tieneEqu.then((value) => {
+        console.log(value[0]);
+        return value[0].equ_ubi;
     });
 }
 

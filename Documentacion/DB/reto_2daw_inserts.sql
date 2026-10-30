@@ -42,9 +42,9 @@ VALUES
 INSERT INTO ubicaciones
     (nombre, descripcion)
 VALUES
-    ('Aula 101', 'Aula de informatica de primer curso'),
+    ('Aula 101', 'Aula de DAMi de primer curso'),
 
-    ('Aula 102', 'Aula de informatica de segundo curso'),
+    ('Aula 102', 'Aula de DAMi de segundo curso'),
 
     ('Aula 103', 'Aula de informatica para proyectos'),
 
@@ -52,9 +52,15 @@ VALUES
 
     ('Aula 202', 'Despacho de direccion'),
 
-    ('Aula 104', 'Laboratorio de pruebas y sistemas'),
+    ('Aula 203', 'Laboratorio de pruebas y sistemas'),
 
-    ('Aula 105', 'Espacio para presentaciones y eventos');
+    ('Aula 204', 'Aula de MEL de primer curso'),
+
+    ('Aula 104', 'Aula de MEL de segundo curso'),
+
+    ('Aula 105', 'Aula de mantenimiento para proyectos'),
+
+    ('Aula 106', 'Espacio para presentaciones y eventos');
 
 
 -- ============================================================

@@ -171,7 +171,8 @@ button:hover {
     height: 100%;
 }
 
-.btn-s:hover, .btn-s:focus {
+.btn-s:hover,
+.btn-s:focus {
     border: 2px solid var(--color-primario);
 }
 
@@ -189,6 +190,11 @@ button:hover {
 
 .btn-delete {
     background-color: var(--color-delete);
+}
+
+.btn-s:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 /* ---------------------------------------------- [HEADER]*/
@@ -382,7 +388,7 @@ nav .btn-s {
     font-weight: bold;
 
     float: right;
-    
+
     cursor: pointer;
 }
 

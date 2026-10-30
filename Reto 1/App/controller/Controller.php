@@ -231,6 +231,19 @@ class Controller
     {
         return $this->ubi_dao->eliminarUbicacion($ubi_id);
     }
+    
+    /**
+     * Verifica si en la Ubicación hay equipamientos.
+     *
+     * @param int $ubi_id id de la Ubicacion a revisar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
+    public function verificarEquipamientos(int $ubi_id)
+    {
+        return $this->ubi_dao->verificarEquipamientos($ubi_id);
+    }
 
     // ---------------------------------------- [ USUARIO ]
 
