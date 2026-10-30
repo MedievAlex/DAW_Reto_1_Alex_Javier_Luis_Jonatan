@@ -290,11 +290,12 @@ async function editarUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
     ubicacion = petition(url, method, data); // Llama al petition de global.js
 
     ubicacion.then((value) => {
+        console.log(value);
         console.log(value[0]);
-        alert(value[0].ubi_nombre + " editada correctamente.");
 
-        if ("success" in value && value.success) {
-
+        if (value[0] !== false) {
+            console.log(value[0]);
+            alert(value[0].ubi_nombre + " editada correctamente.");
         } else {
 
         }
