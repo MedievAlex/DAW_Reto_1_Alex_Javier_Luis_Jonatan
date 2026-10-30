@@ -10,8 +10,8 @@ const artEqu = document.getElementById("equipamientos");
 /* ---------------------------------------- [FUNCIONES]*/
 document.addEventListener("DOMContentLoaded", () => {
     cargarUbicaciones();
-
     // mockUbicaciones(); // mockData.js
+    //bloquearEliminarUbicacion();
 });
 
 // [ Pide el listado de todas las Ubicaciones ]
@@ -33,6 +33,7 @@ async function cargarUbicaciones() {
             );
 
             if (valido) {
+                tbody_ubicaciones.innerHTML = "";
                 value = ordenarUbicaciones(value);
 
                 value.forEach(ubi => {
@@ -45,13 +46,23 @@ async function cargarUbicaciones() {
                     h3_ubi_nombre.classList.add("ubi_nombre");
                     h3_ubi_nombre.textContent = ubi.ubi_nombre;
                     ubi_nombre.appendChild(h3_ubi_nombre);
-
                     tr_ubi.appendChild(ubi_nombre);
 
-                    let ubi_descripcion = document.createElement("td"); // Descripcion
-                    ubi_descripcion.textContent = ubi.ubi_descripcion;
+                    let inp_ubi_nom = document.createElement("input"); // Input Nombre
+                    inp_ubi_nom.type = "text";
+                    inp_ubi_nom.value = ubi.ubi_nombre;
+                    inp_ubi_nom.className = "ubi-nom";
 
+                    let ubi_descripcion = document.createElement("td"); // Descripcion
+                    let p_ubi_descripcion = document.createElement("p");
+                    p_ubi_descripcion.textContent = ubi.ubi_descripcion;
+                    ubi_descripcion.appendChild(p_ubi_descripcion);
                     tr_ubi.appendChild(ubi_descripcion);
+
+                    let inp_ubi_des = document.createElement("input"); // Input Nombre
+                    inp_ubi_des.type = "text";
+                    inp_ubi_des.value = ubi.ubi_descripcion;
+                    inp_ubi_des.className = "ubi-des";
 
                     let ubi_btn = document.createElement("td"); // Botones
 
@@ -72,6 +83,8 @@ async function cargarUbicaciones() {
                         btn_save.classList.remove("oculto");
                         btn_save.classList.add("visible");
 
+                        h3_ubi_nombre.replaceWith(inp_ubi_nom);
+                        p_ubi_descripcion.replaceWith(inp_ubi_des);
                     });
 
                     ubi_btn.appendChild(btn_edit);
@@ -94,6 +107,7 @@ async function cargarUbicaciones() {
                         btn_edit.classList.remove("oculto");
                         btn_edit.classList.add("visible");
 
+                        editarUbicacion(ubi.ubi_id, inp_ubi_nom.value.trim(), inp_ubi_des.value.trim());
                     });
 
                     ubi_btn.appendChild(btn_save);
@@ -112,13 +126,13 @@ async function cargarUbicaciones() {
                         btn_delete.addEventListener("click", () => {
                             eliminarUbicacion(ubi_id);
                         });
-
+                        /*
                         if (verificarEquipamientos(ubi_id)) {
                             btn_delete.disabled = true;
                         } else {
                             btn_delete.disabled = false;
                         }
-
+                        */
                         ubi_btn.appendChild(btn_delete);
                     }
 
@@ -263,13 +277,13 @@ async function crearUbicacion() {
 }
 
 // [ Editar la Ubicacion con los datos nuevos ]
-async function editarUbicacion() {
+async function editarUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
     let url = UBI_URL;
     let method = "PUT";
     let data = {
-        ubi_id: 24,
-        ubi_nombre: "Cafeteria",
-        ubi_descripcion: "There is nothing quite like a relaxing cup of café con leche in Plaza Mayor."
+        ubi_id: ubi_id,
+        ubi_nombre: ubi_nombre,
+        ubi_descripcion: ubi_descripcion
     };
     let ubicacion;
 
@@ -284,6 +298,8 @@ async function editarUbicacion() {
         } else {
 
         }
+
+        cargarUbicaciones();
     });
 }
 
@@ -292,19 +308,20 @@ async function eliminarUbicacion(ubi_id) {
     let url = UBI_URL + "?ubi_id=" + ubi_id;
     let method = "DELETE";
     let data = {};
-    let ubicacion;
+    let respuesta;
 
-    ubicacion = petition(url, method, data); // Llama al petition de global.js
+    respuesta = petition(url, method, data); // Llama al petition de global.js
 
-    ubicacion.then((value) => {
-        console.log(value[0].message);
-        alert(value[0].message);
+    respuesta.then((value) => {
+        console.log(value[0].success);
 
-        if ("success" in value && value.success) {
-
+        if (value[0].success) {
+            alert(value[0].message);
         } else {
-
+            alert(value[0].message);
         }
+
+        cargarUbicaciones();
     });
 }
 
@@ -352,32 +369,28 @@ async function cargarEquiposDeUbicacion() {
                     let h3_equ_nom = document.createElement("h3");
                     h3_equ_nom.textContent = equ.equ_nombre;
                     div_equ_nom.appendChild(h3_equ_nom);
+                    div_det.appendChild(div_equ_nom);
 
                     let inp_equ_nom = document.createElement("input"); // Input Nombre
                     inp_equ_nom.type = "text";
-                    inp_equ_nom.id = "equ-nom";
-                    inp_equ_nom.placeholder = equ.equ_nombre;
-                    div_det.appendChild(div_equ_nom);
-                    //div_det.appendChild(inp_equ_nom);
+                    inp_equ_nom.value = equ.equ_nombre;
+                    inp_equ_nom.className = "equ-nom";
 
                     let div_equ_det = document.createElement("div"); // Detalles
                     let p_equ_det = document.createElement("p");
                     p_equ_det.textContent = equ.equ_marca + " - " + equ.equ_modelo;
                     div_equ_det.appendChild(p_equ_det);
+                    div_det.appendChild(div_equ_det);
 
                     let inp_equ_mar = document.createElement("input"); // Input Marca
                     inp_equ_mar.type = "text";
-                    inp_equ_mar.id = "equ-mar";
-                    inp_equ_mar.placeholder = equ.equ_marca;
-                    //div_equ_det.appendChild(inp_equ_mar);
+                    inp_equ_mar.value = equ.equ_marca;
+                    inp_equ_mar.className = "equ-mar";
 
                     let inp_equ_mod = document.createElement("input"); // Input Modelo
                     inp_equ_mod.type = "text";
-                    inp_equ_mod.id = "equ-mod";
-                    inp_equ_mod.placeholder = equ.equ_modelo;
-                    //div_equ_det.appendChild(inp_equ_mod);
-
-                    div_det.appendChild(div_equ_det);
+                    inp_equ_mod.value = equ.equ_modelo;
+                    inp_equ_mod.className = "equ-mod";
 
                     sec_equ_inf.appendChild(img_equ_img); // Imagen en información
                     sec_equ_inf.appendChild(div_det); // Detalles en información
@@ -403,6 +416,11 @@ async function cargarEquiposDeUbicacion() {
 
                         btn_save.classList.remove("oculto");
                         btn_save.classList.add("visible");
+
+                        div_equ_nom.replaceWith(inp_equ_nom);
+                        div_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
+
+                        inp_equ_nom.focus();
                     });
 
                     sec_equ_btn.appendChild(btn_edit);
@@ -424,6 +442,8 @@ async function cargarEquiposDeUbicacion() {
 
                         btn_edit.classList.remove("oculto");
                         btn_edit.classList.add("visible");
+
+
                     });
 
                     sec_equ_btn.appendChild(btn_save);
@@ -450,7 +470,6 @@ async function cargarEquiposDeUbicacion() {
             } else {
                 equNoValido(value[0].message);
             }
-
         } else {
             equNoValido("Formato de datos incorrecto.");
         }
@@ -485,6 +504,24 @@ function ordenarUbicaciones(value) {
     });
 
     return value;
+}
+
+// [ Desactiva boton eliminar de Ubicacion con Equipamientos ]
+function bloquearEliminarUbicacion(btnDel, value) {
+    btnDel.disabled = value;
+}
+
+// [ Desactiva los botones de las Ubicaciones con Equipamientos ]
+function bloquearEliminarUbicacion2() {
+    let botonesEliminar = Array.from(document.getElementsByClassName("btn-delete"));
+
+    botonesEliminar.forEach(btnDel => {
+        if (verificarEquipamientos(ubi_id)) { // No lo ejecuta a tiempo (Similar al problema del ID al Eliminar)
+            btnDel.disabled = true;
+        } else {
+            btnDel.disabled = false;
+        }
+    });
 }
 
 // [ Limpia el listado de los equipos de una Ubicacion ]

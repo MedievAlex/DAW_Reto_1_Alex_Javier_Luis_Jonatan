@@ -59,6 +59,10 @@ table .aula:hover {
     text-align: left;
 }
 
+.ubi-nom, .ubi-des{
+    width: 100%
+}
+
 .btn-close{
     background-color: var(--color-secundario);
 }

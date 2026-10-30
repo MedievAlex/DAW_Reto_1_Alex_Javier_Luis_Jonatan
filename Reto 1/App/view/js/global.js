@@ -63,14 +63,11 @@ async function petition(url, method, data) {
       });
       const result = await response.json();
 
-      if (result.success) {
-        return result.message;
-      } else {
-        return [{
-          "success": result.success,
-          "message": result.message
-        }];
-      }
+      return [{
+        "success": result.success,
+        "message": result.message
+      }];
+
     } else {
       const response = await fetch(url, { // Peticion al PHP
         method: method, // Metodo de peticion
