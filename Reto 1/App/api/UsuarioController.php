@@ -121,7 +121,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 // ----------------------------------------PERMISOS 
 
 // Solo el Administrador con la sesión iniciada puede gestionar usuarios
-/*
+
 session_start();
 
 if (!isset($_SESSION["usuario"])) {
@@ -133,7 +133,6 @@ if ($_SESSION["usuario"]["rol"] !== Usuario::ROL_ADMIN) {
     response(403, false, "Solo el Administrador puede gestionar usuarios.", []);
     exit;
 }
-*/
 
 try {
     $controller = new Controller();
@@ -189,7 +188,7 @@ try {
                     response(409, false, "El nombre de usuario ya está en uso.", []);
                 } else {
                     $usuario = new Usuario(
-                         $campos["usu_id"],
+                        $campos["usu_id"],
                         $campos["nombre"],
                         $campos["apellidos"],
                         $campos["nombre_usuario"], 
