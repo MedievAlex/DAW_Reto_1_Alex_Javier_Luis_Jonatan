@@ -47,16 +47,17 @@ async function petition(url, method, data) {
 
       const result = await response.json();
       return result;
-     
+  
     } else {
       const response = await fetch(url, { // Peticion al PHP
         method: method, // Metodo de peticion
         headers: { "Content-type": "aplication/json" },
         body: JSON.stringify(data) // Contenido
       });
-
+      
       const result = await response.json();
       return result;
+
     }
   } catch (error) {
     console.error("[ERROR]: ", error.message);
