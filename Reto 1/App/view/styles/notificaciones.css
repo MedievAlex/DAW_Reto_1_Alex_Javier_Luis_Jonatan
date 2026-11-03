@@ -150,22 +150,14 @@ select {
 
 /**/
 
-
 .btn-delete{
    float: right;
-    z-index: 1000;
-}
-
-.btn-new{
-    background-color: var(--color-new);
 }
 
 .btn-edit{
     float: right;
-    z-index: 1000;
 }
 
 .btn-save{
     float: right;
-    z-index: 1000;
 }

@@ -2,13 +2,6 @@
 require_once("ConexionDB.php");
 require_once("../model/Ubicacion.php");
 
-/*
-// A diferencia de "../model/Equipamiento.php", __DIR__ toma como base
-// la carpeta de este DAO, independientemente de dónde se ejecute la aplicación.
-require_once __DIR__ . "/ConexionDB.php";
-require_once __DIR__ . "/../model/Ubicacion.php";
-*/
-
 class UbicacionDAO
 {
     // ---------------------------------------- [ VARIABLES ]
@@ -38,7 +31,10 @@ class UbicacionDAO
         $ubicaciones = array();
         $sql = "SELECT id_ubicacion, nombre, descripcion
                     FROM ubicaciones";
-        $resultado = $this->conexion->query($sql);
+        //$resultado = $this->conexion->query($sql);
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
         while ($fila = $resultado->fetch_assoc()) {
             $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
@@ -64,7 +60,10 @@ class UbicacionDAO
                     WHERE id_ubicacion = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $ubi_id);
+        $stmt->bind_param(
+            "i",
+            $ubi_id
+        );
         $stmt->execute();
         $resultado = $stmt->get_result();
 
@@ -92,7 +91,10 @@ class UbicacionDAO
                     WHERE nombre = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("s", $ubi_nombre);
+        $stmt->bind_param(
+            "s",
+            $ubi_nombre
+        );
         $stmt->execute();
         $resultado = $stmt->get_result();
 
@@ -175,9 +177,43 @@ class UbicacionDAO
                     WHERE id_ubicacion = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $ubi_id);
+        $stmt->bind_param(
+            "i",
+            $ubi_id
+        );
 
         return $stmt->execute();
+    }
+    
+    // ---------------------------------------- [ VERIFICAR EQUIPAMIENTOS ]
+    /**
+     * Verifica si en la Ubicación hay equipamientos.
+     *
+     * @param int $ubi_id id de la Ubicacion a revisar
+     * @return bool Valor devuelto por la ejecution de la consulta
+     * 
+     * @author Alex
+     */
+    public function verificarEquipamientos(int $ubi_id): bool
+    {
+        $sql = "SELECT id_equipamiento
+                    FROM equipamientos
+                    WHERE id_ubicacion_actual = ?";
+
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param(
+            "i",
+            $ubi_id
+        );
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        $equipamientos = false;
+
+        if ($resultado->num_rows > 0) {
+            $equipamientos = true;
+        } 
+            return $equipamientos;
     }
 }
 

@@ -1,7 +1,7 @@
 <?php
 require_once("ConexionDB.php");
-require_once ("/../model/Categoria.php");
-require_once ("/../model/Equipamiento.php");
+require_once ("../model/Categoria.php");
+require_once ("../model/Equipamiento.php");
 
 /*
 // A diferencia de "../model/Equipamiento.php", __DIR__ toma como base
