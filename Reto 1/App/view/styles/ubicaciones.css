@@ -46,7 +46,7 @@ table .aula {
 
 table .aula td:last-child {
     display: flex;
-    justify-content: center;
+    justify-content: end;
 }
 
 table .aula:hover {
@@ -57,6 +57,10 @@ table .aula:hover {
     border: 2px solid var(--color-acento);
 
     text-align: left;
+}
+
+.ubi-nom, .ubi-des{
+    width: 100%
 }
 
 .btn-close{
