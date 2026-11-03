@@ -1,11 +1,19 @@
 <?php
 
+//require_once("../dao/EquipamientoDAO.php");
+require_once ("../dao/Historico_UbicacionDAO.php");
+require_once ("../dao/NotificacionDAO.php");
+require_once ("../dao/UbicacionDAO.php");
+require_once ("../dao/UsuarioDAO.php");
+
+/*
 // Las rutas parten de la carpeta de este controlador.
 require_once __DIR__ . "/../dao/EquipamientoDAO.php";
 require_once __DIR__ . "/../dao/Historico_UbicacionDAO.php";
 require_once __DIR__ . "/../dao/NotificacionDAO.php";
 require_once __DIR__ . "/../dao/UbicacionDAO.php";
 require_once __DIR__ . "/../dao/UsuarioDAO.php";
+*/
 
 class Controller
 {
