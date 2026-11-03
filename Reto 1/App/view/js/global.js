@@ -46,47 +46,18 @@ async function petition(url, method, data) {
       });
 
       const result = await response.json();
+      return result;
 
-      if (result.success) {
-        return result.data;
-      } else {
-        return [{
-          "success": result.success,
-          "message": result.message
-        }];
-      }
-    } else if (method == "DELETE") {
-      const response = await fetch(url, { // Peticion al PHP
-        method: method, // Metodo de peticion
-        headers: { "Content-type": "aplication/json" },
-        body: JSON.stringify(data) // Contenido
-      });
-      const result = await response.json();
-
-      if (result.success) {
-        return result.message;
-      } else {
-        return [{
-          "success": result.success,
-          "message": result.message
-        }];
-      }
     } else {
       const response = await fetch(url, { // Peticion al PHP
         method: method, // Metodo de peticion
         headers: { "Content-type": "aplication/json" },
         body: JSON.stringify(data) // Contenido
       });
-      const result = await response.json();
 
-      if (result.success) {
-        return result.data;
-      } else {
-        return [{
-          "success": result.success,
-          "message": result.message
-        }];
-      }
+      const result = await response.json();
+      return result;
+
     }
   } catch (error) {
     console.error("[ERROR]: ", error.message);

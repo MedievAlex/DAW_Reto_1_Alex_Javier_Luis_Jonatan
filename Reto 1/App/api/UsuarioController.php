@@ -188,10 +188,11 @@ try {
                     response(409, false, "El nombre de usuario ya está en uso.", []);
                 } else {
                     $usuario = new Usuario(
-                        $campos["usu_id"],
+                        null,
                         $campos["nombre"],
                         $campos["apellidos"],
-                        $campos["nombre_usuario"], 
+                        $campos["nombre_usuario"],
+                        "",
                         $campos["rol"]
                     );
 
