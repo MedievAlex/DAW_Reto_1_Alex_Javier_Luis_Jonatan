@@ -1,7 +1,7 @@
 <?php
 
-require_once("ConexionDB.php");
-require_once("../model/Historico_Ubicacion.php");
+require_once __DIR__ . "/ConexionDB.php";
+require_once __DIR__ . "/../model/Historico_Ubicacion.php";
 
 class Historico_UbicacionDAO
 {

@@ -1,7 +1,7 @@
 <?php
 
-require_once("ConexionDB.php");
-require_once("../model/Ubicacion.php");
+require_once __DIR__ . "/ConexionDB.php";
+require_once __DIR__ . "/../model/Ubicacion.php";
 
 class UbicacionDAO
 {
