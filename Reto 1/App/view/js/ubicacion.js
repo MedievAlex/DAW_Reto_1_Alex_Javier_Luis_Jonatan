@@ -129,13 +129,9 @@ async function cargarUbicaciones() {
                             btn_delete.addEventListener("click", () => {
                                 eliminarUbicacion(ubi_id);
                             });
-                            /*
-                            if (verificarEquipamientos(ubi_id)) {
-                                btn_delete.disabled = true;
-                            } else {
-                                btn_delete.disabled = false;
-                            }
-                            */
+
+                            verificarEquipamientos(btn_delete, ubi.ubi_id);
+
                             ubi_btn.appendChild(btn_delete);
                         }
 
@@ -270,10 +266,9 @@ async function crearUbicacion() {
 
     response.then((value) => {
         if ("success" in value && value.success) {
-            console.log(value.data[0]);
-            alert(value.data[0].ubi_nombre + " creada correctamente.");
+            logMessage(value.message);
         } else {
-
+            logMessage(value.message);
         }
     });
 }
@@ -302,23 +297,36 @@ async function editarUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
                 );
 
                 if (valido) {
-                    console.log(value.message);
-                    alert(value.message);
+                    logMessage(value.message);
                 } else {
-                    console.log(value.message);
-                    alert(value.message);
+                    logMessage(value.message);
                 }
             } else {
-
-                console.log(value.message);
-                alert(value.message);
+                logMessage(value.message);
             }
         } else {
-            console.log(value.message);
-            alert(value.message);
+            logMessage(value.message);
         }
 
         cargarUbicaciones();
+    });
+}
+
+// [ Verifica si la Ubicacion tiene Equpamientos ]
+async function verificarEquipamientos(btn_delete, ubi_id) {
+    let url = UBI_URL + "?equ_ubi_id=" + ubi_id;
+    let method = "GET";
+    let data = [];
+    let response;
+
+    response = petition(url, method, data); // Llama al petition de global.js
+
+    response.then((value) => {
+        if (value.data[0].equ_ubi) { // No lo ejecuta a tiempo (Similar al problema del ID al Eliminar)
+            btn_delete.disabled = true;
+        } else {
+            btn_delete.disabled = false;
+        }
     });
 }
 
@@ -333,10 +341,9 @@ async function eliminarUbicacion(ubi_id) {
 
     response.then((value) => {
         if ("success" in value && value.success) {
-            console.log(value.message);
-            alert(value.message);
+            logMessage(value.message);
         } else {
-
+            logMessage(value.message);
         }
         cargarUbicaciones();
     });
@@ -495,20 +502,6 @@ async function cargarEquiposDeUbicacion() {
     });
 }
 
-// [ Verifica si la Ubicacion tiene Equpamientos ]
-async function verificarEquipamientos(ubi_id) {
-    let url = UBI_URL + "?equ_ubi_id=" + ubi_id;
-    let method = "GET";
-    let data = [];
-    let response;
-
-    response = petition(url, method, data); // Llama al petition de global.js
-
-    response.then((value) => {
-        console.log(value.data[0]);
-    });
-}
-
 // [ Ordena alfabéticamente las Ubicaciones ]
 function ordenarUbicaciones(value) {
     let almacen = value.find(a => a.ubi_nombre === "Almacén"); // Busca la Ubicación Almacén
@@ -522,24 +515,6 @@ function ordenarUbicaciones(value) {
     });
 
     return value;
-}
-
-// [ Desactiva boton eliminar de Ubicacion con Equipamientos ]
-function bloquearEliminarUbicacion(btnDel, value) {
-    btnDel.disabled = value;
-}
-
-// [ Desactiva los botones de las Ubicaciones con Equipamientos ]
-function bloquearEliminarUbicacion2() {
-    let botonesEliminar = Array.from(document.getElementsByClassName("btn-delete"));
-
-    botonesEliminar.forEach(btnDel => {
-        if (verificarEquipamientos(ubi_id)) { // No lo ejecuta a tiempo (Similar al problema del ID al Eliminar)
-            btnDel.disabled = true;
-        } else {
-            btnDel.disabled = false;
-        }
-    });
 }
 
 // [ Limpia el listado de los equipos de una Ubicacion ]
@@ -566,9 +541,9 @@ function limpiarEquiposDeUbicacion(event_btn) {
 }
 
 // [ Genera la tarjeta del mensaje de error de Ubicacion ]
-function alertMessage(value) {
-    console.log(value.message);
-    alert(value.message);
+function logMessage(message) {
+    console.log(message);
+    alert(message);
 }
 
 // [ Genera la tarjeta del mensaje de error de Ubicacion ]
