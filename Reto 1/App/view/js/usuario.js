@@ -2,45 +2,6 @@
 const USU_URL = "../../api/UsuarioController.php";
 
 //----------------------------------------Funciones
-//Se encarga de hacer la petiocion al php. Devuelve un arry de "Data" de la repuesta o null en caso de error 
-
-async function petition(url, method, data) {
-    try {
-        if (method == "GET") {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "application/json" }
-            });
-            const result = await response.json();
-
-            if (response.ok) {
-                return result.data;
-            } else {
-                alert(result.message);
-                return null;
-            }
-        } else {
-            const response = await fetch(url, { // Peticion al PHP
-                method: method, // Metodo de peticion
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify(data) // Contenido
-            });
-            const result = await response.json();
-
-            if (response.ok) {
-                return result.data;
-            } else {
-                alert(result.message);
-                return null;
-            }
-        }
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert("Error: " + error.message);
-        return null;
-    }
-}
-
 // Pide la lista de todos los usuarios 
 async function cargarUsuarios() {
 
@@ -48,7 +9,7 @@ async function cargarUsuarios() {
     let method = "GET";
     let data = [];
 
-    return await petition(url, method, data);
+    return await petition(url, method, data); // Llama al petition de global.js
 
 }
 // Pide un Usuario mediante el id
@@ -59,7 +20,7 @@ async function buscarUsuarioPorId(usu_id) {
     let data = [];
     let usuarios;
 
-    usuarios = await petition(url, method, data); 
+    usuarios = await petition(url, method, data); // Llama al petition de global.js
 
     if (usuarios === null) {
         return null;
@@ -85,7 +46,7 @@ async function crearUsuario(usuario) {
     };
     let usuarios; 
     
-    usuarios = await petition(url, method, data);
+    usuarios = await petition(url, method, data); // Llama al petition de global.js
 
     if (usuarios === null) {
         return null;
@@ -114,7 +75,7 @@ async function editarUsuario(usuario) {
         data.password = usuario.password; 
     }
 
-    usuarios = await petition(url, method, data);
+    usuarios = await petition(url, method, data); // Llama al petition de global.js
 
     if (usuarios === null) {
         return null;
@@ -134,7 +95,7 @@ async function eliminarUsuario(usu_id) {
     let data = [];
     let usuarios;
 
-    usuarios = await petition(url, method, data);
+    usuarios = await petition(url, method, data); // Llama al petition de global.js
 
     if (usuarios === null) {
         return false;
