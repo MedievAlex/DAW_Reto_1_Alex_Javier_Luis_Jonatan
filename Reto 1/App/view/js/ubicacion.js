@@ -5,13 +5,77 @@ const EQU_URL = "../../api/EquipacionController.php";
 const artUbi = document.getElementById("ubicaciones");
 const tbody_ubicaciones = document.querySelector("#ubicaciones table tbody");
 
+const btnNewUbi = document.getElementById("btn-new-ubi");
+
 const artEqu = document.getElementById("equipamientos");
 
 /* ---------------------------------------- [FUNCIONES]*/
 document.addEventListener("DOMContentLoaded", () => {
     cargarUbicaciones();
     // mockUbicaciones(); // mockData.js
-    //bloquearEliminarUbicacion();
+});
+
+btnNewUbi.addEventListener("click", () => {
+    let tr_ubi = tbody_ubicaciones.insertRow(0);// Nueva Ubicacion
+    tr_ubi.classList.add("aula");
+
+    let ubi_nombre = tr_ubi.insertCell(0); // Nombre
+    let inp_ubi_nom = document.createElement("input"); // Input Nombre
+    inp_ubi_nom.type = "text";
+    inp_ubi_nom.placeholder = "nombre";
+    inp_ubi_nom.className = "ubi-nom";
+
+    ubi_nombre.appendChild(inp_ubi_nom);
+    tr_ubi.appendChild(ubi_nombre);
+
+    let ubi_descripcion = tr_ubi.insertCell(1); // Descripcion
+    let inp_ubi_des = document.createElement("input"); // Input Descripcion
+    inp_ubi_des.type = "text";
+    inp_ubi_des.placeholder = "descripcion";
+    inp_ubi_des.className = "ubi-des";
+
+    ubi_descripcion.appendChild(inp_ubi_des);
+    tr_ubi.appendChild(ubi_descripcion);
+
+    let ubi_btn = tr_ubi.insertCell(2); // Botones
+
+    // ---------------------------------------- Boton Guardar
+    let btn_save = document.createElement("button");
+    btn_save.alt = "Guardar Ubicación.";
+    let img_save = document.createElement("img");
+    img_save.src = srcGuardar;
+    btn_save.appendChild(img_save);
+    btn_save.classList.add("btn-s");
+    btn_save.classList.add("btn-edit");
+
+    // [ Guarda las modificaciones de la Ubicacion editada ] PENDIENTE
+    btn_save.addEventListener("click", () => {
+        crearUbicacion(0, inp_ubi_nom.value.trim(), inp_ubi_des.value.trim());
+    });
+
+    ubi_btn.appendChild(btn_save);
+
+    // ---------------------------------------- Boton Eliminar
+
+    let btn_delete = document.createElement("button");
+    btn_delete.alt = "Cancelar nueva ubicación.";
+    let img_delete = document.createElement("img");
+    img_delete.src = srcEliminar;
+    btn_delete.appendChild(img_delete);
+    btn_delete.classList.add("btn-s");
+    btn_delete.classList.add("btn-delete");
+
+    // [ Elimina la Ubicacion ] PENDIENTE
+    btn_delete.addEventListener("click", () => {
+        cargarUbicaciones();
+    });
+
+    ubi_btn.appendChild(btn_delete);
+
+
+    tr_ubi.appendChild(ubi_btn);
+
+    tbody_ubicaciones.prepend(tr_ubi);
 });
 
 // [ Pide el listado de todas las Ubicaciones ]
@@ -62,7 +126,7 @@ async function cargarUbicaciones() {
                         ubi_descripcion.appendChild(p_ubi_descripcion);
                         tr_ubi.appendChild(ubi_descripcion);
 
-                        let inp_ubi_des = document.createElement("input"); // Input Nombre
+                        let inp_ubi_des = document.createElement("input"); // Input Descripcion
                         inp_ubi_des.type = "text";
                         inp_ubi_des.value = ubi.ubi_descripcion;
                         inp_ubi_des.className = "ubi-des";
@@ -118,7 +182,7 @@ async function cargarUbicaciones() {
                         // ---------------------------------------- Boton Eliminar
                         if (ubi.ubi_nombre != "Almacén") {
                             let btn_delete = document.createElement("button");
-                            btn_delete.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+                            btn_delete.alt = "Eliminar ubicación " + ubi.ubi_nombre + ".";
                             let img_delete = document.createElement("img");
                             img_delete.src = srcEliminar;
                             btn_delete.appendChild(img_delete);
@@ -252,13 +316,13 @@ async function buscarUbicacionPorNombre(ubi_nombre) {
 }
 
 // [ Crea la Ubicacion enviada ]
-async function crearUbicacion() {
+async function crearUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
     let url = UBI_URL;
     let method = "POST";
     let data = {
-        ubi_id: 1,
-        ubi_nombre: "Cafeteria",
-        ubi_descripcion: "Cafeteria cup of café con leche in plaza mayor."
+        ubi_id: ubi_id,
+        ubi_nombre: ubi_nombre,
+        ubi_descripcion: ubi_descripcion
     };
     let response;
 
@@ -270,6 +334,8 @@ async function crearUbicacion() {
         } else {
             logMessage(value.message);
         }
+        
+        cargarUbicaciones();
     });
 }
 
