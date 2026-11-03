@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/ubicaciones.css">
+    <link rel="stylesheet" href="../styles/notificaciones.css">
+    <link rel="stylesheet" href="../styles/usuarios.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="../js/global.js" defer></script>
     <script src="../js/historico_ubicacion.js" defer></script>
@@ -54,13 +56,18 @@
         <div id="modalNotificaciones" class="modal">
             <div class="modalContenido">
                 <span class="cerrar">&times;</span>
-                <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas purus sem, blandit ac pulvinar ut,
-                    cursus sed turpis. Sed accumsan tempor feugiat. Aliquam nec magna interdum nunc rutrum rutrum.
-                    Aenean libero mauris, venenatis non lacus vitae, condimentum dictum sem. Aliquam fermentum nulla non
-                    nunc posuere lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-                    inceptos himenaeos. In congue nec ligula a dapibus. Nullam eu ultrices dui.
+                <h2 class="notTitulo">Notificaciones</h2>
+                <div class="contenedorFiltroYBtn">
+                    <button id="btnAniadirNot">Añadir notificacion</button>
+                    <select id="filtroNotificaciones" aria-label="Filtros de notificaciones">
+                        <option value="" selected disabled hidden>Filtros</option>
+                        <option value="en_proceso">En proceso</option>
+                        <option value="realizadas">Realizadas</option>
+                        <option value="pendientes">Pendientes</option>
+                    </select>
                 </div>
+                <hr>
+                <div id="listaNotificaciones" aria-live="polite">Abre este modal para cargar las notificaciones.</div>
             </div>
         </div>
 
@@ -79,16 +86,21 @@
 
         <!------------------------------------------------------------------------ [ARTICLE: Aulas ] -->
         <article id="ubicaciones">
+            <tr>
+                <button class="btn-s btn-new">
+                    <img src="../assets/icons/icon_nuevo.png" alt="Crear nueva Ubicacion.">
+                </button>
+            </tr>
             <table>
                 <tbody>
-                    
+
                 </tbody>
             </table>
         </article>
 
         <!------------------------------------------------------------------------ [ASIDE: Equipamientos ] -->
         <article id="equipamientos">
-            
+
         </article>
     </section>
 
