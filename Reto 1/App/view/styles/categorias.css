@@ -1,18 +1,49 @@
-/* ---------------------------------------------- [VARIABLES]*/
-:root {
-    /* ---------------------------------------------- [VARIABLES: Colores]*/
-    --primary-color-1: #FCA044;
-    --primary-color-2: #FFD857;
-    --primary-color-3: #57A3FF;
+/* ---------------------------------------------- [ARTICLE: Categorias]*/
+#categorias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
 
-    --color-black: #061930;
-    --color-white: #fffef4;
-    --color-grey: #8697ac;
-    --color-grey-2: #4d5155;
+#categorias div{
+    color: var(--color-secundario);
+    text-decoration: none;
 
-    /* ---------------------------------------------- [VARIABLES: Tamaños]*/
-    --title-text-size: 20px;
-    --border-radious-value: 30px;
+    border-radius: var(--border-radius-m);
+}
+
+/* ---------------------------------------------- [ARTICLE: Categoria]*/
+.categoria {
+    width: calc(25% - 20px); /*Calcula el 25% de la pantalla y le resta 20px al width*/
+
+    border: 3px solid var(--color-grey);
+    background-color: white; /*Para que sea igual al fondo de las imágenes*/
+
+    margin: 40px;
+}
+
+.categoria img {
+    width: 100%;
+    height: auto;
+
+    border-radius: var(--border-radius-half);
+}
+
+.categoria .desc {
+    font-size: var(--title-text-size);
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+
+    padding: 15px;
+}
+
+.categoria:hover {
+    border: 3px solid var(--color-acento);
+}
+
+.categoria:active {
+    border-width: 2px;
 }
 
 /* ---------------------------------------------- [MEDIA QUERIES]*/
@@ -26,51 +57,4 @@
     .categoria {
         width: calc(100% - 20px); /*Calcula el 100% de la pantalla y le resta 20px al width*/
     }
-}
-
-/* ---------------------------------------------- [ARTICLE: Categorias]*/
-#categorias {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
-#categorias div{
-    color: var(--primary-text-color-1);
-    text-decoration: none;
-
-    border-top-left-radius: var(--border-radious-value);
-    border-top-right-radius: var(--border-radious-value);
-}
-
-/* ---------------------------------------------- [ARTICLE: Categoria]*/
-.categoria {
-    width: calc(25% - 20px); /*Calcula el 25% de la pantalla y le resta 20px al width*/
-
-    border: 1px solid var(--color-grey);
-    background-color: white; /*Para que sea igual al fondo de las imágenes*/
-
-    margin: 40px;
-}
-
-.categoria img {
-    width: 100%;
-    height: auto;
-}
-
-.categoria .desc {
-    font-size: var(--title-text-size);
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-
-    padding: 15px;
-}
-
-.categoria:hover {
-    border: 3px solid var(--color-grey-2);
-}
-
-.categoria:active {
-    border-width: 2px;
 }
