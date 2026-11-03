@@ -52,7 +52,7 @@ try {
                             "ubi_descripcion" => $ubicacion->getDescripcion()
                         ];
 
-                        response(200, true, "Ubicacion obtenida correctamente.", $datos);
+                        response(200, true, "Ubicacion " . $ubicacion->getNombre() . " obtenida correctamente.", $datos);
                     } else {
                         // Ubicacion no existe
                         response(404, false, "Ubicacion no encontrada.", []);
@@ -76,7 +76,7 @@ try {
                             "ubi_descripcion" => $ubicacion->getDescripcion()
                         ];
 
-                        response(200, true, "Ubicacion obtenida correctamente.", $datos);
+                        response(200, true, "Ubicacion " . $ubicacion->getNombre() . " obtenida correctamente.", $datos);
                     } else {
                         // Ubicacion no existe
                         response(404, false, "Ubicacion no encontrada.", []);
@@ -100,10 +100,10 @@ try {
                         ];
 
                         if ($contieneEqu) { // Ubicacion existe
-                            response(200, true, "La Ubicacion tiene Equipamientos.", $datos);
+                            response(200, true, "La Ubicacion " . $ubicacion->getNombre() . " tiene Equipamientos.", $datos);
                         } else {
                             // Ubicacion no existe
-                            response(200, true, "La Ubicacion no tiene Equipamientos.", $datos);
+                            response(200, true, "La Ubicacion " . $ubicacion->getNombre() . " no tiene Equipamientos.", $datos);
                         }
                     } else {
                         // Ubicacion no existe
@@ -159,7 +159,7 @@ try {
                             "ubi_descripcion" => $ubicacion->getDescripcion()
                         ];
 
-                        response(201, true, "Ubicacion registrada correctamente.", $datos);
+                        response(201, true, "Ubicacion " . $ubicacion->getNombre() . " registrada correctamente.", $datos);
                     }
                 }
             }
@@ -199,7 +199,7 @@ try {
                                 "ubi_descripcion" => $ubicacion->getDescripcion()
                             ];
 
-                            response(200, true, "Ubicacion editada correctamente.", $datos);
+                            response(200, true, "Ubicacion " . $ubicacion->getNombre() . " editada correctamente.", $datos);
                         } else {
                             response(500, false, "Error al modificar la Ubicación.", []);
                         }
@@ -228,7 +228,7 @@ try {
                         // Elimina la Ubicacion
                         if ($controller->eliminarUbicacion($ubicacion->getId())) {
                             // Ubicacion eliminada correctamente
-                            response(200, true, "Ubicacion eliminada correctamente.", []);
+                            response(200, true, "Ubicacion " . $ubicacion->getNombre() . " eliminada correctamente.", []);
                         }
                     } else {
                         // Ubicacion no existe
