@@ -1,10 +1,15 @@
 <?php
+require_once("ConexionDB.php");
+require_once ("/../model/Categoria.php");
+require_once ("/../model/Equipamiento.php");
 
+/*
 // A diferencia de "../model/Equipamiento.php", __DIR__ toma como base
 // la carpeta de este DAO, independientemente de dónde se ejecute la aplicación.
 require_once __DIR__ . "/ConexionDB.php";
 require_once __DIR__ . "/../model/Categoria.php";
 require_once __DIR__ . "/../model/Equipamiento.php";
+*/
 
 /**
  * Gestiona las consultas y la persistencia de los equipamientos.
