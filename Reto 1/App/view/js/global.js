@@ -68,6 +68,27 @@ async function petition(url, method, data) {
   }
 }
 
+/* ---------------------------------------------- [FUNCIONES]*/
+document.addEventListener("DOMContentLoaded", () => {
+  crearTitulos();
+});
+
+// Crea los titulos para mostrar una descripción cuando se pasa el ratón por encima
+function crearTitulos() {
+  btnAjustes.title = "Ajustes.";
+  btnCerrarAjustes.title = "Cerar ajustes.";
+
+  btnTemaDefault.title = "Cambiar al tema por defecto.";
+  btnTemaAlt.title = "Cambiar al tema alternativo.";
+  btnTemaGlobal.title = "Cambiar al tema global.";
+
+  btnNotificaciones.title = "Notificaciones.";
+  btnCerrarNotificaciones.title = "Cerrar notificaciones";
+
+  btnPerfil.title = "Perfil.";
+  btnCerrarPerfil.title = "Cerrar perfil.";
+}
+
 /* ---------------------------------------------- [MODAL: Ajustes]*/
 // Abrir modal
 btnAjustes.addEventListener("click", function () {

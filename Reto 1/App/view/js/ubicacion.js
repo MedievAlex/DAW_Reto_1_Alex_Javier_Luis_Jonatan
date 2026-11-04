@@ -24,7 +24,7 @@ btnNewUbi.addEventListener("click", () => {
     inp_ubi_nom.type = "text";
     inp_ubi_nom.placeholder = "nombre";
     inp_ubi_nom.className = "ubi-nom";
-    inp_ubi_nom.title = "Nombre de la ubicación.";
+    inp_ubi_nom.title = "Nombre de la ubicación nueva.";
 
     td_ubi_nom.appendChild(inp_ubi_nom);
     tr_ubi.appendChild(td_ubi_nom);
@@ -34,7 +34,7 @@ btnNewUbi.addEventListener("click", () => {
     inp_ubi_des.type = "text";
     inp_ubi_des.placeholder = "descripcion";
     inp_ubi_des.className = "ubi-des";
-    inp_ubi_des.title = "Descripción de la ubicación.";
+    inp_ubi_des.title = "Descripción de la ubicación nueva.";
 
     td_ubi_des.appendChild(inp_ubi_des);
     tr_ubi.appendChild(td_ubi_des);
@@ -49,9 +49,9 @@ btnNewUbi.addEventListener("click", () => {
     btn_save.appendChild(img_save);
     btn_save.classList.add("btn-s");
     btn_save.classList.add("btn-edit");
-    btn_save.title = "Guardar ubicación.";
+    btn_save.title = "Guardar ubicación nueva.";
 
-    // [ Guarda las modificaciones de la Ubicacion editada ] PENDIENTE
+    // [ Guarda las modificaciones de la Ubicacion editada ]
     btn_save.addEventListener("click", () => {
         let ubi_nom = inp_ubi_nom.value.trim();
         let ubi_des = inp_ubi_des.value.trim();
@@ -129,6 +129,7 @@ async function cargarUbicaciones() {
                         let h3_ubi_nom = document.createElement("h3");
                         h3_ubi_nom.classList.add("ubi_nombre");
                         h3_ubi_nom.textContent = ubi_nombre;
+
                         td_ubi_nom.appendChild(h3_ubi_nom);
                         tr_ubi.appendChild(td_ubi_nom);
 
@@ -141,6 +142,7 @@ async function cargarUbicaciones() {
                         let td_ubi_des = document.createElement("td"); // Descripcion
                         let p_ubi_des = document.createElement("p");
                         p_ubi_des.textContent = ubi_descripcion;
+
                         td_ubi_des.appendChild(p_ubi_des);
                         tr_ubi.appendChild(td_ubi_des);
 
@@ -148,7 +150,7 @@ async function cargarUbicaciones() {
                         inp_ubi_des.type = "text";
                         inp_ubi_des.value = ubi_descripcion;
                         inp_ubi_des.className = "ubi-des";
-                        inp_ubi_des.title = "Descripción de la ubicación.";
+                        inp_ubi_des.title = "Descripción de la ubicación " + ubi_nombre + ".";
 
                         let ubi_btn = document.createElement("td"); // Botones
 
@@ -157,10 +159,11 @@ async function cargarUbicaciones() {
                         btn_edit.alt = "Editar ubicación " + ubi_nombre + ".";
                         let img_edit = document.createElement("img");
                         img_edit.src = srcEditar;
+                        btn_edit.title = "Editar ubicación " + ubi_nombre + ".";
+
                         btn_edit.appendChild(img_edit);
                         btn_edit.classList.add("btn-s");
                         btn_edit.classList.add("btn-edit");
-                        btn_edit.title = "Editar ubicación " + ubi_nombre + ".";
 
                         // [ Edita la Ubicacion selecionada ]
                         btn_edit.addEventListener("click", () => {
@@ -184,6 +187,8 @@ async function cargarUbicaciones() {
                         btn_save.alt = "Editar ubicación " + ubi_nombre + ".";
                         let img_save = document.createElement("img");
                         img_save.src = srcGuardar;
+                        btn_save.title = "Guardar modificaciones de ubicación " + ubi_nombre + ".";
+
                         btn_save.appendChild(img_save);
                         btn_save.classList.add("btn-s");
                         btn_save.classList.add("btn-edit");
@@ -219,6 +224,8 @@ async function cargarUbicaciones() {
                             btn_delete.alt = "Eliminar ubicación " + ubi_nombre + ".";
                             let img_delete = document.createElement("img");
                             img_delete.src = srcEliminar;
+                            btn_delete.title = "Eliminar ubicación " + ubi_nombre + ".";
+
                             btn_delete.appendChild(img_delete);
                             btn_delete.classList.add("btn-s");
                             btn_delete.classList.add("btn-delete");
@@ -243,6 +250,8 @@ async function cargarUbicaciones() {
                         btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi_nombre + ".";
                         let img_open = document.createElement("img");
                         img_open.src = srcCerrar;
+                        btn_open.title = "Mostrar equipamientos de la ubicación " + ubi_nombre + ".";
+
                         btn_open.appendChild(img_open);
                         btn_open.classList.add("btn-s");
                         btn_open.classList.add("btn-open");
@@ -268,6 +277,8 @@ async function cargarUbicaciones() {
                         btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi_nombre + ".";
                         let btn_img = document.createElement("img");
                         btn_img.src = srcAbrir;
+                        btn_close.title = "Ocultar equipamientos de la ubicación " + ubi_nombre + ".";
+
                         btn_close.appendChild(btn_img);
                         btn_close.classList.add("btn-s");
                         btn_close.classList.add("btn-close");
