@@ -264,10 +264,9 @@ async function cargarUbicaciones() {
                             btn_close.classList.remove("oculto");
                             btn_close.classList.add("visible");
 
-                            //cargarEquiposDeUbicacion();
-
                             limpiarEquiposDeUbicacion(event.currentTarget);
-                            mockEquipamientos(); // mockData.js
+                            cargarEquiposDeUbicacion();
+                            //mockEquipamientos(); // mockData.js
                         });
 
                         ubi_btn.appendChild(btn_open);
