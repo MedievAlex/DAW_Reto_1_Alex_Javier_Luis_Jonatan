@@ -1,0 +1,277 @@
+/* ---------------------------------------------- [MODAL]*/
+#modalPerfil .modalContenido {
+     background-color: var(--color-secundario);
+    box-sizing: border-box;
+    max-width: 1100px;
+
+    border-radius: var(--border-radius-l);
+}
+
+.perfil-contenedor {
+    
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    clear: both; /* .cerrar flota a la derecha */
+
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+/* El ADMIN ve el perfil a la izquierda y la gestión a la derecha */
+.perfil-contenedor.perfil-admin {
+    
+    grid-template-columns: minmax(240px, 1fr) 2fr;
+
+    max-width: none;
+}
+
+@media (max-width: 800px) {
+    .perfil-contenedor.perfil-admin {
+        grid-template-columns: 1fr;
+    }
+}
+
+.perfil-panel {
+     background-color: var(--color-primario);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--border-radius-m);
+
+    padding: 20px;
+}
+
+.perfil-panel h2 {
+    margin: 0 0 15px;
+
+    text-align: center;
+}
+
+/* ---------------------------------------------- [PERFIL]*/
+.perfil-avatar {
+    background-color:var(--color-secundario);
+
+    border: 3px solid var(--color-acento);
+    border-radius: var(--border-radius-half);
+
+    box-sizing: border-box;
+    display: block;
+    width: 120px;
+    height: 120px;
+
+    object-fit: contain; /* el logo no se deforma dentro del círculo */
+
+    padding: 15px;
+    margin: 0 auto 15px;
+}
+
+.perfil-campos {
+    margin: 0 0 15px;
+}
+
+.perfil-campo {
+    background-color: var(--color-white);
+    color: var(--color-black);
+
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+
+    padding: 8px 10px;
+    margin-bottom: 10px;
+}
+
+.perfil-campo dt {
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.perfil-campo dd {
+    margin: 0;
+
+    overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------- [BOTONES]*/
+/* Botón con texto: el color base lo pone global.css (button) */
+.btn-texto {
+    border: 2px solid transparent; /* reserva el borde que global.css añade en :hover */
+    border-radius: var(--border-radius-m);
+
+    padding: 12px 20px;
+
+    font: inherit;
+    font-weight: bold;
+}
+
+.btn-texto:hover {
+    border-color: var(--color-white);
+}
+
+#modalPerfil .perfil-panel > .btn-texto {
+    display: block;
+    margin: 0 auto;
+}
+
+#modalPerfil button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#modalPerfil button:disabled:hover {
+    border: none;
+}
+
+#modalPerfil .btn-texto:disabled:hover {
+    border: 2px solid transparent;
+}
+
+/* Foco visible para el teclado */
+#modalPerfil button:focus-visible,
+#modalPerfil input:focus-visible,
+#modalPerfil select:focus-visible,
+#modalPerfil .cerrar:focus-visible {
+    outline: 3px solid var(--color-black);
+    outline-offset: 2px;
+}
+
+.perfil-barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+.perfil-ayuda {
+    margin: 0 0 15px;
+
+    font-size: 0.9em;
+}
+
+/* ---------------------------------------------- [TARJETAS DE USUARIO]*/
+/* El aspecto de la tarjeta (color, sombra, borde redondeado, hover) es .tarjeta de global.css */
+.usuarios-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* el espacio entre tarjetas lo da el margin de .tarjeta */
+
+    max-height: 45vh;
+    overflow: auto;
+
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.usuarios-vacio {
+    grid-column: 1 / -1;
+
+    text-align: center;
+}
+
+.tarjeta-usuario span {
+    display: block;
+}
+
+.tarjeta-usuario .usuario-nombre {
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.tarjeta-usuario .usuario-login {
+    overflow-wrap: anywhere;
+}
+
+.tarjeta-usuario .usuario-rol {
+    border: 1px solid currentColor;
+    border-radius: var(--border-radius-l);
+
+    display: inline-block;
+
+    padding: 2px 10px;
+    margin-top: 4px;
+
+    font-size: 0.85em;
+}
+
+/* Seleccionada: cambia de color y lleva contorno (no depende solo del color) */
+.tarjeta-usuario[aria-selected="true"] {
+    background-color: var(--color-secundario);
+    color: var(--texto-secundario);
+
+    outline: 3px solid var(--color-black);
+    outline-offset: 2px;
+}
+
+/* Foco de teclado: contorno discontinuo, distinto del de seleccionada */
+.tarjeta-usuario:focus-visible {
+    outline: 3px dashed var(--color-black);
+    outline-offset: 2px;
+}
+
+/* ---------------------------------------------- [FORMULARIO]*/
+#form-usuario fieldset {
+    border: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 0;
+    margin: 0 0 15px;
+}
+
+#form-usuario legend {
+    padding: 0;
+    margin-bottom: 10px;
+
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#form-usuario label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-weight: bold;
+}
+
+#form-usuario input,
+#form-usuario select {
+    background-color: var(--color-white);
+    color: var(--color-black);
+
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+
+    box-sizing: border-box;
+    width: 100%;
+
+    padding: 10px;
+
+    font: inherit;
+}
+
+#form-usuario .btn-texto img {
+    width: 20px;
+    height: 20px;
+
+    margin-right: 8px;
+
+    vertical-align: middle;
+}
+
+/* ---------------------------------------------- [MENSAJES]*/
+/* El aspecto base es .err (global.css); no se toca display para respetar .oculto */
+#perfil-mensaje {
+    border-left: 6px solid var(--color-delete);
+
+    margin: 0 0 15px;
+
+    font-weight: bold;
+}
+
+#perfil-mensaje.perfil-ok {
+    border-left-color: var(--color-new);
+}

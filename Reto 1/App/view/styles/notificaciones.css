@@ -144,6 +144,12 @@
     padding: 9px 12px;
 }
 
+.iconoEstadoNot {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+}
+
 select {
     font-family: Bahnschrift;
 }

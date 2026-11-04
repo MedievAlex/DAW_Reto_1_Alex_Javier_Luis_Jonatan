@@ -31,12 +31,20 @@ class Historico_UbicacionDAO
         $historicos = array();
         $sql = "SELECT id_historico, id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin
                     FROM historico_ubicaciones";
-        $resultado = $this->conexion->query($sql);
 
-        while ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
-            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
-            $historicos[] = $historico;
+        $stmt = $this->conexion->prepare($sql);
+
+        try {
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            while ($fila = $resultado->fetch_assoc()) {
+                $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+                $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
+                $historicos[] = $historico;
+            }
+        } finally {
+            $stmt->close();
         }
 
         return $historicos;
@@ -58,14 +66,22 @@ class Historico_UbicacionDAO
                     WHERE id_historico = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $his_id);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
 
-        if ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
-            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
-            return $historico;
+        try {
+            $stmt->bind_param(
+                "i",
+                $his_id
+            );
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            if ($fila = $resultado->fetch_assoc()) {
+                $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+                $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
+                return $historico;
+            }
+        } finally {
+            $stmt->close();
         }
 
         return null;
@@ -88,14 +104,22 @@ class Historico_UbicacionDAO
                     WHERE id_equipamiento = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $his_equipamiento);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
 
-        while ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
-            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
-            $historicos[] = $historico;
+        try {
+            $stmt->bind_param(
+                "i",
+                $his_equipamiento
+            );
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            while ($fila = $resultado->fetch_assoc()) {
+                $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+                $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
+                $historicos[] = $historico;
+            }
+        } finally {
+            $stmt->close();
         }
 
         return $historicos;
@@ -118,14 +142,22 @@ class Historico_UbicacionDAO
                     WHERE id_ubicacion = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $his_ubicacion);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
 
-        while ($fila = $resultado->fetch_assoc()) {
-            $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
-            $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
-            $historicos[] = $historico;
+        try {
+            $stmt->bind_param(
+                "i",
+                $his_ubicacion
+            );
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            while ($fila = $resultado->fetch_assoc()) {
+                $historico = new Historico_Ubicacion($fila["id_historico"], $fila["id_equipamiento"], $fila["id_ubicacion"], new DateTime($fila["fecha_inicio"]));
+                $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
+                $historicos[] = $historico;
+            }
+        } finally {
+            $stmt->close();
         }
 
         return $historicos;
@@ -146,17 +178,20 @@ class Historico_UbicacionDAO
                     VALUES (?, ?, ?)";
 
         $stmt = $this->conexion->prepare($sql);
-        //$his_id = $historico->getId();
-        $his_equipamiento = $historico->getEquipamiento();
-        $his_ubicacion = $historico->getUbicacion();
-        $his_fecha_inicio = date_format($historico->getFechaInicio(), "Y-m-d H:i:s");
-        //$his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
-        $stmt->bind_param(
-            "iis",
-            $his_equipamiento,
-            $his_ubicacion,
-            $his_fecha_inicio
-        );
+
+        try {
+            $his_equipamiento = $historico->getEquipamiento();
+            $his_ubicacion = $historico->getUbicacion();
+            $his_fecha_inicio = date_format($historico->getFechaInicio(), "Y-m-d H:i:s");
+            $stmt->bind_param(
+                "iis",
+                $his_equipamiento,
+                $his_ubicacion,
+                $his_fecha_inicio
+            );
+        } finally {
+            $stmt->close();
+        }
 
         return $stmt->execute();
     }
@@ -177,13 +212,18 @@ class Historico_UbicacionDAO
                     WHERE id_historico = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
-        $his_id = $historico->getId();
-        $stmt->bind_param(
-            "si",
-            $his_fecha_fin,
-            $his_id
-        );
+
+        try {
+            $his_fecha_fin = date_format($historico->getFechaFin(), "Y-m-d H:i:s");
+            $his_id = $historico->getId();
+            $stmt->bind_param(
+                "si",
+                $his_fecha_fin,
+                $his_id
+            );
+        } finally {
+            $stmt->close();
+        }
 
         return $stmt->execute();
     }
@@ -203,10 +243,16 @@ class Historico_UbicacionDAO
                     WHERE id_historico = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $his_id);
+
+        try {
+            $stmt->bind_param(
+                "i",
+                $his_id
+            );
+        } finally {
+            $stmt->close();
+        }
 
         return $stmt->execute();
     }
 }
-
-?>

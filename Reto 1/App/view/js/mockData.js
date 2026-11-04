@@ -44,15 +44,15 @@ function mockUbicaciones() {
         let atributos = ["ubi_id", "ubi_nombre", "ubi_descripcion"];
 
         // Verifica si todos los objetos tienen todos los atributos
-        let valido = value.every(obj =>
+        let valido = value.data.every(obj =>
             atributos.every(clave => clave in obj)
         );
 
         if (valido) {
             tbody_ubicaciones.innerHTML = "";
-            value = ordenarUbicaciones(value);
+            ubicaciones = ordenarUbicaciones(value.data);
 
-            value.forEach(ubi => {
+            ubicaciones.forEach(ubi => {
                 let ubi_id = ubi.ubi_id;
                 let tr_ubi = document.createElement("tr");// Nueva Ubicacion
                 tr_ubi.classList.add("aula");
@@ -75,7 +75,7 @@ function mockUbicaciones() {
                 ubi_descripcion.appendChild(p_ubi_descripcion);
                 tr_ubi.appendChild(ubi_descripcion);
 
-                let inp_ubi_des = document.createElement("input"); // Input Nombre
+                let inp_ubi_des = document.createElement("input"); // Input Descripcion
                 inp_ubi_des.type = "text";
                 inp_ubi_des.value = ubi.ubi_descripcion;
                 inp_ubi_des.className = "ubi-des";
@@ -123,6 +123,7 @@ function mockUbicaciones() {
                     btn_edit.classList.remove("oculto");
                     btn_edit.classList.add("visible");
 
+                    editarUbicacion(ubi.ubi_id, inp_ubi_nom.value.trim(), inp_ubi_des.value.trim());
                 });
 
                 ubi_btn.appendChild(btn_save);
@@ -130,7 +131,7 @@ function mockUbicaciones() {
                 // ---------------------------------------- Boton Eliminar
                 if (ubi.ubi_nombre != "Almacén") {
                     let btn_delete = document.createElement("button");
-                    btn_delete.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+                    btn_delete.alt = "Eliminar ubicación " + ubi.ubi_nombre + ".";
                     let img_delete = document.createElement("img");
                     img_delete.src = srcEliminar;
                     btn_delete.appendChild(img_delete);
@@ -141,13 +142,9 @@ function mockUbicaciones() {
                     btn_delete.addEventListener("click", () => {
                         eliminarUbicacion(ubi_id);
                     });
-                    /*
-                    if (verificarEquipamientos(ubi_id)) {
-                        btn_delete.disabled = true;
-                    } else {
-                        btn_delete.disabled = false;
-                    }
-                    */
+
+                    verificarEquipamientos(btn_delete, ubi.ubi_id);
+
                     ubi_btn.appendChild(btn_delete);
                 }
 
@@ -205,9 +202,8 @@ function mockUbicaciones() {
             });
 
         } else {
-            ubiNoValido(value[0].message);
+            ubiNoValido(value.message);
         }
-
     } else {
         ubiNoValido("[ERROR]: Formato de datos incorrecto.");
     }
@@ -411,7 +407,6 @@ function mockEquipamientos() {
         } else {
             equNoValido(value[0].message);
         }
-
     } else {
         equNoValido("Formato de datos incorrecto.");
     }

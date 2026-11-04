@@ -1,4 +1,5 @@
 <?php
+
 require_once("ConexionDB.php");
 require_once("../model/Ubicacion.php");
 
@@ -31,19 +32,15 @@ class UbicacionDAO
         $ubicaciones = array();
         $sql = "SELECT id_ubicacion, nombre, descripcion
                     FROM ubicaciones";
-
+                    
         $stmt = $this->conexion->prepare($sql);
 
-        try {
-            $stmt->execute();
-            $resultado = $stmt->get_result();
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-            while ($fila = $resultado->fetch_assoc()) {
-                $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
-                $ubicaciones[] = $ubicacion;
-            }
-        } finally {
-            $stmt->close();
+        while ($fila = $resultado->fetch_assoc()) {
+            $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
+            $ubicaciones[] = $ubicacion;
         }
 
         return $ubicaciones;
@@ -66,20 +63,16 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        try {
-            $stmt->bind_param(
-                "i",
-                $ubi_id
-            );
-            $stmt->execute();
-            $resultado = $stmt->get_result();
+        $stmt->bind_param(
+            "i",
+            $ubi_id
+        );
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-            if ($fila = $resultado->fetch_assoc()) {
-                $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
-                return $ubicacion;
-            }
-        } finally {
-            $stmt->close();
+        if ($fila = $resultado->fetch_assoc()) {
+            $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
+            return $ubicacion;
         }
 
         return null;
@@ -102,20 +95,16 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        try {
-            $stmt->bind_param(
-                "s",
-                $ubi_nombre
-            );
-            $stmt->execute();
-            $resultado = $stmt->get_result();
+        $stmt->bind_param(
+            "s",
+            $ubi_nombre
+        );
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-            if ($fila = $resultado->fetch_assoc()) {
-                $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
-                return $ubicacion;
-            }
-        } finally {
-            $stmt->close();
+        if ($fila = $resultado->fetch_assoc()) {
+            $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
+            return $ubicacion;
         }
 
         return null;
@@ -137,17 +126,13 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        try {
-            $ubi_nombre = $ubicacion->getNombre();
-            $ubi_descripcion = $ubicacion->getDescripcion();
-            $stmt->bind_param(
-                "ss",
-                $ubi_nombre,
-                $ubi_descripcion
-            );
-        } finally {
-            $stmt->close();
-        }
+        $ubi_nombre = $ubicacion->getNombre();
+        $ubi_descripcion = $ubicacion->getDescripcion();
+        $stmt->bind_param(
+            "ss",
+            $ubi_nombre,
+            $ubi_descripcion
+        );
 
         return $stmt->execute();
     }
@@ -170,19 +155,15 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        try {
-            $ubi_nombre = $ubicacion->getNombre();
-            $ubi_descripcion = $ubicacion->getDescripcion();
-            $ubi_id = $ubicacion->getId();
-            $stmt->bind_param(
-                "ssi",
-                $ubi_nombre,
-                $ubi_descripcion,
-                $ubi_id
-            );
-        } finally {
-            $stmt->close();
-        }
+        $ubi_nombre = $ubicacion->getNombre();
+        $ubi_descripcion = $ubicacion->getDescripcion();
+        $ubi_id = $ubicacion->getId();
+        $stmt->bind_param(
+            "ssi",
+            $ubi_nombre,
+            $ubi_descripcion,
+            $ubi_id
+        );
 
         return $stmt->execute();
     }
@@ -203,14 +184,10 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        try {
-            $stmt->bind_param(
-                "i",
-                $ubi_id
-            );
-        } finally {
-            $stmt->close();
-        }
+        $stmt->bind_param(
+            "i",
+            $ubi_id
+        );
 
         return $stmt->execute();
     }
@@ -231,24 +208,21 @@ class UbicacionDAO
                     WHERE id_ubicacion_actual = ?";
 
         $stmt = $this->conexion->prepare($sql);
+        
+        $stmt->bind_param(
+            "i",
+            $ubi_id
+        );
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-        try {
-            $stmt->bind_param(
-                "i",
-                $ubi_id
-            );
-            $stmt->execute();
-            $resultado = $stmt->get_result();
+        $equipamientos = false;
 
-            $equipamientos = false;
-
-            if ($resultado->num_rows > 0) {
-                $equipamientos = true;
-            }
-        } finally {
-            $stmt->close();
-        }
-
-        return $equipamientos;
+        if ($resultado->num_rows > 0) {
+            $equipamientos = true;
+        } 
+            return $equipamientos;
     }
 }
+
+?>
