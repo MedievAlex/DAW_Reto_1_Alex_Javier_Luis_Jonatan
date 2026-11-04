@@ -14,79 +14,84 @@ if (filtroNotificaciones) {
 
 if (btnAgregarNotificacion) {
     btnAgregarNotificacion.addEventListener("click", () => {
+        const existeNuevo = document.getElementById("elementoNuevoNotificacion");
+        const hayEdicionActiva = document.querySelector(".tarjeta.editando-activo");
+
         // Evitamos que se abran varios formularios de creación a la vez
-        if (document.getElementById("elementoNuevoNotificacion")) {
-            return;
-        }
+        if (!existeNuevo && !hayEdicionActiva) {
 
-        const usuarioNuevaNot = document.createElement("input");
-        usuarioNuevaNot.className = "inputNuevaNotUsuario";
-        usuarioNuevaNot.type = "number";
-        usuarioNuevaNot.min = "1";
-        usuarioNuevaNot.placeholder = "ID de usuario (ej. 1)";
+            const usuarioNuevaNot = document.createElement("input");
+            usuarioNuevaNot.className = "inputNuevaNotUsuario";
+            usuarioNuevaNot.type = "number";
+            usuarioNuevaNot.min = "1";
+            usuarioNuevaNot.placeholder = "ID de usuario (ej. 1)";
 
-        const elementoNuevo = document.createElement("article");
-        //elementoNuevo.className = "nuevaNotificacion";
-        elementoNuevo.classList.add("tarjeta");
-        elementoNuevo.id = "elementoNuevoNotificacion";
+            const elementoNuevo = document.createElement("article");
+            //elementoNuevo.className = "nuevaNotificacion";
+            elementoNuevo.classList.add("tarjeta");
+            elementoNuevo.id = "elementoNuevoNotificacion";
 
-        // Input Título
-        const tituloNuevaNot = document.createElement("input");
-        tituloNuevaNot.className = "inputNuevaNotTitulo";
-        tituloNuevaNot.type = "text";
-        tituloNuevaNot.placeholder = "Título de la notificación...";
+            // Input Título
+            const tituloNuevaNot = document.createElement("input");
+            tituloNuevaNot.className = "inputNuevaNotTitulo";
+            tituloNuevaNot.type = "text";
+            tituloNuevaNot.placeholder = "Título de la notificación...";
 
-        // Input Descripción
-        const descripcionNuevaNot = document.createElement("textarea");
-        descripcionNuevaNot.className = "inputNuevaNotDesc";
-        descripcionNuevaNot.placeholder = "Descripción...";
+            // Input Descripción
+            const descripcionNuevaNot = document.createElement("textarea");
+            descripcionNuevaNot.className = "inputNuevaNotDesc";
+            descripcionNuevaNot.placeholder = "Descripción...";
 
-        // Selector de Fecha y Hora (abre el calendario nativo del navegador)
-        const fechaNuevaNot = document.createElement("input");
-        fechaNuevaNot.className = "inputNuevaNotFecha";
-        fechaNuevaNot.type = "datetime-local";
+            // Selector de Fecha y Hora (abre el calendario nativo del navegador)
+            const fechaNuevaNot = document.createElement("input");
+            fechaNuevaNot.className = "inputNuevaNotFecha";
+            fechaNuevaNot.type = "datetime-local";
 
-        // Botón para Guardar la nueva notificación
-        const btnGuardarNueva = document.createElement("button");
-        btnGuardarNueva.textContent = "Guardar";
-        btnGuardarNueva.className = "btnGuardarNuevaNot";
+            // Botón para Guardar la nueva notificación
+            const btnGuardarNueva = document.createElement("button");
+            btnGuardarNueva.textContent = "Guardar";
+            btnGuardarNueva.className = "btnGuardarNuevaNot";
 
-        // Botón para Cancelar por si te arrepientes
-        const btnCancelarNueva = document.createElement("button");
-        btnCancelarNueva.textContent = "Cancelar";
-        btnCancelarNueva.className = "btnCancelarNuevaNot";
-        btnCancelarNueva.addEventListener("click", () => {
-            elementoNuevo.remove();
-        });
+            // Botón para Cancelar por si te arrepientes
+            const btnCancelarNueva = document.createElement("button");
+            btnCancelarNueva.textContent = "Cancelar";
+            btnCancelarNueva.className = "btnCancelarNuevaNot";
+            btnCancelarNueva.addEventListener("click", () => {
+                elementoNuevo.remove();
+            });
 
-        btnGuardarNueva.addEventListener("click", () => {
-            const idUsuario = parseInt(usuarioNuevaNot.value, 10);
-            const titulo = tituloNuevaNot.value.trim();
-            const descripcion = descripcionNuevaNot.value.trim();
-            const fechaRaw = fechaNuevaNot.value; // Devuelve "YYYY-MM-DDTHH:MM"
-            const estado = "PENDIENTE";
+            btnGuardarNueva.addEventListener("click", () => {
+                const idUsuario = parseInt(usuarioNuevaNot.value, 10);
+                const titulo = tituloNuevaNot.value.trim();
+                const descripcion = descripcionNuevaNot.value.trim();
+                const fechaRaw = fechaNuevaNot.value; // Devuelve "YYYY-MM-DDTHH:MM"
+                const estado = "PENDIENTE";
 
-            if (!titulo || !descripcion || !fechaRaw) {
-                alert("Por favor, rellena el título, la descripción y selecciona una fecha.");
+                if (!titulo || !descripcion || !fechaRaw || isNaN(idUsuario)) {
+                    alert("Por favor, rellena el título, la descripción y selecciona una fecha.");
+                } else {
+                    // Convertimos "2026-10-28T10:30" a "2026-10-28 10:30:00" para PHP/MySQL
+                    const fechaFormateada = fechaRaw.replace("T", " ") + ":00";
+                    agregarNotificacion(idUsuario, titulo, descripcion, fechaFormateada, estado);
+                }
+            });
+
+            elementoNuevo.append(
+                usuarioNuevaNot,
+                tituloNuevaNot,
+                descripcionNuevaNot,
+                fechaNuevaNot,
+                btnGuardarNueva,
+                btnCancelarNueva
+            );
+
+            listaNotificaciones.prepend(elementoNuevo);
+            tituloNuevaNot.focus();
+        } else {
+            if (hayEdicionActiva) {
+                alert("No se puede agregar una nueva notificacion mientras se edita.");
             }
-
-            // Convertimos "2026-10-28T10:30" a "2026-10-28 10:30:00" para PHP/MySQL
-            const fechaFormateada = fechaRaw.replace("T", " ") + ":00";
-
-            agregarNotificacion(idUsuario, titulo, descripcion, fechaFormateada, estado);
-        });
-
-        elementoNuevo.append(
-            usuarioNuevaNot,
-            tituloNuevaNot,
-            descripcionNuevaNot,
-            fechaNuevaNot,
-            btnGuardarNueva,
-            btnCancelarNueva
-        );
-
-        listaNotificaciones.prepend(elementoNuevo);
-        tituloNuevaNot.focus();
+        }
     });
 }
 
@@ -289,32 +294,34 @@ async function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
 async function eliminarNotificacion(id, btnEliminar) {
     const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta notificación?");
     if (!confirmado) {
-        return;
-    }
-
-    let url = NOT_URL + "?not_id=" + id;
-    let method = "DELETE";
-    let data = [];
-    let resultado;
-
-    resultado = await petition(url, method, data); // Llama al petition de global.js
-    const error = Array.isArray(resultado) && resultado[0] === false;
-
-    if (error) {
-        console.warn("No se pudo eliminar por: " + resultado[0].message);
-
+        console.log("Eliminación cancelada.");
     } else {
-        const elementoEliminado = btnEliminar.closest(".tarjeta");
-        if (elementoEliminado) {
-            elementoEliminado.remove();
-            console.log("Notificacion eliminada correctamente.")
-            cargarNotificaciones();
-        }
+        let url = NOT_URL + "?not_id=" + id;
+        let method = "DELETE";
+        let data = [];
+        let resultado;
 
-        if (listaNotificaciones && !listaNotificaciones.querySelector(".tarjeta")) {
-            listaNotificaciones.textContent = "No hay notificaciones.";
+        resultado = await petition(url, method, data); // Llama al petition de global.js
+        const error = Array.isArray(resultado) && resultado[0] === false;
+
+        if (error) {
+            console.warn("No se pudo eliminar por: " + resultado[0].message);
+
+        } else {
+            const elementoEliminado = btnEliminar.closest(".tarjeta");
+            if (elementoEliminado) {
+                elementoEliminado.remove();
+                console.log("Notificacion eliminada correctamente.")
+                cargarNotificaciones();
+            }
+
+            if (listaNotificaciones && !listaNotificaciones.querySelector(".tarjeta")) {
+                listaNotificaciones.textContent = "No hay notificaciones.";
+            }
         }
     }
+
+
 }
 
 async function aplicarFiltro() {
@@ -363,7 +370,21 @@ async function cargarNotificacionesFiltradas(lista) {
 
             const detalles = document.createElement("p");
             detalles.className = "notificacionDetalles";
-            detalles.textContent = `${fechaLimpia} · ${notificacion.estado}`;
+            detalles.textContent = `${fechaLimpia} · `;
+
+            const iconosEstado = {
+                "PENDIENTE": srcPendiente,
+                "EN_PROCESO": srcProceso,
+                "REALIZADA": srcRealizado
+            };
+
+            const imgEstado = document.createElement("img");
+            imgEstado.src = iconosEstado[notificacion.estado] || srcPendiente;
+            imgEstado.alt = notificacion.estado;
+            imgEstado.title = notificacion.estado; // Muestra el texto si pasas el ratón por encima
+            imgEstado.classList.add("iconoEstadoNot");
+
+            detalles.appendChild(imgEstado);
 
             // Botón Eliminar
             const btnEliminar = document.createElement("button");
@@ -389,47 +410,55 @@ async function cargarNotificacionesFiltradas(lista) {
 
             btnModificar.addEventListener("click", () => {
                 if (!editando) {
-                    // Primer click: Convertir h3 y p en campos editables
-                    inputTitulo = document.createElement("input");
-                    inputTitulo.type = "text";
-                    inputTitulo.value = titulo.textContent;
-                    inputTitulo.className = "inputEditarTitulo";
+                    const existeNuevo = document.getElementById("elementoNuevoNotificacion");
+                    const hayEdicionActiva = document.querySelector(".tarjeta.editando-activo");
 
-                    inputDescripcion = document.createElement("textarea");
-                    inputDescripcion.value = descripcion.textContent;
-                    inputDescripcion.className = "inputEditarDescripcion";
+                    if (!existeNuevo && !hayEdicionActiva) {
+                        elemento.classList.add("editando-activo");
 
-                    inputFecha = document.createElement("input");
-                    inputFecha.type = "text";
-                    inputFecha.value = fechaFormatoSQL;
+                        // Primer click: Convertir h3 y p en campos editables
+                        inputTitulo = document.createElement("input");
+                        inputTitulo.type = "text";
+                        inputTitulo.value = titulo.textContent;
+                        inputTitulo.className = "inputEditarTitulo";
+
+                        inputDescripcion = document.createElement("textarea");
+                        inputDescripcion.value = descripcion.textContent;
+                        inputDescripcion.className = "inputEditarDescripcion";
+
+                        inputFecha = document.createElement("input");
+                        inputFecha.type = "text";
+                        inputFecha.value = fechaFormatoSQL;
 
 
-                    inputEstado = document.createElement("select");
-                    inputEstado.className = "inputEditarEstado";
+                        inputEstado = document.createElement("select");
+                        inputEstado.className = "inputEditarEstado";
 
-                    const estadosPosibles = ["PENDIENTE", "EN_PROCESO", "REALIZADA"];
-                    estadosPosibles.forEach((valorEstado) => {
-                        const opcion = document.createElement("option");
-                        opcion.textContent = valorEstado;
-                        opcion.value = valorEstado;
+                        const estadosPosibles = ["PENDIENTE", "EN_PROCESO", "REALIZADA"];
+                        estadosPosibles.forEach((valorEstado) => {
+                            const opcion = document.createElement("option");
+                            opcion.textContent = valorEstado;
+                            opcion.value = valorEstado;
 
-                        inputEstado.appendChild(opcion);
-                    })
+                            inputEstado.appendChild(opcion);
+                        })
 
-                    // Reemplazamos los textos por los inputs en el DOM
-                    titulo.replaceWith(inputTitulo);
-                    descripcion.replaceWith(inputDescripcion);
-                    detalles.replaceWith(inputFecha, inputEstado);
+                        // Reemplazamos los textos por los inputs en el DOM
+                        titulo.replaceWith(inputTitulo);
+                        descripcion.replaceWith(inputDescripcion);
+                        detalles.replaceWith(inputFecha, inputEstado);
 
-                    // Cambiamos el botón para indicar que el siguiente click guarda
-                    //btnModificar.textContent = "Guardar";
-                    btnModificar.textContent = "";
-                    let img_guar = document.createElement("img");
-                    img_guar.src = srcGuardar;
-                    btnModificar.appendChild(img_guar);
-                    editando = true;
-                    inputTitulo.focus();
-
+                        // Cambiamos el botón para indicar que el siguiente click guarda
+                        //btnModificar.textContent = "Guardar";
+                        btnModificar.textContent = "";
+                        let img_guar = document.createElement("img");
+                        img_guar.src = srcGuardar;
+                        btnModificar.appendChild(img_guar);
+                        editando = true;
+                        inputTitulo.focus();
+                    } else {
+                        alert("Termina de editar o crear la notificación actual antes de modificar otra.");
+                    }
                 } else {
                     // Segundo click: Recoger los nuevos valores y guardar
                     const nuevoTitulo = inputTitulo.value.trim();
@@ -440,6 +469,8 @@ async function cargarNotificacionesFiltradas(lista) {
                     if (!nuevoTitulo || !nuevaDescripcion) {
                         alert("El título y la descripción no pueden estar vacíos.");
                     }
+
+                    elemento.classList.remove("editando-activo");
 
                     // Llamamos a la función PUT con los datos nuevos de los inputs
                     modificarNotificacion(
