@@ -19,23 +19,25 @@ btnNewUbi.addEventListener("click", () => {
     let tr_ubi = tbody_ubicaciones.insertRow(0);// Nueva Ubicacion
     tr_ubi.classList.add("aula");
 
-    let ubi_nombre = tr_ubi.insertCell(0); // Nombre
+    let td_ubi_nom = tr_ubi.insertCell(0); // Nombre
     let inp_ubi_nom = document.createElement("input"); // Input Nombre
     inp_ubi_nom.type = "text";
     inp_ubi_nom.placeholder = "nombre";
     inp_ubi_nom.className = "ubi-nom";
+    inp_ubi_nom.title = "Nombre de la ubicación.";
 
-    ubi_nombre.appendChild(inp_ubi_nom);
-    tr_ubi.appendChild(ubi_nombre);
+    td_ubi_nom.appendChild(inp_ubi_nom);
+    tr_ubi.appendChild(td_ubi_nom);
 
-    let ubi_descripcion = tr_ubi.insertCell(1); // Descripcion
+    let td_ubi_des = tr_ubi.insertCell(1); // Descripcion
     let inp_ubi_des = document.createElement("input"); // Input Descripcion
     inp_ubi_des.type = "text";
     inp_ubi_des.placeholder = "descripcion";
     inp_ubi_des.className = "ubi-des";
+    inp_ubi_des.title = "Descripción de la ubicación.";
 
-    ubi_descripcion.appendChild(inp_ubi_des);
-    tr_ubi.appendChild(ubi_descripcion);
+    td_ubi_des.appendChild(inp_ubi_des);
+    tr_ubi.appendChild(td_ubi_des);
 
     let ubi_btn = tr_ubi.insertCell(2); // Botones
 
@@ -47,6 +49,7 @@ btnNewUbi.addEventListener("click", () => {
     btn_save.appendChild(img_save);
     btn_save.classList.add("btn-s");
     btn_save.classList.add("btn-edit");
+    btn_save.title = "Guardar ubicación.";
 
     // [ Guarda las modificaciones de la Ubicacion editada ] PENDIENTE
     btn_save.addEventListener("click", () => {
@@ -76,6 +79,7 @@ btnNewUbi.addEventListener("click", () => {
     btn_delete.appendChild(img_delete);
     btn_delete.classList.add("btn-s");
     btn_delete.classList.add("btn-delete");
+    btn_delete.title = "Cancelar.";
 
     // [ Elimina la Ubicacion ] PENDIENTE
     btn_delete.addEventListener("click", () => {
@@ -115,42 +119,48 @@ async function cargarUbicaciones() {
 
                     ubicaciones.forEach(ubi => {
                         let ubi_id = ubi.ubi_id;
+                        let ubi_nombre = ubi.ubi_nombre;
+                        let ubi_descripcion = ubi.ubi_descripcion;
+
                         let tr_ubi = document.createElement("tr");// Nueva Ubicacion
                         tr_ubi.classList.add("aula");
 
-                        let ubi_nombre = document.createElement("td"); // Nombre
-                        let h3_ubi_nombre = document.createElement("h3");
-                        h3_ubi_nombre.classList.add("ubi_nombre");
-                        h3_ubi_nombre.textContent = ubi.ubi_nombre;
-                        ubi_nombre.appendChild(h3_ubi_nombre);
-                        tr_ubi.appendChild(ubi_nombre);
+                        let td_ubi_nom = document.createElement("td"); // Nombre
+                        let h3_ubi_nom = document.createElement("h3");
+                        h3_ubi_nom.classList.add("ubi_nombre");
+                        h3_ubi_nom.textContent = ubi_nombre;
+                        td_ubi_nom.appendChild(h3_ubi_nom);
+                        tr_ubi.appendChild(td_ubi_nom);
 
                         let inp_ubi_nom = document.createElement("input"); // Input Nombre
                         inp_ubi_nom.type = "text";
-                        inp_ubi_nom.value = ubi.ubi_nombre;
+                        inp_ubi_nom.value = ubi_nombre;
                         inp_ubi_nom.className = "ubi-nom";
+                        inp_ubi_nom.title = "Nombre de la ubicación.";
 
-                        let ubi_descripcion = document.createElement("td"); // Descripcion
-                        let p_ubi_descripcion = document.createElement("p");
-                        p_ubi_descripcion.textContent = ubi.ubi_descripcion;
-                        ubi_descripcion.appendChild(p_ubi_descripcion);
-                        tr_ubi.appendChild(ubi_descripcion);
+                        let td_ubi_des = document.createElement("td"); // Descripcion
+                        let p_ubi_des = document.createElement("p");
+                        p_ubi_des.textContent = ubi_descripcion;
+                        td_ubi_des.appendChild(p_ubi_des);
+                        tr_ubi.appendChild(td_ubi_des);
 
                         let inp_ubi_des = document.createElement("input"); // Input Descripcion
                         inp_ubi_des.type = "text";
-                        inp_ubi_des.value = ubi.ubi_descripcion;
+                        inp_ubi_des.value = ubi_descripcion;
                         inp_ubi_des.className = "ubi-des";
+                        inp_ubi_des.title = "Descripción de la ubicación.";
 
                         let ubi_btn = document.createElement("td"); // Botones
 
                         // ---------------------------------------- Boton Editar
                         let btn_edit = document.createElement("button");
-                        btn_edit.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+                        btn_edit.alt = "Editar ubicación " + ubi_nombre + ".";
                         let img_edit = document.createElement("img");
                         img_edit.src = srcEditar;
                         btn_edit.appendChild(img_edit);
                         btn_edit.classList.add("btn-s");
                         btn_edit.classList.add("btn-edit");
+                        btn_edit.title = "Editar ubicación " + ubi_nombre + ".";
 
                         // [ Edita la Ubicacion selecionada ]
                         btn_edit.addEventListener("click", () => {
@@ -160,15 +170,18 @@ async function cargarUbicaciones() {
                             btn_save.classList.remove("oculto");
                             btn_save.classList.add("visible");
 
-                            h3_ubi_nombre.replaceWith(inp_ubi_nom);
-                            p_ubi_descripcion.replaceWith(inp_ubi_des);
+                            if (ubi_nombre != "Almacén") {
+                                h3_ubi_nom.replaceWith(inp_ubi_nom);
+                            }
+
+                            p_ubi_des.replaceWith(inp_ubi_des);
                         });
 
                         ubi_btn.appendChild(btn_edit);
 
                         // ---------------------------------------- Boton Guardar
                         let btn_save = document.createElement("button");
-                        btn_save.alt = "Editar ubicación " + ubi.ubi_nombre + ".";
+                        btn_save.alt = "Editar ubicación " + ubi_nombre + ".";
                         let img_save = document.createElement("img");
                         img_save.src = srcGuardar;
                         btn_save.appendChild(img_save);
@@ -187,7 +200,7 @@ async function cargarUbicaciones() {
                             }
 
                             if (valido) {
-                                editarUbicacion(ubi.ubi_id, ubi_nom, ubi_des);
+                                editarUbicacion(ubi_id, ubi_nom, ubi_des);
                                 btn_save.classList.remove("visible");
                                 btn_save.classList.add("oculto");
 
@@ -201,9 +214,9 @@ async function cargarUbicaciones() {
                         ubi_btn.appendChild(btn_save);
 
                         // ---------------------------------------- Boton Eliminar
-                        if (ubi.ubi_nombre != "Almacén") {
+                        if (ubi_nombre != "Almacén") {
                             let btn_delete = document.createElement("button");
-                            btn_delete.alt = "Eliminar ubicación " + ubi.ubi_nombre + ".";
+                            btn_delete.alt = "Eliminar ubicación " + ubi_nombre + ".";
                             let img_delete = document.createElement("img");
                             img_delete.src = srcEliminar;
                             btn_delete.appendChild(img_delete);
@@ -212,7 +225,7 @@ async function cargarUbicaciones() {
 
                             // [ Elimina la Ubicacion ]
                             btn_delete.addEventListener("click", () => {
-                                const conf = window.confirm("Se va a eliminar la ubicación " + ubi.ubi_nombre + ". Esta acción no se puede desacer.");
+                                const conf = window.confirm("Se va a eliminar la ubicación " + ubi_nombre + ". Esta acción no se puede desacer.");
                                 if (conf) {
                                     eliminarUbicacion(ubi_id);
                                 } else {
@@ -220,14 +233,14 @@ async function cargarUbicaciones() {
                                 }
                             });
 
-                            verificarEquipamientos(btn_delete, ubi.ubi_id);
+                            verificarEquipamientos(btn_delete, ubi_id);
 
                             ubi_btn.appendChild(btn_delete);
                         }
 
                         // ---------------------------------------- Boton Abrir
                         let btn_open = document.createElement("button");
-                        btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+                        btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi_nombre + ".";
                         let img_open = document.createElement("img");
                         img_open.src = srcCerrar;
                         btn_open.appendChild(img_open);
@@ -252,7 +265,7 @@ async function cargarUbicaciones() {
 
                         // ---------------------------------------- Boton Cerrar
                         let btn_close = document.createElement("button");
-                        btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi.ubi_nombre + ".";
+                        btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi_nombre + ".";
                         let btn_img = document.createElement("img");
                         btn_img.src = srcAbrir;
                         btn_close.appendChild(btn_img);
