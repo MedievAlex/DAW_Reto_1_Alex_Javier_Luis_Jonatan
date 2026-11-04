@@ -1,8 +1,6 @@
 <?php
-
 require_once("ConexionDB.php");
 require_once("../model/Usuario.php");
-
 
 class UsuarioDAO
 {

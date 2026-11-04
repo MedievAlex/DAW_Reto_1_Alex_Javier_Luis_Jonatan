@@ -1,5 +1,4 @@
 <?php
-
 require_once("ConexionDB.php");
 require_once("../model/Historico_Ubicacion.php");
 
