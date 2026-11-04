@@ -142,7 +142,7 @@ async function cargarUbicaciones() {
                         btn_edit.classList.add("btn-s");
                         btn_edit.classList.add("btn-edit");
 
-                        // [ Edita la Ubicacion selecionada ] PENDIENTE
+                        // [ Edita la Ubicacion selecionada ]
                         btn_edit.addEventListener("click", () => {
                             btn_edit.classList.remove("visible");
                             btn_edit.classList.add("oculto");
@@ -166,7 +166,7 @@ async function cargarUbicaciones() {
                         btn_save.classList.add("btn-edit");
                         btn_save.classList.add("oculto");
 
-                        // [ Guarda las modificaciones de la Ubicacion editada ] PENDIENTE
+                        // [ Guarda las modificaciones de la Ubicacion editada ]
                         btn_save.addEventListener("click", () => {
                             btn_save.classList.remove("visible");
                             btn_save.classList.add("oculto");
@@ -189,9 +189,14 @@ async function cargarUbicaciones() {
                             btn_delete.classList.add("btn-s");
                             btn_delete.classList.add("btn-delete");
 
-                            // [ Elimina la Ubicacion ] PENDIENTE
+                            // [ Elimina la Ubicacion ]
                             btn_delete.addEventListener("click", () => {
-                                eliminarUbicacion(ubi_id);
+                                const conf = window.confirm("Se va a eliminar la ubicación " + ubi.ubi_nombre + ". Esta acción no se puede desacer.");
+                                if (conf) {
+                                    eliminarUbicacion(ubi_id);
+                                } else {
+                                    logMessage("Se ha cancelado la acción.");
+                                }
                             });
 
                             verificarEquipamientos(btn_delete, ubi.ubi_id);
@@ -334,7 +339,7 @@ async function crearUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
         } else {
             logMessage(value.message);
         }
-        
+
         cargarUbicaciones();
     });
 }
