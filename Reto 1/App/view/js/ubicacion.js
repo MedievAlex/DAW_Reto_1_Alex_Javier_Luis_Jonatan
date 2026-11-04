@@ -1,6 +1,6 @@
 /* ---------------------------------------------- [Constantes]*/
 const UBI_URL = "../../api/UbicacionController.php";
-const EQU_URL = "../../api/EquipacionController.php";
+const EQU_URL = "../../api/EquipamientoController.php";
 
 const artUbi = document.getElementById("ubicaciones");
 const tbody_ubicaciones = document.querySelector("#ubicaciones table tbody");
@@ -265,6 +265,7 @@ async function cargarUbicaciones() {
                             btn_close.classList.add("visible");
 
                             limpiarEquiposDeUbicacion(event.currentTarget);
+
                             cargarEquiposDeUbicacion();
                             //mockEquipamientos(); // mockData.js
                         });
@@ -321,8 +322,6 @@ async function buscarUbicacionPorId() {
     response = petition(url, method, data); // Llama al petition de global.js
 
     response.then((value) => {
-        console.log(value);
-
         if ("success" in value && value.success) {
             console.log(value.data);
         } else {
@@ -471,24 +470,22 @@ async function cargarEquiposDeUbicacion() {
     let data = [];
     let response;
 
-    limpiarEquiposDeUbicacion();
-
     response = petition(url, method, data); // Llama al petition de global.js
 
     response.then((value) => {
         if ("success" in value && value.success) {
-            if (Array.isArray(value)) {
-                let atributos = ["equ_id", "equ_nombre", "equ_descripcion", "equ_marca", "equ_modelo", "equ_categoria", "equ_ubicacion"];
+            if (Array.isArray(value.data)) {
+                let atributos = ["id_equipamiento", "nombre", "descripcion", "marca", "modelo", "categoria", "id_ubicacion_actual"];
 
                 // Verifica si todos los objetos tienen todos los atributos
-                let valido = value.every(obj =>
+                let valido = value.data.every(obj =>
                     atributos.every(clave => clave in obj)
                 );
 
                 if (valido) {
-                    value.sort((a, b) => a.equ_nombre.localeCompare(b.equ_nombre));
+                    value.data.sort((a, b) => a.nombre.localeCompare(b.nombre));
 
-                    value.forEach(equ => {
+                    value.data.forEach(equ => {
                         let art_equ = document.createElement("article"); // Nuevo Equipamiento
                         art_equ.classList.add("equ");
                         art_equ.classList.add("tarjeta");
@@ -497,8 +494,8 @@ async function cargarEquiposDeUbicacion() {
                         sec_equ_inf.classList.add("equ-inf");
                         let img_equ_img = document.createElement("img");
                         img_equ_img.classList.add("equ-img");
-                        img_equ_img.src = "../assets/img/categoria_" + equ.equ_categoria.toLowerCase() + ".jpg";
-                        img_equ_img.alt = "Equipamiento " + equ.equ_nombre + ".";
+                        img_equ_img.src = "../assets/img/categoria_" + equ.categoria.toLowerCase() + ".jpg";
+                        img_equ_img.alt = "Equipamiento " + equ.nombre + ".";
 
                         art_equ.appendChild(sec_equ_inf); // Seccion de información al artículo
 
@@ -507,29 +504,29 @@ async function cargarEquiposDeUbicacion() {
 
                         let div_equ_nom = document.createElement("div"); // Nombre
                         let h3_equ_nom = document.createElement("h3");
-                        h3_equ_nom.textContent = equ.equ_nombre;
+                        h3_equ_nom.textContent = equ.nombre;
                         div_equ_nom.appendChild(h3_equ_nom);
                         div_det.appendChild(div_equ_nom);
 
                         let inp_equ_nom = document.createElement("input"); // Input Nombre
                         inp_equ_nom.type = "text";
-                        inp_equ_nom.value = equ.equ_nombre;
+                        inp_equ_nom.value = equ.nombre;
                         inp_equ_nom.className = "equ-nom";
 
                         let div_equ_det = document.createElement("div"); // Detalles
                         let p_equ_det = document.createElement("p");
-                        p_equ_det.textContent = equ.equ_marca + " - " + equ.equ_modelo;
+                        p_equ_det.textContent = equ.marca + " - " + equ.modelo;
                         div_equ_det.appendChild(p_equ_det);
                         div_det.appendChild(div_equ_det);
 
                         let inp_equ_mar = document.createElement("input"); // Input Marca
                         inp_equ_mar.type = "text";
-                        inp_equ_mar.value = equ.equ_marca;
+                        inp_equ_mar.value = equ.marca;
                         inp_equ_mar.className = "equ-mar";
 
                         let inp_equ_mod = document.createElement("input"); // Input Modelo
                         inp_equ_mod.type = "text";
-                        inp_equ_mod.value = equ.equ_modelo;
+                        inp_equ_mod.value = equ.modelo;
                         inp_equ_mod.className = "equ-mod";
 
                         sec_equ_inf.appendChild(img_equ_img); // Imagen en información
@@ -546,7 +543,7 @@ async function cargarEquiposDeUbicacion() {
                         btn_edit.classList.add("btn-edit");
                         let img_btn_edit = document.createElement("img");
                         img_btn_edit.src = srcEditar;
-                        btn_edit.alt = "Editar campos del equipamiento " + equ.equ_nombre + ".";
+                        btn_edit.alt = "Editar campos del equipamiento " + equ.nombre + ".";
                         btn_edit.appendChild(img_btn_edit);
 
                         // [ Edita el Equipamiento selecionado ]
@@ -572,7 +569,7 @@ async function cargarEquiposDeUbicacion() {
                         btn_save.classList.add("oculto");
                         let img_btn_save = document.createElement("img");
                         img_btn_save.src = srcGuardar;
-                        btn_save.alt = "Guardar cambios del equipamiento " + equ.equ_nombre + ".";
+                        btn_save.alt = "Guardar cambios del equipamiento " + equ.nombre + ".";
                         btn_save.appendChild(img_btn_save);
 
                         // [ Guarda las modificaciones del Equipamiento editado ]
@@ -594,7 +591,7 @@ async function cargarEquiposDeUbicacion() {
                         btn_delete.classList.add("btn-delete");
                         let img_btn_delete = document.createElement("img");
                         img_btn_delete.src = srcEliminar;
-                        btn_delete.alt = "Eliminar equipamiento " + equ.equ_nombre + ".";
+                        btn_delete.alt = "Eliminar equipamiento " + equ.nombre + ".";
                         btn_delete.appendChild(img_btn_delete);
 
                         // [ Elimina el Equipamiento ]
@@ -608,7 +605,7 @@ async function cargarEquiposDeUbicacion() {
                     });
 
                 } else {
-                    equNoValido(value[0].message);
+                    equNoValido(value.message);
                 }
             } else {
                 equNoValido("Formato de datos incorrecto.");
