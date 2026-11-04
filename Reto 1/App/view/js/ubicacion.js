@@ -182,18 +182,17 @@ async function cargarUbicaciones() {
                             let ubi_des = inp_ubi_des.value.trim();
                             let valido = true;
 
-                            btn_save.classList.remove("visible");
-                            btn_save.classList.add("oculto");
-
-                            btn_edit.classList.remove("oculto");
-                            btn_edit.classList.add("visible");
-
                             if (ubi_nom === "" || ubi_des === "") {
                                 valido = false;
                             }
 
                             if (valido) {
                                 editarUbicacion(ubi.ubi_id, ubi_nom, ubi_des);
+                                btn_save.classList.remove("visible");
+                                btn_save.classList.add("oculto");
+
+                                btn_edit.classList.remove("oculto");
+                                btn_edit.classList.add("visible");
                             } else {
                                 logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
                             }
