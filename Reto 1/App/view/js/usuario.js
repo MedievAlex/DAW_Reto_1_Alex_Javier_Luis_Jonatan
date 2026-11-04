@@ -1,64 +1,77 @@
-/** */
 const USU_URL = "../../api/UsuarioController.php";
 
 //----------------------------------------Funciones
-// Pide la lista de todos los usuarios 
+
+// valida la respuesta de la API. Lanza un error si no es correcta.
+function validarRespuestaUsuario(respuesta) {
+    if (Array.isArray(respuesta)) {
+        if (respuesta.length > 0 && respuesta[0].success === false) {
+            throw new Error(respuesta[0].message || "No se pudo completar la operación.");
+        }
+
+        return respuesta;
+    }
+
+    if (!respuesta || !respuesta.success) {
+        throw new Error(respuesta && respuesta.message || "No se pudo completar la operación.");
+    }
+
+    return respuesta;
+}
+
+function datosRespuestaUsuario(respuesta) {
+    validarRespuestaUsuario(respuesta);
+    return Array.isArray(respuesta) ? respuesta : respuesta.data;
+}
+
+// Pide la lista de todos los usuarios. Devuelve un array o null si falla.
 async function cargarUsuarios() {
 
     let url = USU_URL;
     let method = "GET";
     let data = [];
 
-    return await petition(url, method, data); // Llama al petition de global.js
+    return datosRespuestaUsuario(await petition(url, method, data));
 
 }
-// Pide un Usuario mediante el id
+
+// Pide un Usuario mediante el id. Devuelve el usuario o null si falla.
 async function buscarUsuarioPorId(usu_id) {
 
-    let url = USU_URL + "?usu_id=" + encodeURIComponent(usu_id); 
+    let url = USU_URL + "?usu_id=" + encodeURIComponent(usu_id);
     let method = "GET";
     let data = [];
     let usuarios;
 
     usuarios = await petition(url, method, data); // Llama al petition de global.js
 
-    if (usuarios === null) {
-        return null;
-    }
-
-    console.log(usuarios[0]);
-    alert(usuarios[0].nombre);
-
-    return usuarios[0];
+    const datos = datosRespuestaUsuario(usuarios);
+    return datos[0] || null;
 }
 
-// Crea un usuario. usuario = { nombre, apellido, nombre_usuario, password, rol }
+// Crea un usuario. usuario = { nombre, apellidos, nombre_usuario, password, rol }
+// Devuelve el usuario creado o null si falla.
 async function crearUsuario(usuario) {
 
     let url = USU_URL;
-    let method = "POST"; 
+    let method = "POST";
     let data = {
         nombre: usuario.nombre,
-        apellidos:usuario.apellidos,
+        apellidos: usuario.apellidos,
         nombre_usuario: usuario.nombre_usuario,
         password: usuario.password,
         rol: usuario.rol
     };
-    let usuarios; 
-    
+    let usuarios;
+
     usuarios = await petition(url, method, data); // Llama al petition de global.js
 
-    if (usuarios === null) {
-        return null;
-    }
-
-    console.log(usuarios[0]);
-    alert(usuarios[0].nombre);
-
-    return usuarios[0];
+    const datos = datosRespuestaUsuario(usuarios);
+    return datos[0] || null;
 }
 
 // Edita un Usuario. usuario = { usu_id, nombre, apellidos, nombre_usuario, rol, password }
+// La password es opcional: sin ella se mantiene la actual. Devuelve el usuario editado o null si falla.
 async function editarUsuario(usuario) {
     let url = USU_URL;
     let method = "PUT";
@@ -72,22 +85,16 @@ async function editarUsuario(usuario) {
     let usuarios;
 
     if (usuario.password) {
-        data.password = usuario.password; 
+        data.password = usuario.password;
     }
 
     usuarios = await petition(url, method, data); // Llama al petition de global.js
 
-    if (usuarios === null) {
-        return null;
-    }
-
-    console.log(usuarios[0]);
-    alert(usuarios[0].nombre);
-
-    return usuarios[0];
+    const datos = datosRespuestaUsuario(usuarios);
+    return datos[0] || null;
 }
 
-// Elimina un usuario mediante el id. Devuelve true si se ha eliminado 
+// Elimina un usuario mediante el id. Devuelve true si se ha eliminado
 async function eliminarUsuario(usu_id) {
 
     let url = USU_URL + "?usu_id=" + encodeURIComponent(usu_id);
@@ -97,13 +104,7 @@ async function eliminarUsuario(usu_id) {
 
     usuarios = await petition(url, method, data); // Llama al petition de global.js
 
-    if (usuarios === null) {
-        return false;
-    }
-
-    console.log("Usuario " + usu_id + " eliminado");
-
+    datosRespuestaUsuario(usuarios);
     return true;
-    
-}
 
+}
