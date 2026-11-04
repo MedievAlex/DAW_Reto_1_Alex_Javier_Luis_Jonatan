@@ -50,7 +50,19 @@ btnNewUbi.addEventListener("click", () => {
 
     // [ Guarda las modificaciones de la Ubicacion editada ] PENDIENTE
     btn_save.addEventListener("click", () => {
-        crearUbicacion(0, inp_ubi_nom.value.trim(), inp_ubi_des.value.trim());
+        let ubi_nom = inp_ubi_nom.value.trim();
+        let ubi_des = inp_ubi_des.value.trim();
+        let valido = true;
+
+        if (ubi_nom === "" || ubi_des === "") {
+            valido = false;
+        }
+
+        if (valido) {
+            crearUbicacion(0, ubi_nom, ubi_des);
+        } else {
+            logMessage("[ERROR]: No se puede crear una ubicación con campos vacios.")
+        }
     });
 
     ubi_btn.appendChild(btn_save);
@@ -71,8 +83,6 @@ btnNewUbi.addEventListener("click", () => {
     });
 
     ubi_btn.appendChild(btn_delete);
-
-
     tr_ubi.appendChild(ubi_btn);
 
     tbody_ubicaciones.prepend(tr_ubi);
@@ -142,7 +152,7 @@ async function cargarUbicaciones() {
                         btn_edit.classList.add("btn-s");
                         btn_edit.classList.add("btn-edit");
 
-                        // [ Edita la Ubicacion selecionada ] PENDIENTE
+                        // [ Edita la Ubicacion selecionada ]
                         btn_edit.addEventListener("click", () => {
                             btn_edit.classList.remove("visible");
                             btn_edit.classList.add("oculto");
@@ -166,15 +176,27 @@ async function cargarUbicaciones() {
                         btn_save.classList.add("btn-edit");
                         btn_save.classList.add("oculto");
 
-                        // [ Guarda las modificaciones de la Ubicacion editada ] PENDIENTE
+                        // [ Guarda las modificaciones de la Ubicacion editada ]
                         btn_save.addEventListener("click", () => {
+                            let ubi_nom = inp_ubi_nom.value.trim();
+                            let ubi_des = inp_ubi_des.value.trim();
+                            let valido = true;
+
                             btn_save.classList.remove("visible");
                             btn_save.classList.add("oculto");
 
                             btn_edit.classList.remove("oculto");
                             btn_edit.classList.add("visible");
 
-                            editarUbicacion(ubi.ubi_id, inp_ubi_nom.value.trim(), inp_ubi_des.value.trim());
+                            if (ubi_nom === "" || ubi_des === "") {
+                                valido = false;
+                            }
+
+                            if (valido) {
+                                editarUbicacion(ubi.ubi_id, ubi_nom, ubi_des);
+                            } else {
+                                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
+                            }
                         });
 
                         ubi_btn.appendChild(btn_save);
@@ -189,9 +211,14 @@ async function cargarUbicaciones() {
                             btn_delete.classList.add("btn-s");
                             btn_delete.classList.add("btn-delete");
 
-                            // [ Elimina la Ubicacion ] PENDIENTE
+                            // [ Elimina la Ubicacion ]
                             btn_delete.addEventListener("click", () => {
-                                eliminarUbicacion(ubi_id);
+                                const conf = window.confirm("Se va a eliminar la ubicación " + ubi.ubi_nombre + ". Esta acción no se puede desacer.");
+                                if (conf) {
+                                    eliminarUbicacion(ubi_id);
+                                } else {
+                                    logMessage("Se ha cancelado la acción.");
+                                }
                             });
 
                             verificarEquipamientos(btn_delete, ubi.ubi_id);
@@ -334,7 +361,7 @@ async function crearUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
         } else {
             logMessage(value.message);
         }
-        
+
         cargarUbicaciones();
     });
 }

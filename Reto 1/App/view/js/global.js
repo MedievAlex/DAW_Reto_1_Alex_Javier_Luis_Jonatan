@@ -20,7 +20,7 @@ const modalPerfil = document.getElementById("modalPerfil");
 const btnCerrarPerfil = document.getElementsByClassName("cerrar")[2];
 
 /* ---------------------------------------------- [Rutas]*/
-const srcAjustes = "../assets/icons/icon_editar.png";
+const srcAjustes = "../assets/icons/icon_ajustes.png";
 const srcAbrir = "../assets/icons/icon_drop_abrir.png";
 const srcCerrar = "../assets/icons/icon_drop_cerrar.png";
 const srcEditar = "../assets/icons/icon_editar.png";
