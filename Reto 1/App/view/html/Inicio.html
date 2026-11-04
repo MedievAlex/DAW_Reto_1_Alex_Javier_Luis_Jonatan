@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/usuarios.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
+    <link rel="stylesheet" href="../styles/usuarios.css">
     <script src="../js/auth.js" defer></script>
     <script src="../js/global.js" defer></script>
     <script src="../js/notificacion.js" defer></script>
     <script src="../js/usuario.js" defer></script>
     <script src="../js/perfil.js" defer></script>
+    <link rel="shortcut icon" type="image/ico" href="../assets/logo/CF.ico">
     <title>Inicio - Centro Fungible</title>
 </head>
 
@@ -52,14 +53,19 @@
 
         <div id="modalNotificaciones" class="modal">
             <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas purus sem, blandit ac pulvinar ut,
-                    cursus sed turpis. Sed accumsan tempor feugiat. Aliquam nec magna interdum nunc rutrum rutrum.
-                    Aenean libero mauris, venenatis non lacus vitae, condimentum dictum sem. Aliquam fermentum nulla non
-                    nunc posuere lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-                    inceptos himenaeos. In congue nec ligula a dapibus. Nullam eu ultrices dui.
+                <span class="cerrar" alt="Cerar notificaciones.">&times;</span>
+                <h2 class="notTitulo">Notificaciones</h2>
+                <div class="contenedorFiltroYBtn">
+                    <button id="btnAniadirNot">Añadir notificacion</button>
+                    <select id="filtroNotificaciones" aria-label="Filtros de notificaciones">
+                        <option value="" selected disabled hidden>Filtros</option>
+                        <option value="en_proceso">En proceso</option>
+                        <option value="realizadas">Realizadas</option>
+                        <option value="pendientes">Pendientes</option>
+                    </select>
                 </div>
+                <hr>
+                <div id="listaNotificaciones" aria-live="polite">Abre este modal para cargar las notificaciones.</div>
             </div>
         </div>
 
@@ -117,7 +123,8 @@
                             </div>
                             <p class="perfil-ayuda">Selecciona un usuario para editarlo o eliminarlo.</p>
 
-                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios" aria-live="polite"></ul>
+                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios"
+                                aria-live="polite"></ul>
                         </div>
 
                         <!-- Vista de formulario (crear / editar) -->
@@ -197,14 +204,6 @@
                         <span class="usuario-rol"></span>
                     </li>
                 </template>
-            </div>
-        </div>
-
-        <div id="modalAula" class="modal">
-            <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <p id="nombreAula">Nombre Aula</p>
-                <p id="descripcionAula">Descripcion del aula.</p>
             </div>
         </div>
 
