@@ -1,4 +1,5 @@
 <?php
+
 require_once("ConexionDB.php");
 require_once("../model/Ubicacion.php");
 
@@ -31,8 +32,9 @@ class UbicacionDAO
         $ubicaciones = array();
         $sql = "SELECT id_ubicacion, nombre, descripcion
                     FROM ubicaciones";
-        //$resultado = $this->conexion->query($sql);
+                    
         $stmt = $this->conexion->prepare($sql);
+
         $stmt->execute();
         $resultado = $stmt->get_result();
 
@@ -60,6 +62,7 @@ class UbicacionDAO
                     WHERE id_ubicacion = ?";
 
         $stmt = $this->conexion->prepare($sql);
+
         $stmt->bind_param(
             "i",
             $ubi_id
@@ -91,6 +94,7 @@ class UbicacionDAO
                     WHERE nombre = ?";
 
         $stmt = $this->conexion->prepare($sql);
+
         $stmt->bind_param(
             "s",
             $ubi_nombre
@@ -121,6 +125,7 @@ class UbicacionDAO
                     VALUES (?, ?)";
 
         $stmt = $this->conexion->prepare($sql);
+
         $ubi_nombre = $ubicacion->getNombre();
         $ubi_descripcion = $ubicacion->getDescripcion();
         $stmt->bind_param(
@@ -149,6 +154,7 @@ class UbicacionDAO
                     WHERE id_ubicacion = ?";
 
         $stmt = $this->conexion->prepare($sql);
+
         $ubi_nombre = $ubicacion->getNombre();
         $ubi_descripcion = $ubicacion->getDescripcion();
         $ubi_id = $ubicacion->getId();
@@ -177,6 +183,7 @@ class UbicacionDAO
                     WHERE id_ubicacion = ?";
 
         $stmt = $this->conexion->prepare($sql);
+
         $stmt->bind_param(
             "i",
             $ubi_id
@@ -201,6 +208,7 @@ class UbicacionDAO
                     WHERE id_ubicacion_actual = ?";
 
         $stmt = $this->conexion->prepare($sql);
+        
         $stmt->bind_param(
             "i",
             $ubi_id

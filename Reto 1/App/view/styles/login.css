@@ -1,0 +1,96 @@
+
+
+/* ---------------------------------------------- [CONTENEDOR]*/
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+/* ---------------------------------------------- [FORMULARIO]*/
+#form-login {
+    background-color: var(--color-acento);
+    color: var(--texto-acento);
+
+    box-shadow: var(--button-shadow);
+
+    border-radius: var(--border-radius-l);
+
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 420px;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#form-login h1,
+#form-login h2 {
+    margin: 0;
+    text-align: center;
+}
+
+#form-login label {
+    font-weight: bold;
+}
+
+#form-login input {
+    background-color: var(--color-white);
+    color: var(--color-black);
+
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+
+    box-sizing: border-box;
+    width: 100%;
+
+    padding: 10px;
+    margin-top: 5px;
+
+    font: inherit;
+}
+
+#form-login input:focus-visible {
+    border-color: var(--color-primario);
+    outline: 3px solid var(--color-primario);
+}
+
+/* ---------------------------------------------- [BOTÓN]*/
+/* global.css pinta el botón con el color de acento, igual que la tarjeta: aquí usa el secundario para destacar */
+#form-login button {
+    background-color: var(--color-secundario);
+    color: var(--texto-secundario);
+
+    border: 2px solid transparent; /* reserva el borde que global.css añade en :hover */
+    border-radius: var(--border-radius-m);
+
+    padding: 12px;
+
+    font: inherit;
+    font-weight: bold;
+}
+
+#form-login button:hover,
+#form-login button:focus-visible {
+    border-color: var(--color-white);
+}
+
+#form-login button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---------------------------------------------- [ERROR]*/
+/* El aspecto base viene de .err (global.css); auth.js añade la clase. No se toca display para respetar .oculto */
+#login-error {
+    border-left: 6px solid var(--color-delete);
+
+    margin: 0;
+
+    font-weight: bold;
+}

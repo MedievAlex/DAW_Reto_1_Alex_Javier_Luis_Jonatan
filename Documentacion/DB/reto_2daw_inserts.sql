@@ -13,23 +13,27 @@ INSERT INTO usuarios
     (nombre, apellidos, nombre_usuario, password_hash, rol)
 VALUES
     ('Ana', 'Garcia Lopez', 'agarcia',
-     '$2y$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ123456',
+     '$2y$10$aJQQXsIdW.rreLtjJFRpKuge04j7QB8pg7wticjDsfrR3Ho1BBR6K',
      'ADMIN'),
 
     ('Iker', 'Martinez Gomez', 'imartinez',
-     '$2y$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ123457',
+     '$2y$10$aJQQXsIdW.rreLtjJFRpKuge04j7QB8pg7wticjDsfrR3Ho1BBR6K',
      'USER'),
 
     ('Maite', 'Rodriguez Perez', 'mrodriguez',
-     '$2y$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ123458',
+     '$2y$10$aJQQXsIdW.rreLtjJFRpKuge04j7QB8pg7wticjDsfrR3Ho1BBR6K',
+     'USER'),
+
+    ('Marcos', 'García Lopez', 'margarlo',
+     '$2y$10$aJQQXsIdW.rreLtjJFRpKuge04j7QB8pg7wticjDsfrR3Ho1BBR6K',
      'USER'),
 
     ('Jon', 'Sanchez Ruiz', 'jsanchez',
-     '$2y$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ123459',
+     '$2y$10$aJQQXsIdW.rreLtjJFRpKuge04j7QB8pg7wticjDsfrR3Ho1BBR6K',
      'USER'),
 
     ('Laura', 'Fernandez Martin', 'lfernandez',
-     '$2y$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ123450',
+     '$2y$10$aJQQXsIdW.rreLtjJFRpKuge04j7QB8pg7wticjDsfrR3Ho1BBR6K',
      'USER');
 
 
