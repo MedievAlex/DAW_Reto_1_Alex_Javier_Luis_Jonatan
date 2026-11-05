@@ -379,11 +379,11 @@ async function cargarNotificacionesFiltradas(lista) {
                         alert("Termina de editar o crear la notificación actual antes de modificar otra.");
                     }
                 } else {
-                    // Segundo click: Recoger los nuevos valores y guardar
-                    const nuevoTitulo = inputTitulo.value.trim();
-                    const nuevaDescripcion = inputDescripcion.value.trim();
-                    const nuevaFecha = inputFecha.value.trim();
-                    const nuevoEstado = inputEstado.value.trim();
+                    // Segundo click: Recoger los nuevos valores segun el rol y guardar
+                    const nuevoTitulo = inputTitulo ? inputTitulo.value.trim() : notificacion.titulo;
+                    const nuevaDescripcion = inputDescripcion ? inputDescripcion.value.trim() : notificacion.descripcion;
+                    const nuevaFecha = inputFecha ? inputFecha.value.trim() : fechaFormatoSQL;
+                    const nuevoEstado = inputEstado ? inputEstado.value.trim() : notificacion.estado;
 
                     if (!nuevoTitulo || !nuevaDescripcion) {
                         alert("El título y la descripción no pueden estar vacíos.");
