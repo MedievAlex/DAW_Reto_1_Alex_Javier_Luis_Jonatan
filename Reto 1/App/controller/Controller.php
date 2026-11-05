@@ -71,6 +71,21 @@ class Controller
         return $this->equ_dao->filtrarEquipamientosPorCategoria($categoria);
     }
 
+        /**
+     * Obtiene los equipamientos que están actualmente en una ubicación mediante el DAO.
+     *
+     * @param int $idUbicacion Identificador de la ubicación por la que se filtra.
+     * @return Equipamiento[] Lista de coincidencias; vacía si no hay ninguna.
+     * @throws InvalidArgumentException Si el ID no es positivo.
+     * @throws mysqli_sql_exception Si falla la consulta.
+     *
+     * @author Jonatan Tajada Rico
+     */
+    public function filtrarEquipamientosPorUbicacion(int $idUbicacion): array
+    {
+        return $this->equ_dao->filtrarEquipamientosPorUbicacion($idUbicacion);
+    }
+
     /**
  * Registra un nuevo equipamiento mediante el DAO.
  *
