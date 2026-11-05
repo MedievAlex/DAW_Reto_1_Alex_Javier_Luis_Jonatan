@@ -82,93 +82,228 @@ INSERT INTO equipamientos
     (nombre, descripcion, marca, modelo, categoria, id_ubicacion_actual)
 VALUES
     (
-        'Portatil Profesor 01',
-        'Portatil utilizado por el profesorado',
+        'Portatil Profesor 101-01',
+        'Portatil utilizado por el profesorado.',
         'Lenovo',
         'ThinkPad E15',
         'PORTATIL',
-        1
+        2
     ),
 
     (
-        'Portatil Alumno 01',
-        'Portatil para uso de alumnado',
+        'Portatil Alumno 101-01',
+        'Portatil para uso de alumnado.',
         'HP',
         '250 G9',
         'PORTATIL',
-        1
+        2
     ),
 
     (
-        'Ordenador Sobremesa 01',
-        'Equipo de sobremesa del aula',
+        'Ordenador Sobremesa 101-01',
+        'Equipo de sobremesa del aula.',
         'Dell',
         'OptiPlex 7010',
         'SOBREMESA',
-        1
+        2
     ),
 
     (
-        'Ordenador Sobremesa 02',
-        'Equipo de sobremesa del aula',
+        'Ordenador Sobremesa 101-02',
+        'Equipo de sobremesa del aula.',
         'Dell',
         'OptiPlex 7010',
         'SOBREMESA',
-        1
+        2
     ),
 
     (
-        'Monitor 24 Pulgadas 01',
-        'Monitor externo para puesto informatico',
-        'LG',
-        '24MP400',
-        'PERIFERICO',
-        1
-    ),
-
-    (
-        'Teclado USB 01',
-        'Teclado USB para ordenador',
+        'Teclado USB 101-01',
+        'Teclado USB para ordenador.',
         'Logitech',
         'K120',
         'PERIFERICO',
-        1
+        2
+    ),
+
+    (
+        'Teclado USB 101-02',
+        'Teclado USB para ordenador.',
+        'Logitech',
+        'K120',
+        'PERIFERICO',
+        2
     ),
 
     (
         'Proyector Aula 101',
-        'Proyector utilizado para las clases',
+        'Proyector utilizado para las clases.',
         'Epson',
         'EB-E01',
         'AUDIOVISUAL',
-        1
+        2
     ),
 
     (
         'Altavoces Salon Actos',
-        'Sistema de altavoces para eventos',
+        'Sistema de altavoces para eventos.',
         'Logitech',
         'Z333',
         'AUDIOVISUAL',
-        1
+        11
     ),
 
     (
-        'Webcam Aula',
-        'Camara web para videoconferencias',
-        'Logitech',
-        'C920',
+        'Portatil Alumno 102-01',
+        'Portatil para uso de alumnado.',
+        'HP',
+        '250 G9',
+        'PORTATIL',
+        3
+    ),
+
+    (
+        'Ordenador Sobremesa 102-01',
+        'Equipo de sobremesa del aula.',
+        'Dell',
+        'OptiPlex 7010',
+        'SOBREMESA',
+        3
+    ),
+
+    (
+        'Ordenador Sobremesa 102-02',
+        'Equipo de sobremesa del aula.',
+        'Dell',
+        'OptiPlex 7010',
+        'SOBREMESA',
+        3
+    ),
+
+    (
+        'Monitor 24 Pulgadas 203-01',
+        'Monitor externo para puesto de sistemas.',
+        'LG',
+        '24MP400',
         'PERIFERICO',
-        1
+        7
     ),
 
     (
-        'Material Electronico',
+        'Teclado USB 102-01',
+        'Teclado USB para ordenador.',
+        'Logitech',
+        'K120',
+        'PERIFERICO',
+        3
+    ),
+
+    (
+        'Proyector Aula 102-01',
+        'Proyector utilizado para las clases',
+        'Epson',
+        'EB-E01',
+        'AUDIOVISUAL',
+        3
+    ),
+
+    (
+        'Material Electronico 204',
         'Material diverso para mantenimiento',
         'Varios',
         'Lote 01',
         'OTROS',
-        1
+        8
+    ),
+
+    (
+        'Soldador 204-01',
+        'Soldador de mano pequeño.',
+        'Blueweld',
+        'C920',
+        'OTROS',
+        8
+    ),
+
+    (
+        'Soldador 204-02',
+        'Soldador de mano pequeño.',
+        'Telwin',
+        '190H-32',
+        'OTROS',
+        8
+    ),
+
+    (
+        'Ordenador Profesor 204-01',
+        'Ordenador de sobremesa para el profesorado de MEL.',
+        'HP',
+        '250 G9',
+        'SOBREMESA',
+        8
+    ),
+
+    (
+        'Ordenador Sobremesa 202-01',
+        'Equipo de sobremesa del despacho de dirección.',
+        'Dell',
+        'OptiPlex 7010',
+        'SOBREMESA',
+        6
+    ),
+
+    (
+        'Ordenador Sobremesa 202-02',
+        'Equipo de sobremesa del despacho de dirección.',
+        'Dell',
+        'OptiPlex 7010',
+        'SOBREMESA',
+        6
+    ),
+
+    (
+        'Ordenador Sobremesa 202-03',
+        'Equipo de sobremesa del despacho de dirección.',
+        'Dell',
+        'OptiPlex 7010',
+        'SOBREMESA',
+        6
+    ),
+
+    (
+        'Teclado USB 103-01',
+        'Teclado USB para ordenador.',
+        'Logitech',
+        'K120',
+        'PERIFERICO',
+        4
+    ),
+
+    (
+        'Proyector Aula 103-101',
+        'Proyector utilizado para las clases',
+        'Epson',
+        'EB-E01',
+        'AUDIOVISUAL',
+        4
+    ),
+
+    (
+        'Teclado USB 103-02',
+        'Teclado USB para ordenador.',
+        'Logitech',
+        'K120',
+        'PERIFERICO',
+        4
+    ),
+
+    (
+        'Webcam Aula 103-01',
+        'Camara web para videoconferencias',
+        'Logitech',
+        'C920',
+        'PERIFERICO',
+        4
     );
 
 

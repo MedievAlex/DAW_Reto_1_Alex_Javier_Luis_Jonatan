@@ -122,7 +122,6 @@ function equNoValido(message) {
 }
 
 /* ------------------------------------------------------------------------ [ UBICACIONES ]*/
-
 // [ Pide el listado de todas las Ubicaciones ]
 async function cargarUbicaciones() {
     let url = UBI_URL;
@@ -134,8 +133,6 @@ async function cargarUbicaciones() {
 
     response.then((value) => {
         if ("success" in value && value.success) {
-            let ubicaciones;
-
             if (Array.isArray(value.data)) {
                 let atributos = ["ubi_id", "ubi_nombre", "ubi_descripcion"];
 
@@ -145,194 +142,7 @@ async function cargarUbicaciones() {
                 );
 
                 if (valido) {
-                    tbody_ubicaciones.innerHTML = "";
-                    ubicaciones = ordenarUbicaciones(value.data);
-
-                    ubicaciones.forEach(ubi => {
-                        let ubi_id = ubi.ubi_id;
-                        let ubi_nombre = ubi.ubi_nombre;
-                        let ubi_descripcion = ubi.ubi_descripcion;
-
-                        let tr_ubi = document.createElement("tr");// Nueva Ubicacion
-                        tr_ubi.classList.add("aula");
-
-                        let td_ubi_nom = document.createElement("td"); // Nombre
-                        let h3_ubi_nom = document.createElement("h3");
-                        h3_ubi_nom.classList.add("ubi_nombre");
-                        h3_ubi_nom.textContent = ubi_nombre;
-
-                        td_ubi_nom.appendChild(h3_ubi_nom);
-                        tr_ubi.appendChild(td_ubi_nom);
-
-                        let inp_ubi_nom = document.createElement("input"); // Input Nombre
-                        inp_ubi_nom.type = "text";
-                        inp_ubi_nom.value = ubi_nombre;
-                        inp_ubi_nom.className = "ubi-nom";
-                        inp_ubi_nom.title = "Nombre de la ubicación.";
-
-                        let td_ubi_des = document.createElement("td"); // Descripcion
-                        let p_ubi_des = document.createElement("p");
-                        p_ubi_des.textContent = ubi_descripcion;
-
-                        td_ubi_des.appendChild(p_ubi_des);
-                        tr_ubi.appendChild(td_ubi_des);
-
-                        let inp_ubi_des = document.createElement("input"); // Input Descripcion
-                        inp_ubi_des.type = "text";
-                        inp_ubi_des.value = ubi_descripcion;
-                        inp_ubi_des.className = "ubi-des";
-                        inp_ubi_des.title = "Descripción de la ubicación " + ubi_nombre + ".";
-
-                        let ubi_btn = document.createElement("td"); // Botones
-
-                        // ---------------------------------------- Boton Editar
-                        let btn_edit = document.createElement("button");
-                        btn_edit.alt = "Editar ubicación " + ubi_nombre + ".";
-                        let img_edit = document.createElement("img");
-                        img_edit.src = srcEditar;
-                        btn_edit.title = "Editar ubicación " + ubi_nombre + ".";
-
-                        btn_edit.appendChild(img_edit);
-                        btn_edit.classList.add("btn-s");
-                        btn_edit.classList.add("btn-edit");
-
-                        // [ Edita la Ubicacion selecionada ]
-                        btn_edit.addEventListener("click", () => {
-                            btn_edit.classList.remove("visible");
-                            btn_edit.classList.add("oculto");
-
-                            btn_save.classList.remove("oculto");
-                            btn_save.classList.add("visible");
-
-                            if (ubi_nombre != "Almacén") {
-                                h3_ubi_nom.replaceWith(inp_ubi_nom);
-                            }
-
-                            p_ubi_des.replaceWith(inp_ubi_des);
-                        });
-
-                        ubi_btn.appendChild(btn_edit);
-
-                        // ---------------------------------------- Boton Guardar
-                        let btn_save = document.createElement("button");
-                        btn_save.alt = "Editar ubicación " + ubi_nombre + ".";
-                        let img_save = document.createElement("img");
-                        img_save.src = srcGuardar;
-                        btn_save.title = "Guardar modificaciones de ubicación " + ubi_nombre + ".";
-
-                        btn_save.appendChild(img_save);
-                        btn_save.classList.add("btn-s");
-                        btn_save.classList.add("btn-edit");
-                        btn_save.classList.add("oculto");
-
-                        // [ Guarda las modificaciones de la Ubicacion editada ]
-                        btn_save.addEventListener("click", () => {
-                            let ubi_nom = inp_ubi_nom.value.trim();
-                            let ubi_des = inp_ubi_des.value.trim();
-                            let valido = true;
-
-                            if (ubi_nom === "" || ubi_des === "") {
-                                valido = false;
-                            }
-
-                            if (valido) {
-                                editarUbicacion(ubi_id, ubi_nom, ubi_des);
-                                btn_save.classList.remove("visible");
-                                btn_save.classList.add("oculto");
-
-                                btn_edit.classList.remove("oculto");
-                                btn_edit.classList.add("visible");
-                            } else {
-                                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
-                            }
-                        });
-
-                        ubi_btn.appendChild(btn_save);
-
-                        // ---------------------------------------- Boton Eliminar
-                        if (ubi_nombre != "Almacén") {
-                            let btn_delete = document.createElement("button");
-                            btn_delete.alt = "Eliminar ubicación " + ubi_nombre + ".";
-                            let img_delete = document.createElement("img");
-                            img_delete.src = srcEliminar;
-                            btn_delete.title = "Eliminar ubicación " + ubi_nombre + ".";
-
-                            btn_delete.appendChild(img_delete);
-                            btn_delete.classList.add("btn-s");
-                            btn_delete.classList.add("btn-delete");
-
-                            // [ Elimina la Ubicacion ]
-                            btn_delete.addEventListener("click", () => {
-                                const conf = window.confirm("Se va a eliminar la ubicación " + ubi_nombre + ". Esta acción no se puede desacer.");
-                                if (conf) {
-                                    eliminarUbicacion(ubi_id);
-                                } else {
-                                    logMessage("Se ha cancelado la acción.");
-                                }
-                            });
-
-                            verificarEquipamientos(btn_delete, ubi_id);
-
-                            ubi_btn.appendChild(btn_delete);
-                        }
-
-                        // ---------------------------------------- Boton Abrir
-                        let btn_open = document.createElement("button");
-                        btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi_nombre + ".";
-                        let img_open = document.createElement("img");
-                        img_open.src = srcCerrar;
-                        btn_open.title = "Mostrar equipamientos de la ubicación " + ubi_nombre + ".";
-
-                        btn_open.appendChild(img_open);
-                        btn_open.classList.add("btn-s");
-                        btn_open.classList.add("btn-open");
-
-                        // [ Muestra los Equipamientos de la Ubicacion ]
-                        btn_open.addEventListener("click", (event) => {
-                            btn_open.classList.remove("visible");
-                            btn_open.classList.add("oculto");
-
-                            btn_close.classList.remove("oculto");
-                            btn_close.classList.add("visible");
-
-                            limpiarEquiposDeUbicacion(event.currentTarget);
-
-                            cargarEquiposDeUbicacion();
-                            //mockEquipamientos(); // mockData.js
-                        });
-
-                        ubi_btn.appendChild(btn_open);
-
-                        // ---------------------------------------- Boton Cerrar
-                        let btn_close = document.createElement("button");
-                        btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi_nombre + ".";
-                        let btn_img = document.createElement("img");
-                        btn_img.src = srcAbrir;
-                        btn_close.title = "Ocultar equipamientos de la ubicación " + ubi_nombre + ".";
-
-                        btn_close.appendChild(btn_img);
-                        btn_close.classList.add("btn-s");
-                        btn_close.classList.add("btn-close");
-                        btn_close.classList.add("oculto");
-
-                        // [ Oculta los Equipamientos de la Ubicacion ]
-                        btn_close.addEventListener("click", (event) => {
-                            btn_close.classList.remove("visible");
-                            btn_close.classList.add("oculto");
-
-                            btn_open.classList.remove("oculto");
-                            btn_open.classList.add("visible");
-
-                            limpiarEquiposDeUbicacion(event.currentTarget);
-                        });
-
-                        ubi_btn.appendChild(btn_close);
-
-                        tr_ubi.appendChild(ubi_btn);
-
-                        tbody_ubicaciones.appendChild(tr_ubi);
-                    });
-
+                    generarUbicaciones(value);
                 } else {
                     ubiNoValido(value.message);
                 }
@@ -490,7 +300,199 @@ async function eliminarUbicacion(ubi_id) {
         } else {
             logMessage(value.message);
         }
+
         cargarUbicaciones();
+    });
+}
+
+// [ Genera las Ubicaciones en el HTML ]
+function generarUbicaciones(value) {
+    tbody_ubicaciones.innerHTML = "";
+    let ubicaciones = ordenarUbicaciones(value.data);
+
+    ubicaciones.forEach(ubi => {
+        let ubi_id = ubi.ubi_id;
+        let ubi_nombre = ubi.ubi_nombre;
+        let ubi_descripcion = ubi.ubi_descripcion;
+
+        let tr_ubi = document.createElement("tr");// Nueva Ubicacion
+        tr_ubi.classList.add("aula");
+
+        let td_ubi_nom = document.createElement("td"); // Nombre
+        let h3_ubi_nom = document.createElement("h3");
+        h3_ubi_nom.classList.add("ubi_nombre");
+        h3_ubi_nom.textContent = ubi_nombre;
+
+        td_ubi_nom.appendChild(h3_ubi_nom);
+        tr_ubi.appendChild(td_ubi_nom);
+
+        let inp_ubi_nom = document.createElement("input"); // Input Nombre
+        inp_ubi_nom.type = "text";
+        inp_ubi_nom.value = ubi_nombre;
+        inp_ubi_nom.className = "ubi-nom";
+        inp_ubi_nom.title = "Nombre de la ubicación.";
+
+        let td_ubi_des = document.createElement("td"); // Descripcion
+        let p_ubi_des = document.createElement("p");
+        p_ubi_des.textContent = ubi_descripcion;
+
+        td_ubi_des.appendChild(p_ubi_des);
+        tr_ubi.appendChild(td_ubi_des);
+
+        let inp_ubi_des = document.createElement("input"); // Input Descripcion
+        inp_ubi_des.type = "text";
+        inp_ubi_des.value = ubi_descripcion;
+        inp_ubi_des.className = "ubi-des";
+        inp_ubi_des.title = "Descripción de la ubicación " + ubi_nombre + ".";
+
+        let ubi_btn = document.createElement("td"); // Botones
+
+        // ---------------------------------------- Boton Editar
+        let btn_edit = document.createElement("button");
+        btn_edit.alt = "Editar ubicación " + ubi_nombre + ".";
+        let img_edit = document.createElement("img");
+        img_edit.src = srcEditar;
+        btn_edit.title = "Editar ubicación " + ubi_nombre + ".";
+
+        btn_edit.appendChild(img_edit);
+        btn_edit.classList.add("btn-s");
+        btn_edit.classList.add("btn-edit");
+
+        // [ Edita la Ubicacion selecionada ]
+        btn_edit.addEventListener("click", () => {
+            btn_edit.classList.remove("visible");
+            btn_edit.classList.add("oculto");
+
+            btn_save.classList.remove("oculto");
+            btn_save.classList.add("visible");
+
+            if (ubi_nombre != "Almacén") {
+                h3_ubi_nom.replaceWith(inp_ubi_nom);
+            }
+
+            p_ubi_des.replaceWith(inp_ubi_des);
+        });
+
+        ubi_btn.appendChild(btn_edit);
+
+        // ---------------------------------------- Boton Guardar
+        let btn_save = document.createElement("button");
+        btn_save.alt = "Editar ubicación " + ubi_nombre + ".";
+        let img_save = document.createElement("img");
+        img_save.src = srcGuardar;
+        btn_save.title = "Guardar modificaciones de ubicación " + ubi_nombre + ".";
+
+        btn_save.appendChild(img_save);
+        btn_save.classList.add("btn-s");
+        btn_save.classList.add("btn-edit");
+        btn_save.classList.add("oculto");
+
+        // [ Guarda las modificaciones de la Ubicacion editada ]
+        btn_save.addEventListener("click", () => {
+            let ubi_nom = inp_ubi_nom.value.trim();
+            let ubi_des = inp_ubi_des.value.trim();
+            let valido = true;
+
+            if (ubi_nom === "" || ubi_des === "") {
+                valido = false;
+            }
+
+            if (valido) {
+                editarUbicacion(ubi_id, ubi_nom, ubi_des);
+                btn_save.classList.remove("visible");
+                btn_save.classList.add("oculto");
+
+                btn_edit.classList.remove("oculto");
+                btn_edit.classList.add("visible");
+            } else {
+                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
+            }
+        });
+
+        ubi_btn.appendChild(btn_save);
+
+        // ---------------------------------------- Boton Eliminar
+        if (ubi_nombre != "Almacén") {
+            let btn_delete = document.createElement("button");
+            btn_delete.alt = "Eliminar ubicación " + ubi_nombre + ".";
+            let img_delete = document.createElement("img");
+            img_delete.src = srcEliminar;
+            btn_delete.title = "Eliminar ubicación " + ubi_nombre + ".";
+
+            btn_delete.appendChild(img_delete);
+            btn_delete.classList.add("btn-s");
+            btn_delete.classList.add("btn-delete");
+
+            // [ Elimina la Ubicacion ]
+            btn_delete.addEventListener("click", () => {
+                const conf = window.confirm("Se va a eliminar la ubicación " + ubi_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
+                if (conf) {
+                    eliminarUbicacion(ubi_id);
+                } else {
+                    logMessage("Se ha cancelado la acción.");
+                }
+            });
+
+            verificarEquipamientos(btn_delete, ubi_id);
+
+            ubi_btn.appendChild(btn_delete);
+        }
+
+        // ---------------------------------------- Boton Abrir
+        let btn_open = document.createElement("button");
+        btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi_nombre + ".";
+        let img_open = document.createElement("img");
+        img_open.src = srcCerrar;
+        btn_open.title = "Mostrar equipamientos de la ubicación " + ubi_nombre + ".";
+
+        btn_open.appendChild(img_open);
+        btn_open.classList.add("btn-s");
+        btn_open.classList.add("btn-open");
+
+        // [ Muestra los Equipamientos de la Ubicacion ]
+        btn_open.addEventListener("click", (event) => {
+            btn_open.classList.remove("visible");
+            btn_open.classList.add("oculto");
+
+            btn_close.classList.remove("oculto");
+            btn_close.classList.add("visible");
+
+            limpiarEquiposDeUbicacion(event.currentTarget);
+
+            cargarEquiposDeUbicacion(ubi_id);
+            //mockEquipamientos(); // mockData.js
+        });
+
+        ubi_btn.appendChild(btn_open);
+
+        // ---------------------------------------- Boton Cerrar
+        let btn_close = document.createElement("button");
+        btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi_nombre + ".";
+        let btn_img = document.createElement("img");
+        btn_img.src = srcAbrir;
+        btn_close.title = "Ocultar equipamientos de la ubicación " + ubi_nombre + ".";
+
+        btn_close.appendChild(btn_img);
+        btn_close.classList.add("btn-s");
+        btn_close.classList.add("btn-close");
+        btn_close.classList.add("oculto");
+
+        // [ Oculta los Equipamientos de la Ubicacion ]
+        btn_close.addEventListener("click", (event) => {
+            btn_close.classList.remove("visible");
+            btn_close.classList.add("oculto");
+
+            btn_open.classList.remove("oculto");
+            btn_open.classList.add("visible");
+
+            limpiarEquiposDeUbicacion(event.currentTarget);
+        });
+
+        ubi_btn.appendChild(btn_close);
+
+        tr_ubi.appendChild(ubi_btn);
+
+        tbody_ubicaciones.appendChild(tr_ubi);
     });
 }
 
@@ -519,7 +521,7 @@ function limpiarEquiposDeUbicacion(event_btn) {
     let botonesAbirFiltrados = Array.from(botonesAbrir).filter(b => b !== botonesAbrir[posicion]); // Elimina el botón de la posicion deseada 
     let botonesCerrarFiltrados = Array.from(botonesCerrar).filter(b => b !== botonesCerrar[posicion]); // Elimina el botón de la posicion deseada 
 
-    equipamientos.innerHTML = "";
+    artEqu.innerHTML = "";
 
     for (var i = 0; i < botonesAbirFiltrados.length; i++) {
         botonesAbirFiltrados[i].classList.remove("oculto");
@@ -535,8 +537,8 @@ function limpiarEquiposDeUbicacion(event_btn) {
 /* ------------------------------------------------------------------------ [ EQUIPAMIENTOS ]*/
 
 // [ Pide el listado de los equipos de una Ubicacion ]
-async function cargarEquiposDeUbicacion() {
-    let url = EQU_URL;
+async function cargarEquiposDeUbicacion(ubi_id) {
+    let url = EQU_URL + "?id_ubicacion=" + ubi_id;
     let method = "GET";
     let data = [];
     let response;
@@ -554,150 +556,7 @@ async function cargarEquiposDeUbicacion() {
                 );
 
                 if (valido) {
-                    value.data.sort((a, b) => a.nombre.localeCompare(b.nombre));
-
-                    value.data.forEach(equ => {
-                        let equ_id = equ.id_equipamiento;
-                        let equ_nombre = equ.nombre;
-                        let equ_descripcion = equ.descripcion;
-                        let equ_marca = equ.marca;
-                        let equ_modelo = equ.modelo;
-                        let equ_categoria = equ.categoria;
-                        let equ_ubicacion = equ.id_ubicacion_actual
-                        
-                        let art_equ = document.createElement("article"); // Nuevo Equipamiento
-                        art_equ.classList.add("equ");
-                        art_equ.classList.add("tarjeta");
-
-                        let sec_equ_inf = document.createElement("section"); // Información
-                        sec_equ_inf.classList.add("equ-inf");
-                        let img_equ_img = document.createElement("img");
-                        img_equ_img.classList.add("equ-img");
-                        img_equ_img.src = "../assets/img/categoria_" + equ_categoria.toLowerCase() + ".jpg";
-                        img_equ_img.alt = "Equipamiento " + equ_nombre + ".";
-
-                        art_equ.appendChild(sec_equ_inf); // Seccion de información al artículo
-
-                        let div_det = document.createElement("div"); // Detalles del Equipamiento
-                        div_det.classList.add("det");
-
-                        let div_equ_nom = document.createElement("div"); // Nombre
-                        let h3_equ_nom = document.createElement("h3");
-                        h3_equ_nom.textContent = equ_nombre;
-                        div_equ_nom.appendChild(h3_equ_nom);
-                        div_det.appendChild(div_equ_nom);
-
-                        let inp_equ_nom = document.createElement("input"); // Input Nombre
-                        inp_equ_nom.type = "text";
-                        inp_equ_nom.value = equ_nombre;
-                        inp_equ_nom.className = "equ-nom";
-
-                        let div_equ_det = document.createElement("div"); // Detalles
-                        let p_equ_det = document.createElement("p");
-                        p_equ_det.textContent = equ_marca + " - " + equ_modelo;
-                        div_equ_det.appendChild(p_equ_det);
-                        div_det.appendChild(div_equ_det);
-
-                        let inp_equ_mar = document.createElement("input"); // Input Marca
-                        inp_equ_mar.type = "text";
-                        inp_equ_mar.value = equ_marca;
-                        inp_equ_mar.className = "equ-mar";
-
-                        let inp_equ_mod = document.createElement("input"); // Input Modelo
-                        inp_equ_mod.type = "text";
-                        inp_equ_mod.value = equ_modelo;
-                        inp_equ_mod.className = "equ-mod";
-
-                        sec_equ_inf.appendChild(img_equ_img); // Imagen en información
-                        sec_equ_inf.appendChild(div_det); // Detalles en información
-
-                        let sec_equ_btn = document.createElement("section"); // Botones
-                        sec_equ_btn.classList.add("equ-btn");
-
-                        art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
-
-                        // ---------------------------------------- Boton Editar
-                        let btn_edit = document.createElement("button");
-                        btn_edit.classList.add("btn-s");
-                        btn_edit.classList.add("btn-edit");
-                        let img_btn_edit = document.createElement("img");
-                        img_btn_edit.src = srcEditar;
-                        btn_edit.alt = "Editar campos del equipamiento " + equ_nombre + ".";
-                        btn_edit.appendChild(img_btn_edit);
-
-                        // [ Edita el Equipamiento selecionado ]
-                        btn_edit.addEventListener("click", () => {
-                            btn_edit.classList.remove("visible");
-                            btn_edit.classList.add("oculto");
-
-                            btn_save.classList.remove("oculto");
-                            btn_save.classList.add("visible");
-
-                            div_equ_nom.replaceWith(inp_equ_nom);
-                            div_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
-
-                            inp_equ_nom.focus();
-                        });
-
-                        sec_equ_btn.appendChild(btn_edit);
-
-                        // ---------------------------------------- Boton Guardar
-                        let btn_save = document.createElement("button");
-                        btn_save.classList.add("btn-s");
-                        btn_save.classList.add("btn-save");
-                        btn_save.classList.add("oculto");
-                        let img_btn_save = document.createElement("img");
-                        img_btn_save.src = srcGuardar;
-                        btn_save.alt = "Guardar cambios del equipamiento " + equ_nombre + ".";
-                        btn_save.appendChild(img_btn_save);
-
-                        // [ Guarda las modificaciones del Equipamiento editado ]
-                        btn_save.addEventListener("click", () => {
-                            let equ_nom = inp_equ_nom.value.trim();
-                            //let equ_des = inp_equ_des.value.trim();
-                            let equ_mar = inp_equ_mar.value.trim();
-                            let equ_mod = inp_equ_mod.value.trim();
-                            //let equ_cat = inp_equ_cat.value.trim();
-                            let valido = true;
-
-                            if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
-                                valido = false;
-                            }
-
-                            if (valido) {
-                                editarEquipoDeUbicacion(equ_id, equ_nom, equ_des, equ_mar, equ_mod, equ_cat, equ_ubicacion);
-                                btn_save.classList.remove("visible");
-                                btn_save.classList.add("oculto");
-
-                                btn_edit.classList.remove("oculto");
-                                btn_edit.classList.add("visible");
-                            } else {
-                                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
-                            }
-                        });
-
-                        sec_equ_btn.appendChild(btn_save);
-
-                        // ---------------------------------------- Boton Eliminar
-                        let btn_delete = document.createElement("button");
-                        btn_delete.classList.add("btn-s");
-                        btn_delete.classList.add("btn-delete");
-                        let img_btn_delete = document.createElement("img");
-                        img_btn_delete.src = srcEliminar;
-                        btn_delete.alt = "Eliminar equipamiento " + equ_nombre + ".";
-                        btn_delete.title = "Eliminar equipamiento " + equ_nombre + ".";
-                        btn_delete.appendChild(img_btn_delete);
-
-                        // [ Elimina el Equipamiento ]
-                        btn_delete.addEventListener("click", () => {
-
-                        });
-
-                        sec_equ_btn.appendChild(btn_delete);
-
-                        artEqu.appendChild(art_equ);
-                    });
-
+                    generarEquipamientos(value);
                 } else {
                     equNoValido(value.message);
                 }
@@ -737,6 +596,8 @@ async function editarEquipoDeUbicacion(id_equipamiento, nombre, descripcion, mar
 
                 if (valido) {
                     logMessage(value.message);
+
+                    cargarEquiposDeUbicacion(id_ubicacion_actual);
                 } else {
                     logMessage(value.message);
                 }
@@ -750,8 +611,8 @@ async function editarEquipoDeUbicacion(id_equipamiento, nombre, descripcion, mar
 }
 
 // [ Elimina el Equipamiento ]
-async function eliminarEquipoDeUbicacion(equ_id) {
-    let url = EQU_URL + "?equ_id=" + equ_id;
+async function eliminarEquipoDeUbicacion(equ_id, equ_ubicacion) {
+    let url = EQU_URL + "?id_equipamiento=" + equ_id;
     let method = "DELETE";
     let data = [];
     let response;
@@ -759,6 +620,181 @@ async function eliminarEquipoDeUbicacion(equ_id) {
     response = petition(url, method, data); // Llama al petition de global.js
 
     response.then((value) => {
+        if ("success" in value && value.success) {
+            logMessage(value.message);
 
+            cargarEquiposDeUbicacion(equ_ubicacion);
+        } else {
+            logMessage(value.message);
+        }
+    });
+}
+
+// [ Genera los Equipamientos en el HTML ]
+function generarEquipamientos(value) {
+    artEqu.innerHTML = "";
+    value.data.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+    value.data.forEach(equ => {
+        let equ_id = equ.id_equipamiento;
+        let equ_nombre = equ.nombre;
+        let equ_descripcion = equ.descripcion;
+        let equ_marca = equ.marca;
+        let equ_modelo = equ.modelo;
+        let equ_categoria = equ.categoria;
+        let equ_ubicacion = equ.id_ubicacion_actual // Para la modificación y eliminacion
+
+        let art_equ = document.createElement("article"); // Nuevo Equipamiento
+        art_equ.classList.add("equ");
+        art_equ.classList.add("tarjeta");
+
+        let sec_equ_inf = document.createElement("section"); // Información
+        sec_equ_inf.classList.add("equ-inf");
+        let img_equ_img = document.createElement("img");
+        img_equ_img.classList.add("equ-img");
+        img_equ_img.src = "../assets/img/categoria_" + equ_categoria.toLowerCase() + ".jpg";
+        img_equ_img.alt = "Equipamiento " + equ_nombre + ".";
+
+        art_equ.appendChild(sec_equ_inf); // Seccion de información al artículo
+
+        let div_det = document.createElement("div"); // Detalles del Equipamiento
+        div_det.classList.add("det");
+
+        let div_equ_nom = document.createElement("div"); // Nombre
+        let h3_equ_nom = document.createElement("h3");
+        h3_equ_nom.textContent = equ_nombre;
+        h3_equ_nom.classList.add("equ-nom");
+        div_equ_nom.appendChild(h3_equ_nom);
+        div_det.appendChild(div_equ_nom);
+
+        let inp_equ_nom = document.createElement("input"); // Input Nombre
+        inp_equ_nom.type = "text";
+        inp_equ_nom.value = equ_nombre;
+        inp_equ_nom.className = "equ-nom";
+
+        let div_equ_des = document.createElement("div"); // Descripción
+        let p_equ_des = document.createElement("p");
+        p_equ_des.textContent = equ_descripcion;
+        p_equ_des.classList.add("equ-des");
+        div_equ_des.appendChild(p_equ_des);
+        div_det.appendChild(div_equ_des);
+
+        let inp_equ_des = document.createElement("input"); // Input Descripción
+        inp_equ_des.type = "text";
+        inp_equ_des.value = equ_descripcion;
+        inp_equ_des.className = "equ-des";
+
+        let div_equ_det = document.createElement("div"); // Detalles
+        let p_equ_det = document.createElement("p");
+        p_equ_det.textContent = equ_marca + " - " + equ_modelo;
+        p_equ_det.classList.add("equ-det");
+        div_equ_det.appendChild(p_equ_det);
+        div_det.appendChild(div_equ_det);
+
+        let inp_equ_mar = document.createElement("input"); // Input Marca
+        inp_equ_mar.type = "text";
+        inp_equ_mar.value = equ_marca;
+        inp_equ_mar.className = "equ-mar";
+
+        let inp_equ_mod = document.createElement("input"); // Input Modelo
+        inp_equ_mod.type = "text";
+        inp_equ_mod.value = equ_modelo;
+        inp_equ_mod.className = "equ-mod";
+
+        sec_equ_inf.appendChild(img_equ_img); // Imagen en información
+        sec_equ_inf.appendChild(div_det); // Detalles en información
+
+        let sec_equ_btn = document.createElement("section"); // Botones
+        sec_equ_btn.classList.add("equ-btn");
+
+        art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
+
+        // ---------------------------------------- Boton Editar
+        let btn_edit = document.createElement("button");
+        btn_edit.classList.add("btn-s");
+        btn_edit.classList.add("btn-edit");
+        let img_btn_edit = document.createElement("img");
+        img_btn_edit.src = srcEditar;
+        btn_edit.alt = "Editar campos del equipamiento " + equ_nombre + ".";
+        btn_edit.appendChild(img_btn_edit);
+
+        // [ Edita el Equipamiento selecionado ]
+        btn_edit.addEventListener("click", () => {
+            btn_edit.classList.remove("visible");
+            btn_edit.classList.add("oculto");
+
+            btn_save.classList.remove("oculto");
+            btn_save.classList.add("visible");
+
+            div_equ_nom.replaceWith(inp_equ_nom);
+            div_equ_des.replaceWith(inp_equ_des);
+            div_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
+
+            inp_equ_nom.focus();
+        });
+
+        sec_equ_btn.appendChild(btn_edit);
+
+        // ---------------------------------------- Boton Guardar
+        let btn_save = document.createElement("button");
+        btn_save.classList.add("btn-s");
+        btn_save.classList.add("btn-save");
+        btn_save.classList.add("oculto");
+        let img_btn_save = document.createElement("img");
+        img_btn_save.src = srcGuardar;
+        btn_save.alt = "Guardar cambios del equipamiento " + equ_nombre + ".";
+        btn_save.appendChild(img_btn_save);
+
+        // [ Guarda las modificaciones del Equipamiento editado ]
+        btn_save.addEventListener("click", () => {
+            let equ_nom = inp_equ_nom.value.trim();
+            let equ_des = inp_equ_des.value.trim();
+            let equ_mar = inp_equ_mar.value.trim();
+            let equ_mod = inp_equ_mod.value.trim();
+            //let equ_cat = inp_equ_cat.value.trim();
+            equ_cat = equ_categoria;
+            let valido = true;
+
+            if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
+                valido = false;
+            }
+
+            if (valido) {
+                editarEquipoDeUbicacion(equ_id, equ_nom, equ_des, equ_mar, equ_mod, equ_cat, equ_ubicacion);
+                btn_save.classList.remove("visible");
+                btn_save.classList.add("oculto");
+
+                btn_edit.classList.remove("oculto");
+                btn_edit.classList.add("visible");
+            } else {
+                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
+            }
+        });
+
+        sec_equ_btn.appendChild(btn_save);
+
+        // ---------------------------------------- Boton Eliminar
+        let btn_delete = document.createElement("button");
+        btn_delete.classList.add("btn-s");
+        btn_delete.classList.add("btn-delete");
+        let img_btn_delete = document.createElement("img");
+        img_btn_delete.src = srcEliminar;
+        btn_delete.alt = "Eliminar equipamiento " + equ_nombre + ".";
+        btn_delete.title = "Eliminar equipamiento " + equ_nombre + ".";
+        btn_delete.appendChild(img_btn_delete);
+
+        // [ Elimina el Equipamiento ]
+        btn_delete.addEventListener("click", () => {
+            const conf = window.confirm("Se va a eliminar el equipamiento " + equ_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
+            if (conf) {
+                eliminarEquipoDeUbicacion(equ_id, equ_ubicacion);
+            } else {
+                logMessage("Se ha cancelado la acción.");
+            }
+        });
+
+        sec_equ_btn.appendChild(btn_delete);
+
+        artEqu.appendChild(art_equ);
     });
 }

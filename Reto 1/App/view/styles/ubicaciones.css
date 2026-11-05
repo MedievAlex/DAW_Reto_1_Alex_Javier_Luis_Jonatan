@@ -134,27 +134,24 @@ table .aula:hover {
     margin: 10px;
 
     display: flex;
-    flex-grow: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.det-inf .equ-nom {
+.equ-inf .det input {
+    width: 100%;
+}
+
+.equ-nom {
     width: 100%;
 
     font-weight: bold;
 }
 
-.det .equ_det {
+.equ-det, .equ-mar, .equ-mod{
     width: 100%;
 
-    font-style: oblique;
-}
-
-#equ-nom,
-#equ-mar,
-#equ-mod {
-    display: none;
+    font-style: italic;
 }
 
 .equ-btn {
