@@ -673,7 +673,7 @@ function generarEquipamientos(value) {
         inp_equ_nom.className = "equ-nom";
 
         let div_equ_des = document.createElement("div"); // Descripción
-        let p_equ_des = document.createElement("p");
+        let p_equ_des = document.createElement("span");
         p_equ_des.textContent = equ_descripcion;
         p_equ_des.classList.add("equ-des");
         div_equ_des.appendChild(p_equ_des);
@@ -685,7 +685,7 @@ function generarEquipamientos(value) {
         inp_equ_des.className = "equ-des";
 
         let div_equ_det = document.createElement("div"); // Detalles
-        let p_equ_det = document.createElement("p");
+        let p_equ_det = document.createElement("span");
         p_equ_det.textContent = equ_marca + " - " + equ_modelo;
         p_equ_det.classList.add("equ-det");
         div_equ_det.appendChild(p_equ_det);
@@ -726,9 +726,9 @@ function generarEquipamientos(value) {
             btn_save.classList.remove("oculto");
             btn_save.classList.add("visible");
 
-            div_equ_nom.replaceWith(inp_equ_nom);
-            div_equ_des.replaceWith(inp_equ_des);
-            div_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
+            h3_equ_nom.replaceWith(inp_equ_nom);
+            p_equ_des.replaceWith(inp_equ_des);
+            p_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
 
             div_equ_des.focus();
         });

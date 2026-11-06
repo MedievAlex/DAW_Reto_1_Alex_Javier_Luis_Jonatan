@@ -124,10 +124,8 @@ table .aula:hover {
 }
 
 .equ-inf .equ-img {
-    min-height: 10vh;
-
-    width: 20vh;
-    height: 20vh;
+    width: 10vh;
+    height: 10vh;
 
     border-radius: var(--border-radius-half);
 }
@@ -140,6 +138,13 @@ table .aula:hover {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    flex-grow: 1;
+}
+.equ-inf .det div:last-child {
+    display: flex;
+}
+.equ-inf .det div:last-child input {
+    width: 100%;
 }
 
 .equ-inf .det input {
@@ -147,14 +152,10 @@ table .aula:hover {
 }
 
 .equ-nom {
-    width: 100%;
-
     font-weight: bold;
 }
 
 .equ-det, .equ-mar, .equ-mod{
-    width: 100%;
-
     font-style: italic;
 }
 
