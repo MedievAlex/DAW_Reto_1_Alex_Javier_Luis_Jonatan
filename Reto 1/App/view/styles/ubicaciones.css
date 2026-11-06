@@ -59,6 +59,10 @@ table .aula:hover {
     text-align: left;
 }
 
+.ubi-nom {
+    font-weight: bold;
+}
+
 .ubi-nom, .ubi-des{
     width: 100%
 }

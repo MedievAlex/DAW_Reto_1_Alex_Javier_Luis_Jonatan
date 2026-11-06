@@ -316,7 +316,7 @@ function generarUbicaciones(value) {
 
         let td_ubi_nom = document.createElement("td"); // Nombre
         let h3_ubi_nom = document.createElement("h3");
-        h3_ubi_nom.classList.add("ubi_nombre");
+        h3_ubi_nom.classList.add("ubi-nom");
         h3_ubi_nom.textContent = ubi_nombre;
 
         td_ubi_nom.appendChild(h3_ubi_nom);
