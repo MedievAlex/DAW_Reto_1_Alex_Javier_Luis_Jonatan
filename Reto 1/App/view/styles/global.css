@@ -399,6 +399,27 @@ nav .btn-s {
     text-decoration: none;
 }
 
+/* ---------------------------------------------- [ENLACE]*/
+
+#enlace {
+    display: flex;
+    justify-content: center;
+
+    margin: 10px;
+}
+
+#enlace a {
+    color: var(--color-acento);
+
+    text-decoration: none;
+}
+
+#enlace a:hover, #enlace a:focus {
+    color: var(--color-secundario);
+
+    font-weight: bolder;
+}
+
 /* ---------------------------------------------- [FOOTER]*/
 footer {
     background-color: var(--color-secundario);
@@ -408,6 +429,7 @@ footer {
 }
 
 footer p {
+    color: var(--texto-secundario);
     font-style: oblique;
     padding: 20px;
 }

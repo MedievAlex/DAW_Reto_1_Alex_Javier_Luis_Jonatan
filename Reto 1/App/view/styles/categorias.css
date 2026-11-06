@@ -32,7 +32,9 @@
 .categoria .desc {
     font-size: var(--title-text-size);
     font-weight: bold;
+
     text-align: center;
+    text-transform: uppercase;
     text-decoration: none;
 
     padding: 15px;
