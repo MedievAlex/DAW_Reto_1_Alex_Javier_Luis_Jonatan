@@ -420,7 +420,6 @@ function generarUbicaciones(value) {
             // [ Elimina la Ubicacion ]
             btn_delete.addEventListener("click", () => {
                 const conf = window.confirm("Se va a eliminar la ubicación " + ubi_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
-
                 if (conf) {
                     eliminarUbicacion(ubi_id);
                 } else {
@@ -543,11 +542,12 @@ async function cargarEquiposDeUbicacion(ubi_id) {
     response.then((value) => {
         if ("success" in value && value.success) {
             if (Array.isArray(value.data)) {
-                let atributos = ["id_equipamiento", "nombre", "descripcion", "marca", "modelo", "categoria", "id_ubicacion_actual"];
-
                 if (value.data.length == 0) {
-                    equErr("No se encontraron equipamientos en la ubicación.");
+                    artEqu.innerHTML = "";
+                    equErr("No se encontraron equipamientos en la ubicación."); 
                 } else {
+                    let atributos = ["id_equipamiento", "nombre", "descripcion", "marca", "modelo", "categoria", "id_ubicacion_actual"];
+
                     // Verifica si todos los objetos tienen todos los atributos
                     let valido = value.data.every(obj =>
                         atributos.every(clave => clave in obj)
@@ -620,9 +620,10 @@ async function eliminarEquipoDeUbicacion(equ_id, equ_ubicacion) {
 
     response.then((value) => {
         if ("success" in value && value.success) {
+            logMessage(value.message);
+
             cargarEquiposDeUbicacion(equ_ubicacion);
             cargarUbicaciones();
-            logMessage(value.message);
         } else {
             logMessage(value.message);
         }
@@ -781,7 +782,7 @@ function generarEquipamientos(value) {
         // [ Elimina el Equipamiento ]
         btn_delete.addEventListener("click", () => {
             const conf = window.confirm("Se va a eliminar el equipamiento " + equ_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
-
+            
             if (conf) {
                 eliminarEquipoDeUbicacion(equ_id, equ_ubicacion);
             } else {
