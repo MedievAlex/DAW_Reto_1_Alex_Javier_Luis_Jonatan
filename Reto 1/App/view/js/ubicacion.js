@@ -1,4 +1,4 @@
-/* ---------------------------------------------- [Constantes]*/
+/* ---------------------------------------------- [ CONSTANTES ]*/
 const UBI_URL = "../../api/UbicacionController.php";
 const EQU_URL = "../../api/EquipamientoController.php";
 
@@ -9,7 +9,7 @@ const btnNewUbi = document.getElementById("btn-new-ubi");
 
 const artEqu = document.getElementById("equipamientos");
 
-/* ---------------------------------------- [FUNCIONES]*/
+/* ---------------------------------------- [ LISTENERS ]*/
 document.addEventListener("DOMContentLoaded", () => {
     cargarUbicaciones();
     // mockUbicaciones(); // mockData.js
@@ -25,6 +25,7 @@ btnNewUbi.addEventListener("click", () => {
     inp_ubi_nom.placeholder = "nombre";
     inp_ubi_nom.className = "ubi-nom";
     inp_ubi_nom.title = "Nombre de la ubicación nueva.";
+    inp_ubi_nom.focus();
 
     td_ubi_nom.appendChild(inp_ubi_nom);
     tr_ubi.appendChild(td_ubi_nom);
@@ -55,23 +56,17 @@ btnNewUbi.addEventListener("click", () => {
     btn_save.addEventListener("click", () => {
         let ubi_nom = inp_ubi_nom.value.trim();
         let ubi_des = inp_ubi_des.value.trim();
-        let valido = true;
 
         if (ubi_nom === "" || ubi_des === "") {
-            valido = false;
-        }
-
-        if (valido) {
-            crearUbicacion(0, ubi_nom, ubi_des);
+            logMessage("[ERROR]: No se puede crear una ubicación con campos vacios.");
         } else {
-            logMessage("[ERROR]: No se puede crear una ubicación con campos vacios.")
+            crearUbicacion(0, ubi_nom, ubi_des);
         }
     });
 
     ubi_btn.appendChild(btn_save);
 
     // ---------------------------------------- Boton Eliminar
-
     let btn_delete = document.createElement("button");
     btn_delete.alt = "Cancelar nueva ubicación.";
     let img_delete = document.createElement("img");
@@ -92,6 +87,7 @@ btnNewUbi.addEventListener("click", () => {
     tbody_ubicaciones.prepend(tr_ubi);
 });
 
+/* ---------------------------------------- [ FUNCIONES ]*/
 // [ Genera la tarjeta del mensaje de error de Ubicacion ]
 function logMessage(message) {
     console.log(message);
@@ -371,6 +367,8 @@ function generarUbicaciones(value) {
             }
 
             p_ubi_des.replaceWith(inp_ubi_des);
+
+            p_ubi_des.focus();
         });
 
         ubi_btn.appendChild(btn_edit);
@@ -391,21 +389,17 @@ function generarUbicaciones(value) {
         btn_save.addEventListener("click", () => {
             let ubi_nom = inp_ubi_nom.value.trim();
             let ubi_des = inp_ubi_des.value.trim();
-            let valido = true;
 
             if (ubi_nom === "" || ubi_des === "") {
-                valido = false;
-            }
-
-            if (valido) {
+                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+            } else {
                 editarUbicacion(ubi_id, ubi_nom, ubi_des);
+
                 btn_save.classList.remove("visible");
                 btn_save.classList.add("oculto");
 
                 btn_edit.classList.remove("oculto");
                 btn_edit.classList.add("visible");
-            } else {
-                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
             }
         });
 
@@ -730,7 +724,7 @@ function generarEquipamientos(value) {
             div_equ_des.replaceWith(inp_equ_des);
             div_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
 
-            inp_equ_nom.focus();
+            div_equ_des.focus();
         });
 
         sec_equ_btn.appendChild(btn_edit);
@@ -756,18 +750,15 @@ function generarEquipamientos(value) {
             let valido = true;
 
             if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
-                valido = false;
-            }
-
-            if (valido) {
+                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+            } else {
                 editarEquipoDeUbicacion(equ_id, equ_nom, equ_des, equ_mar, equ_mod, equ_cat, equ_ubicacion);
+
                 btn_save.classList.remove("visible");
                 btn_save.classList.add("oculto");
 
                 btn_edit.classList.remove("oculto");
                 btn_edit.classList.add("visible");
-            } else {
-                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.")
             }
         });
 
