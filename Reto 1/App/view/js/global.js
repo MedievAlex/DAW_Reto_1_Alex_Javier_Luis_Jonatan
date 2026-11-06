@@ -106,33 +106,52 @@ document.addEventListener("DOMContentLoaded", () => {
   obtenerTema();
 });
 
+// Obtiene los datos del tema guardado
 function obtenerTema() {
   let temaActual = localStorage.getItem("tema");
 
-  if (temaActual == 3) {
+  if (temaActual == tema3) {
     aplicarTema(tema3);
-  } else if (temaActual == 2) {
+  } else if (temaActual == tema2) {
     aplicarTema(tema2);
   } else {
     aplicarTema(tema1);
   }
 }
 
+// Si existe modifica si no crea y guarda el tema actual
 function aplicarTema(tema) {
+  let btnsTema = [
+    btnTemaDefault,
+    btnTemaAlt,
+    btnTemaGlobal
+  ];
+  let desabilitar = false;
+
   localStorage.setItem("tema", tema);
   document.body.setAttribute("data-theme", tema);
+
+  for (let i = 0; i < btnsTema.length; i++) {
+    if (i == tema - 1) {
+      desabilitar = true;
+    } else {
+      desabilitar = false;
+    }
+
+    btnsTema[i].disabled = desabilitar;
+  }
 }
 
 btnTemaDefault.addEventListener("click", function () {
-  aplicarTema(1);
+  aplicarTema(tema1);
 });
 
 btnTemaAlt.addEventListener("click", function () {
-  aplicarTema(2);
+  aplicarTema(tema2);
 });
 
 btnTemaGlobal.addEventListener("click", function () {
-  aplicarTema(3);
+  aplicarTema(tema3);
 });
 
 /* ---------------------------------------------- [ MODAL: Notificaciones]*/

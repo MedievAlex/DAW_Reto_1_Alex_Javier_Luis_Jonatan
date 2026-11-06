@@ -95,13 +95,13 @@ function logMessage(message) {
 }
 
 // [ Genera la tarjeta del mensaje de error de Ubicacion ]
-function ubiNoValido(message) {
+function ubiErr(message) {
     let tr_err = document.createElement("tr");
     let td_err = document.createElement("td");
 
     let ubi_err = document.createElement("div");
     ubi_err.classList.add("err");
-    ubi_err.textContent = "[ERROR]: " + message;
+    ubi_err.textContent = message;
 
     td_err.appendChild(ubi_err);
     tr_err.appendChild(td_err);
@@ -109,10 +109,10 @@ function ubiNoValido(message) {
 }
 
 // [ Genera la tarjeta del mensaje de error de Equipamientos ]
-function equNoValido(message) {
+function equErr(message) {
     let equ_err = document.createElement("div");
     equ_err.classList.add("err");
-    equ_err.textContent = "[ERROR]: " + message;
+    equ_err.textContent = message;
 
     artEqu.appendChild(equ_err);
 }
@@ -140,11 +140,11 @@ async function cargarUbicaciones() {
                 if (valido) {
                     generarUbicaciones(value);
                 } else {
-                    ubiNoValido(value.message);
+                    ubiErr("[ERROR]: " + value.message);
                 }
             }
         } else {
-            ubiNoValido("[ERROR]: Formato de datos incorrecto.");
+            ubiErr("[ERROR]: Formato de datos incorrecto.");
         }
     });
 }
@@ -420,6 +420,7 @@ function generarUbicaciones(value) {
             // [ Elimina la Ubicacion ]
             btn_delete.addEventListener("click", () => {
                 const conf = window.confirm("Se va a eliminar la ubicación " + ubi_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
+
                 if (conf) {
                     eliminarUbicacion(ubi_id);
                 } else {
@@ -544,18 +545,23 @@ async function cargarEquiposDeUbicacion(ubi_id) {
             if (Array.isArray(value.data)) {
                 let atributos = ["id_equipamiento", "nombre", "descripcion", "marca", "modelo", "categoria", "id_ubicacion_actual"];
 
-                // Verifica si todos los objetos tienen todos los atributos
-                let valido = value.data.every(obj =>
-                    atributos.every(clave => clave in obj)
-                );
-
-                if (valido) {
-                    generarEquipamientos(value);
+                if (value.data.length == 0) {
+                    equErr("No se encontraron equipamientos en la ubicación.");
+                    
                 } else {
-                    equNoValido(value.message);
+                    // Verifica si todos los objetos tienen todos los atributos
+                    let valido = value.data.every(obj =>
+                        atributos.every(clave => clave in obj)
+                    );
+
+                    if (valido) {
+                        generarEquipamientos(value);
+                    } else {
+                        equErr("[ERROR]: " + value.message);
+                    }
                 }
             } else {
-                equNoValido("Formato de datos incorrecto.");
+                equErr("[ERROR]: Formato de datos incorrecto.");
             }
         }
     });
@@ -615,9 +621,8 @@ async function eliminarEquipoDeUbicacion(equ_id, equ_ubicacion) {
 
     response.then((value) => {
         if ("success" in value && value.success) {
-            logMessage(value.message);
-
             cargarEquiposDeUbicacion(equ_ubicacion);
+            logMessage(value.message);
         } else {
             logMessage(value.message);
         }
@@ -747,7 +752,6 @@ function generarEquipamientos(value) {
             let equ_mod = inp_equ_mod.value.trim();
             //let equ_cat = inp_equ_cat.value.trim();
             equ_cat = equ_categoria;
-            let valido = true;
 
             if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
                 logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
@@ -777,6 +781,7 @@ function generarEquipamientos(value) {
         // [ Elimina el Equipamiento ]
         btn_delete.addEventListener("click", () => {
             const conf = window.confirm("Se va a eliminar el equipamiento " + equ_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
+
             if (conf) {
                 eliminarEquipoDeUbicacion(equ_id, equ_ubicacion);
             } else {
