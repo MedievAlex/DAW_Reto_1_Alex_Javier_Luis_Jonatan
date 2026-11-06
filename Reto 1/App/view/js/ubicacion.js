@@ -547,7 +547,6 @@ async function cargarEquiposDeUbicacion(ubi_id) {
 
                 if (value.data.length == 0) {
                     equErr("No se encontraron equipamientos en la ubicación.");
-                    
                 } else {
                     // Verifica si todos los objetos tienen todos los atributos
                     let valido = value.data.every(obj =>
@@ -622,6 +621,7 @@ async function eliminarEquipoDeUbicacion(equ_id, equ_ubicacion) {
     response.then((value) => {
         if ("success" in value && value.success) {
             cargarEquiposDeUbicacion(equ_ubicacion);
+            cargarUbicaciones();
             logMessage(value.message);
         } else {
             logMessage(value.message);
