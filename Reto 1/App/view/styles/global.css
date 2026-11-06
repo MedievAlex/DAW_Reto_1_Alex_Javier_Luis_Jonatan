@@ -143,6 +143,7 @@ button {
     box-shadow: var(--button-shadow);
 
     border: none;
+    border-radius: var(--border-radius-s);
 
     cursor: pointer;
 }
@@ -402,6 +403,10 @@ nav .btn-s {
 #modalAjustes .modalContenido section {
     display: flex;
     justify-content: space-around;
+}
+
+#modalAjustes .modalContenido section button:disabled {
+    padding: 10px;
 }
 
 #modalAjustes .modalContenido section button:disabled {
