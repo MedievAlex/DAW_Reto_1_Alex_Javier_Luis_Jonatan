@@ -1,5 +1,44 @@
+/**
+ * Gestión de Equipamientos
+ *
+ * Gestiona el inventario del centro en una única pantalla adaptada a ADMIN y USER.
+ * Incluye filtro por categoría, creación, edición, eliminación, traslados e histórico.
+ * Los permisos de la interfaz complementan las comprobaciones del servidor.
+ *
+ * ÍNDICE (orden real del archivo)
+ * 01. CONFIGURACIÓN, REFERENCIAS AL DOM Y ESTADO
+ *     Referencias al DOM y estado compartido.
+ * 02. PERMISOS ADMIN / USER
+ *     actualizarPermisoAlta.
+ * 03. HISTÓRICO DE UBICACIONES
+ *     mostrarMensajeHistorico, interpretarEntradaHistorico, representarHistorico, detectarInconsistenciaHistorico, abrirHistorico, cerrarConsultaHistorico.
+ * 04. TRASLADOS (USER)
+ *     mostrarMensajeTraslado, abrirTraslado, cerrarTraslado, confirmarTrasladoEquipo.
+ * 05. ELIMINACIÓN (ADMIN)
+ *     abrirEliminacion, cerrarEliminacion, mostrarErrorEliminacion, eliminarEquipoConfirmado.
+ * 06. CREACIÓN, EDICIÓN Y VALIDACIONES (ADMIN)
+ *     mostrarErrorAlta, limpiarErroresAlta, abrirAlta, cerrarAlta, validarAlta, bloquearAlta, enviarAlta.
+ * 07. EVENTOS DEL FORMULARIO Y DE LAS ACCIONES DE LAS TARJETAS
+ *     Referencias al DOM y estado compartido.
+ * 08. MENSAJES Y CONSULTAS GET
+ *     mostrarMensaje, consultarApi.
+ * 09. VALIDACIÓN DE DATOS RECIBIDOS
+ *     validarEquipos, prepararUbicaciones.
+ * 10. TARJETAS Y ACCIONES POR ROL
+ *     crearTarjeta.
+ * 11. CARGA DEL INVENTARIO Y FILTRO
+ *     cargarInventario.
+ * 12. INICIALIZACIÓN, CATEGORÍA DE LA URL Y FILTRO MANUAL
+ *     Referencias al DOM y estado compartido.
+ *
+ * Los eventos y la accesibilidad de cada modal se documentan junto a su funcionalidad.
+ * Crear y editar comparten formulario y funciones; no se duplican en secciones separadas.
+ */
 // El módulo no publica nombres globales que puedan colisionar con otros scripts.
 (() => {
+    // ============================================================
+    // 01. CONFIGURACIÓN, REFERENCIAS AL DOM Y ESTADO
+    // ============================================================
     const categorias = {
         PORTATIL: { nombre: "Portátil", imagen: "categoria_portatil.jpg" },
         SOBREMESA: { nombre: "Sobremesa", imagen: "categoria_sobremesa.jpg" },
@@ -13,6 +52,7 @@
     const filtroCategoria = document.getElementById("filtro-categoria-equipamientos");
     let cargandoInventario = false;
     let rolConfirmado = null;
+    // Este bloqueo compartido evita envíos simultáneos entre operaciones.
     let guardandoEquipo = false;
     const acciones = document.getElementById("acciones-equipamientos");
     const botonNuevo = document.getElementById("nuevo-equipamiento");
@@ -55,6 +95,13 @@
     let fondoHistorico = [];
     let consultaHistorico = 0;
 
+    // ============================================================
+    // 02. PERMISOS ADMIN / USER
+    // ============================================================
+    /**
+     * Actualiza las acciones por rol y las bloquea durante las operaciones.
+     * ADMIN gestiona los datos generales, USER traslada y ambos consultan el histórico.
+     */
     function actualizarPermisoAlta() {
         acciones.classList.toggle("oculto", rolConfirmado !== "ADMIN");
         botonNuevo.disabled = guardandoEquipo || cargandoInventario || rolConfirmado !== "ADMIN";
@@ -72,6 +119,12 @@
         });
     }
 
+    // ============================================================
+    // 03. HISTÓRICO DE UBICACIONES
+    // ============================================================
+    /**
+     * Anuncia el estado o error de la consulta del histórico de forma accesible.
+     */
     function mostrarMensajeHistorico(texto, error = false) {
         mensajeHistorico.textContent = texto;
         mensajeHistorico.setAttribute("role", error ? "alert" : "status");
@@ -79,6 +132,11 @@
     }
 
     // Interpretamos el calendario recibido sin inventar una zona horaria ni normalizar fechas inválidas.
+    /**
+     * Valida la fecha recibida y prepara su texto y su clave de ordenación.
+     *
+     * @returns {Object|null} Texto y clave de ordenación, o null si la fecha no es válida.
+     */
     function interpretarEntradaHistorico(valor) {
         const texto = typeof valor === "string" ? valor : valor?.date;
         if (typeof texto !== "string") return null;
@@ -97,6 +155,11 @@
         };
     }
 
+    /**
+     * Valida y muestra las estancias por fecha sin agrupar ubicaciones repetidas.
+     *
+     * @returns {Object} Indicadores de entradas inválidas y ubicaciones ausentes.
+     */
     function representarHistorico(registros, ubicaciones, idEquipo) {
         const filas = registros.map(registro => {
             if (!registro || registro.his_equipamiento !== idEquipo ||
@@ -106,6 +169,7 @@
             }
             return { registro, entrada: interpretarEntradaHistorico(registro.his_fecha_ini) };
         });
+        // Las entradas inválidas quedan al final; el identificador desempata fechas iguales.
         filas.sort((a, b) => {
             const fechaA = a.entrada?.orden ?? "99999999999999999999";
             const fechaB = b.entrada?.orden ?? "99999999999999999999";
@@ -136,15 +200,24 @@
         };
     }
 
+    /**
+     * Detecta datos ausentes o discrepancias de ubicación comparando identificadores.
+     *
+     * @returns {boolean} Indica si se ha detectado alguna inconsistencia verificable.
+     */
     function detectarInconsistenciaHistorico(registros, equipoActual, incidencias) {
         // La ausencia de discrepancias no demuestra que estén registrados todos los movimientos.
         return incidencias.entradasInvalidas || incidencias.ubicacionesAusentes ||
             (equipoActual !== null && !registros.some(registro => registro.his_ubicacion === equipoActual.id_ubicacion_actual));
     }
 
+    /**
+     * Abre el diálogo para ADMIN o USER y consulta histórico, ubicaciones y equipo actual.
+     */
     async function abrirHistorico(equipo, origen) {
         if (!["ADMIN", "USER"].includes(rolConfirmado) || guardandoEquipo || cargandoInventario ||
             !modalHistorico.hidden || !modalAlta.hidden || !modalEliminar.hidden || !modalTraslado.hidden) return;
+        // El contador permite ignorar respuestas de un diálogo cerrado o de una consulta anterior.
         const consultaActual = ++consultaHistorico;
         origenHistorico = origen;
         document.getElementById("equipo-historico-equipamiento").textContent = equipo.nombre;
@@ -217,6 +290,9 @@
         }
     }
 
+    /**
+     * Invalida consultas pendientes, cierra el diálogo y restaura el foco.
+     */
     function cerrarConsultaHistorico() {
         ++consultaHistorico;
         modalHistorico.hidden = true;
@@ -228,6 +304,7 @@
         else document.getElementById("titulo-equipamientos").focus();
     }
 
+    // Teclado del histórico: Escape cierra y Tab mantiene el foco dentro del diálogo.
     cerrarHistorico.addEventListener("click", cerrarConsultaHistorico);
     modalHistorico.addEventListener("click", evento => { if (evento.target === modalHistorico) cerrarConsultaHistorico(); });
     modalHistorico.addEventListener("keydown", evento => {
@@ -238,12 +315,21 @@
         else if (!evento.shiftKey && document.activeElement === cerrarHistorico) { evento.preventDefault(); primero.focus(); }
     });
 
+    // ============================================================
+    // 04. TRASLADOS (USER)
+    // ============================================================
+    /**
+     * Anuncia el estado del traslado y sus errores de forma accesible.
+     */
     function mostrarMensajeTraslado(texto, error = false) {
         mensajeTraslado.textContent = texto;
         mensajeTraslado.setAttribute("role", error ? "alert" : "status");
         mensajeTraslado.setAttribute("aria-live", error ? "assertive" : "polite");
     }
 
+    /**
+     * Prepara el diálogo exclusivo de USER y carga las ubicaciones reales de destino.
+     */
     async function abrirTraslado(equipo, origen) {
         if (rolConfirmado !== "USER" || guardandoEquipo || cargandoInventario || !modalTraslado.hidden) return;
         equipoATrasladar = equipo;
@@ -286,6 +372,9 @@
         }
     }
 
+    /**
+     * Cierra el diálogo, descarta consultas pendientes y recupera el foco cuando procede.
+     */
     function cerrarTraslado(confirmado = false) {
         if (guardandoEquipo && !confirmado) return;
         ++consultaTraslado;
@@ -300,6 +389,9 @@
         else document.getElementById("titulo-equipamientos").focus();
     }
 
+    /**
+     * Valida el destino y envía PATCH sin reintentos automáticos; después recarga la lista.
+     */
     async function confirmarTrasladoEquipo(evento) {
         evento.preventDefault();
         if (guardandoEquipo || cargandoInventario || modalTraslado.hidden) return;
@@ -379,6 +471,7 @@
         }
     }
 
+    // Eventos del traslado: envío, cancelación y navegación por teclado dentro del modal.
     formularioTraslado.addEventListener("submit", confirmarTrasladoEquipo);
     cancelarTraslado.addEventListener("click", () => cerrarTraslado());
     modalTraslado.addEventListener("click", evento => { if (evento.target === modalTraslado) cerrarTraslado(); });
@@ -392,6 +485,12 @@
         else if (!evento.shiftKey && document.activeElement === ultimo) { evento.preventDefault(); primero.focus(); }
     });
 
+    // ============================================================
+    // 05. ELIMINACIÓN (ADMIN)
+    // ============================================================
+    /**
+     * Solicita a ADMIN confirmar el borrado permanente del equipo y su histórico.
+     */
     function abrirEliminacion(equipo, origen) {
         if (rolConfirmado !== "ADMIN" || guardandoEquipo || cargandoInventario || !modalAlta.hidden || !modalEliminar.hidden) return;
         equipoAEliminar = equipo;
@@ -409,6 +508,9 @@
         cancelarEliminar.focus();
     }
 
+    /**
+     * Cierra la confirmación y restaura fondo y foco sin interrumpir un envío pendiente.
+     */
     function cerrarEliminacion(confirmada = false) {
         if (guardandoEquipo && !confirmada) return;
         modalEliminar.hidden = true;
@@ -420,11 +522,17 @@
         else document.getElementById("titulo-equipamientos").focus();
     }
 
+    /**
+     * Muestra el mensaje de la operación dentro del diálogo de eliminación.
+     */
     function mostrarErrorEliminacion(texto) {
         mensajeEliminar.textContent = texto;
         mensajeEliminar.classList.remove("oculto");
     }
 
+    /**
+     * Envía DELETE tras la confirmación y conserva el resultado aunque falle la recarga.
+     */
     async function eliminarEquipoConfirmado() {
         if (guardandoEquipo || cargandoInventario || modalEliminar.hidden) return;
         if (rolConfirmado !== "ADMIN") {
@@ -503,6 +611,7 @@
         }
     }
 
+    // Eventos de eliminación: confirmación, cancelación y control del foco en el modal.
     cancelarEliminar.addEventListener("click", () => cerrarEliminacion());
     confirmarEliminar.addEventListener("click", eliminarEquipoConfirmado);
     modalEliminar.addEventListener("click", evento => { if (evento.target === modalEliminar) cerrarEliminacion(); });
@@ -515,11 +624,20 @@
         else if (!evento.shiftKey && document.activeElement === ultimo) { evento.preventDefault(); cancelarEliminar.focus(); }
     });
 
+    // ============================================================
+    // 06. CREACIÓN, EDICIÓN Y VALIDACIONES (ADMIN)
+    // ============================================================
+    /**
+     * Muestra el mensaje general del formulario compartido de creación y edición.
+     */
     function mostrarErrorAlta(texto) {
         mensajeAlta.textContent = texto;
         mensajeAlta.classList.remove("oculto");
     }
 
+    /**
+     * Retira los mensajes y las marcas accesibles de validación del formulario.
+     */
     function limpiarErroresAlta() {
         mensajeAlta.textContent = "";
         mensajeAlta.classList.add("oculto");
@@ -531,6 +649,10 @@
         }
     }
 
+    /**
+     * Prepara el mismo formulario para crear o editar y carga los datos del equipo si existe.
+     * También adapta los textos del modal y prepara el foco para la navegación con teclado.
+     */
     function abrirAlta(equipo = null, origen = botonNuevo) {
         if (rolConfirmado !== "ADMIN" || guardandoEquipo || cargandoInventario) return;
         modoFormulario = equipo === null ? "crear" : "editar";
@@ -560,6 +682,9 @@
         formularioAlta.elements.nombre.focus();
     }
 
+    /**
+     * Cierra y limpia el formulario y restaura el foco sin interrumpir un guardado pendiente.
+     */
     function cerrarAlta(confirmada = false) {
         if (guardandoEquipo && !confirmada) return;
         modalAlta.style.display = "none";
@@ -572,6 +697,11 @@
         else document.getElementById("titulo-equipamientos").focus();
     }
 
+    /**
+     * Valida los cinco campos según el modelo y enfoca el primer error detectado.
+     *
+     * @returns {Object|null} Datos validados, o null cuando hay errores en el formulario.
+     */
     function validarAlta() {
         limpiarErroresAlta();
         const datos = {};
@@ -604,6 +734,9 @@
         return datos;
     }
 
+    /**
+     * Bloquea o habilita el formulario y las acciones para evitar envíos duplicados.
+     */
     function bloquearAlta(bloquear) {
         guardandoEquipo = bloquear;
         formularioAlta.setAttribute("aria-busy", String(bloquear));
@@ -611,6 +744,9 @@
         actualizarPermisoAlta();
     }
 
+    /**
+     * Envía POST o PUT según el modo y diferencia el guardado confirmado de una recarga fallida.
+     */
     async function enviarAlta(evento) {
         evento.preventDefault();
         if (guardandoEquipo || modalAlta.hidden) return;
@@ -620,6 +756,7 @@
         }
         const datos = validarAlta();
         if (!datos) return;
+        // Solo la edición añade el identificador; ambos modos comparten campos y validaciones.
         const esEdicion = modoFormulario === "editar";
         const idOperacion = idEquipoEditado;
         if (esEdicion) {
@@ -670,6 +807,7 @@
                 throw new Error("El servidor no ha confirmado el guardado. Comprueba el inventario antes de repetir la operación.");
             }
             cerrarAlta(true);
+            // La confirmación se conserva aunque el equipo quede fuera del filtro o falle la recarga.
             const fueraDelFiltro = filtroCategoria.value !== "" && filtroCategoria.value !== datos.categoria;
             const textoConfirmacion = esEdicion ? "Equipamiento editado correctamente." : "Equipamiento creado correctamente.";
             confirmacionAlta.textContent = textoConfirmacion +
@@ -692,7 +830,11 @@
         }
     }
 
+    // ============================================================
+    // 07. EVENTOS DEL FORMULARIO Y DE LAS ACCIONES DE LAS TARJETAS
+    // ============================================================
     botonNuevo.addEventListener("click", () => abrirAlta());
+    // La delegación de eventos funciona también al sustituir las tarjetas tras una recarga.
     lista.addEventListener("click", evento => {
         const boton = evento.target.closest('[data-accion="editar"], [data-accion="eliminar"], [data-accion="trasladar"], [data-accion="historico"]');
         if (!boton || !lista.contains(boton)) return;
@@ -725,6 +867,12 @@
         else if (!evento.shiftKey && document.activeElement === ultimo) { evento.preventDefault(); primero.focus(); }
     });
 
+    // ============================================================
+    // 08. MENSAJES Y CONSULTAS GET
+    // ============================================================
+    /**
+     * Anuncia el estado general del inventario y da prioridad accesible a los errores.
+     */
     function mostrarMensaje(texto, esError = false) {
         mensaje.textContent = texto;
         mensaje.setAttribute("role", esError ? "alert" : "status");
@@ -732,6 +880,11 @@
     }
 
     // Solo consultas GET. La sesión PHP viaja con las cookies del mismo origen.
+    /**
+     * Realiza un GET y valida el estado HTTP, el JSON y la lista de datos recibida.
+     *
+     * @returns {Promise<Array>} Datos de la respuesta; rechaza la promesa si la consulta falla.
+     */
     async function consultarApi(archivo) {
         let respuesta;
         try {
@@ -771,6 +924,13 @@
         return resultado.data;
     }
 
+    // ============================================================
+    // 09. VALIDACIÓN DE DATOS RECIBIDOS
+    // ============================================================
+    /**
+     * Comprueba identificadores, textos y categorías antes de generar las tarjetas.
+     * Lanza un error si los equipos no cumplen el formato esperado.
+     */
     function validarEquipos(equipos) {
         const textos = ["nombre", "descripcion", "marca", "modelo", "categoria"];
         if (!equipos.every(equipo => equipo &&
@@ -782,6 +942,11 @@
         }
     }
 
+    /**
+     * Valida el catálogo y relaciona cada identificador de ubicación con su nombre real.
+     *
+     * @returns {Map} Nombres de ubicaciones asociados a sus identificadores.
+     */
     function prepararUbicaciones(ubicaciones) {
         const nombres = new Map();
         for (const ubicacion of ubicaciones) {
@@ -794,6 +959,14 @@
         return nombres;
     }
 
+    // ============================================================
+    // 10. TARJETAS Y ACCIONES POR ROL
+    // ============================================================
+    /**
+     * Construye una tarjeta con datos seguros y acciones según el rol confirmado.
+     *
+     * @returns {HTMLLIElement} Tarjeta lista para incorporarse al inventario.
+     */
     function crearTarjeta(equipo, ubicaciones) {
         const tarjeta = document.createElement("li");
         tarjeta.className = "tarjeta equipamiento-tarjeta";
@@ -822,6 +995,7 @@
             const campo = document.createElement("div");
             const termino = document.createElement("dt");
             const contenido = document.createElement("dd");
+            // Los valores recibidos se escriben como texto para evitar interpretarlos como HTML.
             termino.textContent = etiqueta;
             contenido.textContent = valor;
             campo.append(termino, contenido);
@@ -879,6 +1053,14 @@
         return tarjeta;
     }
 
+    // ============================================================
+    // 11. CARGA DEL INVENTARIO Y FILTRO
+    // ============================================================
+    /**
+     * Comprueba la sesión y carga equipos y ubicaciones conservando el filtro seleccionado.
+     *
+     * @returns {Promise<boolean|undefined>} true si carga la lista, false si falla o undefined si no inicia.
+     */
     async function cargarInventario() {
         // Bloqueamos el selector durante la consulta para no mezclar respuestas.
         if (cargandoInventario) {
@@ -958,11 +1140,15 @@
         }
     }
 
+    // ============================================================
+    // 12. INICIALIZACIÓN, CATEGORÍA DE LA URL Y FILTRO MANUAL
+    // ============================================================
     document.addEventListener("DOMContentLoaded", () => {
         // Solo aceptamos los valores exactos del enum; una URL inválida muestra todos.
         const categoriaUrl = new URLSearchParams(window.location.search).get("categoria");
         filtroCategoria.value = categoriaUrl !== null && Object.hasOwn(categorias, categoriaUrl)
             ? categoriaUrl : "";
+        // Solo el cambio manual limpia la confirmación; la recarga tras guardar la mantiene.
         filtroCategoria.addEventListener("change", () => {
             confirmacionAlta.textContent = "";
             confirmacionAlta.classList.add("oculto");
