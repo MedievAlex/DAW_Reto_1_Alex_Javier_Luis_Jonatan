@@ -1,0 +1,381 @@
+/* Distribución propia del inventario; los componentes comunes usan global.css. */
+#inventario-equipamientos {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 90px 30px 20px;
+    overflow-wrap: anywhere;
+}
+
+#inventario-equipamientos h1 {
+    margin: 0 0 10px;
+}
+
+#inventario-equipamientos .equipamientos-barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 25px 0;
+}
+
+#inventario-equipamientos .equipamientos-filtro {
+    flex: 1 1 250px;
+    max-width: 420px;
+    min-width: 0;
+}
+
+#inventario-equipamientos label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#inventario-equipamientos select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font: inherit;
+}
+
+#inventario-equipamientos select:disabled {
+    cursor: not-allowed;
+}
+
+#inventario-equipamientos :focus-visible {
+    outline: 3px solid var(--color-acento);
+    outline-offset: 3px;
+}
+
+#inventario-equipamientos .equipamientos-ayuda {
+    margin: 8px 0 0;
+    font-size: 0.9em;
+}
+
+#inventario-equipamientos #mensaje-equipamientos {
+    margin: 0 0 25px;
+}
+
+#inventario-equipamientos .equipamientos-resultados h2 {
+    margin: 0 0 15px;
+}
+
+#inventario-equipamientos #lista-equipamientos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#inventario-equipamientos .equipamiento-tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 0;
+    padding: 20px;
+    cursor: default;
+}
+
+#inventario-equipamientos .equipamiento-imagen {
+    flex: 0 0 auto;
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    border-radius: var(--border-radius-half);
+}
+
+#inventario-equipamientos .equipamiento-informacion {
+    flex: 1;
+    min-width: 0;
+}
+
+#inventario-equipamientos .equipamiento-informacion h3 {
+    margin: 0 0 15px;
+}
+
+#inventario-equipamientos .equipamiento-detalles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 25px;
+    margin: 0;
+}
+
+#inventario-equipamientos .equipamiento-detalles dt {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+#inventario-equipamientos .equipamiento-detalles dd {
+    margin: 4px 0 0;
+}
+
+#inventario-equipamientos .equipamiento-acciones-tarjeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 0 0 auto;
+}
+
+#inventario-equipamientos .equipamiento-acciones-tarjeta button {
+    float: none;
+}
+
+#inventario-equipamientos .equipamiento-acciones-tarjeta img {
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Formulario compartido de alta y edición: componentes del equipo. */
+#inventario-equipamientos #nuevo-equipamiento {
+    background-color: var(--color-new);
+    color: var(--color-black);
+}
+
+#inventario-equipamientos #nuevo-equipamiento img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+#modal-alta-equipamiento {
+    box-sizing: border-box;
+    padding: 30px 15px;
+}
+
+#modal-alta-equipamiento .modalContenido {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 620px;
+    border-radius: var(--border-radius-l);
+    color: var(--texto-primario);
+}
+
+#modal-alta-equipamiento .equipamiento-cerrar {
+    float: right;
+    padding: 5px 12px;
+    border-radius: var(--border-radius-s);
+    font: inherit;
+    font-size: 1.5em;
+}
+
+#modal-alta-equipamiento fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: none;
+    padding: 0;
+    margin: 0 0 15px;
+    min-width: 0;
+}
+
+#modal-alta-equipamiento legend {
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+#modal-alta-equipamiento label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+#modal-alta-equipamiento input,
+#modal-alta-equipamiento textarea,
+#modal-alta-equipamiento select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font: inherit;
+}
+
+#modal-alta-equipamiento textarea {
+    resize: vertical;
+}
+
+#modal-alta-equipamiento :focus-visible {
+    outline: 3px solid var(--color-black);
+    outline-offset: 3px;
+}
+
+#modal-alta-equipamiento [aria-invalid="true"] {
+    border-color: var(--color-delete);
+}
+
+#modal-alta-equipamiento .equipamiento-error {
+    margin: 5px 0 0;
+    font-weight: bold;
+}
+
+#modal-alta-equipamiento .equipamiento-form-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+#modal-alta-equipamiento button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#inventario-equipamientos #confirmacion-alta-equipamiento {
+    margin: 0 0 20px;
+    border-left: 6px solid var(--color-new);
+}
+
+#modal-historico-equipamiento,
+#modal-eliminar-equipamiento,
+#modal-trasladar-equipamiento {
+    box-sizing: border-box;
+    padding: 30px 15px;
+}
+
+#modal-historico-equipamiento .modalContenido,
+#modal-eliminar-equipamiento .modalContenido,
+#modal-trasladar-equipamiento .modalContenido {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 620px;
+    border-radius: var(--border-radius-l);
+    color: var(--texto-primario);
+    overflow-wrap: anywhere;
+}
+
+#modal-eliminar-equipamiento .equipamiento-eliminar-acciones,
+#modal-trasladar-equipamiento .equipamiento-trasladar-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+#modal-eliminar-equipamiento .btn-delete {
+    float: none;
+}
+
+#modal-historico-equipamiento :focus-visible,
+#modal-eliminar-equipamiento button:focus-visible,
+#modal-trasladar-equipamiento :focus-visible {
+    outline: 3px solid var(--color-black);
+    outline-offset: 3px;
+}
+
+#modal-eliminar-equipamiento button:disabled,
+#modal-trasladar-equipamiento :disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#modal-trasladar-equipamiento label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#modal-trasladar-equipamiento select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font: inherit;
+}
+
+#modal-trasladar-equipamiento [aria-invalid="true"] {
+    border-color: var(--color-delete);
+}
+
+#modal-historico-equipamiento .modalContenido {
+    max-width: 900px;
+}
+
+#modal-historico-equipamiento .equipamiento-historico-tabla {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+#modal-historico-equipamiento table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#modal-historico-equipamiento caption {
+    text-align: left;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#modal-historico-equipamiento th,
+#modal-historico-equipamiento td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-grey);
+}
+
+#modal-historico-equipamiento th {
+    background-color: var(--color-acento);
+    color: var(--texto-acento);
+}
+
+@media (max-width: 600px) {
+    #modal-historico-equipamiento th,
+    #modal-historico-equipamiento td {
+        padding: 8px 5px;
+    }
+}
+
+@media (max-width: 1000px) {
+    #inventario-equipamientos .equipamiento-tarjeta {
+        flex-wrap: wrap;
+    }
+
+    #inventario-equipamientos .equipamiento-acciones-tarjeta {
+        flex-basis: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* Se reserva espacio a la derecha para los botones flotantes del equipo. */
+@media (max-width: 600px) {
+    #inventario-equipamientos {
+        padding: 15px 80px 25px 15px;
+    }
+
+    #inventario-equipamientos .equipamientos-filtro {
+        max-width: none;
+    }
+
+    #inventario-equipamientos .equipamiento-tarjeta {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+    }
+
+    #inventario-equipamientos .equipamiento-imagen {
+        width: 90px;
+        height: 90px;
+        align-self: center;
+    }
+
+    #inventario-equipamientos .equipamiento-detalles {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
