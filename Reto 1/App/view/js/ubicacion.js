@@ -3,6 +3,9 @@ const UBI_URL = "../../api/UbicacionController.php";
 const EQU_URL = "../../api/EquipamientoController.php";
 
 const artUbi = document.getElementById("ubicaciones");
+const ubiSearch = document.getElementById("ubi-search");
+
+const table_ubicaciones = document.querySelector("#ubicaciones table");
 const tbody_ubicaciones = document.querySelector("#ubicaciones table tbody");
 
 const btnNewUbi = document.getElementById("btn-new-ubi");
@@ -102,6 +105,8 @@ if (esAdmin) {
 } else {
     btnNewUbi.classList.add("oculto");
 }
+
+ubiSearch.value.trim();
 
 /* ---------------------------------------- [ FUNCIONES ]*/
 // [ Genera la tarjeta del mensaje de error de Ubicacion ]
@@ -347,6 +352,12 @@ function generarUbicaciones(value) {
         td_ubi_nom.appendChild(h3_ubi_nom);
         tr_ubi.appendChild(td_ubi_nom);
 
+        let inp_ubi_nom = document.createElement("input"); // Input Nombre
+        inp_ubi_nom.type = "text";
+        inp_ubi_nom.value = ubi_nombre;
+        inp_ubi_nom.className = "ubi-nom";
+        inp_ubi_nom.title = "Nombre de la ubicación.";
+
         let td_ubi_des = document.createElement("td"); // Descripcion
         let p_ubi_des = document.createElement("p");
         p_ubi_des.textContent = ubi_descripcion;
@@ -567,6 +578,14 @@ function ordenarUbicaciones(value) {
     });
 
     return value;
+}
+
+function filtrarUbicaciones() {
+    const trows = tbody_ubicaciones.querySelectorAll(tr);
+
+    if (ubiSearch.value.trim() !== "") {
+
+    }
 }
 
 // [ Limpia el listado de los equipos de una Ubicacion ]

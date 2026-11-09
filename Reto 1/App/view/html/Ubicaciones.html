@@ -104,8 +104,8 @@
 
                         <button id="btn-cambiar-password" type="button" class="btn-texto" aria-expanded="false"
                             aria-controls="form-password">
-                            <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
-                                alt="">Cambiar contraseña
+                            <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png" alt="">Cambiar
+                            contraseña
                         </button>
 
                         <form id="form-password" class="oculto" autocomplete="off">
@@ -119,8 +119,8 @@
 
                             <div>
                                 <label for="pwd-nueva">Contraseña nueva (de 8 a 72 caracteres)</label>
-                                <input type="password" id="pwd-nueva" name="password_nueva" minlength="8"
-                                    maxlength="72" autocomplete="new-password" required>
+                                <input type="password" id="pwd-nueva" name="password_nueva" minlength="8" maxlength="72"
+                                    autocomplete="new-password" required>
                             </div>
 
                             <div class="perfil-barra">
@@ -167,7 +167,8 @@
                                 </select>
                             </div>
 
-                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios" aria-live="polite"></ul>
+                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios"
+                                aria-live="polite"></ul>
 
                         </div>
 
@@ -251,15 +252,30 @@
             </div>
         </div>
 
-        <!------------------------------------------------------------------------ [ARTICLE: Aulas ] -->
+        <!------------------------------------------------------------------------ [ARTICLE: Ubicaciones ] -->
         <article id="ubicaciones">
-            <tr>
-                <button id="btn-new-ubi" class="btn-s btn-new" alt="Crear nueva ubicación."
-                    title="Crear nueva ubicación.">
-                    <img src="../assets/icons/icon_nuevo.png" alt="Crear nueva Ubicacion.">
-                </button>
-            </tr>
             <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <button id="btn-new-ubi" class="btn-s btn-new" alt="Crear nueva ubicación."
+                                title="Crear nueva ubicación.">
+                                <img src="../assets/icons/icon_nuevo.png" alt="Crear nueva Ubicacion.">
+                            </button>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <input id="ubi-search" type="search" alt="Barra de busqueda de ubicación por nombre."
+                                placeholder="Buscar ubicación por nombre...">
+                        </th>
+                        <th>
+                            <button id="search" class="btn-s" alt="Buscar ubicación." title="Buscar ubicación.">
+                                <img src="../assets/icons/icon_search.png" alt="Buscar ubicación.">
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
 
                 </tbody>
