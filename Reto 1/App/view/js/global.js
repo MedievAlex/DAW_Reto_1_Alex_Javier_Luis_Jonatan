@@ -84,8 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
   obtenerTema();
 });
 
+function claveTema() {
+  const sesion = typeof obtenerUsuarioSesion === "function" ? obtenerUsuarioSesion() : null;
+
+  return sesion !== null ? "tema_" + sesion.usu_id : "tema";
+}
+
 function obtenerTema() {
-  let temaActual = localStorage.getItem("tema");
+  let temaActual = localStorage.getItem(claveTema());
 
   if (temaActual == 3) {
     aplicarTema(tema3);
@@ -97,7 +103,7 @@ function obtenerTema() {
 }
 
 function aplicarTema(tema) {
-  localStorage.setItem("tema", tema);
+  localStorage.setItem(claveTema(), tema);
   document.body.setAttribute("data-theme", tema);
 }
 

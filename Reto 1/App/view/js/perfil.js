@@ -22,6 +22,15 @@ function iniciarPerfil() {
     perfil.usuario = document.getElementById("perfil-usuario");
     perfil.rol = document.getElementById("perfil-rol");
     perfil.btnSalir = document.getElementById("btn-cerrar-sesion");
+    perfil.contenido = perfil.modal.querySelector(".modalContenido");
+    perfil.btnPassword = document.getElementById("btn-cambiar-password");
+    perfil.iconoCambiarPassword = document.getElementById("icono-cambiar-password");
+    perfil.formPassword = document.getElementById("form-password");
+    perfil.campoPasswordActual = document.getElementById("pwd-actual");
+    perfil.campoPasswordNueva = document.getElementById("pwd-nueva");
+    perfil.mensajePassword = document.getElementById("password-mensaje");
+    perfil.btnPasswordGuardar = document.getElementById("btn-password-guardar");
+    perfil.btnPasswordCancelar = document.getElementById("btn-password-cancelar");
 
     perfil.gestion = document.getElementById("perfil-gestion");
     perfil.mensaje = document.getElementById("perfil-mensaje");
@@ -31,6 +40,8 @@ function iniciarPerfil() {
     perfil.btnNuevo = document.getElementById("btn-usuario-nuevo");
     perfil.btnEditar = document.getElementById("btn-usuario-editar");
     perfil.btnEliminar = document.getElementById("btn-usuario-eliminar");
+    perfil.buscador = document.getElementById("usuarios-buscar");
+    perfil.filtroRol = document.getElementById("usuarios-filtro-rol");
 
     perfil.vistaConfirmar = document.getElementById("perfil-vista-confirmar");
     perfil.confirmarTexto = document.getElementById("confirmar-texto");
@@ -73,9 +84,15 @@ function iniciarPerfil() {
 
     perfil.btnSalir.addEventListener("click", salir); // salir() está en auth.js
 
+    perfil.btnPassword.addEventListener("click", alternarFormularioPassword);
+    perfil.formPassword.addEventListener("submit", guardarPassword);
+    perfil.btnPasswordCancelar.addEventListener("click", ocultarFormularioPassword);
+
     // Gestión de usuarios (el panel solo se muestra al ADMIN)
     perfil.lista.addEventListener("click", clicEnLista); // una sola escucha para todas las tarjetas
     perfil.lista.addEventListener("keydown", teclaEnLista); // Enter o espacio también seleccionan
+    perfil.buscador.addEventListener("input", renderizarUsuarios);
+    perfil.filtroRol.addEventListener("change", renderizarUsuarios);
     perfil.btnNuevo.addEventListener("click", function () { abrirFormulario("crear", null); });
     perfil.btnEditar.addEventListener("click", function () { abrirFormulario("editar", usuarioSeleccionado()); });
     perfil.btnEliminar.addEventListener("click", pedirConfirmacionEliminar);
@@ -106,12 +123,16 @@ function abrirModalPerfil() {
 
     pintarPerfil(usuario);
     limpiarMensaje();
+    ocultarFormularioPassword();
     perfil.gestion.classList.toggle("oculto", !esAdmin);
     perfil.contenedor.classList.toggle("perfil-admin", esAdmin);
+    perfil.contenido.classList.toggle("perfil-compacto", !esAdmin);
     perfil.modal.style.display = "block";
     perfil.cerrar.focus();
 
     if (esAdmin) {
+        perfil.buscador.value = "";
+        perfil.filtroRol.value = "";
         volverALista();
         cargarListaUsuarios();
     }
@@ -120,6 +141,7 @@ function abrirModalPerfil() {
 function cerrarModalPerfil() {
     perfil.modal.style.display = "none";
     volverALista();
+    ocultarFormularioPassword();
     limpiarMensaje();
     perfil.abrir?.focus();
 }
@@ -184,10 +206,36 @@ function mostrarEstadoLista(texto) {
     perfil.lista.replaceChildren(elemento);
 }
 
+function usuariosVisibles() {
+    const sesion = obtenerUsuarioSesion();
+    const texto = perfil.buscador.value.trim().toLowerCase();
+    const rol = perfil.filtroRol.value;
+
+    return perfilUsuarios.filter(function (usuario) {
+        if (sesion !== null && sesion.usu_id === usuario.usu_id) {
+            return false;
+        }
+
+        if (rol !== "" && usuario.rol !== rol) {
+            return false;
+        }
+
+        return usuario.nombre_usuario.toLowerCase().includes(texto);
+    });
+}
+
 // Dibuja una tarjeta por usuario a partir de la plantilla, con un solo volcado al DOM.
 function renderizarUsuarios() {
-    if (perfilUsuarios.length === 0) {
-        mostrarEstadoLista("No hay usuarios.");
+    const visibles = usuariosVisibles();
+
+    if (!visibles.some(function (usuario) { return usuario.usu_id === perfilSeleccionId; })) {
+        perfilSeleccionId = null;
+    }
+
+    if (visibles.length === 0) {
+        const filtrando = perfil.buscador.value.trim() !== "" || perfil.filtroRol.value !== "";
+
+        mostrarEstadoLista(filtrando ? "Ningún usuario coincide con la búsqueda." : "No hay usuarios.");
         actualizarBotonesBarra();
         return;
     }
@@ -195,7 +243,7 @@ function renderizarUsuarios() {
     const sesion = obtenerUsuarioSesion();
     const fragmento = document.createDocumentFragment();
 
-    for (const usuario of perfilUsuarios) {
+    for (const usuario of visibles) {
         const nodo = perfil.plantilla.content.cloneNode(true);
         const tarjeta = nodo.querySelector(".tarjeta");
         const esPropio = sesion !== null && sesion.usu_id === usuario.usu_id;
@@ -385,6 +433,73 @@ async function guardarFormulario(evento) {
     volverALista();
     renderizarUsuarios();
     mostrarMensaje(crear ? "Usuario creado correctamente." : "Usuario editado correctamente.", true);
+}
+
+// ---------------------------------------- Cambiar contraseña
+
+function alternarFormularioPassword() {
+    if (perfil.formPassword.classList.contains("oculto")) {
+        perfil.formPassword.classList.remove("oculto");
+        perfil.btnPassword.setAttribute("aria-expanded", "true");
+        perfil.iconoCambiarPassword.src = srcCerrar;
+        perfil.campoPasswordActual.focus();
+    } else {
+        ocultarFormularioPassword();
+    }
+}
+
+function ocultarFormularioPassword() {
+    perfil.formPassword.reset();
+    perfil.formPassword.classList.add("oculto");
+    perfil.btnPassword.setAttribute("aria-expanded", "false");
+    perfil.iconoCambiarPassword.src = srcAbrir;
+    limpiarMensajePassword();
+}
+
+function mostrarMensajePassword(texto, correcto = false) {
+    perfil.mensajePassword.textContent = texto;
+    perfil.mensajePassword.classList.toggle("perfil-ok", correcto);
+    perfil.mensajePassword.classList.remove("oculto");
+}
+
+function limpiarMensajePassword() {
+    perfil.mensajePassword.textContent = "";
+    perfil.mensajePassword.classList.add("oculto");
+}
+
+async function guardarPassword(evento) {
+    evento.preventDefault();
+
+    if (perfil.btnPasswordGuardar.disabled) {
+        return;
+    }
+
+    const actual = perfil.campoPasswordActual.value;
+    const nueva = perfil.campoPasswordNueva.value;
+
+    if (actual === "" || nueva === "") {
+        mostrarMensajePassword("Indica la contraseña actual y la nueva.");
+        return;
+    }
+
+    if (actual === nueva) {
+        mostrarMensajePassword("La contraseña nueva debe ser distinta de la actual.");
+        return;
+    }
+
+    perfil.btnPasswordGuardar.disabled = true;
+
+    try {
+        await cambiarPasswordPropia(actual, nueva);
+    } catch (error) {
+        mostrarMensajePassword(error.message);
+        return;
+    } finally {
+        perfil.btnPasswordGuardar.disabled = false;
+    }
+
+    perfil.formPassword.reset();
+    mostrarMensajePassword("Contraseña cambiada correctamente.", true);
 }
 
 // ---------------------------------------- Eliminar

@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="../styles/notificaciones.css">
     <link rel="stylesheet" href="../styles/usuarios.css">
     <script src="../js/global.js" defer></script>
+    <script src="../js/auth.js" defer></script>
     <script src="../js/categoria.js" defer></script>
     <script type="module" src="../js/notificacion.js" defer></script>
     <script src="../js/usuario.js" defer></script>
+    <script src="../js/perfil.js" defer></script>
     <title>Categorias - Centro Fungible</title>
 </head>
 
@@ -68,16 +70,178 @@
             </div>
         </div>
 
-        <div id="modalPerfil" class="modal">
+        <div id="modalPerfil" class="modal" role="dialog" aria-modal="true" aria-labelledby="perfil-titulo">
             <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas purus sem, blandit ac pulvinar ut,
-                    cursus sed turpis. Sed accumsan tempor feugiat. Aliquam nec magna interdum nunc rutrum rutrum.
-                    Aenean libero mauris, venenatis non lacus vitae, condimentum dictum sem. Aliquam fermentum nulla non
-                    nunc posuere lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-                    inceptos himenaeos. In congue nec ligula a dapibus. Nullam eu ultrices dui.
+                <span class="cerrar" role="button" tabindex="0" aria-label="Cerrar perfil">&times;</span>
+
+                <div id="perfil-contenedor" class="perfil-contenedor">
+
+                    <!------------------------------------------------ [Perfil: todos los roles] -->
+                    <section id="perfil-datos" class="perfil-panel" aria-labelledby="perfil-titulo">
+                        <img class="perfil-avatar" src="../assets/icons/icon_usuario.png" alt="Perfil de usuario">
+                        <h2 id="perfil-titulo">Mi perfil</h2>
+
+                        <dl class="perfil-campos">
+                            <div class="perfil-campo">
+                                <dt>Nombre</dt>
+                                <dd id="perfil-nombre"></dd>
+                            </div>
+                            <div class="perfil-campo">
+                                <dt>Usuario</dt>
+                                <dd id="perfil-usuario"></dd>
+                            </div>
+                            <div class="perfil-campo">
+                                <dt>Rol</dt>
+                                <dd id="perfil-rol"></dd>
+                            </div>
+                        </dl>
+
+                        <button id="btn-cerrar-sesion" type="button" class="btn-texto">Cerrar sesión</button>
+                        <button id="btn-cambiar-password" type="button" class="btn-texto" aria-expanded="false"
+                            aria-controls="form-password">
+                            <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
+                                alt="">Cambiar contraseña
+                        </button>
+
+                        <form id="form-password" class="oculto" autocomplete="off">
+                            <p id="password-mensaje" class="err oculto" role="alert"></p>
+
+                            <div>
+                                <label for="pwd-actual">Contraseña actual</label>
+                                <input type="password" id="pwd-actual" name="password_actual"
+                                    autocomplete="current-password" required>
+                            </div>
+
+                            <div>
+                                <label for="pwd-nueva">Contraseña nueva (de 8 a 72 caracteres)</label>
+                                <input type="password" id="pwd-nueva" name="password_nueva" minlength="8"
+                                    maxlength="72" autocomplete="new-password" required>
+                            </div>
+
+                            <div class="perfil-barra">
+                                <button id="btn-password-guardar" type="submit" class="btn-s btn-save"
+                                    title="Guardar contraseña">
+                                    <img src="../assets/icons/icon_guardar.png" alt="Guardar contraseña">
+                                </button>
+                                <button id="btn-password-cancelar" type="button" class="btn-texto">Cancelar</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!------------------------------------------------ [Gestión de usuarios: solo ADMIN] -->
+                    <section id="perfil-gestion" class="perfil-panel oculto" aria-labelledby="gestion-titulo">
+                        <h2 id="gestion-titulo">Gestión de usuarios</h2>
+
+                        <p id="perfil-mensaje" class="err oculto" role="alert"></p>
+
+                        <!-- Vista de lista -->
+                        <div id="perfil-vista-lista">
+                            <div class="perfil-barra" role="toolbar" aria-label="Acciones sobre usuarios">
+                                <button id="btn-usuario-nuevo" type="button" class="btn-s btn-new"
+                                    title="Nuevo usuario">
+                                    <img src="../assets/icons/icon_usuario_nuevo.png" alt="Nuevo usuario">
+                                </button>
+                                <button id="btn-usuario-editar" type="button" class="btn-s btn-edit"
+                                    title="Editar usuario seleccionado" disabled>
+                                    <img src="../assets/icons/icon_editar.png" alt="Editar usuario seleccionado">
+                                </button>
+                                <button id="btn-usuario-eliminar" type="button" class="btn-s btn-delete"
+                                    title="Eliminar usuario seleccionado" disabled>
+                                    <img src="../assets/icons/icon_eliminar.png" alt="Eliminar usuario seleccionado">
+                                </button>
+                            </div>
+                            <p class="perfil-ayuda">Selecciona un usuario para editarlo o eliminarlo.</p>
+
+                            <div class="perfil-filtros">
+                                <input type="text" id="usuarios-buscar" placeholder="Buscar por nombre de usuario"
+                                    aria-label="Buscar por nombre de usuario" autocomplete="off">
+                                <select id="usuarios-filtro-rol" aria-label="Filtrar por rol">
+                                    <option value="">Todos los roles</option>
+                                    <option value="USER">Conserje</option>
+                                    <option value="ADMIN">Administrador</option>
+                                </select>
+                            </div>
+
+                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios" aria-live="polite"></ul>
+                        </div>
+
+                        <!-- Vista de formulario (crear / editar) -->
+                        <form id="form-usuario" class="oculto" autocomplete="off">
+                            <fieldset>
+                                <legend id="form-usuario-titulo">Nuevo usuario</legend>
+
+                                <input type="hidden" id="usu-id" name="usu_id">
+
+                                <div>
+                                    <label for="usu-nombre">Nombre</label>
+                                    <input type="text" id="usu-nombre" name="nombre" maxlength="80" required>
+                                </div>
+
+                                <div>
+                                    <label for="usu-apellidos">Apellidos</label>
+                                    <input type="text" id="usu-apellidos" name="apellidos" maxlength="120" required>
+                                </div>
+
+                                <div>
+                                    <label for="usu-nombre-usuario">Nombre de usuario</label>
+                                    <input type="text" id="usu-nombre-usuario" name="nombre_usuario" maxlength="60"
+                                        autocomplete="off" required>
+                                </div>
+
+                                <div>
+                                    <label for="usu-rol">Rol</label>
+                                    <select id="usu-rol" name="rol" required>
+                                        <option value="">Selecciona un rol</option>
+                                        <option value="ADMIN">Administrador</option>
+                                        <option value="USER">Conserje</option>
+                                    </select>
+                                </div>
+
+                                <div id="bloque-password">
+                                    <!-- Al editar la contraseña es opcional: se despliega solo si se quiere cambiar -->
+                                    <button id="btn-toggle-password" type="button" class="btn-texto oculto"
+                                        aria-expanded="false" aria-controls="panel-password">
+                                        <img id="icono-toggle-password" src="../assets/icons/icon_drop_abrir.png"
+                                            alt="">Cambiar contraseña
+                                    </button>
+
+                                    <div id="panel-password">
+                                        <label for="usu-password">Contraseña (de 8 a 72 caracteres)</label>
+                                        <input type="password" id="usu-password" name="password" minlength="8"
+                                            maxlength="72" autocomplete="new-password">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="perfil-barra">
+                                <button type="submit" class="btn-s btn-save" title="Guardar usuario">
+                                    <img src="../assets/icons/icon_guardar.png" alt="Guardar usuario">
+                                </button>
+                                <button id="btn-usuario-cancelar" type="button" class="btn-texto">Cancelar</button>
+                            </div>
+                        </form>
+
+                        <!-- Vista de confirmación al eliminar (propia, sin el confirm() del navegador) -->
+                        <div id="perfil-vista-confirmar" class="oculto" role="alertdialog"
+                            aria-labelledby="confirmar-texto">
+                            <p id="confirmar-texto" class="err"></p>
+                            <div class="perfil-barra">
+                                <button id="btn-confirmar-eliminar" type="button" class="btn-texto btn-delete">Sí,
+                                    eliminar</button>
+                                <button id="btn-confirmar-cancelar" type="button" class="btn-texto">Cancelar</button>
+                            </div>
+                        </div>
+                    </section>
                 </div>
+
+                <!-- Plantilla de cada tarjeta de usuario (perfil.js la clona y rellena con textContent) -->
+                <template id="plantilla-usuario">
+                    <li class="tarjeta tarjeta-usuario" role="option" tabindex="0" aria-selected="false">
+                        <span class="usuario-nombre"></span>
+                        <span class="usuario-login"></span>
+                        <span class="usuario-rol"></span>
+                    </li>
+                </template>
             </div>
         </div>
 
