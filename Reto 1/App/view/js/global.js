@@ -35,8 +35,9 @@ const srcNotNueva = "../assets/icons/icon_notificacion_nueva.png";
 const srcPerfil = "../assets/icons/icon_perfil.png";
 const srcUsu = "../assets/icons/icon_usuario.png";
 const srcUsuNuevo = "../assets/icons/icon_usuario_nuevo.png";
-const srcVis = "../assets/icons/icon_visible.png";
-const srOcu = "../assets/icons/icon_oculto.png";
+const srcVisible = "../assets/icons/icon_visible.png";
+const srcOculto = "../assets/icons/icon_oculto.png";
+const srcCancelar = "../assets/icons/icon_cancelar.png";
 
 /* ---------------------------------------------- [ PETICION ]*/
 async function petition(url, method, data) {

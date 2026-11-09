@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 btnNewUbi.addEventListener("click", () => {
+    btnNewUbi.disabled = true;
+
     let tr_ubi = tbody_ubicaciones.insertRow(0);// Nueva Ubicacion
     tr_ubi.classList.add("aula");
 
@@ -67,21 +69,21 @@ btnNewUbi.addEventListener("click", () => {
     ubi_btn.appendChild(btn_save);
 
     // ---------------------------------------- Boton Eliminar
-    let btn_delete = document.createElement("button");
-    btn_delete.alt = "Cancelar nueva ubicación.";
+    let btn_cancel = document.createElement("button");
+    btn_cancel.alt = "Cancelar nueva ubicación.";
     let img_delete = document.createElement("img");
-    img_delete.src = srcEliminar;
-    btn_delete.appendChild(img_delete);
-    btn_delete.classList.add("btn-s");
-    btn_delete.classList.add("btn-delete");
-    btn_delete.title = "Cancelar.";
+    img_delete.src = srcCancelar;
+    btn_cancel.appendChild(img_delete);
+    btn_cancel.classList.add("btn-s");
+    btn_cancel.classList.add("btn-delete");
+    btn_cancel.title = "Cancelar.";
 
     // [ Elimina la Ubicacion ] PENDIENTE
-    btn_delete.addEventListener("click", () => {
+    btn_cancel.addEventListener("click", () => {
         cargarUbicaciones();
     });
 
-    ubi_btn.appendChild(btn_delete);
+    ubi_btn.appendChild(btn_cancel);
     tr_ubi.appendChild(ubi_btn);
 
     tbody_ubicaciones.prepend(tr_ubi);
@@ -124,6 +126,8 @@ async function cargarUbicaciones() {
     let method = "GET";
     let data = [];
     let response;
+
+    btnNewUbi.disabled = false;
 
     response = petition(url, method, data); // Llama al petition de global.js
 
