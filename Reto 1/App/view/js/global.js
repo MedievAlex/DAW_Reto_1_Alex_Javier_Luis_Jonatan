@@ -106,9 +106,16 @@ document.addEventListener("DOMContentLoaded", () => {
   obtenerTema();
 });
 
+
+function claveTema() {
+  const sesion = typeof obtenerUsuarioSesion === "function" ? obtenerUsuarioSesion() : null;
+
+  return sesion !== null ? "tema_" + sesion.usu_id : "tema";
+}
+
 // Obtiene los datos del tema guardado
 function obtenerTema() {
-  let temaActual = localStorage.getItem("tema");
+  let temaActual = localStorage.getItem(claveTema());
 
   if (temaActual == tema3) {
     aplicarTema(tema3);
@@ -128,7 +135,8 @@ function aplicarTema(tema) {
   ];
   let desabilitar = false;
 
-  localStorage.setItem("tema", tema);
+  localStorage.setItem(claveTema(), tema);
+
   document.body.setAttribute("data-theme", tema);
 
   for (let i = 0; i < btnsTema.length; i++) {

@@ -74,8 +74,8 @@
         <!-- PERFIL: todos ven su perfil; solo el ADMIN ve y usa la gestión de usuarios (perfil.js) -->
         <div id="modalPerfil" class="modal" role="dialog" aria-modal="true" aria-labelledby="perfil-titulo">
             <div class="modalContenido">
-                <span class="cerrar" role="button" tabindex="0" aria-label="Cerrar perfil">&times;</span>
-
+                <span class="cerrar" alt="Cerar perfil." role="button" tabindex="0"
+                    aria-label="Cerrar perfil">&times;</span>
                 <div id="perfil-contenedor" class="perfil-contenedor">
 
                     <!------------------------------------------------ [Perfil: todos los roles] -->
@@ -99,6 +99,36 @@
                         </dl>
 
                         <button id="btn-cerrar-sesion" type="button" class="btn-texto">Cerrar sesión</button>
+
+                        <button id="btn-cambiar-password" type="button" class="btn-texto" aria-expanded="false"
+                            aria-controls="form-password">
+                            <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
+                                alt="">Cambiar contraseña
+                        </button>
+
+                        <form id="form-password" class="oculto" autocomplete="off">
+                            <p id="password-mensaje" class="err oculto" role="alert"></p>
+
+                            <div>
+                                <label for="pwd-actual">Contraseña actual</label>
+                                <input type="password" id="pwd-actual" name="password_actual"
+                                    autocomplete="current-password" required>
+                            </div>
+
+                            <div>
+                                <label for="pwd-nueva">Contraseña nueva (de 8 a 72 caracteres)</label>
+                                <input type="password" id="pwd-nueva" name="password_nueva" minlength="8"
+                                    maxlength="72" autocomplete="new-password" required>
+                            </div>
+
+                            <div class="perfil-barra">
+                                <button id="btn-password-guardar" type="submit" class="btn-s btn-save"
+                                    title="Guardar contraseña">
+                                    <img src="../assets/icons/icon_guardar.png" alt="Guardar contraseña">
+                                </button>
+                                <button id="btn-password-cancelar" type="button" class="btn-texto">Cancelar</button>
+                            </div>
+                        </form>
                     </section>
 
                     <!------------------------------------------------ [Gestión de usuarios: solo ADMIN] -->
@@ -125,8 +155,18 @@
                             </div>
                             <p class="perfil-ayuda">Selecciona un usuario para editarlo o eliminarlo.</p>
 
-                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios"
-                                aria-live="polite"></ul>
+                            <div class="perfil-filtros">
+                                <input type="text" id="usuarios-buscar" placeholder="Buscar por nombre de usuario"
+                                    aria-label="Buscar por nombre de usuario" autocomplete="off">
+                                <select id="usuarios-filtro-rol" aria-label="Filtrar por rol">
+                                    <option value="">Todos los roles</option>
+                                    <option value="USER">Conserje</option>
+                                    <option value="ADMIN">Administrador</option>
+                                </select>
+                            </div>
+
+                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios" aria-live="polite"></ul>
+
                         </div>
 
                         <!-- Vista de formulario (crear / editar) -->
