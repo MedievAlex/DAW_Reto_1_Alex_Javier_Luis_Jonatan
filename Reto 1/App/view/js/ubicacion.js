@@ -548,15 +548,6 @@ function generarUbicaciones(value) {
             limpiarEquiposDeUbicacion(event.currentTarget);
         });
 
-        
-        
-        
-        if (ubi_nombre != "Almacén") {
-            
-        }
-        
-        
-
         tr_ubi.appendChild(ubi_btn);
 
         tbody_ubicaciones.appendChild(tr_ubi);
@@ -780,90 +771,92 @@ function generarEquipamientos(value) {
         let sec_equ_btn = document.createElement("section"); // Botones
         sec_equ_btn.classList.add("equ-btn");
 
-        art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
+        if (esAdmin) {
+            art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
 
-        // ---------------------------------------- Boton Editar
-        let btn_edit = document.createElement("button");
-        btn_edit.classList.add("btn-s");
-        btn_edit.classList.add("btn-edit");
-        let img_btn_edit = document.createElement("img");
-        img_btn_edit.src = srcEditar;
-        btn_edit.alt = "Editar campos del equipamiento " + equ_nombre + ".";
-        btn_edit.appendChild(img_btn_edit);
+            // ---------------------------------------- Boton Editar
+            let btn_edit = document.createElement("button");
+            btn_edit.classList.add("btn-s");
+            btn_edit.classList.add("btn-edit");
+            let img_btn_edit = document.createElement("img");
+            img_btn_edit.src = srcEditar;
+            btn_edit.alt = "Editar campos del equipamiento " + equ_nombre + ".";
+            btn_edit.appendChild(img_btn_edit);
 
-        // [ Edita el Equipamiento selecionado ]
-        btn_edit.addEventListener("click", () => {
-            btn_edit.classList.remove("visible");
-            btn_edit.classList.add("oculto");
+            // [ Edita el Equipamiento selecionado ]
+            btn_edit.addEventListener("click", () => {
+                btn_edit.classList.remove("visible");
+                btn_edit.classList.add("oculto");
 
-            btn_save.classList.remove("oculto");
-            btn_save.classList.add("visible");
+                btn_save.classList.remove("oculto");
+                btn_save.classList.add("visible");
 
-            h3_equ_nom.replaceWith(inp_equ_nom);
-            p_equ_des.replaceWith(inp_equ_des);
-            p_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
+                h3_equ_nom.replaceWith(inp_equ_nom);
+                p_equ_des.replaceWith(inp_equ_des);
+                p_equ_det.replaceWith(inp_equ_mar, inp_equ_mod);
 
-            div_equ_des.focus();
-        });
+                div_equ_des.focus();
+            });
 
-        sec_equ_btn.appendChild(btn_edit);
+            sec_equ_btn.appendChild(btn_edit);
 
-        // ---------------------------------------- Boton Guardar
-        let btn_save = document.createElement("button");
-        btn_save.classList.add("btn-s");
-        btn_save.classList.add("btn-save");
-        btn_save.classList.add("oculto");
-        let img_btn_save = document.createElement("img");
-        img_btn_save.src = srcGuardar;
-        btn_save.alt = "Guardar cambios del equipamiento " + equ_nombre + ".";
-        btn_save.appendChild(img_btn_save);
+            // ---------------------------------------- Boton Guardar
+            let btn_save = document.createElement("button");
+            btn_save.classList.add("btn-s");
+            btn_save.classList.add("btn-save");
+            btn_save.classList.add("oculto");
+            let img_btn_save = document.createElement("img");
+            img_btn_save.src = srcGuardar;
+            btn_save.alt = "Guardar cambios del equipamiento " + equ_nombre + ".";
+            btn_save.appendChild(img_btn_save);
 
-        // [ Guarda las modificaciones del Equipamiento editado ]
-        btn_save.addEventListener("click", () => {
-            let equ_nom = inp_equ_nom.value.trim();
-            let equ_des = inp_equ_des.value.trim();
-            let equ_mar = inp_equ_mar.value.trim();
-            let equ_mod = inp_equ_mod.value.trim();
-            //let equ_cat = inp_equ_cat.value.trim();
-            equ_cat = equ_categoria;
+            // [ Guarda las modificaciones del Equipamiento editado ]
+            btn_save.addEventListener("click", () => {
+                let equ_nom = inp_equ_nom.value.trim();
+                let equ_des = inp_equ_des.value.trim();
+                let equ_mar = inp_equ_mar.value.trim();
+                let equ_mod = inp_equ_mod.value.trim();
+                //let equ_cat = inp_equ_cat.value.trim();
+                equ_cat = equ_categoria;
 
-            if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
-                logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
-            } else {
-                editarEquipoDeUbicacion(equ_id, equ_nom, equ_des, equ_mar, equ_mod, equ_cat, equ_ubicacion);
+                if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
+                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+                } else {
+                    editarEquipoDeUbicacion(equ_id, equ_nom, equ_des, equ_mar, equ_mod, equ_cat, equ_ubicacion);
 
-                btn_save.classList.remove("visible");
-                btn_save.classList.add("oculto");
+                    btn_save.classList.remove("visible");
+                    btn_save.classList.add("oculto");
 
-                btn_edit.classList.remove("oculto");
-                btn_edit.classList.add("visible");
-            }
-        });
+                    btn_edit.classList.remove("oculto");
+                    btn_edit.classList.add("visible");
+                }
+            });
 
-        sec_equ_btn.appendChild(btn_save);
+            sec_equ_btn.appendChild(btn_save);
 
-        // ---------------------------------------- Boton Eliminar
-        let btn_delete = document.createElement("button");
-        btn_delete.classList.add("btn-s");
-        btn_delete.classList.add("btn-delete");
-        let img_btn_delete = document.createElement("img");
-        img_btn_delete.src = srcEliminar;
-        btn_delete.alt = "Eliminar equipamiento " + equ_nombre + ".";
-        btn_delete.title = "Eliminar equipamiento " + equ_nombre + ".";
-        btn_delete.appendChild(img_btn_delete);
+            // ---------------------------------------- Boton Eliminar
+            let btn_delete = document.createElement("button");
+            btn_delete.classList.add("btn-s");
+            btn_delete.classList.add("btn-delete");
+            let img_btn_delete = document.createElement("img");
+            img_btn_delete.src = srcEliminar;
+            btn_delete.alt = "Eliminar equipamiento " + equ_nombre + ".";
+            btn_delete.title = "Eliminar equipamiento " + equ_nombre + ".";
+            btn_delete.appendChild(img_btn_delete);
 
-        // [ Elimina el Equipamiento ]
-        btn_delete.addEventListener("click", () => {
-            const conf = window.confirm("Se va a eliminar el equipamiento " + equ_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
+            // [ Elimina el Equipamiento ]
+            btn_delete.addEventListener("click", () => {
+                const conf = window.confirm("Se va a eliminar el equipamiento " + equ_nombre.toUpperCase() + ". Esta acción no se puede desacer.");
 
-            if (conf) {
-                eliminarEquipoDeUbicacion(equ_id, equ_ubicacion);
-            } else {
-                logMessage("Se ha cancelado la acción.");
-            }
-        });
+                if (conf) {
+                    eliminarEquipoDeUbicacion(equ_id, equ_ubicacion);
+                } else {
+                    logMessage("Se ha cancelado la acción.");
+                }
+            });
 
-        sec_equ_btn.appendChild(btn_delete);
+            sec_equ_btn.appendChild(btn_delete);
+        }
 
         artEqu.appendChild(art_equ);
     });
