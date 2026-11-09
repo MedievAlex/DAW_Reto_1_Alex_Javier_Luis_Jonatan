@@ -499,8 +499,12 @@ function generarUbicaciones(value) {
                 let ubi_nom = inp_ubi_nom.value.trim();
                 let ubi_des = inp_ubi_des.value.trim();
 
-                if (ubi_nom === "" || ubi_des === "") {
+                if (ubi_nom === "") {
+                    inp_ubi_nom.classList.add("inpErr");
                     logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+                } else if (ubi_des === "") {
+                    inp_ubi_des.classList.add("inpErr");
+                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios."); 
                 } else {
                     editarUbicacion(ubi_id, ubi_nom, ubi_des);
 
