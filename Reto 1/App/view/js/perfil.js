@@ -18,16 +18,31 @@ function iniciarPerfil() {
     perfil.abrir = document.getElementById("boton-perfil");
     perfil.cerrar = perfil.modal.querySelector(".cerrar");
     perfil.contenedor = document.getElementById("perfil-contenedor");
+    perfil.titulo = document.getElementById("perfil-titulo");
+    perfil.campos = document.getElementById("perfil-campos");
     perfil.nombre = document.getElementById("perfil-nombre");
+    perfil.apellidos = document.getElementById("perfil-apellidos");
     perfil.usuario = document.getElementById("perfil-usuario");
-    perfil.rol = document.getElementById("perfil-rol");
+    perfil.mensajePerfil = document.getElementById("perfil-propio-mensaje");
+    perfil.acciones = document.getElementById("perfil-acciones");
+    perfil.btnPerfilEditar = document.getElementById("btn-perfil-editar");
+    perfil.formPerfil = document.getElementById("form-perfil-propio");
+    perfil.campoPerfilNombre = document.getElementById("perfil-edit-nombre");
+    perfil.campoPerfilApellidos = document.getElementById("perfil-edit-apellidos");
+    perfil.campoPerfilUsuario = document.getElementById("perfil-edit-usuario");
+    perfil.campoPerfilPassword = document.getElementById("perfil-edit-password");
+    perfil.btnPerfilVerPassword = document.getElementById("btn-perfil-pwd-ver");
+    perfil.iconoPerfilVerPassword = document.getElementById("icono-perfil-pwd-ver");
+    perfil.btnPerfilGuardar = document.getElementById("btn-perfil-guardar");
+    perfil.btnPerfilCancelar = document.getElementById("btn-perfil-cancelar");
     perfil.btnSalir = document.getElementById("btn-cerrar-sesion");
     perfil.contenido = perfil.modal.querySelector(".modalContenido");
     perfil.btnPassword = document.getElementById("btn-cambiar-password");
     perfil.iconoCambiarPassword = document.getElementById("icono-cambiar-password");
     perfil.formPassword = document.getElementById("form-password");
-    perfil.campoPasswordActual = document.getElementById("pwd-actual");
     perfil.campoPasswordNueva = document.getElementById("pwd-nueva");
+    perfil.btnVerPassword = document.getElementById("btn-pwd-ver");
+    perfil.iconoVerPassword = document.getElementById("icono-pwd-ver");
     perfil.mensajePassword = document.getElementById("password-mensaje");
     perfil.btnPasswordGuardar = document.getElementById("btn-password-guardar");
     perfil.btnPasswordCancelar = document.getElementById("btn-password-cancelar");
@@ -84,9 +99,19 @@ function iniciarPerfil() {
 
     perfil.btnSalir.addEventListener("click", salir); // salir() está en auth.js
 
+    perfil.btnPerfilEditar.addEventListener("click", alternarFormularioPerfil);
+    perfil.formPerfil.addEventListener("submit", guardarPerfil);
+    perfil.btnPerfilCancelar.addEventListener("click", ocultarFormularioPerfil);
+    perfil.btnPerfilVerPassword.addEventListener("click", function () {
+        mostrarPasswordPerfil(perfil.campoPerfilPassword.type === "password");
+    });
+
     perfil.btnPassword.addEventListener("click", alternarFormularioPassword);
     perfil.formPassword.addEventListener("submit", guardarPassword);
     perfil.btnPasswordCancelar.addEventListener("click", ocultarFormularioPassword);
+    perfil.btnVerPassword.addEventListener("click", function () {
+        mostrarPasswordNueva(perfil.campoPasswordNueva.type === "password");
+    });
 
     // Gestión de usuarios (el panel solo se muestra al ADMIN)
     perfil.lista.addEventListener("click", clicEnLista); // una sola escucha para todas las tarjetas
@@ -123,6 +148,7 @@ function abrirModalPerfil() {
 
     pintarPerfil(usuario);
     limpiarMensaje();
+    ocultarFormularioPerfil();
     ocultarFormularioPassword();
     perfil.gestion.classList.toggle("oculto", !esAdmin);
     perfil.contenedor.classList.toggle("perfil-admin", esAdmin);
@@ -141,6 +167,7 @@ function abrirModalPerfil() {
 function cerrarModalPerfil() {
     perfil.modal.style.display = "none";
     volverALista();
+    ocultarFormularioPerfil();
     ocultarFormularioPassword();
     limpiarMensaje();
     perfil.abrir?.focus();
@@ -148,9 +175,10 @@ function cerrarModalPerfil() {
 
 // Muestra los datos del usuario de la sesión (textContent: nunca se interpreta como HTML).
 function pintarPerfil(usuario) {
-    perfil.nombre.textContent = usuario.nombre + " " + usuario.apellidos;
+    perfil.titulo.textContent = "Perfil: " + (PERFIL_ROLES[usuario.rol] || usuario.rol);
+    perfil.nombre.textContent = usuario.nombre;
+    perfil.apellidos.textContent = usuario.apellidos;
     perfil.usuario.textContent = usuario.nombre_usuario;
-    perfil.rol.textContent = PERFIL_ROLES[usuario.rol] || usuario.rol;
 }
 
 // ---------------------------------------- Mensajes
@@ -435,14 +463,182 @@ async function guardarFormulario(evento) {
     mostrarMensaje(crear ? "Usuario creado correctamente." : "Usuario editado correctamente.", true);
 }
 
+// ---------------------------------------- Editar mi perfil
+
+function alternarFormularioPerfil() {
+    if (!perfil.formPerfil.classList.contains("oculto")) {
+        ocultarFormularioPerfil();
+        return;
+    }
+
+    const sesion = obtenerUsuarioSesion();
+
+    if (sesion === null) {
+        return;
+    }
+
+    ocultarFormularioPassword(); // solo un formulario abierto a la vez
+    limpiarMensajePerfil();
+    perfil.campoPerfilNombre.value = sesion.nombre;
+    perfil.campoPerfilApellidos.value = sesion.apellidos;
+    perfil.campoPerfilUsuario.value = sesion.nombre_usuario;
+    perfil.campos.classList.add("oculto");
+    perfil.formPerfil.classList.remove("oculto");
+    perfil.btnPerfilEditar.setAttribute("aria-expanded", "true");
+    actualizarAccionesPerfil(); // desaparecen editar y cambiar contraseña
+    perfil.formPerfil.scrollIntoView({ behavior: "smooth", block: "nearest" }); // que se vea dentro del modal
+    perfil.campoPerfilNombre.focus({ preventScroll: true });
+}
+
+function ocultarFormularioPerfil() {
+    perfil.formPerfil.reset();
+    mostrarPasswordPerfil(false);
+    perfil.formPerfil.classList.add("oculto");
+    perfil.campos.classList.remove("oculto");
+    perfil.btnPerfilEditar.setAttribute("aria-expanded", "false");
+    limpiarMensajePerfil();
+    actualizarAccionesPerfil(); // vuelven a aparecer si no hay otro formulario abierto
+}
+
+// La fila de acciones (editar y cambiar contraseña) solo se ve cuando no hay ningún formulario abierto:
+// al abrir uno, se sustituye por sus botones Guardar y Cancelar.
+function actualizarAccionesPerfil() {
+    const hayFormularioAbierto = !perfil.formPerfil.classList.contains("oculto") ||
+        !perfil.formPassword.classList.contains("oculto");
+
+    perfil.acciones.classList.toggle("oculto", hayFormularioAbierto);
+}
+
+// Muestra u oculta la contraseña del formulario de editar y cambia el icono del ojo.
+function mostrarPasswordPerfil(mostrar) {
+    const texto = mostrar ? "Ocultar contraseña" : "Mostrar contraseña";
+
+    perfil.campoPerfilPassword.type = mostrar ? "text" : "password";
+    perfil.iconoPerfilVerPassword.src = mostrar ? srcVisible : srcOculto;
+    perfil.btnPerfilVerPassword.setAttribute("aria-pressed", String(mostrar));
+    perfil.btnPerfilVerPassword.setAttribute("aria-label", texto);
+    perfil.btnPerfilVerPassword.title = texto;
+}
+
+// El servidor responde 409 si el nombre de usuario ya lo tiene otra persona.
+function mensajeErrorPerfil(mensaje) {
+    if (/ya existe|duplic|already|exists|en uso|409/i.test(mensaje)) {
+        return "Ese nombre de usuario ya existe. Elige otro.";
+    }
+
+    return mensaje;
+}
+
+function mostrarMensajePerfil(texto, correcto = false) {
+    perfil.mensajePerfil.textContent = texto;
+    perfil.mensajePerfil.classList.toggle("perfil-ok", correcto);
+    perfil.mensajePerfil.classList.remove("oculto");
+}
+
+function limpiarMensajePerfil() {
+    perfil.mensajePerfil.textContent = "";
+    perfil.mensajePerfil.classList.add("oculto");
+}
+
+async function guardarPerfil(evento) {
+    evento.preventDefault();
+
+    if (perfil.btnPerfilGuardar.disabled) {
+        return;
+    }
+
+    const sesion = obtenerUsuarioSesion();
+
+    if (sesion === null) {
+        return;
+    }
+
+    const datos = {
+        nombre: perfil.campoPerfilNombre.value.trim(),
+        apellidos: perfil.campoPerfilApellidos.value.trim(),
+        nombre_usuario: perfil.campoPerfilUsuario.value.trim()
+    };
+    const passwordNueva = perfil.campoPerfilPassword.value; // opcional: vacía = se mantiene la actual
+
+    // required admite espacios en blanco: se comprueba también sin ellos
+    if (datos.nombre === "" || datos.apellidos === "" || datos.nombre_usuario === "") {
+        mostrarMensajePerfil("Rellena nombre, apellidos y usuario.");
+        return;
+    }
+
+    if (passwordNueva !== "" && (passwordNueva.length < 8 || passwordNueva.length > 72)) {
+        mostrarMensajePerfil("La contraseña debe tener de 8 a 72 caracteres.");
+        perfil.campoPerfilPassword.focus();
+        return;
+    }
+
+    const cambiaPerfil = datos.nombre !== sesion.nombre || datos.apellidos !== sesion.apellidos || datos.nombre_usuario !== sesion.nombre_usuario;
+    const cambiaPassword = passwordNueva !== "";
+
+    // Sin cambios: no hace falta llamar al servidor
+    if (!cambiaPerfil && !cambiaPassword) {
+        ocultarFormularioPerfil();
+        return;
+    }
+
+    perfil.btnPerfilGuardar.disabled = true;
+
+    // Paso 1: nombre, apellidos y usuario (si el usuario ya existe, se para aquí y no se toca la contraseña)
+    if (cambiaPerfil) {
+        let guardado;
+
+        try {
+            guardado = await editarPerfilPropio(datos);
+        } catch (error) {
+            mostrarMensajePerfil(mensajeErrorPerfil(error.message)); // p. ej. 409: el nombre de usuario ya existe
+            perfil.campoPerfilUsuario.focus();
+            perfil.btnPerfilGuardar.disabled = false;
+            return;
+        }
+
+        guardarUsuario(guardado); // auth.js: mantiene al día los datos de la sesión
+        pintarPerfil(guardado);
+
+        perfilUsuarios = perfilUsuarios.map(function (usuario) {
+            return usuario.usu_id === guardado.usu_id ? guardado : usuario;
+        });
+    }
+
+    // Paso 2: contraseña nueva (solo si se ha escrito)
+    if (cambiaPassword) {
+        try {
+            await cambiarPasswordPropia(passwordNueva);
+        } catch (error) {
+            perfil.btnPerfilGuardar.disabled = false;
+            perfil.campoPerfilPassword.value = "";
+            mostrarMensajePerfil((cambiaPerfil ? "Perfil guardado, pero no se pudo cambiar la contraseña: " : "") + error.message);
+            return;
+        }
+    }
+
+    perfil.btnPerfilGuardar.disabled = false;
+    ocultarFormularioPerfil();
+
+    if (cambiaPerfil && cambiaPassword) {
+        mostrarMensajePerfil("Perfil y contraseña editados correctamente.", true);
+    } else if (cambiaPassword) {
+        mostrarMensajePerfil("Contraseña cambiada correctamente.", true);
+    } else {
+        mostrarMensajePerfil("Perfil editado correctamente.", true);
+    }
+}
+
 // ---------------------------------------- Cambiar contraseña
 
 function alternarFormularioPassword() {
     if (perfil.formPassword.classList.contains("oculto")) {
+        ocultarFormularioPerfil(); // solo un formulario abierto a la vez: así todo cabe en el modal
         perfil.formPassword.classList.remove("oculto");
         perfil.btnPassword.setAttribute("aria-expanded", "true");
         perfil.iconoCambiarPassword.src = srcCerrar;
-        perfil.campoPasswordActual.focus();
+        actualizarAccionesPerfil(); // desaparecen editar y cambiar contraseña
+        perfil.formPassword.scrollIntoView({ behavior: "smooth", block: "nearest" }); // que se vea dentro del modal
+        perfil.campoPasswordNueva.focus({ preventScroll: true });
     } else {
         ocultarFormularioPassword();
     }
@@ -450,10 +646,23 @@ function alternarFormularioPassword() {
 
 function ocultarFormularioPassword() {
     perfil.formPassword.reset();
+    mostrarPasswordNueva(false);
     perfil.formPassword.classList.add("oculto");
     perfil.btnPassword.setAttribute("aria-expanded", "false");
     perfil.iconoCambiarPassword.src = srcAbrir;
     limpiarMensajePassword();
+    actualizarAccionesPerfil(); // vuelven a aparecer si no hay otro formulario abierto
+}
+
+// Muestra u oculta la contraseña nueva y cambia el icono del ojo.
+function mostrarPasswordNueva(mostrar) {
+    const texto = mostrar ? "Ocultar contraseña" : "Mostrar contraseña";
+
+    perfil.campoPasswordNueva.type = mostrar ? "text" : "password";
+    perfil.iconoVerPassword.src = mostrar ? srcVisible : srcOculto;
+    perfil.btnVerPassword.setAttribute("aria-pressed", String(mostrar));
+    perfil.btnVerPassword.setAttribute("aria-label", texto);
+    perfil.btnVerPassword.title = texto;
 }
 
 function mostrarMensajePassword(texto, correcto = false) {
@@ -474,23 +683,22 @@ async function guardarPassword(evento) {
         return;
     }
 
-    const actual = perfil.campoPasswordActual.value;
     const nueva = perfil.campoPasswordNueva.value;
 
-    if (actual === "" || nueva === "") {
-        mostrarMensajePassword("Indica la contraseña actual y la nueva.");
+    if (nueva === "") {
+        mostrarMensajePassword("Indica la contraseña nueva.");
         return;
     }
 
-    if (actual === nueva) {
-        mostrarMensajePassword("La contraseña nueva debe ser distinta de la actual.");
+    if (nueva.length < 8 || nueva.length > 72) {
+        mostrarMensajePassword("La contraseña debe tener de 8 a 72 caracteres.");
         return;
     }
 
     perfil.btnPasswordGuardar.disabled = true;
 
     try {
-        await cambiarPasswordPropia(actual, nueva);
+        await cambiarPasswordPropia(nueva);
     } catch (error) {
         mostrarMensajePassword(error.message);
         return;
@@ -498,8 +706,8 @@ async function guardarPassword(evento) {
         perfil.btnPasswordGuardar.disabled = false;
     }
 
-    perfil.formPassword.reset();
-    mostrarMensajePassword("Contraseña cambiada correctamente.", true);
+    ocultarFormularioPassword();
+    mostrarMensajePerfil("Contraseña cambiada correctamente.", true);
 }
 
 // ---------------------------------------- Eliminar
