@@ -75,6 +75,17 @@ if (esAdmin) {
 
             if (ubi_nom === "" || ubi_des === "") {
                 logMessage("[ERROR]: No se puede crear una ubicación con campos vacios.");
+
+                if (ubi_nom === "" || ubi_des === "") {
+                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+
+                    if (ubi_nom === "") {
+                        inp_ubi_nom.classList.add("inpErr");
+
+                    } else if (ubi_des === "") {
+                        inp_ubi_des.classList.add("inpErr");
+                    }
+                }
             } else {
                 crearUbicacion(0, ubi_nom, ubi_des);
             }
@@ -499,12 +510,15 @@ function generarUbicaciones(value) {
                 let ubi_nom = inp_ubi_nom.value.trim();
                 let ubi_des = inp_ubi_des.value.trim();
 
-                if (ubi_nom === "") {
-                    inp_ubi_nom.classList.add("inpErr");
+                if (ubi_nom === "" || ubi_des === "") {
                     logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
-                } else if (ubi_des === "") {
-                    inp_ubi_des.classList.add("inpErr");
-                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios."); 
+
+                    if (ubi_nom === "") {
+                        inp_ubi_nom.classList.add("inpErr");
+
+                    } else if (ubi_des === "") {
+                        inp_ubi_des.classList.add("inpErr");
+                    }
                 } else {
                     editarUbicacion(ubi_id, ubi_nom, ubi_des);
 
@@ -839,11 +853,20 @@ function generarEquipamientos(value) {
                 let equ_des = inp_equ_des.value.trim();
                 let equ_mar = inp_equ_mar.value.trim();
                 let equ_mod = inp_equ_mod.value.trim();
-                //let equ_cat = inp_equ_cat.value.trim();
                 equ_cat = equ_categoria;
 
                 if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
-                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+                    logMessage("[ERROR]: No se puede guardar un equipamiento con campos vacios.");
+
+                    if (equ_nom === "") {
+                        inp_equ_nom.classList.add("inpErr");
+                    } else if (equ_des === "") {
+                        inp_equ_des.classList.add("inpErr");
+                    } else if (equ_mar === "") {
+                        inp_equ_mar.classList.add("inpErr");
+                    } else if (equ_mod === "") {
+                        inp_equ_mod.classList.add("inpErr");
+                    }
                 } else {
                     editarEquipoDeUbicacion(equ_id, equ_nom, equ_des, equ_mar, equ_mod, equ_cat, equ_ubicacion);
 
