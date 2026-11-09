@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/equipamientos.css">
     <script src="../js/auth.js" defer></script>
     <script src="../js/global.js" defer></script>
     <script src="../js/equipamiento.js" defer></script>
@@ -40,7 +42,7 @@
     </nav>
 
     <!------------------------------------------------------------------------ [SECTION: ] -->
-    <section>
+    <main id="pantalla-equipamientos" aria-labelledby="titulo-equipamientos">
         <!------------------------------------------------------------------------ [MODALES] -->
         <div id="modalAjustes" class="modal">
             <div class="modalContenido">
@@ -247,27 +249,159 @@
             </div>
         </div>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 1 ] -->
-        <article>
-            <p>
-                GESTION: Gestiona los equipamientos del centro.
+        <!------------------------------------------------------------------------ [INVENTARIO] -->
+        <div id="inventario-equipamientos">
+            <h1 id="titulo-equipamientos" tabindex="-1">Equipamientos</h1>
+            <p>Consulta el inventario de equipos del centro y su ubicación.</p>
+
+            <div class="equipamientos-barra">
+                <div class="equipamientos-filtro">
+                    <label for="filtro-categoria-equipamientos">Categoría</label>
+                    <select id="filtro-categoria-equipamientos" name="categoria"
+                        aria-describedby="ayuda-filtro-equipamientos" disabled>
+                        <option value="">Todas las categorías</option>
+                        <option value="PORTATIL">Portátiles</option>
+                        <option value="SOBREMESA">Sobremesa</option>
+                        <option value="PERIFERICO">Periféricos</option>
+                        <option value="AUDIOVISUAL">Audiovisual</option>
+                        <option value="OTROS">Otros</option>
+                    </select>
+                    <p id="ayuda-filtro-equipamientos" class="equipamientos-ayuda">
+                        Selecciona una categoría para filtrar el inventario o consulta todas.
+                    </p>
+                </div>
+
+                <!-- Las acciones se incorporarán al comprobar el rol del usuario. -->
+                <div id="acciones-equipamientos" class="equipamientos-acciones oculto">
+                    <button id="nuevo-equipamiento" type="button" class="btn-texto">
+                        <img src="../assets/icons/icon_nuevo.png" alt="">Nuevo equipo
+                    </button>
+                </div>
+            </div>
+
+            <p id="mensaje-equipamientos" class="err" role="status" aria-live="polite">
+                Comprobando la sesión y preparando el inventario…
             </p>
-            <img src="../assets/img/inicio_almacen.jpg" alt="Imagen representativa del almacén del centro." width="50%">
-        </article>
+            <noscript><p class="err">Activa JavaScript para consultar el inventario.</p></noscript>
+            <p id="confirmacion-alta-equipamiento" class="err oculto" role="status" aria-live="polite"></p>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 2 ] -->
-        <article>
-            <p>
-                GESTION: Gestiona los equipamientos del centro.
-            </p>
-            <img src="../assets/img/inicio_almacen.jpg" alt="Imagen representativa del almacén del centro." width="50%">
-        </article>
-
-        <!------------------------------------------------------------------------ [ASIDE: ] -->
-        <aside>
-
-        </aside>
-    </section>
+            <section class="equipamientos-resultados" aria-labelledby="titulo-listado-equipamientos">
+                <h2 id="titulo-listado-equipamientos">Inventario</h2>
+                <!-- Se mostrarán únicamente equipos recibidos de la API. -->
+                <ul id="lista-equipamientos" aria-label="Equipos del inventario" aria-busy="true"></ul>
+            </section>
+        </div>
+        <!-- Se añade después de los modales comunes para conservar sus dependencias. -->
+        <div id="modal-alta-equipamiento" class="modal" role="dialog" aria-modal="true"
+            aria-labelledby="titulo-alta-equipamiento" aria-describedby="ayuda-alta-equipamiento" hidden>
+            <div class="modalContenido">
+                <button id="cerrar-alta-equipamiento" type="button" class="equipamiento-cerrar"
+                    aria-label="Cerrar formulario de equipamiento">&times;</button>
+                <h2 id="titulo-alta-equipamiento">Nuevo equipamiento</h2>
+                <p id="ayuda-alta-equipamiento">Todos los campos son obligatorios. Los equipos nuevos se asignan automáticamente al Almacén.</p>
+                <p id="mensaje-alta-equipamiento" class="err oculto" role="alert"></p>
+                <form id="form-alta-equipamiento" novalidate>
+                    <fieldset>
+                        <legend>Datos del equipo</legend>
+                        <div>
+                            <label for="alta-equ-nombre">Nombre</label>
+                            <input id="alta-equ-nombre" name="nombre" type="text" maxlength="120" required aria-describedby="error-alta-nombre">
+                            <p id="error-alta-nombre" class="equipamiento-error" hidden></p>
+                        </div>
+                        <div>
+                            <label for="alta-equ-descripcion">Descripción</label>
+                            <textarea id="alta-equ-descripcion" name="descripcion" rows="3" maxlength="255" required aria-describedby="error-alta-descripcion"></textarea>
+                            <p id="error-alta-descripcion" class="equipamiento-error" hidden></p>
+                        </div>
+                        <div>
+                            <label for="alta-equ-marca">Marca</label>
+                            <input id="alta-equ-marca" name="marca" type="text" maxlength="100" required aria-describedby="error-alta-marca">
+                            <p id="error-alta-marca" class="equipamiento-error" hidden></p>
+                        </div>
+                        <div>
+                            <label for="alta-equ-modelo">Modelo</label>
+                            <input id="alta-equ-modelo" name="modelo" type="text" maxlength="100" required aria-describedby="error-alta-modelo">
+                            <p id="error-alta-modelo" class="equipamiento-error" hidden></p>
+                        </div>
+                        <div>
+                            <label for="alta-equ-categoria">Categoría</label>
+                            <select id="alta-equ-categoria" name="categoria" required aria-describedby="error-alta-categoria">
+                                <option value="">Selecciona una categoría</option>
+                                <option value="PORTATIL">Portátiles</option>
+                                <option value="SOBREMESA">Sobremesa</option>
+                                <option value="PERIFERICO">Periféricos</option>
+                                <option value="AUDIOVISUAL">Audiovisual</option>
+                                <option value="OTROS">Otros</option>
+                            </select>
+                            <p id="error-alta-categoria" class="equipamiento-error" hidden></p>
+                        </div>
+                    </fieldset>
+                    <div class="equipamiento-form-acciones">
+                        <button id="guardar-alta-equipamiento" type="submit" class="btn-s btn-save" aria-label="Guardar nuevo equipamiento" title="Guardar nuevo equipamiento">
+                            <img src="../assets/icons/icon_guardar.png" alt="">
+                        </button>
+                        <button id="cancelar-alta-equipamiento" type="button" class="btn-texto">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="modal-eliminar-equipamiento" class="modal" role="alertdialog" aria-modal="true"
+            aria-labelledby="titulo-eliminar-equipamiento" aria-describedby="aviso-eliminar-equipamiento" hidden>
+            <div class="modalContenido">
+                <h2 id="titulo-eliminar-equipamiento">Eliminar equipamiento</h2>
+                <p id="aviso-eliminar-equipamiento"></p>
+                <p id="mensaje-eliminar-equipamiento" class="err oculto" role="alert"></p>
+                <div class="equipamiento-eliminar-acciones">
+                    <button id="cancelar-eliminar-equipamiento" type="button" class="btn-texto">Cancelar</button>
+                    <button id="confirmar-eliminar-equipamiento" type="button" class="btn-texto btn-delete">Eliminar definitivamente</button>
+                </div>
+            </div>
+        </div>
+        <div id="modal-trasladar-equipamiento" class="modal" role="dialog" aria-modal="true"
+            aria-labelledby="titulo-trasladar-equipamiento" aria-describedby="datos-trasladar-equipamiento" hidden>
+            <div class="modalContenido">
+                <h2 id="titulo-trasladar-equipamiento">Trasladar equipamiento</h2>
+                <p id="datos-trasladar-equipamiento"></p>
+                <p id="mensaje-trasladar-equipamiento" class="err" role="status" aria-live="polite"></p>
+                <form id="form-trasladar-equipamiento" novalidate>
+                    <label for="destino-trasladar-equipamiento">Ubicación de destino</label>
+                    <select id="destino-trasladar-equipamiento" name="id_nueva_ubicacion" required disabled
+                        aria-describedby="mensaje-trasladar-equipamiento">
+                        <option value="">Selecciona una ubicación</option>
+                    </select>
+                    <div class="equipamiento-trasladar-acciones">
+                        <button id="cancelar-trasladar-equipamiento" type="button" class="btn-texto">Cancelar</button>
+                        <button id="confirmar-trasladar-equipamiento" type="submit" class="btn-texto" disabled>Confirmar traslado</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="modal-historico-equipamiento" class="modal" role="dialog" aria-modal="true"
+            aria-labelledby="titulo-historico-equipamiento" aria-describedby="equipo-historico-equipamiento" hidden>
+            <div class="modalContenido">
+                <h2 id="titulo-historico-equipamiento">Histórico de ubicaciones</h2>
+                <p id="equipo-historico-equipamiento"></p>
+                <p id="ubicacion-actual-historico-equipamiento" role="status" aria-live="polite"></p>
+                <p id="aviso-historico-equipamiento" class="err" role="status" aria-live="polite" hidden></p>
+                <p id="mensaje-historico-equipamiento" class="err" role="status" aria-live="polite"></p>
+                <div id="contenido-historico-equipamiento" aria-busy="false">
+                    <div id="tabla-historico-equipamiento" class="equipamiento-historico-tabla" role="region"
+                        aria-label="Registros de ubicaciones del equipo" tabindex="0" hidden>
+                        <table>
+                            <caption>Estancias del equipo, ordenadas por fecha de entrada</caption>
+                            <thead><tr>
+                                <th scope="col">Ubicación</th>
+                                <th scope="col">Fecha de entrada</th>
+                                <th scope="col">Fecha de salida</th>
+                            </tr></thead>
+                            <tbody id="registros-historico-equipamiento"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <button id="cerrar-historico-equipamiento" type="button" class="btn-texto">Cerrar</button>
+            </div>
+        </div>
+    </main>
 
     <!------------------------------------------------------------------------ [FOOTER: ] -->
     <footer>
