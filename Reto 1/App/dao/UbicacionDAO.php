@@ -32,18 +32,22 @@ class UbicacionDAO
         $ubicaciones = array();
         $sql = "SELECT id_ubicacion, nombre, descripcion
                     FROM ubicaciones";
-                    
+
         $stmt = $this->conexion->prepare($sql);
 
-        $stmt->execute();
-        $resultado = $stmt->get_result();
+        try {
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
-        while ($fila = $resultado->fetch_assoc()) {
-            $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
-            $ubicaciones[] = $ubicacion;
+            while ($fila = $resultado->fetch_assoc()) {
+                $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
+                $ubicaciones[] = $ubicacion;
+            }
+
+            return $ubicaciones;
+        } finally {
+            $stmt->close();
         }
-
-        return $ubicaciones;
     }
 
     // ---------------------------------------- [ BUSCAR POR ID ]
@@ -63,19 +67,23 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        $stmt->bind_param(
-            "i",
-            $ubi_id
-        );
-        $stmt->execute();
-        $resultado = $stmt->get_result();
+        try {
+            $stmt->bind_param(
+                "i",
+                $ubi_id
+            );
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
-        if ($fila = $resultado->fetch_assoc()) {
-            $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
-            return $ubicacion;
+            if ($fila = $resultado->fetch_assoc()) {
+                $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
+                return $ubicacion;
+            }
+
+            return null;
+        } finally {
+            $stmt->close();
         }
-
-        return null;
     }
 
     // ---------------------------------------- [ BUSCAR POR NOMBRE ]
@@ -95,19 +103,23 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        $stmt->bind_param(
-            "s",
-            $ubi_nombre
-        );
-        $stmt->execute();
-        $resultado = $stmt->get_result();
+        try {
+            $stmt->bind_param(
+                "s",
+                $ubi_nombre
+            );
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
-        if ($fila = $resultado->fetch_assoc()) {
-            $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
-            return $ubicacion;
+            if ($fila = $resultado->fetch_assoc()) {
+                $ubicacion = new Ubicacion($fila["id_ubicacion"], $fila["nombre"], $fila["descripcion"]);
+                return $ubicacion;
+            }
+
+            return null;
+        } finally {
+            $stmt->close();
         }
-
-        return null;
     }
 
     // ---------------------------------------- [ CREAR UBICACION ]
@@ -126,15 +138,19 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        $ubi_nombre = $ubicacion->getNombre();
-        $ubi_descripcion = $ubicacion->getDescripcion();
-        $stmt->bind_param(
-            "ss",
-            $ubi_nombre,
-            $ubi_descripcion
-        );
+        try {
+            $ubi_nombre = $ubicacion->getNombre();
+            $ubi_descripcion = $ubicacion->getDescripcion();
+            $stmt->bind_param(
+                "ss",
+                $ubi_nombre,
+                $ubi_descripcion
+            );
 
-        return $stmt->execute();
+            return $stmt->execute();
+        } finally {
+            $stmt->close();
+        }
     }
     
     // ---------------------------------------- [ EDITAR UBICACION ]
@@ -155,17 +171,21 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        $ubi_nombre = $ubicacion->getNombre();
-        $ubi_descripcion = $ubicacion->getDescripcion();
-        $ubi_id = $ubicacion->getId();
-        $stmt->bind_param(
-            "ssi",
-            $ubi_nombre,
-            $ubi_descripcion,
-            $ubi_id
-        );
+        try {
+            $ubi_nombre = $ubicacion->getNombre();
+            $ubi_descripcion = $ubicacion->getDescripcion();
+            $ubi_id = $ubicacion->getId();
+            $stmt->bind_param(
+                "ssi",
+                $ubi_nombre,
+                $ubi_descripcion,
+                $ubi_id
+            );
 
-        return $stmt->execute();
+            return $stmt->execute();
+        } finally {
+            $stmt->close();
+        }
     }
     
     // ---------------------------------------- [ ELIMINAR UBICACION ]
@@ -184,12 +204,16 @@ class UbicacionDAO
 
         $stmt = $this->conexion->prepare($sql);
 
-        $stmt->bind_param(
-            "i",
-            $ubi_id
-        );
+        try {
+            $stmt->bind_param(
+                "i",
+                $ubi_id
+            );
 
-        return $stmt->execute();
+            return $stmt->execute();
+        } finally {
+            $stmt->close();
+        }
     }
     
     // ---------------------------------------- [ VERIFICAR EQUIPAMIENTOS ]
@@ -208,21 +232,23 @@ class UbicacionDAO
                     WHERE id_ubicacion_actual = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        
-        $stmt->bind_param(
-            "i",
-            $ubi_id
-        );
-        $stmt->execute();
-        $resultado = $stmt->get_result();
 
-        $equipamientos = false;
+        try {
+            $stmt->bind_param(
+                "i",
+                $ubi_id
+            );
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
-        if ($resultado->num_rows > 0) {
-            $equipamientos = true;
-        } 
+            $equipamientos = false;
+
+            if ($resultado->num_rows > 0) {
+                $equipamientos = true;
+            }
             return $equipamientos;
+        } finally {
+            $stmt->close();
+        }
     }
 }
-
-?>
