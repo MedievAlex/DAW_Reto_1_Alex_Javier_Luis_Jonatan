@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/ubicaciones.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
+    <link rel="stylesheet" href="../styles/ubicaciones.css">
     <link rel="stylesheet" href="../styles/usuarios.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="../js/auth.js" defer></script>
     <script src="../js/global.js" defer></script>
     <script src="../js/historico_ubicacion.js" defer></script>
@@ -23,16 +22,16 @@
 <body>
     <!------------------------------------------------------------------------ [HEADER: ] -->
     <header>
-        <img src="../assets/logo/CF.png" alt="Logo de Centro Fungible">
+        <img id="logo" src="../assets/logo/CF.png" alt="Logo de Centro Fungible." title="Centro Fungible.">
     </header>
 
     <!------------------------------------------------------------------------ [NAV: ] -->
     <nav>
-        <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
-        <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO
+        <a href="Categorias.html" alt="Enlace a la página de Equipos." title="Ver equipos.">EQUIPOS</a>
+        <a href="Inicio.html" alt="Enlace a la página de Ubicaciones." title="Ir al inicio.">INICIO
             <!-- <img src="../assets/icons/icon_home.png"> -->
         </a>
-        <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
+        <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones." title="Ver ubicaciones.">UBICACIONES</a>
         <button id="boton-ajustes" class="btn-s">
             <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
         </button>
@@ -48,16 +47,18 @@
         <!------------------------------------------------------------------------ [MODALES] -->
         <div id="modalAjustes" class="modal">
             <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <button id="btnTemaDefault">POR DEFECTO</button>
-                <button id="btnTemaAlt">ALTERNATIVO</button>
-                <button id="btnTemaGlobal">GLOBAL</button>
+                <span class="cerrar" alt="Cerar ajustes.">&times;</span>
+                <section>
+                    <button id="btnTemaDefault" alt="Cambiar al tema por defecto.">POR DEFECTO</button>
+                    <button id="btnTemaAlt" alt="Cambiar al tema alternativo.">ALTERNATIVO</button>
+                    <button id="btnTemaGlobal" alt="Cambiar al tema global.">GLOBAL</button>
+                </section>
             </div>
         </div>
 
         <div id="modalNotificaciones" class="modal">
             <div class="modalContenido">
-                <span class="cerrar">&times;</span>
+                <span class="cerrar" alt="Cerar notificaciones.">&times;</span>
                 <h2 class="notTitulo">Notificaciones</h2>
                 <div class="contenedorFiltroYBtn">
                     <button id="btnAniadirNot">Añadir notificacion</button>
@@ -75,8 +76,8 @@
 
         <div id="modalPerfil" class="modal" role="dialog" aria-modal="true" aria-labelledby="perfil-titulo">
             <div class="modalContenido">
-                <span class="cerrar" role="button" tabindex="0" aria-label="Cerrar perfil">&times;</span>
-
+                <span class="cerrar" alt="Cerar perfil." role="button" tabindex="0"
+                    aria-label="Cerrar perfil">&times;</span>
                 <div id="perfil-contenedor" class="perfil-contenedor">
 
                     <!------------------------------------------------ [Perfil: todos los roles] -->
@@ -100,6 +101,7 @@
                         </dl>
 
                         <button id="btn-cerrar-sesion" type="button" class="btn-texto">Cerrar sesión</button>
+
                         <button id="btn-cambiar-password" type="button" class="btn-texto" aria-expanded="false"
                             aria-controls="form-password">
                             <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
@@ -166,6 +168,7 @@
                             </div>
 
                             <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios" aria-live="polite"></ul>
+
                         </div>
 
                         <!-- Vista de formulario (crear / editar) -->
@@ -251,10 +254,12 @@
         <!------------------------------------------------------------------------ [ARTICLE: Aulas ] -->
         <article id="ubicaciones">
             <tr>
-                <button id="btn-new-ubi" class="btn-s btn-new">
+                <button id="btn-new-ubi" class="btn-s btn-new" alt="Crear nueva ubicación."
+                    title="Crear nueva ubicación.">
                     <img src="../assets/icons/icon_nuevo.png" alt="Crear nueva Ubicacion.">
                 </button>
             </tr>
+            <caption>Título de la tabla</caption>
             <table>
                 <tbody>
 
@@ -266,6 +271,10 @@
         <article id="equipamientos">
 
         </article>
+    </section>
+
+    <section id="enlace">
+        <a href="#logo">VOLVER ARRIBA</a>
     </section>
 
     <!------------------------------------------------------------------------ [FOOTER: ] -->

@@ -43,11 +43,11 @@ class Historico_UbicacionDAO
                 $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
                 $historicos[] = $historico;
             }
+
+            return $historicos;
         } finally {
             $stmt->close();
         }
-
-        return $historicos;
     }
 
     // ---------------------------------------- [ BUSCAR POR ID ]
@@ -80,11 +80,11 @@ class Historico_UbicacionDAO
                 $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
                 return $historico;
             }
+
+            return null;
         } finally {
             $stmt->close();
         }
-
-        return null;
     }
 
     // ---------------------------------------- [ CARGAR HISTORICOS DE EQUIPAMIENTO ]
@@ -118,11 +118,11 @@ class Historico_UbicacionDAO
                 $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
                 $historicos[] = $historico;
             }
+
+            return $historicos;
         } finally {
             $stmt->close();
         }
-
-        return $historicos;
     }
 
     // ---------------------------------------- [ CARGAR HISTORICOS DE UBICACION ]
@@ -156,11 +156,11 @@ class Historico_UbicacionDAO
                 $historico->setFechaFin(new DateTime($fila["fecha_fin"]));
                 $historicos[] = $historico;
             }
+
+            return $historicos;
         } finally {
             $stmt->close();
         }
-
-        return $historicos;
     }
 
     // ---------------------------------------- [ CREAR HISTORICO ]
@@ -189,11 +189,11 @@ class Historico_UbicacionDAO
                 $his_ubicacion,
                 $his_fecha_inicio
             );
+
+            return $stmt->execute();
         } finally {
             $stmt->close();
         }
-
-        return $stmt->execute();
     }
 
     // ---------------------------------------- [ EDITAR HISTORICO ]
@@ -221,11 +221,11 @@ class Historico_UbicacionDAO
                 $his_fecha_fin,
                 $his_id
             );
+
+            return $stmt->execute();
         } finally {
             $stmt->close();
         }
-
-        return $stmt->execute();
     }
 
     // ---------------------------------------- [ ELIMINAR HISTORICO ]
@@ -249,10 +249,10 @@ class Historico_UbicacionDAO
                 "i",
                 $his_id
             );
+
+            return $stmt->execute();
         } finally {
             $stmt->close();
         }
-
-        return $stmt->execute();
     }
 }

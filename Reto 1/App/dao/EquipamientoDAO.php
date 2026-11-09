@@ -1,18 +1,35 @@
 <?php
+
 require_once("ConexionDB.php");
-require_once ("../model/Categoria.php");
-require_once ("../model/Equipamiento.php");
+require_once("../model/Categoria.php");
+require_once("../model/Equipamiento.php");
 
 /*
-// A diferencia de "../model/Equipamiento.php", __DIR__ toma como base
-// la carpeta de este DAO, independientemente de dónde se ejecute la aplicación.
+// Alternativa: __DIR__ permite resolver las rutas desde la carpeta del DAO,
+// independientemente del directorio desde el que se ejecute la aplicación.
 require_once __DIR__ . "/ConexionDB.php";
 require_once __DIR__ . "/../model/Categoria.php";
 require_once __DIR__ . "/../model/Equipamiento.php";
 */
 
 /**
- * Gestiona las consultas y la persistencia de los equipamientos.
+ * Gestiona el acceso a los datos de los equipamientos.
+ *
+ * Métodos disponibles:
+ *
+ * Consultas:
+ * - buscarEquipamientoPorId()
+ * - listarTodosEquipamientos()
+ * - filtrarEquipamientosPorCategoria()
+ * - filtrarEquipamientosPorUbicacion()
+ *
+ * Escritura:
+ * - crearEquipamiento()
+ * - editarEquipamiento()
+ * - eliminarEquipamiento()
+ *
+ * Traslados:
+ * - cambiarUbicacionEquipamiento()
  *
  * @author Jonatan Tajada Rico
  */
@@ -23,9 +40,10 @@ class EquipamientoDAO
     private mysqli $conexion;
 
     /**
-     * Obtiene la conexión con la base de datos.
+     * Inicializa la conexión con la base de datos.
      *
      * @throws mysqli_sql_exception Si falla la conexión.
+     *
      * @author Jonatan Tajada Rico
      */
     public function __construct()
@@ -41,6 +59,7 @@ class EquipamientoDAO
      * @param int $idEquipamiento Identificador del equipamiento.
      * @return Equipamiento|null Equipamiento encontrado o null si no existe.
      * @throws mysqli_sql_exception Si falla la consulta.
+     *
      * @author Jonatan Tajada Rico
      */
     public function buscarEquipamientoPorId(int $idEquipamiento): ?Equipamiento
@@ -53,7 +72,7 @@ class EquipamientoDAO
         $stmt = $this->conexion->prepare($sql);
 
         try {
-            // "i" indica que el parámetro es un entero.
+            // Vinculamos el identificador como un entero.
             $stmt->bind_param("i", $idEquipamiento);
             $stmt->execute();
 
@@ -64,7 +83,7 @@ class EquipamientoDAO
                 return null;
             }
 
-            // Convertimos la fila SQL en un objeto del modelo.
+            // Convertimos los datos de la fila en un objeto Equipamiento.
             return new Equipamiento(
                 (int) $fila["id_equipamiento"],
                 $fila["nombre"],
@@ -75,6 +94,7 @@ class EquipamientoDAO
                 (int) $fila["id_ubicacion_actual"]
             );
         } finally {
+            // Cerramos la sentencia aunque se produzca una excepción.
             $stmt->close();
         }
     }
@@ -84,6 +104,7 @@ class EquipamientoDAO
      *
      * @return Equipamiento[] Lista de equipamientos; vacía si no hay ninguno.
      * @throws mysqli_sql_exception Si falla la consulta.
+     *
      * @author Jonatan Tajada Rico
      */
     public function listarTodosEquipamientos(): array
@@ -100,6 +121,7 @@ class EquipamientoDAO
             $stmt->execute();
             $resultado = $stmt->get_result();
 
+            // Convertimos cada fila en un objeto y lo añadimos a la lista.
             while ($fila = $resultado->fetch_assoc()) {
                 $equipamiento = new Equipamiento(
                     (int) $fila["id_equipamiento"],
@@ -121,11 +143,12 @@ class EquipamientoDAO
     }
 
     /**
-     * Obtiene los equipamientos de una categoría.
+     * Obtiene los equipamientos que pertenecen a una categoría.
      *
      * @param Categoria $categoria Categoría por la que se filtra.
      * @return Equipamiento[] Lista de coincidencias; vacía si no hay ninguna.
      * @throws mysqli_sql_exception Si falla la consulta.
+     *
      * @author Jonatan Tajada Rico
      */
     public function filtrarEquipamientosPorCategoria(Categoria $categoria): array
@@ -140,7 +163,7 @@ class EquipamientoDAO
         $stmt = $this->conexion->prepare($sql);
 
         try {
-            // SQL recibe el texto del enum, no el objeto Categoria.
+            // SQL necesita el valor de texto del enum.
             $valorCategoria = $categoria->value;
 
             $stmt->bind_param("s", $valorCategoria);
@@ -148,6 +171,64 @@ class EquipamientoDAO
 
             $resultado = $stmt->get_result();
 
+            // Convertimos los equipamientos encontrados en objetos del modelo.
+            while ($fila = $resultado->fetch_assoc()) {
+                $equipamiento = new Equipamiento(
+                    (int) $fila["id_equipamiento"],
+                    $fila["nombre"],
+                    $fila["descripcion"],
+                    $fila["marca"],
+                    $fila["modelo"],
+                    Categoria::from($fila["categoria"]),
+                    (int) $fila["id_ubicacion_actual"]
+                );
+
+                $equipamientos[] = $equipamiento;
+            }
+
+            return $equipamientos;
+        } finally {
+            $stmt->close();
+        }
+    }
+
+    /**
+     * Obtiene los equipamientos que están actualmente en una ubicación.
+     *
+     * Consulta la ubicación actual del equipamiento, no sus estancias anteriores.
+     *
+     * @param int $idUbicacion Identificador de la ubicación por la que se filtra.
+     * @return Equipamiento[] Lista de coincidencias; vacía si no hay ninguna.
+     * @throws InvalidArgumentException Si el ID no es positivo.
+     * @throws mysqli_sql_exception Si falla la consulta.
+     *
+     * @author Jonatan Tajada Rico
+     */
+    public function filtrarEquipamientosPorUbicacion(int $idUbicacion): array
+    {
+        if ($idUbicacion <= 0) {
+            throw new InvalidArgumentException(
+                "El identificador de ubicación debe ser positivo."
+            );
+        }
+
+        $equipamientos = [];
+
+        $sql = "SELECT id_equipamiento, nombre, descripcion, marca,
+                       modelo, categoria, id_ubicacion_actual
+                FROM equipamientos
+                WHERE id_ubicacion_actual = ?";
+
+        $stmt = $this->conexion->prepare($sql);
+
+        try {
+            // Vinculamos el identificador de ubicación como un entero.
+            $stmt->bind_param("i", $idUbicacion);
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+
+            // Convertimos los equipamientos encontrados en objetos del modelo.
             while ($fila = $resultado->fetch_assoc()) {
                 $equipamiento = new Equipamiento(
                     (int) $fila["id_equipamiento"],
@@ -171,14 +252,15 @@ class EquipamientoDAO
     // ---------------------------------------- [ ESCRITURA ]
 
     /**
-     * Registra un equipamiento nuevo.
+     * Registra un nuevo equipamiento.
      *
-     * MySQL genera el ID. Los triggers de inserción asignan Almacén
-     * como ubicación inicial y crean su primera fila de histórico.
+     * MySQL genera su identificador. Los triggers de inserción asignan
+     * Almacén como ubicación inicial y crean su primera fila de histórico.
      *
-     * @param Equipamiento $equipamiento Datos del nuevo equipamiento.
-     * @return bool True si la inserción se ejecuta correctamente.
+     * @param Equipamiento $equipamiento Datos del equipamiento que se creará.
+     * @return bool Resultado de la ejecución de la inserción.
      * @throws mysqli_sql_exception Si falla la inserción.
+     *
      * @author Jonatan Tajada Rico
      */
     public function crearEquipamiento(Equipamiento $equipamiento): bool
@@ -190,6 +272,7 @@ class EquipamientoDAO
         $stmt = $this->conexion->prepare($sql);
 
         try {
+            // Obtenemos los datos del modelo para vincularlos a la consulta.
             $nombre = $equipamiento->getNombre();
             $descripcion = $equipamiento->getDescripcion();
             $marca = $equipamiento->getMarca();
@@ -214,12 +297,16 @@ class EquipamientoDAO
     }
 
     /**
-     * Edita los datos generales de un equipamiento, sin cambiar su ubicación.
+     * Actualiza los datos generales de un equipamiento.
      *
-     * @param Equipamiento $equipamiento Datos que se quieren guardar, con ID.
-     * @return bool True si el SQL se ejecuta, aunque no encuentre o cambie filas.
+     * No modifica su ubicación ni su histórico.
+     *
+     * @param Equipamiento $equipamiento Datos actualizados, incluido su ID.
+     * @return bool True si el SQL se ejecuta correctamente, aunque no encuentre
+     *              el equipamiento o sus datos no cambien; false si execute falla.
      * @throws InvalidArgumentException Si el equipamiento no tiene ID.
      * @throws mysqli_sql_exception Si falla la actualización.
+     *
      * @author Jonatan Tajada Rico
      */
     public function editarEquipamiento(Equipamiento $equipamiento): bool
@@ -240,6 +327,7 @@ class EquipamientoDAO
         $stmt = $this->conexion->prepare($sql);
 
         try {
+            // Obtenemos los datos actualizados del modelo.
             $nombre = $equipamiento->getNombre();
             $descripcion = $equipamiento->getDescripcion();
             $marca = $equipamiento->getMarca();
@@ -265,13 +353,14 @@ class EquipamientoDAO
     }
 
     /**
-     * Elimina un equipamiento.
+     * Elimina un equipamiento por su identificador.
      *
      * La clave foránea con ON DELETE CASCADE elimina también su histórico.
      *
-     * @param int $idEquipamiento Identificador del equipamiento.
+     * @param int $idEquipamiento Identificador del equipamiento que se eliminará.
      * @return bool True si se elimina una fila; false si no existe.
      * @throws mysqli_sql_exception Si falla la eliminación.
+     *
      * @author Jonatan Tajada Rico
      */
     public function eliminarEquipamiento(int $idEquipamiento): bool
@@ -285,7 +374,7 @@ class EquipamientoDAO
             $stmt->bind_param("i", $idEquipamiento);
             $stmt->execute();
 
-            // Comprobamos si realmente se ha eliminado un equipamiento.
+            // Comprobamos si la consulta ha eliminado realmente una fila.
             $eliminado = $stmt->affected_rows > 0;
 
             return $eliminado;
@@ -297,27 +386,35 @@ class EquipamientoDAO
     // ---------------------------------------- [ TRASLADOS ]
 
     /**
-     * Cambia la ubicación y registra el traslado en el histórico.
+     * Cambia la ubicación actual de un equipamiento y registra su traslado.
      *
-     * Todas las operaciones utilizan la misma conexión y transacción.
+     * Cierra las estancias abiertas, actualiza la ubicación del equipamiento
+     * y crea una nueva estancia en el histórico dentro de una transacción.
+     *
      * Requiere que el trigger de traslado esté desactivado para evitar
-     * que el histórico se actualice también desde la base de datos.
+     * que la base de datos repita las operaciones sobre el histórico.
      *
-     * @param int $idEquipamiento Identificador del equipamiento que se traslada.
+     * @param int $idEquipamiento Identificador del equipamiento que se trasladará.
      * @param int $idNuevaUbicacion Identificador de la ubicación de destino.
-     * @return bool True si se completa; false si ya está en esa ubicación.
-     * @throws InvalidArgumentException Si los IDs no son positivos o no existe el equipo.
-     * @throws mysqli_sql_exception Si falla el SQL, incluido un destino inexistente.
+     * @return bool True si se completa el traslado; false si ya está en el destino.
+     * @throws InvalidArgumentException Si los IDs no son positivos
+     *                                  o el equipamiento no existe.
+     * @throws mysqli_sql_exception Si falla alguna operación SQL,
+     *                             incluido un destino inexistente.
+     *
      * @author Jonatan Tajada Rico
      */
-    public function cambiarUbicacionEquipamiento(int $idEquipamiento, int $idNuevaUbicacion): bool {
-        
+    public function cambiarUbicacionEquipamiento(
+        int $idEquipamiento,
+        int $idNuevaUbicacion
+    ): bool {
         if ($idEquipamiento <= 0 || $idNuevaUbicacion <= 0) {
             throw new InvalidArgumentException(
                 "Los identificadores deben ser positivos."
             );
         }
 
+        // Permiten cerrar en finally las sentencias que lleguen a crearse.
         $stmtBuscar = null;
         $stmtCerrar = null;
         $stmtActualizar = null;
@@ -326,7 +423,8 @@ class EquipamientoDAO
         $this->conexion->begin_transaction();
 
         try {
-            // Bloqueamos la fila para coordinar los traslados simultáneos.
+            // Bloqueamos el equipamiento hasta finalizar la transacción
+            // para coordinar los traslados simultáneos sobre el mismo equipo.
             $sql = "SELECT id_ubicacion_actual
                     FROM equipamientos
                     WHERE id_equipamiento = ?
@@ -345,7 +443,7 @@ class EquipamientoDAO
                 );
             }
 
-            // No registramos un traslado si la ubicación no cambia.
+            // Si el destino coincide con la ubicación actual, no hay traslado.
             if ((int) $fila["id_ubicacion_actual"] === $idNuevaUbicacion) {
                 $this->conexion->rollback();
 
@@ -375,7 +473,7 @@ class EquipamientoDAO
             );
             $stmtActualizar->execute();
 
-            // 3. Registramos una nueva estancia abierta.
+            // 3. Creamos una estancia abierta en la ubicación de destino.
             $sql = "INSERT INTO historico_ubicaciones
                         (id_equipamiento, id_ubicacion, fecha_inicio, fecha_fin)
                     VALUES (?, ?, CURRENT_TIMESTAMP, NULL)";
@@ -388,17 +486,17 @@ class EquipamientoDAO
             );
             $stmtCrear->execute();
 
-            // Confirmamos todos los cambios del traslado.
+            // Confirmamos conjuntamente los cambios del traslado.
             $this->conexion->commit();
 
             return true;
         } catch (Throwable $error) {
-            // Deshacemos los cambios y propagamos el error a quien llamó al DAO.
+            // Deshacemos los cambios y propagamos el error a la capa superior.
             $this->conexion->rollback();
 
             throw $error;
         } finally {
-            // ?-> permite cerrar solo las sentencias que se llegaron a crear.
+            // Cerramos únicamente las sentencias que llegaron a crearse.
             $stmtBuscar?->close();
             $stmtCerrar?->close();
             $stmtActualizar?->close();

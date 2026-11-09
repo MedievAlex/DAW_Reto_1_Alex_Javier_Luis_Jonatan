@@ -1,6 +1,6 @@
 /* ---------------------------------------------- [MODAL]*/
 #modalPerfil .modalContenido {
-     background-color: var(--color-secundario);
+    background-color: var(--color-secundario);
     box-sizing: border-box;
     max-width: 1100px;
 
@@ -8,12 +8,13 @@
 }
 
 .perfil-contenedor {
-    
+
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
 
-    clear: both; /* .cerrar flota a la derecha */
+    clear: both;
+    /* .cerrar flota a la derecha */
 
     max-width: 420px;
     margin: 0 auto;
@@ -21,7 +22,7 @@
 
 /* El ADMIN ve el perfil a la izquierda y la gestión a la derecha */
 .perfil-contenedor.perfil-admin {
-    
+
     grid-template-columns: minmax(240px, 1fr) 2fr;
     max-width: none;
 }
@@ -33,11 +34,12 @@
 }
 
 .perfil-panel {
-     background-color: var(--color-primario);
+    background-color: var(--color-primario);
     border: 2px solid var(--color-acento);
     border-radius: var(--border-radius-m);
 
     padding: 20px;
+
     display: flex-box;
     flex-direction: column;
 }
@@ -49,7 +51,7 @@
 
 /* ---------------------------------------------- [PERFIL]*/
 .perfil-avatar {
-    background-color:var(--color-secundario);
+    background-color: var(--color-secundario);
 
     border: 3px solid var(--color-acento);
     border-radius: var(--border-radius-half);
@@ -59,7 +61,8 @@
     width: 120px;
     height: 120px;
 
-    object-fit: contain; /* el logo no se deforma dentro del círculo */
+    object-fit: contain;
+    /* el logo no se deforma dentro del círculo */
 
     padding: 15px;
     margin: 0 auto 15px;
@@ -94,7 +97,8 @@
 /* ---------------------------------------------- [BOTONES]*/
 /* Botón con texto: el color base lo pone global.css (button) */
 .btn-texto {
-    border: 2px solid transparent; /* reserva el borde que global.css añade en :hover */
+    border: 2px solid transparent;
+    /* reserva el borde que global.css añade en :hover */
     border-radius: var(--border-radius-m);
 
     padding: 12px 20px;
@@ -107,7 +111,7 @@
     border-color: var(--color-white);
 }
 
-#modalPerfil .perfil-panel > .btn-texto {
+#modalPerfil .perfil-panel>.btn-texto {
     display: block;
     margin: 0 auto;
 }
@@ -153,7 +157,8 @@
 /* El aspecto de la tarjeta (color, sombra, borde redondeado, hover) es .tarjeta de global.css */
 .usuarios-lista {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* el espacio entre tarjetas lo da el margin de .tarjeta */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* el espacio entre tarjetas lo da el margin de .tarjeta */
 
     max-height: 45vh;
     overflow: auto;

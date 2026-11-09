@@ -220,62 +220,62 @@ function mockEquipamientos() {
     value = [
         {
             equ_id: 1,
-            equ_nombre: "Portatil 102-01",
-            equ_descripcion: "Portatil HP nº01 de curso Integración social.",
-            equ_marca: "HP",
-            equ_modelo: "HP-X45",
-            equ_categoria: "PORTATIL",
-            equ_ubicacion: 3
+            nombre: "Portatil 102-01",
+            descripcion: "Portatil HP nº01 de curso Integración social.",
+            marca: "HP",
+            modelo: "HP-X45",
+            categoria: "PORTATIL",
+            id_ubicacion_actual: 3
         },
         {
             equ_id: 2,
-            equ_nombre: "Portatil 102-02",
-            equ_descripcion: "Portatil HP nº01 de curso Integración social.",
-            equ_marca: "HP",
-            equ_modelo: "HP-X45",
-            equ_categoria: "PORTATIL",
-            equ_ubicacion: 3
+            nombre: "Portatil 102-02",
+            descripcion: "Portatil HP nº01 de curso Integración social.",
+            marca: "HP",
+            modelo: "HP-X45",
+            categoria: "PORTATIL",
+            id_ubicacion_actual: 3
         },
         {
             equ_id: 3,
-            equ_nombre: "Ventilador",
-            equ_descripcion: "Ventilador averiado.",
-            equ_marca: "Amazon",
-            equ_modelo: "Vent-A124",
-            equ_categoria: "OTROS",
-            equ_ubicacion: 1
+            nombre: "Ventilador",
+            descripcion: "Ventilador averiado.",
+            marca: "Amazon",
+            modelo: "Vent-A124",
+            categoria: "OTROS",
+            id_ubicacion_actual: 1
         },
         {
             equ_id: 4,
-            equ_nombre: "Portatil 202-01",
-            equ_descripcion: "Portatil ASUS nº01 de curso Desarollo de aplicaciones web.",
-            equ_marca: "ASUS",
-            equ_modelo: "ASUS Rog 450-X",
-            equ_categoria: "PORTATIL",
-            equ_ubicacion: 5
+            nombre: "Portatil 202-01",
+            descripcion: "Portatil ASUS nº01 de curso Desarollo de aplicaciones web.",
+            marca: "ASUS",
+            modelo: "ASUS Rog 450-X",
+            categoria: "PORTATIL",
+            id_ubicacion_actual: 5
         },
         {
             equ_id: 5,
-            equ_nombre: "Portatil 202-02",
-            equ_descripcion: "Portatil ASUS nº02 de curso Desarollo de aplicaciones web.",
-            equ_marca: "ASUS",
-            equ_modelo: "ASUS Rog 450-X",
-            equ_categoria: "PORTATIL",
-            equ_ubicacion: 5
+            nombre: "Portatil 202-02",
+            descripcion: "Portatil ASUS nº02 de curso Desarollo de aplicaciones web.",
+            marca: "ASUS",
+            modelo: "ASUS Rog 450-X",
+            categoria: "PORTATIL",
+            id_ubicacion_actual: 5
         },
         {
             equ_id: 6,
-            equ_nombre: "Torre 202-01",
-            equ_descripcion: "Torre de profesor de curso Desarollo de aplicaciones web.",
-            equ_marca: "HP",
-            equ_modelo: "HP-XJ11289",
-            equ_categoria: "SOBREMESA",
-            equ_ubicacion: 5
+            nombre: "Torre 202-01",
+            descripcion: "Torre de profesor de curso Desarollo de aplicaciones web.",
+            marca: "HP",
+            modelo: "HP-XJ11289",
+            categoria: "SOBREMESA",
+            id_ubicacion_actual: 5
         }
     ];
 
     if (Array.isArray(value)) {
-        let atributos = ["equ_id", "equ_nombre", "equ_descripcion", "equ_marca", "equ_modelo", "equ_categoria", "equ_ubicacion"];
+        let atributos = ["id_equipamiento", "nombre", "descripcion", "marca", "modelo", "categoria", "id_ubicacion_actual"];
 
         // Verifica si todos los objetos tienen todos los atributos
         let valido = value.every(obj =>
@@ -283,7 +283,7 @@ function mockEquipamientos() {
         );
 
         if (valido) {
-            value.sort((a, b) => a.equ_nombre.localeCompare(b.equ_nombre));
+            value.sort((a, b) => a.nombre.localeCompare(b.nombre));
 
             value.forEach(equ => {
                 let art_equ = document.createElement("article"); // Nuevo Equipamiento
@@ -294,8 +294,8 @@ function mockEquipamientos() {
                 sec_equ_inf.classList.add("equ-inf");
                 let img_equ_img = document.createElement("img");
                 img_equ_img.classList.add("equ-img");
-                img_equ_img.src = "../assets/img/categoria_" + equ.equ_categoria.toLowerCase() + ".jpg";
-                img_equ_img.alt = "Equipamiento " + equ.equ_nombre + ".";
+                img_equ_img.src = "../assets/img/categoria_" + equ.categoria.toLowerCase() + ".jpg";
+                img_equ_img.alt = "Equipamiento " + equ.nombre + ".";
 
                 art_equ.appendChild(sec_equ_inf); // Seccion de información al artículo
 
@@ -304,29 +304,29 @@ function mockEquipamientos() {
 
                 let div_equ_nom = document.createElement("div"); // Nombre
                 let h3_equ_nom = document.createElement("h3");
-                h3_equ_nom.textContent = equ.equ_nombre;
+                h3_equ_nom.textContent = equ.nombre;
                 div_equ_nom.appendChild(h3_equ_nom);
                 div_det.appendChild(div_equ_nom);
 
                 let inp_equ_nom = document.createElement("input"); // Input Nombre
                 inp_equ_nom.type = "text";
-                inp_equ_nom.value = equ.equ_nombre;
+                inp_equ_nom.value = equ.nombre;
                 inp_equ_nom.className = "equ-nom";
 
                 let div_equ_det = document.createElement("div"); // Detalles
                 let p_equ_det = document.createElement("p");
-                p_equ_det.textContent = equ.equ_marca + " - " + equ.equ_modelo;
+                p_equ_det.textContent = equ.marca + " - " + equ.modelo;
                 div_equ_det.appendChild(p_equ_det);
                 div_det.appendChild(div_equ_det);
 
                 let inp_equ_mar = document.createElement("input"); // Input Marca
                 inp_equ_mar.type = "text";
-                inp_equ_mar.value = equ.equ_marca;
+                inp_equ_mar.value = equ.marca;
                 inp_equ_mar.className = "equ-mar";
 
                 let inp_equ_mod = document.createElement("input"); // Input Modelo
                 inp_equ_mod.type = "text";
-                inp_equ_mod.value = equ.equ_modelo;
+                inp_equ_mod.value = equ.modelo;
                 inp_equ_mod.className = "equ-mod";
 
                 sec_equ_inf.appendChild(img_equ_img); // Imagen en información
@@ -343,7 +343,7 @@ function mockEquipamientos() {
                 btn_edit.classList.add("btn-edit");
                 let img_btn_edit = document.createElement("img");
                 img_btn_edit.src = srcEditar;
-                btn_edit.alt = "Editar campos del equipamiento " + equ.equ_nombre + ".";
+                btn_edit.alt = "Editar campos del equipamiento " + equ.nombre + ".";
                 btn_edit.appendChild(img_btn_edit);
 
                 // [ Edita el Equipamiento selecionado ]
@@ -369,7 +369,7 @@ function mockEquipamientos() {
                 btn_save.classList.add("oculto");
                 let img_btn_save = document.createElement("img");
                 img_btn_save.src = srcGuardar;
-                btn_save.alt = "Guardar cambios del equipamiento " + equ.equ_nombre + ".";
+                btn_save.alt = "Guardar cambios del equipamiento " + equ.nombre + ".";
                 btn_save.appendChild(img_btn_save);
 
                 // [ Guarda las modificaciones del Equipamiento editado ]
@@ -391,7 +391,7 @@ function mockEquipamientos() {
                 btn_delete.classList.add("btn-delete");
                 let img_btn_delete = document.createElement("img");
                 img_btn_delete.src = srcEliminar;
-                btn_delete.alt = "Eliminar equipamiento " + equ.equ_nombre + ".";
+                btn_delete.alt = "Eliminar equipamiento " + equ.nombre + ".";
                 btn_delete.appendChild(img_btn_delete);
 
                 // [ Elimina el Equipamiento ]
@@ -405,7 +405,7 @@ function mockEquipamientos() {
             });
 
         } else {
-            equNoValido(value[0].message);
+            equNoValido(value.message);
         }
     } else {
         equNoValido("Formato de datos incorrecto.");
