@@ -23,7 +23,6 @@
 .perfil-contenedor.perfil-admin {
     
     grid-template-columns: minmax(240px, 1fr) 2fr;
-
     max-width: none;
 }
 
@@ -39,11 +38,12 @@
     border-radius: var(--border-radius-m);
 
     padding: 20px;
+    display: flex-box;
+    flex-direction: column;
 }
 
 .perfil-panel h2 {
     margin: 0 0 15px;
-
     text-align: center;
 }
 
@@ -274,4 +274,99 @@
 
 #perfil-mensaje.perfil-ok {
     border-left-color: var(--color-new);
+}
+
+/* ---------------------------------------------- [FILTROS]*/
+.perfil-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+.perfil-filtros input {
+    flex: 2 1 200px;
+}
+
+.perfil-filtros select {
+    flex: 1 1 150px;
+}
+
+.perfil-filtros input,
+.perfil-filtros select {
+    background-color: var(--color-white);
+    color: var(--color-black);
+
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+
+    box-sizing: border-box;
+
+    padding: 10px;
+
+    font: inherit;
+}
+
+/* ---------------------------------------------- [CAMBIAR CONTRASEÑA]*/
+#modalPerfil #btn-cambiar-password {
+    margin-top: 10px;
+}
+
+#btn-cambiar-password img {
+    width: 20px;
+    height: 20px;
+
+    margin-right: 8px;
+
+    vertical-align: middle;
+}
+
+#form-password {
+    margin-top: 15px;
+}
+
+#form-password div {
+    margin-bottom: 12px;
+}
+
+#form-password label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-weight: bold;
+}
+
+#form-password input {
+    background-color: var(--color-white);
+    color: var(--color-black);
+
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+
+    box-sizing: border-box;
+    width: 100%;
+
+    padding: 10px;
+
+    font: inherit;
+}
+
+#password-mensaje {
+    border-left: 6px solid var(--color-delete);
+
+    margin: 0 0 15px;
+
+    font-weight: bold;
+}
+
+#password-mensaje.perfil-ok {
+    border-left-color: var(--color-new);
+}
+
+/* ---------------------------------------------- [MODAL CONSERJE]*/
+#modalPerfil .modalContenido.perfil-compacto {
+    width: 90%;
+    max-width: 462px;
 }
