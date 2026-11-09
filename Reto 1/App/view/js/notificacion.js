@@ -359,13 +359,13 @@ async function cargarNotificacionesFiltradas(lista) {
                             inputDescripcion.className = "inputEditarDescripcion";
 
                             inputFecha = document.createElement("input");
-                            inputFecha.type = "text";
+                            inputFecha.type = "datetime-local";
                             inputFecha.value = fechaFormatoSQL;
 
                             // Reemplazamos los textos por los inputs en el DOM
                             titulo.replaceWith(inputTitulo);
                             descripcion.replaceWith(inputDescripcion);
-                            detalles.replaceWith(inputFecha, inputEstado);
+                            detalles.replaceWith(inputFecha);
                             inputTitulo.focus();
                         }
                         // Cambiamos el botón para indicar que el siguiente click guarda
