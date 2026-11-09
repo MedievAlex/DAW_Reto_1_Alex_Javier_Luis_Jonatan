@@ -448,9 +448,9 @@ function generarUbicaciones(value) {
             btn_cancel.classList.remove("oculto");
             btn_cancel.classList.add("visible");
 
-            btn_delete.classList.add("oculto");
-
             if (ubi_nombre != "Almacén") {
+                btn_delete.classList.add("oculto");
+
                 h3_ubi_nom.replaceWith(inp_ubi_nom);
             }
 
@@ -479,7 +479,23 @@ function generarUbicaciones(value) {
 
         // [ Cancela la acción ]
         btn_cancel.addEventListener("click", () => {
-            cargarUbicaciones();
+            btn_save.classList.remove("visible");
+            btn_save.classList.add("oculto");
+
+            btn_edit.classList.remove("oculto");
+            btn_edit.classList.add("visible");
+
+            btn_cancel.classList.remove("visible");
+            btn_cancel.classList.add("oculto");
+
+            if (ubi_nombre != "Almacén") {
+                btn_delete.classList.remove("oculto");
+                btn_delete.classList.add("visible");
+
+                inp_ubi_nom.replaceWith(h3_ubi_nom);
+            }
+
+            inp_ubi_des.replaceWith(p_ubi_des);
         });
 
         // [ Muestra los Equipamientos de la Ubicacion ]
