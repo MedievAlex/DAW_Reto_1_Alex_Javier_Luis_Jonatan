@@ -476,6 +476,7 @@
 }
 
 #form-perfil-propio {
+    justify-content: space-around;
     margin-bottom: 15px;
 }
 
