@@ -110,12 +110,11 @@ async function eliminarUsuario(usu_id) {
 }
 
 // Cambia la contraseña del usuario de la sesión. Devuelve true si se ha cambiado
-async function cambiarPasswordPropia(password_actual, password_nueva) {
+async function cambiarPasswordPropia(password_nueva) {
 
     let url = USU_URL;
     let method = "PUT";
     let data = {
-        password_actual: password_actual,
         password_nueva: password_nueva
     };
     let usuarios;
@@ -125,4 +124,25 @@ async function cambiarPasswordPropia(password_actual, password_nueva) {
     datosRespuestaUsuario(usuarios);
     return true;
 
-}       
+}
+
+// Edita el perfil del usuario de la sesión (nombre, apellidos y nombre de usuario). El rol no se puede cambiar.
+// perfilPropio = { nombre, apellidos, nombre_usuario }. Devuelve el usuario editado.
+async function editarPerfilPropio(perfilPropio) {
+
+    let url = USU_URL;
+    let method = "PUT";
+    let data = {
+        perfil_propio: true,
+        nombre: perfilPropio.nombre,
+        apellidos: perfilPropio.apellidos,
+        nombre_usuario: perfilPropio.nombre_usuario
+    };
+    let usuarios;
+
+    usuarios = await petition(url, method, data); // Llama al petition de global.js
+
+    const datos = datosRespuestaUsuario(usuarios);
+    return datos[0] || null;
+
+}

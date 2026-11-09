@@ -314,19 +314,6 @@
 }
 
 /* ---------------------------------------------- [CAMBIAR CONTRASEÑA]*/
-#modalPerfil #btn-cambiar-password {
-    margin-top: 10px;
-}
-
-#btn-cambiar-password img {
-    width: 20px;
-    height: 20px;
-
-    margin-right: 8px;
-
-    vertical-align: middle;
-}
-
 #form-password {
     margin-top: 15px;
 }
@@ -374,4 +361,171 @@
 #modalPerfil .modalContenido.perfil-compacto {
     width: 90%;
     max-width: 462px;
+}
+
+/* ---------------------------------------------- [CAMPO CONTRASEÑA CON OJO]*/
+.campo-password {
+    position: relative;
+}
+
+#form-password .campo-password input {
+    padding-right: 56px;
+    /* deja sitio al botón del ojo */
+}
+
+/* Reutiliza .btn-s de global.css; solo se recoloca y se reduce */
+.campo-password .btn-s {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+
+    width: 36px;
+    height: 36px;
+
+    padding: 6px;
+    margin: 0;
+}
+
+/* ---------------------------------------------- [RESPONSIVE]*/
+/* El .modal de global.css mide 100% de alto MÁS 100px de padding-top (content-box):
+   los últimos 100px quedaban fuera de la pantalla y el formulario de contraseña no se veía. */
+#modalPerfil {
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+
+#modalPerfil .modalContenido {
+    margin: 0 auto 20px;
+    /* aire al final para poder hacer scroll hasta el último botón */
+}
+
+/* Móvil y pantallas bajas: menos hueco arriba y avatar más pequeño */
+@media (max-width: 800px),
+(max-height: 700px) {
+    #modalPerfil {
+        padding-top: 20px;
+    }
+
+    .perfil-avatar {
+        width: 80px;
+        height: 80px;
+
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    #modalPerfil {
+        padding: 10px 8px 0;
+    }
+
+    #modalPerfil .modalContenido,
+    #modalPerfil .modalContenido.perfil-compacto {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .perfil-panel {
+        padding: 14px;
+    }
+
+    /* Botones de texto a todo el ancho: más fáciles de pulsar con el dedo */
+    #modalPerfil .perfil-panel>.btn-texto {
+        width: 100%;
+    }
+
+    .perfil-filtros input,
+    .perfil-filtros select {
+        flex: 1 1 100%;
+    }
+
+    .usuarios-lista {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------------------------------------- [EDITAR MI PERFIL]*/
+/* Fila de botones de icono (editar y cambiar contraseña) */
+.perfil-acciones {
+    justify-content: center;
+}
+
+.perfil-acciones .btn-s[aria-expanded="true"] {
+    border: 2px solid var(--color-white);
+}
+
+/* Mientras hay un formulario abierto la fila se oculta (.oculto pierde contra display:flex de .perfil-barra) */
+.perfil-acciones.oculto {
+    display: none;
+}
+
+/* Icono + texto en todos los botones de texto del modal (cambiar contraseña, guardar, cancelar, cerrar sesión) */
+#modalPerfil .btn-texto img {
+    width: 20px;
+    height: 20px;
+
+    margin-right: 8px;
+
+    vertical-align: middle;
+}
+
+#modalPerfil .perfil-acciones #btn-cambiar-password {
+    margin: 0;
+}
+
+#form-perfil-propio {
+    margin-bottom: 15px;
+}
+
+#form-perfil-propio div {
+    margin-bottom: 12px;
+}
+
+#form-perfil-propio label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-weight: bold;
+}
+
+#form-perfil-propio input {
+    background-color: var(--color-white);
+    color: var(--color-black);
+
+    border: 2px solid var(--color-grey);
+    border-radius: var(--border-radius-s);
+
+    box-sizing: border-box;
+    width: 100%;
+
+    padding: 10px;
+
+    font: inherit;
+}
+
+#form-perfil-propio .campo-password input {
+    padding-right: 56px;
+    /* deja sitio al botón del ojo */
+}
+
+#perfil-propio-mensaje {
+    border-left: 6px solid var(--color-delete);
+
+    margin: 0 0 15px;
+
+    font-weight: bold;
+}
+
+#perfil-propio-mensaje.perfil-ok {
+    border-left-color: var(--color-new);
+}
+
+/* Cerrar sesión: botón de icono al final del todo del panel, centrado */
+#modalPerfil .perfil-panel>#btn-cerrar-sesion {
+    display: block;
+
+    margin: 15px auto 0;
 }
