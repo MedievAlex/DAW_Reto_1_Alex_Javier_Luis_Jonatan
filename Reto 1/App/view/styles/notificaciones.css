@@ -134,14 +134,18 @@
     border-radius: 2px;
 }
 
-.btnGuardarNuevaNot:hover {
-    background-color: #04be04;
+.btnGuardarNuevaNot {
+    background-color: var(--color-new);
     padding: 9px 12px;
 }
 
-.btnCancelarNuevaNot:hover {
-    background-color: #ff4d4d;
+.btnCancelarNuevaNot {
+    background-color: var(--color-delete);
     padding: 9px 12px;
+}
+
+.btnGuardarNuevaNot:hover, .btnCancelarNuevaNot:hover {
+    background-color: var(--color-acento);
 }
 
 .iconoEstadoNot {

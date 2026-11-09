@@ -143,6 +143,7 @@ button {
     box-shadow: var(--button-shadow);
 
     border: none;
+    border-radius: var(--border-radius-s);
 
     cursor: pointer;
 }
@@ -377,6 +378,7 @@ nav .btn-s {
     padding: 20px;
 
     border: 1px solid var(--color-grey);
+    border-radius: var(--border-radius-l);
 
     margin: auto;
 }
@@ -398,6 +400,41 @@ nav .btn-s {
     text-decoration: none;
 }
 
+#modalAjustes .modalContenido section {
+    display: flex;
+    justify-content: space-around;
+}
+
+#modalAjustes .modalContenido section button:disabled {
+    padding: 10px;
+}
+
+#modalAjustes .modalContenido section button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* ---------------------------------------------- [ENLACE]*/
+
+#enlace {
+    display: flex;
+    justify-content: center;
+
+    margin: 10px;
+}
+
+#enlace a {
+    color: var(--color-acento);
+
+    text-decoration: none;
+}
+
+#enlace a:hover, #enlace a:focus {
+    color: var(--color-secundario);
+
+    font-weight: bolder;
+}
+
 /* ---------------------------------------------- [FOOTER]*/
 footer {
     background-color: var(--color-secundario);
@@ -407,6 +444,7 @@ footer {
 }
 
 footer p {
+    color: var(--texto-secundario);
     font-style: oblique;
     padding: 20px;
 }

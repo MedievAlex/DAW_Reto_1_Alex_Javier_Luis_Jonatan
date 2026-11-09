@@ -1,4 +1,4 @@
-/* ---------------------------------------------- [Constantes]*/
+/* ---------------------------------------------- [ CONSTANTES ]*/
 const btnAjustes = document.getElementById("boton-ajustes");
 const modalAjustes = document.getElementById("modalAjustes");
 const btnCerrarAjustes = document.getElementsByClassName("cerrar")[0];
@@ -19,7 +19,7 @@ const btnPerfil = document.getElementById("boton-perfil");
 const modalPerfil = document.getElementById("modalPerfil");
 const btnCerrarPerfil = document.getElementsByClassName("cerrar")[2];
 
-/* ---------------------------------------------- [Rutas]*/
+/* ---------------------------------------------- [ RUTAS ]*/
 const srcAjustes = "../assets/icons/icon_ajustes.png";
 const srcAbrir = "../assets/icons/icon_drop_abrir.png";
 const srcCerrar = "../assets/icons/icon_drop_cerrar.png";
@@ -36,7 +36,7 @@ const srcPerfil = "../assets/icons/icon_perfil.png";
 const srcUsu = "../assets/icons/icon_usuario.png";
 const srcUsuNuevo = "../assets/icons/icon_usuario_nuevo.png";
 
-/* ---------------------------------------------- [PETICION]*/
+/* ---------------------------------------------- [ PETICION ]*/
 async function petition(url, method, data) {
   try {
     if (method == "GET") {
@@ -68,7 +68,29 @@ async function petition(url, method, data) {
   }
 }
 
-/* ---------------------------------------------- [MODAL: Ajustes]*/
+/* ---------------------------------------------- [ LISTENERS ]*/
+document.addEventListener("DOMContentLoaded", () => {
+  crearTitulos();
+});
+
+/* ---------------------------------------------- [ FUNCIONES ]*/
+// Crea los titulos para mostrar una descripción cuando se pasa el ratón por encima
+function crearTitulos() {
+  btnAjustes.title = "Ajustes.";
+  btnCerrarAjustes.title = "Cerar ajustes.";
+
+  btnTemaDefault.title = "Cambiar al tema por defecto.";
+  btnTemaAlt.title = "Cambiar al tema alternativo.";
+  btnTemaGlobal.title = "Cambiar al tema global.";
+
+  btnNotificaciones.title = "Notificaciones.";
+  btnCerrarNotificaciones.title = "Cerrar notificaciones";
+
+  btnPerfil.title = "Perfil.";
+  btnCerrarPerfil.title = "Cerrar perfil.";
+}
+
+/* ---------------------------------------------- [ MODAL: Ajustes ]*/
 // Abrir modal
 btnAjustes.addEventListener("click", function () {
   modalAjustes.style.display = "block";
@@ -79,41 +101,68 @@ btnCerrarAjustes.addEventListener("click", function () {
   modalAjustes.style.display = "none";
 });
 
-/* ---------------------------------------------- [Cambiar tema]*/
+/* ---------------------------------------------- [ Cambiar tema ]*/
 document.addEventListener("DOMContentLoaded", () => {
   obtenerTema();
 });
 
-function obtenerTema() {
-  let temaActual = localStorage.getItem("tema");
 
-  if (temaActual == 3) {
+function claveTema() {
+  const sesion = typeof obtenerUsuarioSesion === "function" ? obtenerUsuarioSesion() : null;
+
+  return sesion !== null ? "tema_" + sesion.usu_id : "tema";
+}
+
+// Obtiene los datos del tema guardado
+function obtenerTema() {
+  let temaActual = localStorage.getItem(claveTema());
+
+  if (temaActual == tema3) {
     aplicarTema(tema3);
-  } else if (temaActual == 2) {
+  } else if (temaActual == tema2) {
     aplicarTema(tema2);
   } else {
     aplicarTema(tema1);
   }
 }
 
+// Si existe modifica si no crea y guarda el tema actual
 function aplicarTema(tema) {
-  localStorage.setItem("tema", tema);
+  let btnsTema = [
+    btnTemaDefault,
+    btnTemaAlt,
+    btnTemaGlobal
+  ];
+  let desabilitar = false;
+
+  localStorage.setItem(claveTema(), tema);
+
   document.body.setAttribute("data-theme", tema);
+
+  for (let i = 0; i < btnsTema.length; i++) {
+    if (i == tema - 1) {
+      desabilitar = true;
+    } else {
+      desabilitar = false;
+    }
+
+    btnsTema[i].disabled = desabilitar;
+  }
 }
 
 btnTemaDefault.addEventListener("click", function () {
-  aplicarTema(1);
+  aplicarTema(tema1);
 });
 
 btnTemaAlt.addEventListener("click", function () {
-  aplicarTema(2);
+  aplicarTema(tema2);
 });
 
 btnTemaGlobal.addEventListener("click", function () {
-  aplicarTema(3);
+  aplicarTema(tema3);
 });
 
-/* ---------------------------------------------- [MODAL: Notificaciones]*/
+/* ---------------------------------------------- [ MODAL: Notificaciones]*/
 // Abrir modal
 btnNotificaciones.addEventListener("click", function () {
   modalNotificaciones.style.display = "block";
@@ -124,7 +173,7 @@ btnCerrarNotificaciones.addEventListener("click", function () {
   modalNotificaciones.style.display = "none";
 });
 
-/* ---------------------------------------------- [MODAL: Perfil]*/
+/* ---------------------------------------------- [ MODAL: Perfil]*/
 // Abrir modal
 btnPerfil.addEventListener("click", function () {
   modalPerfil.style.display = "block";
