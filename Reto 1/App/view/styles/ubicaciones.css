@@ -19,18 +19,29 @@ section article {
     margin: 20px;
 }
 
+section #ubicaciones {
+    
+}
+
 /* ---------------------------------------------- [ARTICLE: Tabla]*/
 table {
     border-collapse: collapse;
-    border-spacing: 0;
 
     table-layout: fixed;
+}
+
+#ubi-search {
+    width: 100%;
+
+    margin-top: 10px;
 }
 
 table th {
     text-transform: uppercase;
     text-align: start;
 }
+
+table tr {}
 
 table td {
     text-align: left;
@@ -63,11 +74,12 @@ table .aula:hover {
     font-weight: bold;
 }
 
-.ubi-nom, .ubi-des{
+.ubi-nom,
+.ubi-des {
     width: 100%
 }
 
-.btn-close{
+.btn-close {
     background-color: var(--color-secundario);
 }
 
@@ -140,9 +152,11 @@ table .aula:hover {
     justify-content: center;
     flex-grow: 1;
 }
+
 .equ-inf .det div:last-child {
     display: flex;
 }
+
 .equ-inf .det div:last-child input {
     width: 100%;
 }
@@ -155,7 +169,9 @@ table .aula:hover {
     font-weight: bold;
 }
 
-.equ-det, .equ-mar, .equ-mod{
+.equ-det,
+.equ-mar,
+.equ-mod {
     font-style: italic;
 }
 
