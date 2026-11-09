@@ -84,54 +84,109 @@
                     <!------------------------------------------------ [Perfil: todos los roles] -->
                     <section id="perfil-datos" class="perfil-panel" aria-labelledby="perfil-titulo">
                         <img class="perfil-avatar" src="../assets/icons/icon_usuario.png" alt="Perfil de usuario">
-                        <h2 id="perfil-titulo">Mi perfil</h2>
+                        <h2 id="perfil-titulo">Perfil</h2>
 
-                        <dl class="perfil-campos">
+                        <p id="perfil-propio-mensaje" class="err oculto" role="alert"></p>
+
+                        <dl id="perfil-campos" class="perfil-campos">
                             <div class="perfil-campo">
                                 <dt>Nombre</dt>
                                 <dd id="perfil-nombre"></dd>
                             </div>
                             <div class="perfil-campo">
+                                <dt>Apellidos</dt>
+                                <dd id="perfil-apellidos"></dd>
+                            </div>
+                            <div class="perfil-campo">
                                 <dt>Usuario</dt>
                                 <dd id="perfil-usuario"></dd>
                             </div>
-                            <div class="perfil-campo">
-                                <dt>Rol</dt>
-                                <dd id="perfil-rol"></dd>
-                            </div>
                         </dl>
 
-                        <button id="btn-cerrar-sesion" type="button" class="btn-texto">Cerrar sesión</button>
+                        <!-- Editar el propio perfil (nombre, apellidos y usuario; el rol no se toca) -->
+                        <form id="form-perfil-propio" class="oculto" autocomplete="off">
+                            <div>
+                                <label for="perfil-edit-nombre">Nombre</label>
+                                <input type="text" id="perfil-edit-nombre" name="nombre" maxlength="80" required>
+                            </div>
 
-                        <button id="btn-cambiar-password" type="button" class="btn-texto" aria-expanded="false"
-                            aria-controls="form-password">
-                            <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
-                                alt="">Cambiar contraseña
-                        </button>
+                            <div>
+                                <label for="perfil-edit-apellidos">Apellidos</label>
+                                <input type="text" id="perfil-edit-apellidos" name="apellidos" maxlength="120" required>
+                            </div>
+
+                            <div>
+                                <label for="perfil-edit-usuario">Usuario</label>
+                                <input type="text" id="perfil-edit-usuario" name="nombre_usuario" maxlength="60"
+                                    autocomplete="off" required>
+                            </div>
+
+                            <div>
+                                <label for="perfil-edit-password">Contraseña nueva (opcional, de 8 a 72 caracteres)</label>
+                                <div class="campo-password">
+                                    <input type="password" id="perfil-edit-password" name="password_nueva"
+                                        minlength="8" maxlength="72" autocomplete="new-password">
+                                    <button id="btn-perfil-pwd-ver" type="button" class="btn-s" aria-pressed="false"
+                                        aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                                        <img id="icono-perfil-pwd-ver" src="../assets/icons/icon_oculto.png" alt="">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="perfil-barra">
+                                <button id="btn-perfil-guardar" type="submit" class="btn-texto btn-save"
+                                    title="Guardar perfil">
+                                    <img src="../assets/icons/icon_guardar.png" alt="">Guardar
+                                </button>
+                                <button id="btn-perfil-cancelar" type="button" class="btn-texto btn-delete"
+                                    title="Cancelar">
+                                    <img src="../assets/icons/icon_cancelar.png" alt="">Cancelar
+                                </button>
+                            </div>
+                        </form>
+
+                        <div id="perfil-acciones" class="perfil-barra perfil-acciones">
+                            <button id="btn-perfil-editar" type="button" class="btn-s btn-edit" title="Editar perfil"
+                                aria-expanded="false" aria-controls="form-perfil-propio">
+                                <img src="../assets/icons/icon_editar.png" alt="Editar perfil">
+                            </button>
+                            <button id="btn-cambiar-password" type="button" class="btn-texto"
+                                title="Cambiar contraseña" aria-expanded="false" aria-controls="form-password">
+                                <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
+                                    alt="">Cambiar contraseña
+                            </button>
+                        </div>
 
                         <form id="form-password" class="oculto" autocomplete="off">
                             <p id="password-mensaje" class="err oculto" role="alert"></p>
 
                             <div>
-                                <label for="pwd-actual">Contraseña actual</label>
-                                <input type="password" id="pwd-actual" name="password_actual"
-                                    autocomplete="current-password" required>
-                            </div>
-
-                            <div>
                                 <label for="pwd-nueva">Contraseña nueva (de 8 a 72 caracteres)</label>
-                                <input type="password" id="pwd-nueva" name="password_nueva" minlength="8"
-                                    maxlength="72" autocomplete="new-password" required>
+                                <div class="campo-password">
+                                    <input type="password" id="pwd-nueva" name="password_nueva" minlength="8"
+                                        maxlength="72" autocomplete="new-password" required>
+                                    <button id="btn-pwd-ver" type="button" class="btn-s" aria-pressed="false"
+                                        aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                                        <img id="icono-pwd-ver" src="../assets/icons/icon_oculto.png" alt="">
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="perfil-barra">
-                                <button id="btn-password-guardar" type="submit" class="btn-s btn-save"
+                                <button id="btn-password-guardar" type="submit" class="btn-texto btn-save"
                                     title="Guardar contraseña">
-                                    <img src="../assets/icons/icon_guardar.png" alt="Guardar contraseña">
+                                    <img src="../assets/icons/icon_guardar.png" alt="">Guardar
                                 </button>
-                                <button id="btn-password-cancelar" type="button" class="btn-texto">Cancelar</button>
+                                <button id="btn-password-cancelar" type="button" class="btn-texto btn-delete"
+                                    title="Cancelar">
+                                    <img src="../assets/icons/icon_cancelar.png" alt="">Cancelar
+                                </button>
                             </div>
                         </form>
+
+                        <button id="btn-cerrar-sesion" type="button" class="btn-texto" title="Cerrar sesión">
+                            <img src="../assets/icons/icon_log_out.png" alt="">Cerrar sesión
+                        </button>
                     </section>
 
                     <!------------------------------------------------ [Gestión de usuarios: solo ADMIN] -->

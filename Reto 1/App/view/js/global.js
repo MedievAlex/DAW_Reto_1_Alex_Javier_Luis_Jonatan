@@ -38,6 +38,7 @@ const srcUsuNuevo = "../assets/icons/icon_usuario_nuevo.png";
 const srcVisible = "../assets/icons/icon_visible.png";
 const srcOculto = "../assets/icons/icon_oculto.png";
 const srcCancelar = "../assets/icons/icon_cancelar.png";
+const srcLogOut = "../assets/icons/icon_log_out.png";
 
 /* ---------------------------------------------- [ PETICION ]*/
 async function petition(url, method, data) {
