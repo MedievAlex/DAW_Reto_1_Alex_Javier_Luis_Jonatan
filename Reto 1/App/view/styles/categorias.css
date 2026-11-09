@@ -1,60 +1,113 @@
-/* ---------------------------------------------- [ARTICLE: Categorias]*/
+/* Presentación de las categorías; los componentes comunes usan global.css. */
+/* Los selectores se limitan a esta pantalla y las variables conservan las tres paletas. */
+/* === DISTRIBUCIÓN Y TÍTULO === */
+#titulo-categorias,
 #categorias {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    /* Reserva espacio para los botones flotantes comunes. */
+    padding: 20px 90px 25px 20px;
 }
 
-#categorias div{
-    color: var(--color-secundario);
-    text-decoration: none;
+#titulo-categorias {
+    padding-bottom: 10px;
+}
 
+#categorias {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+/* === TARJETAS Y NOMBRES === */
+#categorias .categoria {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    padding: 15px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--border-radius-l);
+    background-color: var(--color-acento);
+    color: var(--texto-acento);
+    box-shadow: var(--button-shadow);
+    text-decoration: none;
+    transition: transform 160ms ease, background-color 160ms ease,
+        color 160ms ease, border-color 160ms ease;
+}
+
+#categorias .categoria .desc {
+    padding: 0 0 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* === IMÁGENES PROPORCIONALES === */
+#categorias .categoria img {
+    display: block;
+    width: 100%;
+    max-width: 210px;
+    height: auto;
+    /* Conserva la imagen completa y su proporción original. */
+    object-fit: contain;
+    margin-top: auto;
     border-radius: var(--border-radius-m);
 }
 
-/* ---------------------------------------------- [ARTICLE: Categoria]*/
-.categoria {
-    width: calc(25% - 20px); /*Calcula el 25% de la pantalla y le resta 20px al width*/
-
-    border: 3px solid var(--color-grey);
-    background-color: white; /*Para que sea igual al fondo de las imágenes*/
-
-    margin: 40px;
+/* === INTERACCIÓN Y ACCESIBILIDAD === */
+#categorias .categoria:hover,
+#categorias .categoria:focus-visible {
+    border-color: var(--color-secundario);
+    background-color: var(--color-secundario);
+    color: var(--texto-secundario);
 }
 
-.categoria img {
-    width: 100%;
-    height: auto;
-
-    border-radius: var(--border-radius-half);
-}
-
-.categoria .desc {
-    font-size: var(--title-text-size);
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-
-    padding: 15px;
-}
-
-.categoria:hover {
-    border: 3px solid var(--color-acento);
-}
-
-.categoria:active {
-    border-width: 2px;
-}
-
-/* ---------------------------------------------- [MEDIA QUERIES]*/
-@media only screen and (max-width: 768px) {
-    .categoria {
-        width: calc(50% - 20px); /*Calcula el 50% de la pantalla y le resta 20px al width*/
+@media (hover: hover) {
+    #categorias .categoria:hover {
+        transform: translateY(-3px);
     }
 }
 
-@media only screen and (max-width: 480px) {
-    .categoria {
-        width: calc(100% - 20px); /*Calcula el 100% de la pantalla y le resta 20px al width*/
+#categorias .categoria:focus-visible {
+    outline: 3px solid var(--color-acento);
+    outline-offset: 4px;
+}
+
+#categorias .categoria:active {
+    transform: translateY(0);
+}
+
+/* Respeta la preferencia de reducir el movimiento. */
+@media (prefers-reduced-motion: reduce) {
+    #categorias .categoria {
+        transition: none;
+        transform: none;
+    }
+}
+
+/* === RESPONSIVE HASTA 900 PX: DOS COLUMNAS EN TABLET === */
+@media (max-width: 900px) {
+    #categorias {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* === RESPONSIVE HASTA 600 PX: UNA COLUMNA EN MÓVIL === */
+@media (max-width: 600px) {
+    #titulo-categorias,
+    #categorias {
+        padding-right: 80px;
+        padding-left: 15px;
+    }
+
+    #categorias {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 15px;
     }
 }

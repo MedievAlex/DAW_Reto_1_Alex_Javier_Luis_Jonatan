@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/categorias.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <!-- auth.js se carga antes de categoria.js para aportar las rutas y funciones de sesión. -->
+    <script src="../js/auth.js" defer></script>
     <script src="../js/global.js" defer></script>
     <script src="../js/categoria.js" defer></script>
     <script type="module" src="../js/notificacion.js" defer></script>
@@ -89,49 +92,54 @@
             </div>
         </div>
 
-        <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
-        <article id="categorias">
+        <!------------------------------------------------------------------------ [CATEGORÍAS Y NAVEGACIÓN AL INVENTARIO] -->
+        <h1 id="titulo-categorias">Categorías de equipamientos</h1>
+        <!-- Estado accesible de la comprobación de sesión para ADMIN y USER. -->
+        <p id="estado-sesion-categorias" class="err" role="status" aria-live="polite">Comprobando la sesión…</p>
+        <!-- Las tarjetas comienzan bloqueadas hasta confirmar la sesión con el servidor. -->
+        <!-- Los enlaces filtrados utilizan los valores exactos del enum Categoria. -->
+        <article id="categorias" aria-labelledby="titulo-categorias" aria-busy="true" inert>
 
-            <div class="categoria" href="Equipamientos.html"> <!-- [ Mostrar todas las Equipaciones ] -->
+            <a class="categoria" href="Equipamientos.html" aria-disabled="true" tabindex="-1"> <!-- Todos los equipamientos: navegación sin parámetro de categoría. -->
                 <div class="desc">Todos</div>
-                <img src="../assets/img/categoria_todo.jpg" alt="Categoría de equipamientos de sobremesa." width="600"
+                <img src="../assets/img/categoria_todo.jpg" alt="Todos los equipamientos." width="600"
                     height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria PORTATILES ] -->
+            <a class="categoria" href="Equipamientos.html?categoria=PORTATIL" aria-disabled="true" tabindex="-1">
+                <!-- Inventario filtrado por PORTATIL. -->
                 <div class="desc">Portatiles</div>
-                <img src="../assets/img/categoria_portatil.jpg" alt="Categoría de equipamientos portatiles." width="600"
+                <img src="../assets/img/categoria_portatil.jpg" alt="Categoría de equipamientos portátiles." width="600"
                     height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria SOBREMESA ] -->
+            <a class="categoria" href="Equipamientos.html?categoria=SOBREMESA" aria-disabled="true" tabindex="-1">
+                <!-- Inventario filtrado por SOBREMESA. -->
                 <div class="desc">Sobremesa</div>
                 <img src="../assets/img/categoria_sobremesa.jpg" alt="Categoría de equipamientos de sobremesa."
                     width="600" height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria PERIFERICOS ] -->
+            <a class="categoria" href="Equipamientos.html?categoria=PERIFERICO" aria-disabled="true" tabindex="-1">
+                <!-- Inventario filtrado por PERIFERICO. -->
                 <div class="desc">Perifericos</div>
-                <img src="../assets/img/categoria_perifericos.jpg" alt="Categoría de equipamientos portatiles."
+                <img src="../assets/img/categoria_perifericos.jpg" alt="Categoría de periféricos."
                     width="600" height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria AUDIOVISUAL ] -->
+            <a class="categoria" href="Equipamientos.html?categoria=AUDIOVISUAL" aria-disabled="true" tabindex="-1">
+                <!-- Inventario filtrado por AUDIOVISUAL. -->
                 <div class="desc">Audiovisual</div>
-                <img src="../assets/img/categoria_audiovisual.jpg" alt="Categoría de equipamientos de sobremesa."
+                <img src="../assets/img/categoria_audiovisual.jpg" alt="Categoría de equipamientos audiovisuales."
                     width="600" height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria OTROS ] -->
+            <a class="categoria" href="Equipamientos.html?categoria=OTROS" aria-disabled="true" tabindex="-1">
+                <!-- Inventario filtrado por OTROS. -->
                 <div class="desc">Otros</div>
-                <img src="../assets/img/categoria_otros.jpg" alt="Categoría de equipamientos portatiles." width="600"
+                <img src="../assets/img/categoria_otros.jpg" alt="Otros equipamientos." width="600"
                     height="400">
-            </div>
+            </a>
 
         </article>
     </section>
