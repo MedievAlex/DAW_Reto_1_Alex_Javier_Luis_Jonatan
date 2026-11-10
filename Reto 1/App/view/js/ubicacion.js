@@ -4,6 +4,7 @@ const EQU_URL = "../../api/EquipamientoController.php";
 
 const artUbi = document.getElementById("ubicaciones");
 const ubiSearch = document.getElementById("ubi-search");
+const btnSearch = document.getElementById("search");
 
 const table_ubicaciones = document.querySelector("#ubicaciones table");
 const tbody_ubicaciones = document.querySelector("#ubicaciones table tbody");
@@ -117,7 +118,10 @@ if (esAdmin) {
     btnNewUbi.classList.add("oculto");
 }
 
-ubiSearch.value.trim();
+btnSearch.addEventListener("click", () => {
+    filtrarUbicaciones(ubiSearch.value);
+
+});
 
 /* ---------------------------------------- [ FUNCIONES ]*/
 // [ Genera la tarjeta del mensaje de error de Ubicacion ]
@@ -583,7 +587,7 @@ function generarUbicaciones(value) {
             btn_close.classList.remove("oculto");
             btn_close.classList.add("visible");
 
-            limpiarEquiposDeUbicacion(event.currentTarget);
+            cerrarEquiposDeUbicacion(event.currentTarget);
 
             cargarEquiposDeUbicacion(ubi_id);
             //mockEquipamientos(); // mockData.js
@@ -597,7 +601,7 @@ function generarUbicaciones(value) {
             btn_open.classList.remove("oculto");
             btn_open.classList.add("visible");
 
-            limpiarEquiposDeUbicacion(event.currentTarget);
+            cerrarEquiposDeUbicacion(event.currentTarget);
         });
 
         tr_ubi.appendChild(ubi_btn);
@@ -621,16 +625,49 @@ function ordenarUbicaciones(value) {
     return value;
 }
 
-function filtrarUbicaciones() {
-    const trows = tbody_ubicaciones.querySelectorAll(tr);
+// [ Filtra por el nombre buscado ]
+function filtrarUbicaciones(search) {
+    const trows = tbody_ubicaciones.querySelectorAll("tr");
 
-    if (ubiSearch.value.trim() !== "") {
+    limpiarEquiposDeUbicacion();
 
+    trows.forEach(row => {
+        if (search.trim() !== "") {
+            let nom = row.querySelector(".ubi-nom").textContent.trim().toLowerCase();
+
+            if (nom.includes(search.trim())) {
+                row.classList.remove("oculto");
+            } else {
+                row.classList.add("oculto");
+            }
+        } else {
+            row.classList.remove("oculto");
+        }
+    });
+
+
+}
+
+// [ Limpia el listado de los equipos de una Ubicacion ]
+function limpiarEquiposDeUbicacion() {
+    let botonesAbrir = Array.from(document.getElementsByClassName("btn-open"));
+    let botonesCerrar = Array.from(document.getElementsByClassName("btn-close"));
+
+    artEqu.innerHTML = "";
+
+    for (var i = 0; i < botonesAbrir.length; i++) {
+        botonesAbrir[i].classList.remove("oculto");
+        botonesAbrir[i].classList.add("visible");
+    }
+
+    for (var i = 0; i < botonesCerrar.length; i++) {
+        botonesCerrar[i].classList.remove("visible");
+        botonesCerrar[i].classList.add("oculto");
     }
 }
 
 // [ Limpia el listado de los equipos de una Ubicacion ]
-function limpiarEquiposDeUbicacion(event_btn) {
+function cerrarEquiposDeUbicacion(event_btn) {
     let botonesAbrir = Array.from(document.getElementsByClassName("btn-open"));
     let botonesCerrar = Array.from(document.getElementsByClassName("btn-close"));
 
