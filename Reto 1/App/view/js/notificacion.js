@@ -196,33 +196,41 @@ async function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
 }
 
 async function eliminarNotificacion(id, btnEliminar) {
-    const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta notificación?");
-    if (!confirmado) {
-        console.log("Eliminación cancelada.");
+    const existeNuevo = document.getElementById("elementoNuevoNotificacion");
+    const hayEdicionActiva = document.querySelector(".tarjeta.editando-activo");
+
+    if (existeNuevo || hayEdicionActiva) {
+        alert("Termina de editar o crear la notificación actual antes de eliminar otra.");
     } else {
-        let url = NOT_URL + "?not_id=" + id;
-        let method = "DELETE";
-        let data = [];
-        let resultado;
-
-        resultado = await petition(url, method, data); // Llama al petition de global.js
-        const error = Array.isArray(resultado) && resultado[0] === false;
-
-        if (error) {
-            console.warn("No se pudo eliminar por: " + resultado[0].message);
-
+        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta notificación?");
+        if (!confirmado) {
+            console.log("Eliminación cancelada.");
         } else {
-            const elementoEliminado = btnEliminar.closest(".tarjeta");
-            if (elementoEliminado) {
-                elementoEliminado.remove();
-                console.log("Notificacion eliminada correctamente.")
-                cargarNotificaciones();
-            }
+            let url = NOT_URL + "?not_id=" + id;
+            let method = "DELETE";
+            let data = [];
+            let resultado;
 
-            if (listaNotificaciones && !listaNotificaciones.querySelector(".tarjeta")) {
-                listaNotificaciones.textContent = "No hay notificaciones.";
+            resultado = await petition(url, method, data); // Llama al petition de global.js
+            const error = Array.isArray(resultado) && resultado[0] === false;
+
+            if (error) {
+                console.warn("No se pudo eliminar por: " + resultado[0].message);
+
+            } else {
+                const elementoEliminado = btnEliminar.closest(".tarjeta");
+                if (elementoEliminado) {
+                    elementoEliminado.remove();
+                    console.log("Notificacion eliminada correctamente.")
+                    cargarNotificaciones();
+                }
+
+                if (listaNotificaciones && !listaNotificaciones.querySelector(".tarjeta")) {
+                    listaNotificaciones.textContent = "No hay notificaciones.";
+                }
             }
         }
+
     }
 
 
@@ -321,9 +329,10 @@ async function cargarNotificacionesFiltradas(lista) {
             // Variables para controlar la edición de ESTA tarjeta en concreto
             let editando = false;
             let inputTitulo = null;
-            let inputFecha = null;
+            // let inputFecha = null;
             let inputDescripcion = null;
             let inputEstado = null;
+            let btnCancelarMod = null;
 
             btnModificar.addEventListener("click", () => {
                 if (!editando) {
@@ -358,16 +367,17 @@ async function cargarNotificacionesFiltradas(lista) {
                             inputDescripcion.value = descripcion.textContent;
                             inputDescripcion.className = "inputEditarDescripcion";
 
-                            inputFecha = document.createElement("input");
-                            inputFecha.type = "datetime-local";
-                            inputFecha.value = fechaFormatoSQL;
+                            // inputFecha = document.createElement("input");
+                            // inputFecha.type = "datetime-local";
+                            // inputFecha.value = fechaFormatoSQL;
 
                             // Reemplazamos los textos por los inputs en el DOM
                             titulo.replaceWith(inputTitulo);
                             descripcion.replaceWith(inputDescripcion);
-                            detalles.replaceWith(inputFecha);
+                            // detalles.replaceWith(inputFecha);
                             inputTitulo.focus();
                         }
+
                         // Cambiamos el botón para indicar que el siguiente click guarda
                         //btnModificar.textContent = "Guardar";
                         btnModificar.textContent = "";
@@ -375,14 +385,16 @@ async function cargarNotificacionesFiltradas(lista) {
                         img_guar.src = srcGuardar;
                         btnModificar.appendChild(img_guar);
                         editando = true;
+
                     } else {
                         alert("Termina de editar o crear la notificación actual antes de modificar otra.");
                     }
                 } else {
+
                     // Segundo click: Recoger los nuevos valores segun el rol y guardar
                     const nuevoTitulo = inputTitulo ? inputTitulo.value.trim() : notificacion.titulo;
                     const nuevaDescripcion = inputDescripcion ? inputDescripcion.value.trim() : notificacion.descripcion;
-                    const nuevaFecha = inputFecha ? inputFecha.value.trim() : fechaFormatoSQL;
+                    //   const nuevaFecha = inputFecha ? inputFecha.value.trim() : fechaFormatoSQL;
                     const nuevoEstado = inputEstado ? inputEstado.value.trim() : notificacion.estado;
 
                     if (!nuevoTitulo || !nuevaDescripcion) {
@@ -396,8 +408,7 @@ async function cargarNotificacionesFiltradas(lista) {
                         notificacion_id,
                         nuevoTitulo,
                         nuevaDescripcion,
-                        nuevaFecha,
-                        nuevoEstado
+                        nuevoEstado,
                     );
                 }
             });
