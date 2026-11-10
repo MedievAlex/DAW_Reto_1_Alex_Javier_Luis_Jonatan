@@ -6,6 +6,7 @@
 
 require_once("../controller/Controller.php");
 require_once("../model/Usuario.php");
+require_once("../controller/Permisos.php");
 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -116,23 +117,93 @@ function leerPassword(array $datos, bool $obligatoria): ?string
     return $datos["password"];
 }
 
+/**
+ * Cambia la contraseña del usuario de la sesión (lo puede hacer cualquier rol).
+ * Siempre actúa sobre el usuario de la sesión: nunca se recibe un id desde el cliente.
+ *
+ * @param Controller $controller Controller de la aplicación
+ * @param array $datos Datos del JSON (password_nueva)
+ * @throws InvalidArgumentException Si la contraseña nueva no cumple la longitud (lo valida el Controller)
+ */
+function cambiarPasswordPropia(Controller $controller, array $datos): void
+{
+    $nueva = is_string($datos["password_nueva"] ?? null) ? $datos["password_nueva"] : "";
+
+    if ($nueva === "") {
+        response(400, false, "Debes indicar la contraseña nueva.", []);
+        return;
+    }
+
+    $usu_id = (int) $_SESSION["usuario"]["usu_id"];
+
+    if (!$controller->buscarUsuarioPorId($usu_id)) {
+        response(404, false, "Usuario no encontrado.", []);
+        return;
+    }
+
+    // cambiarPassword valida la longitud (8 a 72) y guarda el hash nuevo
+    if ($controller->cambiarPassword($usu_id, $nueva)) {
+        session_regenerate_id(true);
+        response(200, true, "Contraseña cambiada correctamente.", []);
+    } else {
+        response(500, false, "No se pudo cambiar la contraseña.", []);
+    }
+}
+
+/**
+ * Edita nombre, apellidos y nombre de usuario del usuario de la sesión (cualquier rol).
+ * Siempre actúa sobre el usuario de la sesión y el rol no se puede cambiar desde aquí.
+ *
+ * @param Controller $controller Controller de la aplicación
+ * @param array $datos Datos del JSON (nombre, apellidos y nombre_usuario)
+ * @throws InvalidArgumentException Si algún dato no es válido
+ */
+function editarPerfilPropio(Controller $controller, array $datos): void
+{
+    $usu_id = (int) $_SESSION["usuario"]["usu_id"];
+    $usuario = $controller->buscarUsuarioPorId($usu_id);
+
+    if (!$usuario) {
+        response(404, false, "Usuario no encontrado.", []);
+        return;
+    }
+
+    $datos["rol"] = $usuario->getRol(); // se mantiene el rol actual
+    $campos = validarDatos($datos);
+
+    if ($controller->existeNombreUsuario($campos["nombre_usuario"], $usu_id)) {
+        // Nombre de usuario de otra persona
+        response(409, false, "El nombre de usuario ya existe.", []);
+        return;
+    }
+
+    $usuario->setNombre($campos["nombre"])
+        ->setApellidos($campos["apellidos"])
+        ->setNombreUsuario($campos["nombre_usuario"]);
+
+    if ($controller->editarUsuario($usuario)) {
+        // La sesión del servidor también se actualiza
+        $_SESSION["usuario"] = array_merge($_SESSION["usuario"], usuarioAArray($usuario));
+        response(200, true, "Perfil editado correctamente.", [usuarioAArray($usuario)]);
+    } else {
+        response(500, false, "No se pudo editar el perfil.", []);
+    }
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 
-// ----------------------------------------PERMISOS 
+// ----------------------------------------PERMISOS
 
-// Solo el Administrador con la sesión iniciada puede gestionar usuarios
+// Hace falta la sesión iniciada (Permisos ya hace el session_start).
+Permisos::exigir();
 
-session_start();
-
-if (!isset($_SESSION["usuario"])) {
-    response(401, false, "Debes iniciar sesión.", []);
-    exit;
+// El Administrador gestiona todos los usuarios; cualquier otro rol solo puede hacer PUT
+// para editar su propio perfil (perfil_propio) o cambiar su propia contraseña (password_nueva).
+if ($method !== 'PUT') {
+    Permisos::exigir([Usuario::ROL_ADMIN], "Solo el Administrador puede gestionar usuarios.");
 }
 
-if ($_SESSION["usuario"]["rol"] !== Usuario::ROL_ADMIN) {
-    response(403, false, "Solo el Administrador puede gestionar usuarios.", []);
-    exit;
-}
+$esAdmin = $_SESSION["usuario"]["rol"] === Usuario::ROL_ADMIN;
 
 try {
     $controller = new Controller();
@@ -217,6 +288,15 @@ try {
             if (!is_array($datos)) {
                 // Sin JSON
                 response(400, false, "El cuerpo debe de tener un JSON válido.", []);
+            } elseif (isset($datos["password_nueva"])) {
+                // Cambiar la contraseña propia: cualquier rol
+                cambiarPasswordPropia($controller, $datos);
+            } elseif (!empty($datos["perfil_propio"])) {
+                // Editar el perfil propio: cualquier rol
+                editarPerfilPropio($controller, $datos);
+            } elseif (!$esAdmin) {
+                // Un usuario que no es Administrador no puede modificar a otros usuarios
+                response(403, false, "Solo el Administrador puede gestionar usuarios.", []);
             } else {
                 $usu_id = filter_var($datos["usu_id"] ?? null, FILTER_VALIDATE_INT);
 
