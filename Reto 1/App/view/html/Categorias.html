@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../styles/usuarios.css">
     <script src="../js/auth.js" defer></script>
     <script src="../js/global.js" defer></script>
-    <script src="../js/equipamiento.js" defer></script>
+    <script src="../js/categoria.js" defer></script>
     <script src="../js/notificacion.js" defer></script>
     <script src="../js/usuario.js" defer></script>
     <script src="../js/perfil.js" defer></script>
@@ -318,54 +318,56 @@
         </div>
 
         <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
-        <article id="categorias">
+        <!-- La sesión se confirma antes de habilitar los enlaces del inventario. -->
+        <p id="estado-sesion-categorias" class="err" role="status" aria-live="polite">Comprobando la sesión…</p>
+        <article id="categorias" aria-busy="true" inert>
 
-            <div class="categoria" href="Equipamientos.html" alt="Ver todos los equipamientos."
+            <a class="categoria" href="Equipamientos.html" aria-disabled="true" tabindex="-1"
                 title="Todas las categorías."> <!-- [ Mostrar todas las Equipaciones ] -->
                 <!-- [ Mostrar los Equipamientos de todas las categorias ] -->
                 <div class="desc">Todos</div>
                 <img src="../assets/img/categoria_todo.jpg" alt="Todas las categorías." width="600" height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos portatiles."
+            <a class="categoria" href="Equipamientos.html?categoria=PORTATIL" aria-disabled="true" tabindex="-1"
                 title="Categoría de equipamientos portatiles.">
                 <!-- [ Mostrar los Equipamientos de la categoria PORTATILES ] -->
                 <div class="desc">Portatiles</div>
                 <img src="../assets/img/categoria_portatil.jpg" alt="Categoría de equipamientos portatiles." width="600"
                     height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos portatiles."
+            <a class="categoria" href="Equipamientos.html?categoria=SOBREMESA" aria-disabled="true" tabindex="-1"
                 title="Categoría de equipamientos de sobremesa.">
                 <!-- [ Mostrar los Equipamientos de la categoria SOBREMESA ] -->
                 <div class="desc">Sobremesa</div>
                 <img src="../assets/img/categoria_sobremesa.jpg" alt="Categoría de equipamientos de sobremesa."
                     width="600" height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos periféricos."
+            <a class="categoria" href="Equipamientos.html?categoria=PERIFERICO" aria-disabled="true" tabindex="-1"
                 title="Categoría de equipamientos periféricos.">
                 <!-- [ Mostrar los Equipamientos de la categoria PERIFERICOS ] -->
                 <div class="desc">Perifericos</div>
                 <img src="../assets/img/categoria_periferico.jpg" alt="Categoría de equipamientos periféricos."
                     width="600" height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos audiovisuales."
+            <a class="categoria" href="Equipamientos.html?categoria=AUDIOVISUAL" aria-disabled="true" tabindex="-1"
                 title="Categoría de equipamientos audiovisuales.">
                 <!-- [ Mostrar los Equipamientos de la categoria AUDIOVISUAL ] -->
                 <div class="desc">Audiovisual</div>
                 <img src="../assets/img/categoria_audiovisual.jpg" alt="Categoría de equipamientos audiovisuales."
                     width="600" height="400">
-            </div>
+            </a>
 
-            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos de otras categorias."
+            <a class="categoria" href="Equipamientos.html?categoria=OTROS" aria-disabled="true" tabindex="-1"
                 title="Otras categorías de equipamientos.">
                 <!-- [ Mostrar los Equipamientos de la categoria OTROS ] -->
                 <div class="desc">Otros</div>
                 <img src="../assets/img/categoria_otros.jpg" alt="Otras categorías de equipamientos." width="600"
                     height="400">
-            </div>
+            </a>
 
         </article>
     </section>

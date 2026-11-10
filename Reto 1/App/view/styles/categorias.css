@@ -60,3 +60,14 @@
         width: calc(100% - 20px); /*Calcula el 100% de la pantalla y le resta 20px al width*/
     }
 }
+/* Enlaces de categoría: conserva el aspecto de las tarjetas y habilita el foco visible. */
+#categorias a.categoria {
+    color: var(--color-secundario);
+    text-decoration: none;
+    border-radius: var(--border-radius-m);
+}
+
+#categorias a.categoria:focus-visible {
+    outline: 3px solid var(--color-acento);
+    outline-offset: 3px;
+}
