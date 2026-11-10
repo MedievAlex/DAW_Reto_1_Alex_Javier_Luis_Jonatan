@@ -170,6 +170,6 @@ class Usuario
      * @return bool
      */
     public function esUser(): bool {
-        return $this->rol === self::ROL_USER; // verifica si el rol del usuario es igual a ROL_USER
+        return $this->rol === self::ROL_USER; // verifica si el usuario tiene el rol USER
     }
 }

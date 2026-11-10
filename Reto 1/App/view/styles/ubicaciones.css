@@ -22,9 +22,14 @@ section article {
 /* ---------------------------------------------- [ARTICLE: Tabla]*/
 table {
     border-collapse: collapse;
-    border-spacing: 0;
 
     table-layout: fixed;
+}
+
+#ubi-search {
+    width: 100%;
+
+    margin-top: 10px;
 }
 
 table th {
@@ -59,11 +64,16 @@ table .aula:hover {
     text-align: left;
 }
 
-.ubi-nom, .ubi-des{
+.ubi-nom {
+    font-weight: bold;
+}
+
+.ubi-nom,
+.ubi-des {
     width: 100%
 }
 
-.btn-close{
+.btn-close {
     background-color: var(--color-secundario);
 }
 
@@ -82,6 +92,7 @@ table .aula:hover {
     width: 50%;
 
     padding: 10px;
+    padding-top: 100px;
     padding-right: 10vh;
 
     border: none;
@@ -120,10 +131,8 @@ table .aula:hover {
 }
 
 .equ-inf .equ-img {
-    min-height: 10vh;
-
-    width: 20vh;
-    height: 20vh;
+    width: 10vh;
+    height: 10vh;
 
     border-radius: var(--border-radius-half);
 }
@@ -134,27 +143,31 @@ table .aula:hover {
     margin: 10px;
 
     display: flex;
-    flex-grow: 1;
     flex-direction: column;
     justify-content: center;
+    flex-grow: 1;
 }
 
-.det-inf .equ-nom {
-    width: 100%;
+.equ-inf .det div:last-child {
+    display: flex;
+}
 
+.equ-inf .det div:last-child input {
+    width: 100%;
+}
+
+.equ-inf .det input {
+    width: 100%;
+}
+
+.equ-nom {
     font-weight: bold;
 }
 
-.det .equ_det {
-    width: 100%;
-
-    font-style: oblique;
-}
-
-#equ-nom,
-#equ-mar,
-#equ-mod {
-    display: none;
+.equ-det,
+.equ-mar,
+.equ-mod {
+    font-style: italic;
 }
 
 .equ-btn {

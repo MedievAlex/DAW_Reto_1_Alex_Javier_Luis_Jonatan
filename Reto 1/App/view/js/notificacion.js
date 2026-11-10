@@ -17,79 +17,87 @@ if (btnAgregarNotificacion) {
         const existeNuevo = document.getElementById("elementoNuevoNotificacion");
         const hayEdicionActiva = document.querySelector(".tarjeta.editando-activo");
 
-        // Evitamos que se abran varios formularios de creación a la vez
-        if (!existeNuevo && !hayEdicionActiva) {
+        const datosSesion = sessionStorage.getItem("auth_usuario");
+        const usuarioSesion = datosSesion ? JSON.parse(datosSesion) : null;
 
-            const usuarioNuevaNot = document.createElement("input");
-            usuarioNuevaNot.className = "inputNuevaNotUsuario";
-            usuarioNuevaNot.type = "number";
-            usuarioNuevaNot.min = "1";
-            usuarioNuevaNot.placeholder = "ID de usuario (ej. 1)";
+        const idUsuarioSesion = usuarioSesion ? parseInt(usuarioSesion.usu_id, 10) : NaN;
+        const puedeAgregar = usuarioSesion !== null && !isNaN(idUsuarioSesion) && usuarioSesion.rol === "USER";
 
-            const elementoNuevo = document.createElement("article");
-            //elementoNuevo.className = "nuevaNotificacion";
-            elementoNuevo.classList.add("tarjeta");
-            elementoNuevo.id = "elementoNuevoNotificacion";
 
-            // Input Título
-            const tituloNuevaNot = document.createElement("input");
-            tituloNuevaNot.className = "inputNuevaNotTitulo";
-            tituloNuevaNot.type = "text";
-            tituloNuevaNot.placeholder = "Título de la notificación...";
-
-            // Input Descripción
-            const descripcionNuevaNot = document.createElement("textarea");
-            descripcionNuevaNot.className = "inputNuevaNotDesc";
-            descripcionNuevaNot.placeholder = "Descripción...";
-
-            // Selector de Fecha y Hora (abre el calendario nativo del navegador)
-            const fechaNuevaNot = document.createElement("input");
-            fechaNuevaNot.className = "inputNuevaNotFecha";
-            fechaNuevaNot.type = "datetime-local";
-
-            // Botón para Guardar la nueva notificación
-            const btnGuardarNueva = document.createElement("button");
-            btnGuardarNueva.textContent = "Guardar";
-            btnGuardarNueva.className = "btnGuardarNuevaNot";
-
-            // Botón para Cancelar por si te arrepientes
-            const btnCancelarNueva = document.createElement("button");
-            btnCancelarNueva.textContent = "Cancelar";
-            btnCancelarNueva.className = "btnCancelarNuevaNot";
-            btnCancelarNueva.addEventListener("click", () => {
-                elementoNuevo.remove();
-            });
-
-            btnGuardarNueva.addEventListener("click", () => {
-                const idUsuario = parseInt(usuarioNuevaNot.value, 10);
-                const titulo = tituloNuevaNot.value.trim();
-                const descripcion = descripcionNuevaNot.value.trim();
-                const fechaRaw = fechaNuevaNot.value; // Devuelve "YYYY-MM-DDTHH:MM"
-                const estado = "PENDIENTE";
-
-                if (!titulo || !descripcion || !fechaRaw || isNaN(idUsuario)) {
-                    alert("Por favor, rellena el título, la descripción y selecciona una fecha.");
-                } else {
-                    // Convertimos "2026-10-28T10:30" a "2026-10-28 10:30:00" para PHP/MySQL
-                    const fechaFormateada = fechaRaw.replace("T", " ") + ":00";
-                    agregarNotificacion(idUsuario, titulo, descripcion, fechaFormateada, estado);
-                }
-            });
-
-            elementoNuevo.append(
-                usuarioNuevaNot,
-                tituloNuevaNot,
-                descripcionNuevaNot,
-                fechaNuevaNot,
-                btnGuardarNueva,
-                btnCancelarNueva
-            );
-
-            listaNotificaciones.prepend(elementoNuevo);
-            tituloNuevaNot.focus();
+        if (!puedeAgregar) {
+            alert("No tienes una sesión válida o permisos para crear notificaciones.");
         } else {
-            if (hayEdicionActiva) {
-                alert("No se puede agregar una nueva notificacion mientras se edita.");
+            // Evitamos que se abran varios formularios de creación a la vez o edición a la vez
+            if (!existeNuevo && !hayEdicionActiva) {
+                /*
+                const usuarioNuevaNot = document.createElement("input");
+                usuarioNuevaNot.className = "inputNuevaNotUsuario";
+                usuarioNuevaNot.type = "number";
+                usuarioNuevaNot.min = "1";
+                usuarioNuevaNot.placeholder = "ID de usuario (ej. 1)";
+                */
+                const elementoNuevo = document.createElement("article");
+                elementoNuevo.classList.add("tarjeta");
+                elementoNuevo.id = "elementoNuevoNotificacion";
+
+                // Input Título
+                const tituloNuevaNot = document.createElement("input");
+                tituloNuevaNot.className = "inputNuevaNotTitulo";
+                tituloNuevaNot.type = "text";
+                tituloNuevaNot.placeholder = "Título de la notificación...";
+
+                // Input Descripción
+                const descripcionNuevaNot = document.createElement("textarea");
+                descripcionNuevaNot.className = "inputNuevaNotDesc";
+                descripcionNuevaNot.placeholder = "Descripción...";
+
+                // Selector de Fecha y Hora (abre el calendario nativo del navegador)
+                const fechaNuevaNot = document.createElement("input");
+                fechaNuevaNot.className = "inputNuevaNotFecha";
+                fechaNuevaNot.type = "datetime-local";
+
+                // Botón para Guardar la nueva notificación
+                const btnGuardarNueva = document.createElement("button");
+                btnGuardarNueva.textContent = "Guardar";
+                btnGuardarNueva.className = "btnGuardarNuevaNot";
+
+                // Botón para Cancelar por si te arrepientes
+                const btnCancelarNueva = document.createElement("button");
+                btnCancelarNueva.textContent = "Cancelar";
+                btnCancelarNueva.className = "btnCancelarNuevaNot";
+                btnCancelarNueva.addEventListener("click", () => {
+                    elementoNuevo.remove();
+                });
+
+                btnGuardarNueva.addEventListener("click", () => {
+                    const titulo = tituloNuevaNot.value.trim();
+                    const descripcion = descripcionNuevaNot.value.trim();
+                    const fechaRaw = fechaNuevaNot.value; // Devuelve "YYYY-MM-DDTHH:MM"
+                    const estado = "PENDIENTE";
+
+                    if (!titulo || !descripcion || !fechaRaw || isNaN(idUsuarioSesion)) {
+                        alert("Por favor, rellena el título, la descripción y selecciona una fecha.");
+                    } else {
+                        // Convertimos "2026-10-28T10:30" a "2026-10-28 10:30:00" para PHP/MySQL
+                        const fechaFormateada = fechaRaw.replace("T", " ") + ":00";
+                        agregarNotificacion(idUsuarioSesion, titulo, descripcion, fechaFormateada, estado);
+                    }
+                });
+
+                elementoNuevo.append(
+                    tituloNuevaNot,
+                    descripcionNuevaNot,
+                    fechaNuevaNot,
+                    btnGuardarNueva,
+                    btnCancelarNueva
+                );
+
+                listaNotificaciones.prepend(elementoNuevo);
+                tituloNuevaNot.focus();
+            } else {
+                if (hayEdicionActiva) {
+                    alert("No se puede agregar una nueva notificacion mientras se edita.");
+                }
             }
         }
     });
@@ -99,6 +107,17 @@ if (btnAgregarNotificacion) {
 async function cargarNotificaciones() {
     if (!listaNotificaciones) {
         console.log("Notificaciones vacías.")
+    } else {
+        const datosSesion = sessionStorage.getItem("auth_usuario");
+        const usuarioSesion = datosSesion ? JSON.parse(datosSesion) : null;
+
+        if (btnAgregarNotificacion) {
+            if (usuarioSesion && usuarioSesion.rol === "ADMIN") {
+                btnAgregarNotificacion.classList.add("oculto");
+            } else {
+                btnAgregarNotificacion.classList.remove("oculto");
+            }
+        }
     }
 
     listaNotificaciones.textContent = "Cargando notificaciones...";
@@ -109,16 +128,14 @@ async function cargarNotificaciones() {
 
         if (!response.ok || !result.success) {
             throw new Error(result.message || "No se pudieron cargar las notificaciones.");
+        } else {
+            // listaNotificaciones.replaceChildren();
+            filtros = result.data || [];
+
+            // Si el desplegable tiene un filtro activo, lo aplicamos; si no, mostramos todas
+            aplicarFiltro();
         }
 
-        if (result.data.length === 0) {
-            listaNotificaciones.textContent = "No hay notificaciones.";
-        }
-        // listaNotificaciones.replaceChildren();
-        filtros = result.data || [];
-
-        // Si el desplegable tiene un filtro activo, lo aplicamos; si no, mostramos todas
-        aplicarFiltro();    
     } catch (error) {
         console.error("Error al cargar las notificaciones:", error);
         listaNotificaciones.textContent = "No se pudieron cargar las notificaciones.";
@@ -179,33 +196,41 @@ async function modificarNotificacion(id, titulo, descripcion, fecha, estado) {
 }
 
 async function eliminarNotificacion(id, btnEliminar) {
-    const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta notificación?");
-    if (!confirmado) {
-        console.log("Eliminación cancelada.");
+    const existeNuevo = document.getElementById("elementoNuevoNotificacion");
+    const hayEdicionActiva = document.querySelector(".tarjeta.editando-activo");
+
+    if (existeNuevo || hayEdicionActiva) {
+        alert("Termina de editar o crear la notificación actual antes de eliminar otra.");
     } else {
-        let url = NOT_URL + "?not_id=" + id;
-        let method = "DELETE";
-        let data = [];
-        let resultado;
-
-        resultado = await petition(url, method, data); // Llama al petition de global.js
-        const error = Array.isArray(resultado) && resultado[0] === false;
-
-        if (error) {
-            console.warn("No se pudo eliminar por: " + resultado[0].message);
-
+        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta notificación?");
+        if (!confirmado) {
+            console.log("Eliminación cancelada.");
         } else {
-            const elementoEliminado = btnEliminar.closest(".tarjeta");
-            if (elementoEliminado) {
-                elementoEliminado.remove();
-                console.log("Notificacion eliminada correctamente.")
-                cargarNotificaciones();
-            }
+            let url = NOT_URL + "?not_id=" + id;
+            let method = "DELETE";
+            let data = [];
+            let resultado;
 
-            if (listaNotificaciones && !listaNotificaciones.querySelector(".tarjeta")) {
-                listaNotificaciones.textContent = "No hay notificaciones.";
+            resultado = await petition(url, method, data); // Llama al petition de global.js
+            const error = Array.isArray(resultado) && resultado[0] === false;
+
+            if (error) {
+                console.warn("No se pudo eliminar por: " + resultado[0].message);
+
+            } else {
+                const elementoEliminado = btnEliminar.closest(".tarjeta");
+                if (elementoEliminado) {
+                    elementoEliminado.remove();
+                    console.log("Notificacion eliminada correctamente.")
+                    cargarNotificaciones();
+                }
+
+                if (listaNotificaciones && !listaNotificaciones.querySelector(".tarjeta")) {
+                    listaNotificaciones.textContent = "No hay notificaciones.";
+                }
             }
         }
+
     }
 
 
@@ -234,6 +259,10 @@ async function aplicarFiltro() {
 
 async function cargarNotificacionesFiltradas(lista) {
     listaNotificaciones.replaceChildren();
+
+    const datosSesion = sessionStorage.getItem("auth_usuario");
+    const usuarioSesion = datosSesion ? JSON.parse(datosSesion) : null;
+    const rolActual = usuarioSesion ? usuarioSesion.rol : "USER";
 
     if (!lista || lista.length === 0) {
         listaNotificaciones.textContent = "No hay notificaciones.";
@@ -278,9 +307,18 @@ async function cargarNotificacionesFiltradas(lista) {
             btnEliminar.classList.add("btn-s");
             btnEliminar.classList.add("btn-delete");
             btnEliminar.innerHTML = '<img src="' + srcEliminar + '" alt="Eliminar notificación">';
-            btnEliminar.addEventListener("click", (event) => {
-                eliminarNotificacion(notificacion_id, event.currentTarget);
-            });
+            if (rolActual === "ADMIN") {
+                btnEliminar.classList.add("oculto");
+            } else {
+                if (notificacion.estado !== "PENDIENTE") {
+                    btnEliminar.disabled = true;
+                    btnEliminar.title = "No se puede eliminar una notificación en proceso o realizada.";
+                } else {
+                    btnEliminar.addEventListener("click", (event) => {
+                        eliminarNotificacion(notificacion_id, event.currentTarget);
+                    });
+                }
+            }
 
             // Botón Modificar con estado de edición en línea
             const btnModificar = document.createElement("button");
@@ -291,9 +329,10 @@ async function cargarNotificacionesFiltradas(lista) {
             // Variables para controlar la edición de ESTA tarjeta en concreto
             let editando = false;
             let inputTitulo = null;
-            let inputFecha = null;
+            // let inputFecha = null;
             let inputDescripcion = null;
             let inputEstado = null;
+            let btnCancelarMod = null;
 
             btnModificar.addEventListener("click", () => {
                 if (!editando) {
@@ -302,21 +341,6 @@ async function cargarNotificacionesFiltradas(lista) {
 
                     if (!existeNuevo && !hayEdicionActiva) {
                         elemento.classList.add("editando-activo");
-
-                        // Primer click: Convertir h3 y p en campos editables
-                        inputTitulo = document.createElement("input");
-                        inputTitulo.type = "text";
-                        inputTitulo.value = titulo.textContent;
-                        inputTitulo.className = "inputEditarTitulo";
-
-                        inputDescripcion = document.createElement("textarea");
-                        inputDescripcion.value = descripcion.textContent;
-                        inputDescripcion.className = "inputEditarDescripcion";
-
-                        inputFecha = document.createElement("input");
-                        inputFecha.type = "text";
-                        inputFecha.value = fechaFormatoSQL;
-
 
                         inputEstado = document.createElement("select");
                         inputEstado.className = "inputEditarEstado";
@@ -330,10 +354,29 @@ async function cargarNotificacionesFiltradas(lista) {
                             inputEstado.appendChild(opcion);
                         })
 
-                        // Reemplazamos los textos por los inputs en el DOM
-                        titulo.replaceWith(inputTitulo);
-                        descripcion.replaceWith(inputDescripcion);
-                        detalles.replaceWith(inputFecha, inputEstado);
+                        if (rolActual === "ADMIN") {
+                            detalles.replaceWith(inputEstado);
+                        } else {
+                            // Primer click: Convertir h3 y p en campos editables
+                            inputTitulo = document.createElement("input");
+                            inputTitulo.type = "text";
+                            inputTitulo.value = titulo.textContent;
+                            inputTitulo.className = "inputEditarTitulo";
+
+                            inputDescripcion = document.createElement("textarea");
+                            inputDescripcion.value = descripcion.textContent;
+                            inputDescripcion.className = "inputEditarDescripcion";
+
+                            // inputFecha = document.createElement("input");
+                            // inputFecha.type = "datetime-local";
+                            // inputFecha.value = fechaFormatoSQL;
+
+                            // Reemplazamos los textos por los inputs en el DOM
+                            titulo.replaceWith(inputTitulo);
+                            descripcion.replaceWith(inputDescripcion);
+                            // detalles.replaceWith(inputFecha);
+                            inputTitulo.focus();
+                        }
 
                         // Cambiamos el botón para indicar que el siguiente click guarda
                         //btnModificar.textContent = "Guardar";
@@ -342,16 +385,17 @@ async function cargarNotificacionesFiltradas(lista) {
                         img_guar.src = srcGuardar;
                         btnModificar.appendChild(img_guar);
                         editando = true;
-                        inputTitulo.focus();
+
                     } else {
                         alert("Termina de editar o crear la notificación actual antes de modificar otra.");
                     }
                 } else {
-                    // Segundo click: Recoger los nuevos valores y guardar
-                    const nuevoTitulo = inputTitulo.value.trim();
-                    const nuevaDescripcion = inputDescripcion.value.trim();
-                    const nuevaFecha = inputFecha.value.trim();
-                    const nuevoEstado = inputEstado.value.trim();
+
+                    // Segundo click: Recoger los nuevos valores segun el rol y guardar
+                    const nuevoTitulo = inputTitulo ? inputTitulo.value.trim() : notificacion.titulo;
+                    const nuevaDescripcion = inputDescripcion ? inputDescripcion.value.trim() : notificacion.descripcion;
+                    //   const nuevaFecha = inputFecha ? inputFecha.value.trim() : fechaFormatoSQL;
+                    const nuevoEstado = inputEstado ? inputEstado.value.trim() : notificacion.estado;
 
                     if (!nuevoTitulo || !nuevaDescripcion) {
                         alert("El título y la descripción no pueden estar vacíos.");
@@ -364,8 +408,7 @@ async function cargarNotificacionesFiltradas(lista) {
                         notificacion_id,
                         nuevoTitulo,
                         nuevaDescripcion,
-                        nuevaFecha,
-                        nuevoEstado
+                        nuevoEstado,
                     );
                 }
             });

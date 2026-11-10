@@ -404,6 +404,39 @@ function filtrarEquipamientosPorCategoria(Controller $controller, string $rolUsu
 }
 
 /**
+ * Consulta y envía los equipamientos de una ubicación actual en formato JSON.
+ * Pueden realizar esta operación los roles ADMIN y USER.
+ *
+ * @param Controller $controller Controlador que permite consultar los equipos.
+ * @param string $rolUsuario Rol del usuario obtenido de la sesión.
+ * @param mixed $idRecibido Identificador de ubicación recibido, sin validar.
+ * @return void
+ *
+ * @author Jonatan Tajada Rico
+ */
+function filtrarEquipamientosPorUbicacion(Controller $controller,string $rolUsuario,mixed $idRecibido): void {
+
+    comprobarPermisoRol($rolUsuario, ["ADMIN", "USER"]);
+
+    $idUbicacion = validarIdPositivo($idRecibido);
+
+    $equipamientos = $controller->filtrarEquipamientosPorUbicacion($idUbicacion);
+
+    $datosEquipamientos = [];
+
+    foreach ($equipamientos as $equipamiento) {
+        $datosEquipamientos[] = convertirEquipamientoAArray($equipamiento);
+    }
+
+    enviarRespuestaJson(
+        200,
+        true,
+        "Equipamientos de la ubicación consultados correctamente.",
+        $datosEquipamientos
+    );
+}
+
+/**
  * Crea un equipamiento con los datos recibidos en el cuerpo JSON.
  * Solo puede realizar esta operación el rol ADMIN.
  *
@@ -636,12 +669,18 @@ try {
             // Los parámetros de consulta llegan en la URL.
             $tieneId = isset($_GET["id_equipamiento"]);
             $tieneCategoria = isset($_GET["categoria"]);
+            $tieneUbicacion = isset($_GET["id_ubicacion"]);
 
-            if ($tieneId && $tieneCategoria) {
+            // Cada petición permite utilizar una sola opción de búsqueda.
+            if (
+                ($tieneId && $tieneCategoria) ||
+                ($tieneId && $tieneUbicacion) ||
+                ($tieneCategoria && $tieneUbicacion)
+            ) {
                 enviarRespuestaJson(
                     400,
                     false,
-                    "Indica un ID o una categoría, pero no ambos."
+                    "Indica solo un ID de equipamiento, una categoría o una ubicación."
                 );
             }
 
@@ -656,6 +695,12 @@ try {
                     $controller,
                     $rolUsuario,
                     $_GET["categoria"]
+                );
+            } elseif ($tieneUbicacion) {
+                filtrarEquipamientosPorUbicacion(
+                    $controller,
+                    $rolUsuario,
+                    $_GET["id_ubicacion"]
                 );
             } else {
                 listarTodosEquipamientos($controller, $rolUsuario);

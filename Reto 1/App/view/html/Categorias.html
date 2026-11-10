@@ -7,26 +7,29 @@
     <link rel="stylesheet" href="../styles/categorias.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <script src="../js/auth.js" defer></script>
     <script src="../js/global.js" defer></script>
-    <script src="../js/categoria.js" defer></script>
-    <script type="module" src="../js/notificacion.js" defer></script>
+    <script src="../js/equipamiento.js" defer></script>
+    <script src="../js/notificacion.js" defer></script>
     <script src="../js/usuario.js" defer></script>
+    <script src="../js/perfil.js" defer></script>
+    <link rel="shortcut icon" type="image/ico" href="../assets/logo/CF.ico">
     <title>Categorias - Centro Fungible</title>
 </head>
 
 <body>
     <!------------------------------------------------------------------------ [ HEADER: ] -->
     <header>
-        <img src="../assets/logo/CF.png" alt="Logo de Centro Fungible">
+        <img id="logo" src="../assets/logo/CF.png" alt="Logo de Centro Fungible." title="Centro Fungible.">
     </header>
 
     <!------------------------------------------------------------------------ [ NAV: ] -->
     <nav>
-        <a href="Categorias.html" alt="Enlace a la página de Equipos.">EQUIPOS</a>
-        <a href="Inicio.html" alt="Enlace a la página de Ubicaciones.">INICIO
+        <a href="Categorias.html" alt="Enlace a la página de Equipos." title="Ver equipos.">EQUIPOS</a>
+        <a href="Inicio.html" alt="Enlace a la página de Ubicaciones." title="Ir al inicio.">INICIO
             <!-- <img src="../assets/icons/icon_home.png"> -->
         </a>
-        <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones.">UBICACIONES</a>
+        <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones." title="Ver ubicaciones.">UBICACIONES</a>
         <button id="boton-ajustes" class="btn-s">
             <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
         </button>
@@ -43,21 +46,24 @@
         <!------------------------------------------------------------------------ [MODALES] -->
         <div id="modalAjustes" class="modal">
             <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <button id="btnTemaDefault">POR DEFECTO</button>
-                <button id="btnTemaAlt">ALTERNATIVO</button>
-                <button id="btnTemaGlobal">GLOBAL</button>
+                <span class="cerrar" alt="Cerar ajustes.">&times;</span>
+                <section>
+                    <button id="btnTemaDefault" alt="Cambiar al tema por defecto.">POR DEFECTO</button>
+                    <button id="btnTemaAlt" alt="Cambiar al tema alternativo.">ALTERNATIVO</button>
+                    <button id="btnTemaGlobal" alt="Cambiar al tema global.">GLOBAL</button>
+                </section>
             </div>
         </div>
 
         <div id="modalNotificaciones" class="modal">
             <div class="modalContenido">
-                <span class="cerrar">&times;</span>
+                <span class="cerrar" alt="Cerar notificaciones.">&times;</span>
                 <h2 class="notTitulo">Notificaciones</h2>
                 <div class="contenedorFiltroYBtn">
                     <button id="btnAniadirNot">Añadir notificacion</button>
                     <select id="filtroNotificaciones" aria-label="Filtros de notificaciones">
                         <option value="" selected disabled hidden>Filtros</option>
+                        <option value="TODAS">Todas</option>
                         <option value="en_proceso">En proceso</option>
                         <option value="realizadas">Realizadas</option>
                         <option value="pendientes">Pendientes</option>
@@ -68,72 +74,304 @@
             </div>
         </div>
 
-        <div id="modalPerfil" class="modal">
+        <div id="modalPerfil" class="modal" role="dialog" aria-modal="true" aria-labelledby="perfil-titulo">
             <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas purus sem, blandit ac pulvinar ut,
-                    cursus sed turpis. Sed accumsan tempor feugiat. Aliquam nec magna interdum nunc rutrum rutrum.
-                    Aenean libero mauris, venenatis non lacus vitae, condimentum dictum sem. Aliquam fermentum nulla non
-                    nunc posuere lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-                    inceptos himenaeos. In congue nec ligula a dapibus. Nullam eu ultrices dui.
+                <span class="cerrar" alt="Cerar perfil." role="button" tabindex="0"
+                    aria-label="Cerrar perfil">&times;</span>
+                <div id="perfil-contenedor" class="perfil-contenedor">
+
+                    <!------------------------------------------------ [Perfil: todos los roles] -->
+                    <section id="perfil-datos" class="perfil-panel" aria-labelledby="perfil-titulo">
+                        <img class="perfil-avatar" src="../assets/icons/icon_usuario.png" alt="Perfil de usuario">
+                        <h2 id="perfil-titulo">Perfil</h2>
+
+                        <p id="perfil-propio-mensaje" class="err oculto" role="alert"></p>
+
+                        <dl id="perfil-campos" class="perfil-campos">
+                            <div class="perfil-campo">
+                                <dt>Nombre</dt>
+                                <dd id="perfil-nombre"></dd>
+                            </div>
+                            <div class="perfil-campo">
+                                <dt>Apellidos</dt>
+                                <dd id="perfil-apellidos"></dd>
+                            </div>
+                            <div class="perfil-campo">
+                                <dt>Usuario</dt>
+                                <dd id="perfil-usuario"></dd>
+                            </div>
+                        </dl>
+
+                        <!-- Editar el propio perfil (nombre, apellidos y usuario; el rol no se toca) -->
+                        <form id="form-perfil-propio" class="oculto" autocomplete="off">
+                            <div>
+                                <label for="perfil-edit-nombre">Nombre</label>
+                                <input type="text" id="perfil-edit-nombre" name="nombre" maxlength="80" required>
+                            </div>
+
+                            <div>
+                                <label for="perfil-edit-apellidos">Apellidos</label>
+                                <input type="text" id="perfil-edit-apellidos" name="apellidos" maxlength="120" required>
+                            </div>
+
+                            <div>
+                                <label for="perfil-edit-usuario">Usuario</label>
+                                <input type="text" id="perfil-edit-usuario" name="nombre_usuario" maxlength="60"
+                                    autocomplete="off" required>
+                            </div>
+
+                            <div>
+                                <label for="perfil-edit-password">Contraseña nueva (opcional, de 8 a 72 caracteres)</label>
+                                <div class="campo-password">
+                                    <input type="password" id="perfil-edit-password" name="password_nueva"
+                                        minlength="8" maxlength="72" autocomplete="new-password">
+                                    <button id="btn-perfil-pwd-ver" type="button" class="btn-s" aria-pressed="false"
+                                        aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                                        <img id="icono-perfil-pwd-ver" src="../assets/icons/icon_oculto.png" alt="">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="perfil-barra">
+                                <button id="btn-perfil-guardar" type="submit" class="btn-texto btn-save"
+                                    title="Guardar perfil">
+                                    <img src="../assets/icons/icon_guardar.png" alt="">Guardar
+                                </button>
+                                <button id="btn-perfil-cancelar" type="button" class="btn-texto btn-delete"
+                                    title="Cancelar">
+                                    <img src="../assets/icons/icon_cancelar.png" alt="">Cancelar
+                                </button>
+                            </div>
+                        </form>
+
+                        <div id="perfil-acciones" class="perfil-barra perfil-acciones">
+                            <button id="btn-perfil-editar" type="button" class="btn-s btn-edit" title="Editar perfil"
+                                aria-expanded="false" aria-controls="form-perfil-propio">
+                                <img src="../assets/icons/icon_editar.png" alt="Editar perfil">
+                            </button>
+                            <button id="btn-cambiar-password" type="button" class="btn-texto"
+                                title="Cambiar contraseña" aria-expanded="false" aria-controls="form-password">
+                                <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
+                                    alt="">Cambiar contraseña
+                            </button>
+                        </div>
+
+                        <form id="form-password" class="oculto" autocomplete="off">
+                            <p id="password-mensaje" class="err oculto" role="alert"></p>
+
+                            <div>
+                                <label for="pwd-nueva">Contraseña nueva (de 8 a 72 caracteres)</label>
+                                <div class="campo-password">
+                                    <input type="password" id="pwd-nueva" name="password_nueva" minlength="8"
+                                        maxlength="72" autocomplete="new-password" required>
+                                    <button id="btn-pwd-ver" type="button" class="btn-s" aria-pressed="false"
+                                        aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                                        <img id="icono-pwd-ver" src="../assets/icons/icon_oculto.png" alt="">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="perfil-barra">
+                                <button id="btn-password-guardar" type="submit" class="btn-texto btn-save"
+                                    title="Guardar contraseña">
+                                    <img src="../assets/icons/icon_guardar.png" alt="">Guardar
+                                </button>
+                                <button id="btn-password-cancelar" type="button" class="btn-texto btn-delete"
+                                    title="Cancelar">
+                                    <img src="../assets/icons/icon_cancelar.png" alt="">Cancelar
+                                </button>
+                            </div>
+                        </form>
+
+                        <button id="btn-cerrar-sesion" type="button" class="btn-texto" title="Cerrar sesión">
+                            <img src="../assets/icons/icon_log_out.png" alt="">Cerrar sesión
+                        </button>
+                    </section>
+
+                    <!------------------------------------------------ [Gestión de usuarios: solo ADMIN] -->
+                    <section id="perfil-gestion" class="perfil-panel oculto" aria-labelledby="gestion-titulo">
+                        <h2 id="gestion-titulo">Gestión de usuarios</h2>
+
+                        <p id="perfil-mensaje" class="err oculto" role="alert"></p>
+
+                        <!-- Vista de lista -->
+                        <div id="perfil-vista-lista">
+                            <div class="perfil-barra" role="toolbar" aria-label="Acciones sobre usuarios">
+                                <button id="btn-usuario-nuevo" type="button" class="btn-s btn-new"
+                                    title="Nuevo usuario">
+                                    <img src="../assets/icons/icon_usuario_nuevo.png" alt="Nuevo usuario">
+                                </button>
+                                <button id="btn-usuario-editar" type="button" class="btn-s btn-edit"
+                                    title="Editar usuario seleccionado" disabled>
+                                    <img src="../assets/icons/icon_editar.png" alt="Editar usuario seleccionado">
+                                </button>
+                                <button id="btn-usuario-eliminar" type="button" class="btn-s btn-delete"
+                                    title="Eliminar usuario seleccionado" disabled>
+                                    <img src="../assets/icons/icon_eliminar.png" alt="Eliminar usuario seleccionado">
+                                </button>
+                            </div>
+                            <p class="perfil-ayuda">Selecciona un usuario para editarlo o eliminarlo.</p>
+
+                            <div class="perfil-filtros">
+                                <input type="text" id="usuarios-buscar" placeholder="Buscar por nombre de usuario"
+                                    aria-label="Buscar por nombre de usuario" autocomplete="off">
+                                <select id="usuarios-filtro-rol" aria-label="Filtrar por rol">
+                                    <option value="">Todos los roles</option>
+                                    <option value="USER">Conserje</option>
+                                    <option value="ADMIN">Administrador</option>
+                                </select>
+                            </div>
+
+                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios" aria-live="polite"></ul>
+
+                        </div>
+
+                        <!-- Vista de formulario (crear / editar) -->
+                        <form id="form-usuario" class="oculto" autocomplete="off">
+                            <fieldset>
+                                <legend id="form-usuario-titulo">Nuevo usuario</legend>
+
+                                <input type="hidden" id="usu-id" name="usu_id">
+
+                                <div>
+                                    <label for="usu-nombre">Nombre</label>
+                                    <input type="text" id="usu-nombre" name="nombre" maxlength="80" required>
+                                </div>
+
+                                <div>
+                                    <label for="usu-apellidos">Apellidos</label>
+                                    <input type="text" id="usu-apellidos" name="apellidos" maxlength="120" required>
+                                </div>
+
+                                <div>
+                                    <label for="usu-nombre-usuario">Nombre de usuario</label>
+                                    <input type="text" id="usu-nombre-usuario" name="nombre_usuario" maxlength="60"
+                                        autocomplete="off" required>
+                                </div>
+
+                                <div>
+                                    <label for="usu-rol">Rol</label>
+                                    <select id="usu-rol" name="rol" required>
+                                        <option value="">Selecciona un rol</option>
+                                        <option value="ADMIN">Administrador</option>
+                                        <option value="USER">Conserje</option>
+                                    </select>
+                                </div>
+
+                                <div id="bloque-password">
+                                    <!-- Al editar la contraseña es opcional: se despliega solo si se quiere cambiar -->
+                                    <button id="btn-toggle-password" type="button" class="btn-texto oculto"
+                                        aria-expanded="false" aria-controls="panel-password">
+                                        <img id="icono-toggle-password" src="../assets/icons/icon_drop_abrir.png"
+                                            alt="">Cambiar contraseña
+                                    </button>
+
+                                    <div id="panel-password">
+                                        <label for="usu-password">Contraseña (de 8 a 72 caracteres)</label>
+                                        <input type="password" id="usu-password" name="password" minlength="8"
+                                            maxlength="72" autocomplete="new-password">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="perfil-barra">
+                                <button type="submit" class="btn-s btn-save" title="Guardar usuario">
+                                    <img src="../assets/icons/icon_guardar.png" alt="Guardar usuario">
+                                </button>
+                                <button id="btn-usuario-cancelar" type="button" class="btn-texto">Cancelar</button>
+                            </div>
+                        </form>
+
+                        <!-- Vista de confirmación al eliminar (propia, sin el confirm() del navegador) -->
+                        <div id="perfil-vista-confirmar" class="oculto" role="alertdialog"
+                            aria-labelledby="confirmar-texto">
+                            <p id="confirmar-texto" class="err"></p>
+                            <div class="perfil-barra">
+                                <button id="btn-confirmar-eliminar" type="button" class="btn-texto btn-delete">Sí,
+                                    eliminar</button>
+                                <button id="btn-confirmar-cancelar" type="button" class="btn-texto">Cancelar</button>
+                            </div>
+                        </div>
+                    </section>
                 </div>
+
+                <!-- Plantilla de cada tarjeta de usuario (perfil.js la clona y rellena con textContent) -->
+                <template id="plantilla-usuario">
+                    <li class="tarjeta tarjeta-usuario" role="option" tabindex="0" aria-selected="false">
+                        <span class="usuario-nombre"></span>
+                        <span class="usuario-login"></span>
+                        <span class="usuario-rol"></span>
+                    </li>
+                </template>
             </div>
         </div>
 
-        <div id="modalAula" class="modal">
-            <div class="modalContenido">
-                <span class="cerrar">&times;</span>
-                <p id="nombreAula">Nombre Aula</p>
-                <p id="descripcionAula">Descripcion del aula.</p>
+                <!-- Plantilla de cada tarjeta de usuario (perfil.js la clona y rellena con textContent) -->
+                <template id="plantilla-usuario">
+                    <li class="tarjeta tarjeta-usuario" role="option" tabindex="0" aria-selected="false">
+                        <span class="usuario-nombre"></span>
+                        <span class="usuario-login"></span>
+                        <span class="usuario-rol"></span>
+                    </li>
+                </template>
             </div>
         </div>
 
         <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
         <article id="categorias">
 
-            <div class="categoria" href="Equipamientos.html"> <!-- [ Mostrar todas las Equipaciones ] -->
+            <div class="categoria" href="Equipamientos.html" alt="Ver todos los equipamientos."
+                title="Todas las categorías."> <!-- [ Mostrar todas las Equipaciones ] -->
+                <!-- [ Mostrar los Equipamientos de todas las categorias ] -->
                 <div class="desc">Todos</div>
-                <img src="../assets/img/categoria_todo.jpg" alt="Categoría de equipamientos de sobremesa." width="600"
-                    height="400">
+                <img src="../assets/img/categoria_todo.jpg" alt="Todas las categorías." width="600" height="400">
             </div>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria PORTATILES ] -->
+            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos portatiles."
+                title="Categoría de equipamientos portatiles.">
+                <!-- [ Mostrar los Equipamientos de la categoria PORTATILES ] -->
                 <div class="desc">Portatiles</div>
                 <img src="../assets/img/categoria_portatil.jpg" alt="Categoría de equipamientos portatiles." width="600"
                     height="400">
             </div>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria SOBREMESA ] -->
+            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos portatiles."
+                title="Categoría de equipamientos de sobremesa.">
+                <!-- [ Mostrar los Equipamientos de la categoria SOBREMESA ] -->
                 <div class="desc">Sobremesa</div>
                 <img src="../assets/img/categoria_sobremesa.jpg" alt="Categoría de equipamientos de sobremesa."
                     width="600" height="400">
             </div>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria PERIFERICOS ] -->
+            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos periféricos."
+                title="Categoría de equipamientos periféricos.">
+                <!-- [ Mostrar los Equipamientos de la categoria PERIFERICOS ] -->
                 <div class="desc">Perifericos</div>
-                <img src="../assets/img/categoria_perifericos.jpg" alt="Categoría de equipamientos portatiles."
+                <img src="../assets/img/categoria_periferico.jpg" alt="Categoría de equipamientos periféricos."
                     width="600" height="400">
             </div>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria AUDIOVISUAL ] -->
+            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos audiovisuales."
+                title="Categoría de equipamientos audiovisuales.">
+                <!-- [ Mostrar los Equipamientos de la categoria AUDIOVISUAL ] -->
                 <div class="desc">Audiovisual</div>
-                <img src="../assets/img/categoria_audiovisual.jpg" alt="Categoría de equipamientos de sobremesa."
+                <img src="../assets/img/categoria_audiovisual.jpg" alt="Categoría de equipamientos audiovisuales."
                     width="600" height="400">
             </div>
 
-            <div class="categoria" href="Equipamientos.html">
-                <!-- [ Mostrar las Equipaciones de la categoria OTROS ] -->
+            <div class="categoria" href="Equipamientos.html" alt="Ver los equipamientos de otras categorias."
+                title="Otras categorías de equipamientos.">
+                <!-- [ Mostrar los Equipamientos de la categoria OTROS ] -->
                 <div class="desc">Otros</div>
-                <img src="../assets/img/categoria_otros.jpg" alt="Categoría de equipamientos portatiles." width="600"
+                <img src="../assets/img/categoria_otros.jpg" alt="Otras categorías de equipamientos." width="600"
                     height="400">
             </div>
 
         </article>
+    </section>
+
+    <section id="enlace">
+        <a href="#logo">VOLVER ARRIBA</a>
     </section>
 
     <!------------------------------------------------------------------------ [ FOOTER: ] -->

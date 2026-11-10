@@ -8,6 +8,9 @@
     --color-edit: #7d9cd9;
     --color-delete: #c3367f;
 
+    --border-err: #b7071b;
+    --background-err: #f1b0b8;
+
     --button-text-size: 30px;
     --button-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
 
@@ -143,6 +146,7 @@ button {
     box-shadow: var(--button-shadow);
 
     border: none;
+    border-radius: var(--border-radius-s);
 
     cursor: pointer;
 }
@@ -195,6 +199,10 @@ button:hover {
 .btn-s:disabled {
     cursor: not-allowed;
     opacity: 0.5;
+}
+
+#search {
+    border-radius: var(--border-radius-m);
 }
 
 /* ---------------------------------------------- [HEADER]*/
@@ -326,6 +334,12 @@ nav .btn-s {
     margin: 10px;
 }
 
+.inpErr{
+    background-color: var(--background-err);
+    border-color: var(--border-err);
+    border-radius: var(--border-radius-s);
+}
+
 .tarjeta {
     background-color: var(--color-acento);
     color: var(--texto-acento);
@@ -377,6 +391,7 @@ nav .btn-s {
     padding: 20px;
 
     border: 1px solid var(--color-grey);
+    border-radius: var(--border-radius-l);
 
     margin: auto;
 }
@@ -398,6 +413,41 @@ nav .btn-s {
     text-decoration: none;
 }
 
+#modalAjustes .modalContenido section {
+    display: flex;
+    justify-content: space-around;
+}
+
+#modalAjustes .modalContenido section button:disabled {
+    padding: 10px;
+}
+
+#modalAjustes .modalContenido section button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* ---------------------------------------------- [ENLACE]*/
+
+#enlace {
+    display: flex;
+    justify-content: center;
+
+    margin: 10px;
+}
+
+#enlace a {
+    color: var(--color-acento);
+
+    text-decoration: none;
+}
+
+#enlace a:hover, #enlace a:focus {
+    color: var(--color-secundario);
+
+    font-weight: bolder;
+}
+
 /* ---------------------------------------------- [FOOTER]*/
 footer {
     background-color: var(--color-secundario);
@@ -407,6 +457,7 @@ footer {
 }
 
 footer p {
+    color: var(--texto-secundario);
     font-style: oblique;
     padding: 20px;
 }
