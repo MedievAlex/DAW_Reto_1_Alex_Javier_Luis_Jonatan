@@ -136,6 +136,47 @@
     float: none;
 }
 
+/* Estados comunes sin alterar la tipografía ni el padding de .btn-texto. */
+#inventario-equipamientos .equipamiento-acciones-tarjeta button:is([data-accion="editar"], [data-accion="eliminar"], [data-accion="trasladar"], [data-accion="historico"]) {
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-m);
+}
+
+/* Cada acción conserva su color funcional, también al pasar sobre la tarjeta. */
+#inventario-equipamientos .equipamiento-acciones-tarjeta button[data-accion="editar"] {
+    background-color: var(--color-edit);
+    color: var(--color-black);
+}
+
+#inventario-equipamientos .equipamiento-acciones-tarjeta button[data-accion="eliminar"] {
+    background-color: var(--color-delete);
+    color: var(--color-white);
+}
+
+#inventario-equipamientos .equipamiento-acciones-tarjeta button:is([data-accion="trasladar"], [data-accion="historico"]) {
+    background-color: var(--color-primario);
+    color: var(--texto-primario);
+}
+
+/* El borde mantiene su grosor; solo cambia de color en botones habilitados. */
+#inventario-equipamientos .equipamiento-acciones-tarjeta button:is([data-accion="editar"], [data-accion="eliminar"], [data-accion="trasladar"], [data-accion="historico"]):hover:not(:disabled) {
+    border-color: var(--color-white);
+}
+
+/* El doble contorno distingue el foco sobre los fondos de las tres paletas. */
+#inventario-equipamientos .equipamiento-acciones-tarjeta button:is([data-accion="editar"], [data-accion="eliminar"], [data-accion="trasladar"], [data-accion="historico"]):focus-visible {
+    outline: 3px solid var(--color-white);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--color-black);
+}
+
+/* Neutraliza también el hover compartido cuando el botón está bloqueado. */
+#inventario-equipamientos .equipamiento-acciones-tarjeta button:is([data-accion="editar"], [data-accion="eliminar"], [data-accion="trasladar"], [data-accion="historico"]):disabled {
+    border-color: transparent;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
 #inventario-equipamientos .equipamiento-acciones-tarjeta img {
     width: 22px;
     height: 22px;
