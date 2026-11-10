@@ -4,6 +4,7 @@ const EQU_URL = "../../api/EquipamientoController.php";
 
 const artUbi = document.getElementById("ubicaciones");
 const ubiSearch = document.getElementById("ubi-search");
+const btnSearch = document.getElementById("search");
 
 const table_ubicaciones = document.querySelector("#ubicaciones table");
 const tbody_ubicaciones = document.querySelector("#ubicaciones table tbody");
@@ -75,6 +76,17 @@ if (esAdmin) {
 
             if (ubi_nom === "" || ubi_des === "") {
                 logMessage("[ERROR]: No se puede crear una ubicación con campos vacios.");
+
+                if (ubi_nom === "" || ubi_des === "") {
+                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+
+                    if (ubi_nom === "") {
+                        inp_ubi_nom.classList.add("inpErr");
+
+                    } else if (ubi_des === "") {
+                        inp_ubi_des.classList.add("inpErr");
+                    }
+                }
             } else {
                 crearUbicacion(0, ubi_nom, ubi_des);
             }
@@ -106,7 +118,10 @@ if (esAdmin) {
     btnNewUbi.classList.add("oculto");
 }
 
-ubiSearch.value.trim();
+btnSearch.addEventListener("click", () => {
+    filtrarUbicaciones(ubiSearch.value);
+
+});
 
 /* ---------------------------------------- [ FUNCIONES ]*/
 // [ Genera la tarjeta del mensaje de error de Ubicacion ]
@@ -173,21 +188,40 @@ async function cargarUbicaciones() {
 }
 
 // [ Pide una Ubicacion mediante el ID ]
-async function buscarUbicacionPorId() {
-    let url = UBI_URL + "?ubi_id=" + 2;
+async function buscarUbicacionPorId(ubi_id) {
+    let url = UBI_URL + "?ubi_id=" + ubi_id;
     let method = "GET";
     let data = [];
     let response;
+    let ubi = null;
 
     response = petition(url, method, data); // Llama al petition de global.js
 
     response.then((value) => {
         if ("success" in value && value.success) {
-            console.log(value.data);
+            let atributos = ["ubi_id", "ubi_nombre", "ubi_descripcion"];
+
+            // Verifica si todos los objetos tienen todos los atributos
+            let valido = value.data.every(obj =>
+                atributos.every(clave => clave in obj)
+            );
+
+            if (valido) {
+                console.log(value.data);
+                ubi = {
+                    ubi_id: value.data.ubi_id,
+                    ubi_nombre: value.data.ubi_nombre,
+                    ubi_descripcion: value.data.ubi_descripcion
+                };
+            } else {
+                console.log(value.message);
+            }
         } else {
             console.log(value.message);
         }
     });
+
+    return ubi;
 }
 
 // [ Pide una Ubicacion mediante el NOMBRE ]
@@ -210,10 +244,14 @@ async function buscarUbicacionPorNombre(ubi_nombre) {
             );
 
             if (valido) {
-                ubi = value.data[0];
-
+                console.log(value.data);
+                ubi = {
+                    ubi_id: value.data.ubi_id,
+                    ubi_nombre: value.data.ubi_nombre,
+                    ubi_descripcion: value.data.ubi_descripcion
+                };
             } else {
-                return value.message;
+                console.log(value.message);
             }
         } else {
             console.log(value.message);
@@ -501,6 +539,13 @@ function generarUbicaciones(value) {
 
                 if (ubi_nom === "" || ubi_des === "") {
                     logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+
+                    if (ubi_nom === "") {
+                        inp_ubi_nom.classList.add("inpErr");
+
+                    } else if (ubi_des === "") {
+                        inp_ubi_des.classList.add("inpErr");
+                    }
                 } else {
                     editarUbicacion(ubi_id, ubi_nom, ubi_des);
 
@@ -542,7 +587,7 @@ function generarUbicaciones(value) {
             btn_close.classList.remove("oculto");
             btn_close.classList.add("visible");
 
-            limpiarEquiposDeUbicacion(event.currentTarget);
+            cerrarEquiposDeUbicacion(event.currentTarget);
 
             cargarEquiposDeUbicacion(ubi_id);
             //mockEquipamientos(); // mockData.js
@@ -556,7 +601,7 @@ function generarUbicaciones(value) {
             btn_open.classList.remove("oculto");
             btn_open.classList.add("visible");
 
-            limpiarEquiposDeUbicacion(event.currentTarget);
+            cerrarEquiposDeUbicacion(event.currentTarget);
         });
 
         tr_ubi.appendChild(ubi_btn);
@@ -580,16 +625,49 @@ function ordenarUbicaciones(value) {
     return value;
 }
 
-function filtrarUbicaciones() {
-    const trows = tbody_ubicaciones.querySelectorAll(tr);
+// [ Filtra por el nombre buscado ]
+function filtrarUbicaciones(search) {
+    const trows = tbody_ubicaciones.querySelectorAll("tr");
 
-    if (ubiSearch.value.trim() !== "") {
+    limpiarEquiposDeUbicacion();
 
+    trows.forEach(row => {
+        if (search.trim() !== "") {
+            let nom = row.querySelector(".ubi-nom").textContent.trim().toLowerCase();
+
+            if (nom.includes(search.trim())) {
+                row.classList.remove("oculto");
+            } else {
+                row.classList.add("oculto");
+            }
+        } else {
+            row.classList.remove("oculto");
+        }
+    });
+
+
+}
+
+// [ Limpia el listado de los equipos de una Ubicacion ]
+function limpiarEquiposDeUbicacion() {
+    let botonesAbrir = Array.from(document.getElementsByClassName("btn-open"));
+    let botonesCerrar = Array.from(document.getElementsByClassName("btn-close"));
+
+    artEqu.innerHTML = "";
+
+    for (var i = 0; i < botonesAbrir.length; i++) {
+        botonesAbrir[i].classList.remove("oculto");
+        botonesAbrir[i].classList.add("visible");
+    }
+
+    for (var i = 0; i < botonesCerrar.length; i++) {
+        botonesCerrar[i].classList.remove("visible");
+        botonesCerrar[i].classList.add("oculto");
     }
 }
 
 // [ Limpia el listado de los equipos de una Ubicacion ]
-function limpiarEquiposDeUbicacion(event_btn) {
+function cerrarEquiposDeUbicacion(event_btn) {
     let botonesAbrir = Array.from(document.getElementsByClassName("btn-open"));
     let botonesCerrar = Array.from(document.getElementsByClassName("btn-close"));
 
@@ -835,11 +913,20 @@ function generarEquipamientos(value) {
                 let equ_des = inp_equ_des.value.trim();
                 let equ_mar = inp_equ_mar.value.trim();
                 let equ_mod = inp_equ_mod.value.trim();
-                //let equ_cat = inp_equ_cat.value.trim();
                 equ_cat = equ_categoria;
 
                 if (equ_nom === "" || equ_des === "" || equ_mar === "" || equ_mod === "") {
-                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+                    logMessage("[ERROR]: No se puede guardar un equipamiento con campos vacios.");
+
+                    if (equ_nom === "") {
+                        inp_equ_nom.classList.add("inpErr");
+                    } else if (equ_des === "") {
+                        inp_equ_des.classList.add("inpErr");
+                    } else if (equ_mar === "") {
+                        inp_equ_mar.classList.add("inpErr");
+                    } else if (equ_mod === "") {
+                        inp_equ_mod.classList.add("inpErr");
+                    }
                 } else {
                     editarEquipoDeUbicacion(equ_id, equ_nom, equ_des, equ_mar, equ_mod, equ_cat, equ_ubicacion);
 
