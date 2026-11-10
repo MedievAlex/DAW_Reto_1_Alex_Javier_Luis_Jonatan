@@ -19,10 +19,6 @@ section article {
     margin: 20px;
 }
 
-section #ubicaciones {
-    
-}
-
 /* ---------------------------------------------- [ARTICLE: Tabla]*/
 table {
     border-collapse: collapse;
@@ -40,8 +36,6 @@ table th {
     text-transform: uppercase;
     text-align: start;
 }
-
-table tr {}
 
 table td {
     text-align: left;
@@ -98,6 +92,7 @@ table .aula:hover {
     width: 50%;
 
     padding: 10px;
+    padding-top: 100px;
     padding-right: 10vh;
 
     border: none;

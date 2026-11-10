@@ -184,21 +184,40 @@ async function cargarUbicaciones() {
 }
 
 // [ Pide una Ubicacion mediante el ID ]
-async function buscarUbicacionPorId() {
-    let url = UBI_URL + "?ubi_id=" + 2;
+async function buscarUbicacionPorId(ubi_id) {
+    let url = UBI_URL + "?ubi_id=" + ubi_id;
     let method = "GET";
     let data = [];
     let response;
+    let ubi = null;
 
     response = petition(url, method, data); // Llama al petition de global.js
 
     response.then((value) => {
         if ("success" in value && value.success) {
-            console.log(value.data);
+            let atributos = ["ubi_id", "ubi_nombre", "ubi_descripcion"];
+
+            // Verifica si todos los objetos tienen todos los atributos
+            let valido = value.data.every(obj =>
+                atributos.every(clave => clave in obj)
+            );
+
+            if (valido) {
+                console.log(value.data);
+                ubi = {
+                    ubi_id: value.data.ubi_id,
+                    ubi_nombre: value.data.ubi_nombre,
+                    ubi_descripcion: value.data.ubi_descripcion
+                };
+            } else {
+                console.log(value.message);
+            }
         } else {
             console.log(value.message);
         }
     });
+
+    return ubi;
 }
 
 // [ Pide una Ubicacion mediante el NOMBRE ]
@@ -221,10 +240,14 @@ async function buscarUbicacionPorNombre(ubi_nombre) {
             );
 
             if (valido) {
-                ubi = value.data[0];
-
+                console.log(value.data);
+                ubi = {
+                    ubi_id: value.data.ubi_id,
+                    ubi_nombre: value.data.ubi_nombre,
+                    ubi_descripcion: value.data.ubi_descripcion
+                };
             } else {
-                return value.message;
+                console.log(value.message);
             }
         } else {
             console.log(value.message);
