@@ -591,6 +591,8 @@ function generarUbicaciones(value) {
 
             cargarEquiposDeUbicacion(ubi_id);
             //mockEquipamientos(); // mockData.js
+
+            window.location.href = "#equipamientos";
         });
 
         // [ Oculta los Equipamientos de la Ubicacion ]
