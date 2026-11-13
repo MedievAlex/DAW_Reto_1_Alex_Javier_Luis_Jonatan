@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/categorias.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
@@ -25,11 +26,11 @@
 
     <!------------------------------------------------------------------------ [ NAV: ] -->
     <nav>
-        <a href="Categorias.html" alt="Enlace a la página de Equipos." title="Ver equipos.">EQUIPOS</a>
-        <a href="Inicio.html" alt="Enlace a la página de Ubicaciones." title="Ir al inicio.">INICIO
+        <a href="Categorias.html" title="Ver equipos.">EQUIPOS</a>
+        <a href="Inicio.html" title="Ir al inicio.">INICIO
             <!-- <img src="../assets/icons/icon_home.png"> -->
         </a>
-        <a href="Ubicaciones.html" alt="Enlace a la página de Ubicaciones." title="Ver ubicaciones.">UBICACIONES</a>
+        <a href="Ubicaciones.html" title="Ver ubicaciones.">UBICACIONES</a>
         <button id="boton-ajustes" class="btn-s">
             <img src="../assets/icons/icon_ajustes.png" alt="Acceso a los ajustes.">
         </button>
@@ -46,18 +47,18 @@
         <!------------------------------------------------------------------------ [MODALES] -->
         <div id="modalAjustes" class="modal">
             <div class="modalContenido">
-                <span class="cerrar" alt="Cerar ajustes.">&times;</span>
+                <span class="cerrar">&times;</span>
                 <section>
-                    <button id="btnTemaDefault" alt="Cambiar al tema por defecto.">POR DEFECTO</button>
-                    <button id="btnTemaAlt" alt="Cambiar al tema alternativo.">ALTERNATIVO</button>
-                    <button id="btnTemaGlobal" alt="Cambiar al tema global.">GLOBAL</button>
+                    <button id="btnTemaDefault">POR DEFECTO</button>
+                    <button id="btnTemaAlt">ALTERNATIVO</button>
+                    <button id="btnTemaGlobal">GLOBAL</button>
                 </section>
             </div>
         </div>
 
         <div id="modalNotificaciones" class="modal">
             <div class="modalContenido">
-                <span class="cerrar" alt="Cerar notificaciones.">&times;</span>
+                <span class="cerrar">&times;</span>
                 <h2 class="notTitulo">Notificaciones</h2>
                 <div class="contenedorFiltroYBtn">
                     <button id="btnAniadirNot">Añadir notificacion</button>
@@ -76,7 +77,7 @@
 
         <div id="modalPerfil" class="modal" role="dialog" aria-modal="true" aria-labelledby="perfil-titulo">
             <div class="modalContenido">
-                <span class="cerrar" alt="Cerar perfil." role="button" tabindex="0"
+                <span class="cerrar" role="button" tabindex="0"
                     aria-label="Cerrar perfil">&times;</span>
                 <div id="perfil-contenedor" class="perfil-contenedor">
 
@@ -306,24 +307,13 @@
             </div>
         </div>
 
-                <!-- Plantilla de cada tarjeta de usuario (perfil.js la clona y rellena con textContent) -->
-                <template id="plantilla-usuario">
-                    <li class="tarjeta tarjeta-usuario" role="option" tabindex="0" aria-selected="false">
-                        <span class="usuario-nombre"></span>
-                        <span class="usuario-login"></span>
-                        <span class="usuario-rol"></span>
-                    </li>
-                </template>
-            </div>
-        </div>
-
-        <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
+        <!------------------------------------------------------------------------ [CATEGORÍAS Y NAVEGACIÓN AL INVENTARIO] -->
         <!-- La sesión se confirma antes de habilitar los enlaces del inventario. -->
         <p id="estado-sesion-categorias" class="err" role="status" aria-live="polite">Comprobando la sesión…</p>
         <article id="categorias" aria-busy="true" inert>
 
             <a class="categoria" href="Equipamientos.html" aria-disabled="true" tabindex="-1"
-                title="Todas las categorías."> <!-- [ Mostrar todas las Equipaciones ] -->
+                title="Todas las categorías."> <!-- Consultar todos los equipamientos sin filtro. -->
                 <!-- [ Mostrar los Equipamientos de todas las categorias ] -->
                 <div class="desc">Todos</div>
                 <img src="../assets/img/categoria_todo.jpg" alt="Todas las categorías." width="600" height="400">

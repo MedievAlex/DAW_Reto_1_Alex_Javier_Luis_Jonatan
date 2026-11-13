@@ -37,6 +37,29 @@ class Equipamiento
         $this->idUbicacionActual = $idUbicacionActual;
     }
 
+    /**
+     * Cuenta caracteres UTF-8 sin exigir que mbstring esté instalada.
+     * Conserva el conteo de puntos de código, incluidos los saltos de línea.
+     *
+     * @throws RuntimeException Si falla el conteo alternativo, por ejemplo por UTF-8 mal formado.
+     */
+    private static function longitudUtf8(string $texto): int
+    {
+        if (function_exists('mb_strlen')) {
+            return mb_strlen($texto, 'UTF-8');
+        }
+
+        $longitud = preg_match_all('/./us', $texto);
+
+        if ($longitud === false) {
+            throw new RuntimeException(
+                'No se ha podido contar el texto como UTF-8.'
+            );
+        }
+
+        return $longitud;
+    }
+
     //Setters y Getters
 
     public function getIdEquipamiento(): ?int
@@ -56,7 +79,7 @@ class Equipamiento
 
         if ($nombre === "") {
             throw new InvalidArgumentException("El campo nombre no puede estar vacío.");
-        } elseif (mb_strlen($nombre, 'UTF-8') > 120) {
+        } elseif (self::longitudUtf8($nombre) > 120) {
             throw new InvalidArgumentException("El campo nombre no puede tener más de 120 caracteres.");
         } elseif (is_numeric($nombre)) {
             throw new InvalidArgumentException("El campo nombre no puede ser solo numérico.");
@@ -76,7 +99,7 @@ class Equipamiento
 
         if ($descripcion === "") {
             throw new InvalidArgumentException("El campo descripción no puede estar vacío.");
-        } elseif (mb_strlen($descripcion, 'UTF-8') > 255) {
+        } elseif (self::longitudUtf8($descripcion) > 255) {
             throw new InvalidArgumentException('El campo descripción no puede tener más de 255 caracteres.');
         }
 
@@ -94,7 +117,7 @@ class Equipamiento
 
         if ($marca === "") {
             throw new InvalidArgumentException("El campo marca no puede estar vacío.");
-        } elseif (mb_strlen($marca, 'UTF-8') > 100) {
+        } elseif (self::longitudUtf8($marca) > 100) {
             throw new InvalidArgumentException("El campo marca no puede tener más de 100 caracteres.");
         } elseif (is_numeric($marca)) {
             throw new InvalidArgumentException("El campo marca no puede ser solo numérico");
@@ -112,7 +135,7 @@ class Equipamiento
         $modelo = trim($modelo);
         if ($modelo === "") {
             throw new InvalidArgumentException("El campo modelo no puede estar vacío.");
-        } elseif (mb_strlen($modelo, 'UTF-8') > 100) {
+        } elseif (self::longitudUtf8($modelo) > 100) {
             throw new InvalidArgumentException('El campo modelo no puede tener más de 100 caracteres');
         }
 

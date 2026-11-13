@@ -19,7 +19,7 @@
  * 06. CREACIÓN, EDICIÓN Y VALIDACIONES (ADMIN)
  *     mostrarErrorAlta, limpiarErroresAlta, abrirAlta, cerrarAlta, validarAlta, bloquearAlta, enviarAlta.
  * 07. EVENTOS DEL FORMULARIO Y DE LAS ACCIONES DE LAS TARJETAS
- *     Referencias al DOM y estado compartido.
+ *     Eventos del formulario y delegación de acciones de las tarjetas.
  * 08. MENSAJES Y CONSULTAS GET
  *     mostrarMensaje, consultarApi.
  * 09. VALIDACIÓN DE DATOS RECIBIDOS
@@ -29,7 +29,7 @@
  * 11. CARGA DEL INVENTARIO Y FILTRO
  *     cargarInventario.
  * 12. INICIALIZACIÓN, CATEGORÍA DE LA URL Y FILTRO MANUAL
- *     Referencias al DOM y estado compartido.
+ *     Lectura de categoría en la URL, cambio de filtro y carga inicial.
  *
  * Los eventos y la accesibilidad de cada modal se documentan junto a su funcionalidad.
  * Crear y editar comparten formulario y funciones; no se duplican en secciones separadas.
@@ -42,7 +42,7 @@
     const categorias = {
         PORTATIL: { nombre: "Portátil", imagen: "categoria_portatil.jpg" },
         SOBREMESA: { nombre: "Sobremesa", imagen: "categoria_sobremesa.jpg" },
-        PERIFERICO: { nombre: "Periférico", imagen: "categoria_perifericos.jpg" },
+        PERIFERICO: { nombre: "Periférico", imagen: "categoria_periferico.jpg" },
         AUDIOVISUAL: { nombre: "Audiovisual", imagen: "categoria_audiovisual.jpg" },
         OTROS: { nombre: "Otros", imagen: "categoria_otros.jpg" }
     };
