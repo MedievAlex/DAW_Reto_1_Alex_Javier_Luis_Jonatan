@@ -5,24 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/categorias.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
     <link rel="stylesheet" href="../styles/usuarios.css">
-    <script src="../js/auth.js" defer></script>
-    <script src="../js/global.js" defer></script>
-    <script src="../js/notificacion.js" defer></script>
-    <script src="../js/usuario.js" defer></script>
-    <script src="../js/perfil.js" defer></script>
+    <script src="../scripts/auth.js" defer></script>
+    <script src="../scripts/global.js" defer></script>
+    <script src="../scripts/categoria.js" defer></script>
+    <script src="../scripts/notificacion.js" defer></script>
+    <script src="../scripts/usuario.js" defer></script>
+    <script src="../scripts/perfil.js" defer></script>
     <link rel="shortcut icon" type="image/ico" href="../assets/logo/CF.ico">
-    <title>Inicio - Centro Fungible</title>
+    <title>Categorias - Centro Fungible</title>
 </head>
 
 <body>
-    <!------------------------------------------------------------------------ [HEADER: ] -->
+    <!------------------------------------------------------------------------ [ HEADER: ] -->
     <header>
         <img id="logo" src="../assets/logo/CF.png" alt="Logo de Centro Fungible." title="Centro Fungible.">
     </header>
 
-    <!------------------------------------------------------------------------ [NAV: ] -->
+    <!------------------------------------------------------------------------ [ NAV: ] -->
     <nav>
         <a href="Categorias.html" alt="Enlace a la página de Equipos." title="Ver equipos.">EQUIPOS</a>
         <a href="Inicio.html" alt="Enlace a la página de Ubicaciones." title="Ir al inicio.">INICIO
@@ -40,7 +42,7 @@
         </button>
     </nav>
 
-    <!------------------------------------------------------------------------ [SECTION: ] -->
+    <!------------------------------------------------------------------------ [ SECTION: ] -->
     <section>
         <!------------------------------------------------------------------------ [MODALES] -->
         <div id="modalAjustes" class="modal">
@@ -62,6 +64,7 @@
                     <button id="btnAniadirNot">Añadir notificacion</button>
                     <select id="filtroNotificaciones" aria-label="Filtros de notificaciones">
                         <option value="" selected disabled hidden>Filtros</option>
+                        <option value="TODAS">Todas</option>
                         <option value="en_proceso">En proceso</option>
                         <option value="realizadas">Realizadas</option>
                         <option value="pendientes">Pendientes</option>
@@ -72,7 +75,6 @@
             </div>
         </div>
 
-        <!-- PERFIL: todos ven su perfil; solo el ADMIN ve y usa la gestión de usuarios (perfil.js) -->
         <div id="modalPerfil" class="modal" role="dialog" aria-modal="true" aria-labelledby="perfil-titulo">
             <div class="modalContenido">
                 <span class="cerrar" alt="Cerar perfil." role="button" tabindex="0"
@@ -305,33 +307,77 @@
             </div>
         </div>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 1 ] -->
-        <article>
-            <p>
-                GESTION: Gestiona los equipamientos del centro.
-            </p>
-            <img src="../assets/img/inicio_almacen.jpg" alt="Imagen representativa del almacén del centro." width="50%">
-        </article>
+                <!-- Plantilla de cada tarjeta de usuario (perfil.js la clona y rellena con textContent) -->
+                <template id="plantilla-usuario">
+                    <li class="tarjeta tarjeta-usuario" role="option" tabindex="0" aria-selected="false">
+                        <span class="usuario-nombre"></span>
+                        <span class="usuario-login"></span>
+                        <span class="usuario-rol"></span>
+                    </li>
+                </template>
+            </div>
+        </div>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 2 ] -->
-        <article>
-            <p>
-                GESTION: Gestiona los equipamientos del centro.
-            </p>
-            <img src="../assets/img/inicio_almacen.jpg" alt="Imagen representativa del almacén del centro." width="50%">
+        <!------------------------------------------------------------------------ [ SECTION: Article 1 ] -->
+        <!-- La sesión se confirma antes de habilitar los enlaces del inventario. -->
+        <p id="estado-sesion-categorias" class="err" role="status" aria-live="polite">Comprobando la sesión…</p>
+        <article id="categorias" aria-busy="true" inert>
+
+            <a class="categoria" href="Equipamientos.html" aria-disabled="true" tabindex="-1"
+                title="Todas las categorías."> <!-- [ Mostrar todas las Equipaciones ] -->
+                <!-- [ Mostrar los Equipamientos de todas las categorias ] -->
+                <div class="desc">Todos</div>
+                <img src="../assets/img/categoria_todo.jpg" alt="Todas las categorías." width="600" height="400">
+            </a>
+
+            <a class="categoria" href="Equipamientos.html?categoria=PORTATIL" aria-disabled="true" tabindex="-1"
+                title="Categoría de equipamientos portatiles.">
+                <!-- [ Mostrar los Equipamientos de la categoria PORTATILES ] -->
+                <div class="desc">Portatiles</div>
+                <img src="../assets/img/categoria_portatil.jpg" alt="Categoría de equipamientos portatiles." width="600"
+                    height="400">
+            </a>
+
+            <a class="categoria" href="Equipamientos.html?categoria=SOBREMESA" aria-disabled="true" tabindex="-1"
+                title="Categoría de equipamientos de sobremesa.">
+                <!-- [ Mostrar los Equipamientos de la categoria SOBREMESA ] -->
+                <div class="desc">Sobremesa</div>
+                <img src="../assets/img/categoria_sobremesa.jpg" alt="Categoría de equipamientos de sobremesa."
+                    width="600" height="400">
+            </a>
+
+            <a class="categoria" href="Equipamientos.html?categoria=PERIFERICO" aria-disabled="true" tabindex="-1"
+                title="Categoría de equipamientos periféricos.">
+                <!-- [ Mostrar los Equipamientos de la categoria PERIFERICOS ] -->
+                <div class="desc">Perifericos</div>
+                <img src="../assets/img/categoria_periferico.jpg" alt="Categoría de equipamientos periféricos."
+                    width="600" height="400">
+            </a>
+
+            <a class="categoria" href="Equipamientos.html?categoria=AUDIOVISUAL" aria-disabled="true" tabindex="-1"
+                title="Categoría de equipamientos audiovisuales.">
+                <!-- [ Mostrar los Equipamientos de la categoria AUDIOVISUAL ] -->
+                <div class="desc">Audiovisual</div>
+                <img src="../assets/img/categoria_audiovisual.jpg" alt="Categoría de equipamientos audiovisuales."
+                    width="600" height="400">
+            </a>
+
+            <a class="categoria" href="Equipamientos.html?categoria=OTROS" aria-disabled="true" tabindex="-1"
+                title="Otras categorías de equipamientos.">
+                <!-- [ Mostrar los Equipamientos de la categoria OTROS ] -->
+                <div class="desc">Otros</div>
+                <img src="../assets/img/categoria_otros.jpg" alt="Otras categorías de equipamientos." width="600"
+                    height="400">
+            </a>
+
         </article>
     </section>
 
-    <!------------------------------------------------------------------------ [ASIDE: ] -->
-    <aside>
-
-    </aside>
-    
     <section id="enlace">
         <a href="#logo">VOLVER ARRIBA</a>
     </section>
 
-    <!------------------------------------------------------------------------ [FOOTER: ] -->
+    <!------------------------------------------------------------------------ [ FOOTER: ] -->
     <footer>
         <p>Centro Funjible</p>
         <p>Tlf: 999 888 777</p>
