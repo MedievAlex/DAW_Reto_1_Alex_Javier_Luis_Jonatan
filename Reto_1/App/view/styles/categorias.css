@@ -2,7 +2,14 @@
 #categorias {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 1.25rem;
+    box-sizing: border-box;
+    width: 100%;
+    /* Tres tarjetas compactas, sus separaciones y el padding del contenedor. */
+    max-width: 53rem;
+    margin: 0 auto;
+    padding: 1.25rem;
 }
 
 #categorias div{
@@ -14,23 +21,34 @@
 
 /* ---------------------------------------------- [ARTICLE: Categoria]*/
 .categoria {
-    width: calc(25% - 20px); /*Calcula el 25% de la pantalla y le resta 20px al width*/
+    /* El límite evita que el ancho porcentual agrande las tarjetas al alejar el zoom. */
+    box-sizing: border-box;
+    min-width: 0;
+    width: calc((100% - 2.5rem) / 3);
+    max-width: 16rem;
+    flex: 0 1 auto;
 
     border: 3px solid var(--color-grey);
     background-color: white; /*Para que sea igual al fondo de las imágenes*/
 
-    margin: 40px;
+    margin: 0;
 }
 
 .categoria img {
+    /* Limita el crecimiento y conserva la proporción sin recortar la fotografía. */
+    display: block;
     width: 100%;
+    max-width: 14rem;
     height: auto;
+    margin: 0 auto;
 
     border-radius: var(--border-radius-half);
 }
 
 .categoria .desc {
-    font-size: var(--title-text-size);
+    font-size: var(--title-text-size, 1.2rem);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
     font-weight: bold;
 
     text-align: center;
@@ -49,15 +67,25 @@
 }
 
 /* ---------------------------------------------- [MEDIA QUERIES]*/
-@media only screen and (max-width: 768px) {
+/* Dos columnas cuando disminuye el ancho disponible, también al aumentar el zoom. */
+@media only screen and (max-width: 900px) {
+    #categorias {
+        max-width: 35.75rem;
+    }
+
     .categoria {
-        width: calc(50% - 20px); /*Calcula el 50% de la pantalla y le resta 20px al width*/
+        width: calc((100% - 1.25rem) / 2);
     }
 }
 
-@media only screen and (max-width: 480px) {
+/* Una columna en móvil para mantener legibles los nombres. */
+@media only screen and (max-width: 600px) {
+    #categorias {
+        max-width: 18.5rem;
+    }
+
     .categoria {
-        width: calc(100% - 20px); /*Calcula el 100% de la pantalla y le resta 20px al width*/
+        width: 100%;
     }
 }
 /* Enlaces de categoría: conserva el aspecto de las tarjetas y habilita el foco visible. */
