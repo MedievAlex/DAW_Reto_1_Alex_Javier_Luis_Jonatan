@@ -1,0 +1,101 @@
+/* ---------------------------------------------- [ARTICLE: Categorias]*/
+#categorias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    box-sizing: border-box;
+    width: 100%;
+    /* Tres tarjetas compactas, sus separaciones y el padding del contenedor. */
+    max-width: 53rem;
+    margin: 0 auto;
+    padding: 1.25rem;
+}
+
+#categorias div{
+    color: var(--color-acento);
+    text-decoration: none;
+
+    border-radius: var(--border-radius-m);
+}
+
+/* ---------------------------------------------- [ARTICLE: Categoria]*/
+.categoria {
+    /* El límite evita que el ancho porcentual agrande las tarjetas al alejar el zoom. */
+    box-sizing: border-box;
+    min-width: 0;
+    width: calc((100% - 2.5rem) / 3);
+    max-width: 16rem;
+    flex: 0 1 auto;
+
+    border: 3px solid var(--color-grey);
+    background-color: white; /*Para que sea igual al fondo de las imágenes*/
+
+    margin: 0;
+}
+
+.categoria img {
+    /* Limita el crecimiento y conserva la proporción sin recortar la fotografía. */
+    display: block;
+    width: 100%;
+    max-width: 14rem;
+    height: auto;
+    margin: 0 auto;
+
+    border-radius: var(--border-radius-half);
+}
+
+.categoria .desc {
+    font-size: var(--title-text-size, 1.2rem);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    font-weight: bold;
+
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    padding: 15px;
+}
+
+.categoria:hover {
+    border: 3px solid var(--color-acento);
+}
+
+.categoria:active {
+    border-width: 2px;
+}
+
+/* ---------------------------------------------- [MEDIA QUERIES]*/
+/* Dos columnas cuando disminuye el ancho disponible, también al aumentar el zoom. */
+@media only screen and (max-width: 900px) {
+    #categorias {
+        max-width: 35.75rem;
+    }
+
+    .categoria {
+        width: calc((100% - 1.25rem) / 2);
+    }
+}
+
+/* Una columna en móvil para mantener legibles los nombres. */
+@media only screen and (max-width: 600px) {
+    #categorias {
+        max-width: 18.5rem;
+    }
+
+    .categoria {
+        width: 100%;
+    }
+}
+/* Enlaces de categoría: conserva el aspecto de las tarjetas y habilita el foco visible. */
+#categorias a.categoria {
+    color: var(--color-secundario);
+    text-decoration: none;
+    border-radius: var(--border-radius-m);
+}
+
+#categorias a.categoria:focus-visible {
+    outline: 3px solid var(--color-acento);
+    outline-offset: 3px;
+}

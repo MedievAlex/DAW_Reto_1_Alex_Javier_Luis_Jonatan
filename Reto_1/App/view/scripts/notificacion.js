@@ -408,7 +408,8 @@ async function cargarNotificacionesFiltradas(lista) {
                         notificacion_id,
                         nuevoTitulo,
                         nuevaDescripcion,
-                        nuevoEstado,
+                        fechaFormatoSQL,
+                        nuevoEstado
                     );
                 }
             });

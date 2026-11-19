@@ -19,17 +19,17 @@
  * 06. CREACIÓN, EDICIÓN Y VALIDACIONES (ADMIN)
  *     mostrarErrorAlta, limpiarErroresAlta, abrirAlta, cerrarAlta, validarAlta, bloquearAlta, enviarAlta.
  * 07. EVENTOS DEL FORMULARIO Y DE LAS ACCIONES DE LAS TARJETAS
- *     Referencias al DOM y estado compartido.
+ *     Eventos del formulario y delegación de acciones de las tarjetas.
  * 08. MENSAJES Y CONSULTAS GET
  *     mostrarMensaje, consultarApi.
  * 09. VALIDACIÓN DE DATOS RECIBIDOS
  *     validarEquipos, prepararUbicaciones.
  * 10. TARJETAS Y ACCIONES POR ROL
- *     crearTarjeta.
+ *     crearIconoAccion, crearTarjeta.
  * 11. CARGA DEL INVENTARIO Y FILTRO
  *     cargarInventario.
  * 12. INICIALIZACIÓN, CATEGORÍA DE LA URL Y FILTRO MANUAL
- *     Referencias al DOM y estado compartido.
+ *     Lectura de categoría en la URL, cambio de filtro y carga inicial.
  *
  * Los eventos y la accesibilidad de cada modal se documentan junto a su funcionalidad.
  * Crear y editar comparten formulario y funciones; no se duplican en secciones separadas.
@@ -42,7 +42,7 @@
     const categorias = {
         PORTATIL: { nombre: "Portátil", imagen: "categoria_portatil.jpg" },
         SOBREMESA: { nombre: "Sobremesa", imagen: "categoria_sobremesa.jpg" },
-        PERIFERICO: { nombre: "Periférico", imagen: "categoria_perifericos.jpg" },
+        PERIFERICO: { nombre: "Periférico", imagen: "categoria_periferico.jpg" },
         AUDIOVISUAL: { nombre: "Audiovisual", imagen: "categoria_audiovisual.jpg" },
         OTROS: { nombre: "Otros", imagen: "categoria_otros.jpg" }
     };
@@ -963,6 +963,27 @@
     // 10. TARJETAS Y ACCIONES POR ROL
     // ============================================================
     /**
+     * Crea un icono SVG decorativo con el color del botón y un trazado local fijo.
+     * @returns {SVGSVGElement} Icono de traslado o historial.
+     */
+    function crearIconoAccion(trazado) {
+        const espacio = "http://www.w3.org/2000/svg";
+        const icono = document.createElementNS(espacio, "svg");
+        icono.setAttribute("viewBox", "0 0 24 24");
+        icono.setAttribute("aria-hidden", "true");
+        icono.setAttribute("focusable", "false");
+        icono.setAttribute("fill", "none");
+        icono.setAttribute("stroke", "currentColor");
+        icono.setAttribute("stroke-width", "2");
+        icono.setAttribute("stroke-linecap", "round");
+        icono.setAttribute("stroke-linejoin", "round");
+        const linea = document.createElementNS(espacio, "path");
+        linea.setAttribute("d", trazado);
+        icono.appendChild(linea);
+        return icono;
+    }
+
+    /**
      * Construye una tarjeta con datos seguros y acciones según el rol confirmado.
      *
      * @returns {HTMLLIElement} Tarjeta lista para incorporarse al inventario.
@@ -1008,23 +1029,25 @@
             accionesTarjeta.className = "equipamiento-acciones-tarjeta";
             const editar = document.createElement("button");
             editar.type = "button";
-            editar.className = "btn-texto btn-edit";
+            editar.className = "btn-s btn-edit";
+            editar.title = "Editar equipamiento";
             editar.dataset.accion = "editar";
             editar.setAttribute("aria-label", "Editar " + equipo.nombre);
             const icono = document.createElement("img");
             icono.src = "../assets/icons/icon_editar.png";
             icono.alt = "";
-            editar.append(icono, document.createTextNode("Editar"));
+            editar.appendChild(icono);
             accionesTarjeta.appendChild(editar);
             const eliminar = document.createElement("button");
             eliminar.type = "button";
-            eliminar.className = "btn-texto btn-delete";
+            eliminar.className = "btn-s btn-delete";
+            eliminar.title = "Eliminar equipamiento";
             eliminar.dataset.accion = "eliminar";
             eliminar.setAttribute("aria-label", "Eliminar " + equipo.nombre);
             const iconoEliminar = document.createElement("img");
             iconoEliminar.src = "../assets/icons/icon_eliminar.png";
             iconoEliminar.alt = "";
-            eliminar.append(iconoEliminar, document.createTextNode("Eliminar"));
+            eliminar.appendChild(iconoEliminar);
             accionesTarjeta.appendChild(eliminar);
             tarjeta.appendChild(accionesTarjeta);
         }
@@ -1033,9 +1056,10 @@
             accionesTarjeta.className = "equipamiento-acciones-tarjeta";
             const trasladar = document.createElement("button");
             trasladar.type = "button";
-            trasladar.className = "btn-texto";
+            trasladar.className = "btn-s";
+            trasladar.title = "Trasladar equipamiento";
             trasladar.dataset.accion = "trasladar";
-            trasladar.textContent = "Trasladar";
+            trasladar.appendChild(crearIconoAccion("M4 7h16m-5-5 5 5-5 5M20 17H4m5-5-5 5 5 5"));
             trasladar.setAttribute("aria-label", "Trasladar " + equipo.nombre);
             accionesTarjeta.appendChild(trasladar);
             tarjeta.appendChild(accionesTarjeta);
@@ -1044,9 +1068,10 @@
             const accionesTarjeta = tarjeta.querySelector(".equipamiento-acciones-tarjeta");
             const historico = document.createElement("button");
             historico.type = "button";
-            historico.className = "btn-texto";
+            historico.className = "btn-s";
+            historico.title = "Ver historial";
             historico.dataset.accion = "historico";
-            historico.textContent = "Ver histórico";
+            historico.appendChild(crearIconoAccion("M3 4v5h5M3 9a9 9 0 1 1 0 6M12 7v5l3 2"));
             historico.setAttribute("aria-label", "Ver histórico de " + equipo.nombre);
             accionesTarjeta.appendChild(historico);
         }
