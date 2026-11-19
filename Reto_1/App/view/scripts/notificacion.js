@@ -43,28 +43,33 @@ if (btnAgregarNotificacion) {
                 // Input Título
                 const tituloNuevaNot = document.createElement("input");
                 tituloNuevaNot.className = "inputNuevaNotTitulo";
+                tituloNuevaNot.classList.add("err");
                 tituloNuevaNot.type = "text";
                 tituloNuevaNot.placeholder = "Título de la notificación...";
 
                 // Input Descripción
                 const descripcionNuevaNot = document.createElement("textarea");
                 descripcionNuevaNot.className = "inputNuevaNotDesc";
+                descripcionNuevaNot.classList.add("err");
                 descripcionNuevaNot.placeholder = "Descripción...";
 
                 // Selector de Fecha y Hora (abre el calendario nativo del navegador)
                 const fechaNuevaNot = document.createElement("input");
                 fechaNuevaNot.className = "inputNuevaNotFecha";
+                fechaNuevaNot.classList.add("err");
                 fechaNuevaNot.type = "datetime-local";
 
                 // Botón para Guardar la nueva notificación
                 const btnGuardarNueva = document.createElement("button");
-                btnGuardarNueva.textContent = "Guardar";
-                btnGuardarNueva.className = "btnGuardarNuevaNot";
+                btnGuardarNueva.textContent = "";
+                btnGuardarNueva.innerHTML = '<img src="' + srcGuardar + '" alt="Guardar Nueva">';
+                btnGuardarNueva.classList.add("btn-s", "btnGuardarNuevaNot");
 
                 // Botón para Cancelar por si te arrepientes
                 const btnCancelarNueva = document.createElement("button");
-                btnCancelarNueva.textContent = "Cancelar";
-                btnCancelarNueva.className = "btnCancelarNuevaNot";
+                btnCancelarNueva.textContent = "";
+                btnCancelarNueva.innerHTML = '<img src="' + srcCancelar + '" alt="Cancelar Nueva">';
+                btnCancelarNueva.classList.add("btn-s", "btnCancelarNuevaNot");
                 btnCancelarNueva.addEventListener("click", () => {
                     elementoNuevo.remove();
                 });
@@ -326,13 +331,18 @@ async function cargarNotificacionesFiltradas(lista) {
             btnModificar.classList.add("btn-edit");
             btnModificar.innerHTML = '<img src="' + srcEditar + '" alt="Editar notificación">';
 
+            //Boton para cancelar
+            const btnCancelarMod = document.createElement("button");
+            btnCancelarMod.classList.add("btn-s", "btn-delete", "oculto");
+            btnCancelarMod.title = "Cancelar.";
+            btnCancelarMod.innerHTML = '<img src="' + srcCancelar + '" alt="Cancelar edición">';
+
             // Variables para controlar la edición de ESTA tarjeta en concreto
             let editando = false;
             let inputTitulo = null;
             // let inputFecha = null;
             let inputDescripcion = null;
             let inputEstado = null;
-            let btnCancelarMod = null;
 
             btnModificar.addEventListener("click", () => {
                 if (!editando) {
@@ -341,6 +351,13 @@ async function cargarNotificacionesFiltradas(lista) {
 
                     if (!existeNuevo && !hayEdicionActiva) {
                         elemento.classList.add("editando-activo");
+
+                        btnCancelarMod.classList.remove("oculto");
+                        btnCancelarMod.classList.add("visible");
+                        if (rolActual !== "ADMIN") {
+                            btnEliminar.classList.remove("visible");
+                            btnEliminar.classList.add("oculto");
+                        }
 
                         inputEstado = document.createElement("select");
                         inputEstado.className = "inputEditarEstado";
@@ -362,10 +379,12 @@ async function cargarNotificacionesFiltradas(lista) {
                             inputTitulo.type = "text";
                             inputTitulo.value = titulo.textContent;
                             inputTitulo.className = "inputEditarTitulo";
+                            inputTitulo.classList.add("err");
 
                             inputDescripcion = document.createElement("textarea");
                             inputDescripcion.value = descripcion.textContent;
                             inputDescripcion.className = "inputEditarDescripcion";
+                            inputDescripcion.classList.add("err");
 
                             // inputFecha = document.createElement("input");
                             // inputFecha.type = "datetime-local";
@@ -399,23 +418,58 @@ async function cargarNotificacionesFiltradas(lista) {
 
                     if (!nuevoTitulo || !nuevaDescripcion) {
                         alert("El título y la descripción no pueden estar vacíos.");
+                        if (!nuevoTitulo) {
+                            inputTitulo.classList.add("inpErr");
+                        } else if (!nuevaDescripcion) {
+                            inputDescripcion.classList.add("inpErr");
+                        }
+                    } else {
+                        btnCancelarMod.classList.remove("visible");
+                        btnCancelarMod.classList.add("oculto");
+                        if (rolActual !== "ADMIN") {
+                            btnEliminar.classList.remove("oculto");
+                            btnEliminar.classList.add("visible");
+                        }
+                        elemento.classList.remove("editando-activo");
+
+                        // Llamamos a la función PUT con los datos nuevos de los inputs
+                        modificarNotificacion(
+                            notificacion_id,
+                            nuevoTitulo,
+                            nuevaDescripcion,
+                            fechaFormatoSQL,
+                            nuevoEstado
+                        );
                     }
 
-                    elemento.classList.remove("editando-activo");
 
-                    // Llamamos a la función PUT con los datos nuevos de los inputs
-                    modificarNotificacion(
-                        notificacion_id,
-                        nuevoTitulo,
-                        nuevaDescripcion,
-                        fechaFormatoSQL,
-                        nuevoEstado
-                    );
                 }
             });
+            btnCancelarMod.addEventListener("click", () => {
+                btnCancelarMod.classList.remove("visible");
+                btnCancelarMod.classList.add("oculto");
 
+                if (rolActual !== "ADMIN") {
+                    btnEliminar.classList.remove("oculto");
+                    btnEliminar.classList.add("visible");
+                }
+
+                if (rolActual === "ADMIN") {
+                    inputEstado.replaceWith(detalles);
+                    inputEstado = null;
+                } else {
+                    inputTitulo.replaceWith(titulo);
+                    inputDescripcion.replaceWith(descripcion);
+                    inputTitulo = null;
+                    inputDescripcion = null;
+                }
+
+                btnModificar.innerHTML = '<img src="' + srcEditar + '" alt="Editar notificación">';
+                elemento.classList.remove("editando-activo");
+                editando = false;
+            });
             // Añadimos todo al article y a la lista
-            elemento.append(btnEliminar, btnModificar, titulo, descripcion, detalles);
+            elemento.append(btnCancelarMod, btnEliminar, btnModificar, titulo, descripcion, detalles);
             listaNotificaciones.append(elemento);
         });
     }
