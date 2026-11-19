@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/notificaciones.css">
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/inicio.css">
     <script src="../scripts/auth.js" defer></script>
     <script src="../scripts/global.js" defer></script>
     <script src="../scripts/notificacion.js" defer></script>
     <script src="../scripts/usuario.js" defer></script>
     <script src="../scripts/perfil.js" defer></script>
+    <script src="../scripts/inicio.js" defer></script>
     <link rel="shortcut icon" type="image/ico" href="../assets/logo/CF.ico">
     <title>Inicio - Centro Fungible</title>
 </head>
@@ -120,10 +122,11 @@
                             </div>
 
                             <div>
-                                <label for="perfil-edit-password">Contraseña nueva (opcional, de 8 a 72 caracteres)</label>
+                                <label for="perfil-edit-password">Contraseña nueva (opcional, de 8 a 72
+                                    caracteres)</label>
                                 <div class="campo-password">
-                                    <input type="password" id="perfil-edit-password" name="password_nueva"
-                                        minlength="8" maxlength="72" autocomplete="new-password">
+                                    <input type="password" id="perfil-edit-password" name="password_nueva" minlength="8"
+                                        maxlength="72" autocomplete="new-password">
                                     <button id="btn-perfil-pwd-ver" type="button" class="btn-s" aria-pressed="false"
                                         aria-label="Mostrar contraseña" title="Mostrar contraseña">
                                         <img id="icono-perfil-pwd-ver" src="../assets/icons/icon_oculto.png" alt="">
@@ -148,8 +151,8 @@
                                 aria-expanded="false" aria-controls="form-perfil-propio">
                                 <img src="../assets/icons/icon_editar.png" alt="Editar perfil">
                             </button>
-                            <button id="btn-cambiar-password" type="button" class="btn-texto"
-                                title="Cambiar contraseña" aria-expanded="false" aria-controls="form-password">
+                            <button id="btn-cambiar-password" type="button" class="btn-texto" title="Cambiar contraseña"
+                                aria-expanded="false" aria-controls="form-password">
                                 <img id="icono-cambiar-password" src="../assets/icons/icon_drop_abrir.png"
                                     alt="">Cambiar contraseña
                             </button>
@@ -221,7 +224,8 @@
                                 </select>
                             </div>
 
-                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios" aria-live="polite"></ul>
+                            <ul id="usuarios-lista" class="usuarios-lista" role="listbox" aria-label="Usuarios"
+                                aria-live="polite"></ul>
 
                         </div>
 
@@ -307,26 +311,21 @@
 
         <!------------------------------------------------------------------------ [SECTION: Article 1 ] -->
         <article>
-            <p>
-                GESTION: Gestiona los equipamientos del centro.
+            <h2 class="resumen-titulo">RESUMEN DEL INVENTARIO</h2>
+            <p id="contador-equipamientos" class="err" role="status" aria-live="polite">
+                Cargando contador de equipamientos...
             </p>
-            <img src="../assets/img/inicio_almacen.jpg" alt="Imagen representativa del almacén del centro." width="50%">
+            <div id="desglose-categorias"></div>
+            <img src="../assets/img/inicio_almacen.jpg" alt="Imagen representativa del almacén del centro." width="100%">
         </article>
 
-        <!------------------------------------------------------------------------ [SECTION: Article 2 ] -->
-        <article>
-            <p>
-                GESTION: Gestiona los equipamientos del centro.
-            </p>
-            <img src="../assets/img/inicio_almacen.jpg" alt="Imagen representativa del almacén del centro." width="50%">
-        </article>
     </section>
 
     <!------------------------------------------------------------------------ [ASIDE: ] -->
     <aside>
 
     </aside>
-    
+
     <section id="enlace">
         <a href="#logo">VOLVER ARRIBA</a>
     </section>
