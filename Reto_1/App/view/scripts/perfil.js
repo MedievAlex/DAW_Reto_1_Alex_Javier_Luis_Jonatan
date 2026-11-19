@@ -128,6 +128,20 @@ function iniciarPerfil() {
     perfil.btnTogglePassword.addEventListener("click", function () {
         mostrarCampoPassword(perfil.panelPassword.classList.contains("oculto"));
     });
+
+    // La validación se hace en JS para poder marcar a la vez todos los campos con error
+    perfil.formulario.noValidate = true;
+    perfil.formPerfil.noValidate = true;
+    perfil.formPassword.noValidate = true;
+
+    for (const formulario of [perfil.formulario, perfil.formPerfil, perfil.formPassword]) {
+        formulario.addEventListener("input", function (evento) {
+            evento.target.classList.remove("inpErr");
+        });
+        formulario.addEventListener("change", function (evento) {
+            evento.target.classList.remove("inpErr");
+        });
+    }
 }
 
 // ---------------------------------------- Modal
@@ -192,6 +206,12 @@ function mostrarMensaje(texto, correcto = false) {
 function limpiarMensaje() {
     perfil.mensaje.textContent = "";
     perfil.mensaje.classList.add("oculto");
+}
+
+function limpiarErrores(formulario) {
+    for (const campo of formulario.querySelectorAll(".inpErr")) {
+        campo.classList.remove("inpErr");
+    }
 }
 
 // ---------------------------------------- Lista de usuarios
@@ -373,6 +393,7 @@ function abrirFormulario(modo, usuario) {
 
     perfilModo = modo;
     perfil.formulario.reset();
+    limpiarErrores(perfil.formulario);
     perfil.campoId.value = crear ? "" : usuario.usu_id;
     perfil.formTitulo.textContent = crear ? "Nuevo usuario" : "Editar usuario";
     perfil.campoPassword.required = crear; // al editar es opcional: sin ella se mantiene la actual
@@ -411,6 +432,8 @@ async function guardarFormulario(evento) {
         return;
     }
 
+    const crear = perfilModo === "crear";
+
     const datos = {
         usu_id: Number(perfil.campoId.value),
         nombre: perfil.campoNombre.value.trim(),
@@ -420,13 +443,20 @@ async function guardarFormulario(evento) {
         password: perfil.campoPassword.value
     };
 
-    // required admite espacios en blanco: se comprueba también sin ellos
-    if (datos.nombre === "" || datos.apellidos === "" || datos.nombre_usuario === "" || datos.rol === "") {
-        mostrarMensaje("Rellena todos los campos obligatorios.");
+    perfil.campoNombre.classList.toggle("inpErr", datos.nombre === "");
+    perfil.campoApellidos.classList.toggle("inpErr", datos.apellidos === "");
+    perfil.campoUsuario.classList.toggle("inpErr", datos.nombre_usuario === "");
+    perfil.campoRol.classList.toggle("inpErr", datos.rol === "");
+
+    const faltanDatos = datos.nombre === "" || datos.apellidos === "" || datos.nombre_usuario === "" || datos.rol === "" || (crear && datos.password === "");
+    const passwordInvalida = datos.password !== "" && (datos.password.length < 8 || datos.password.length > 72);
+
+    perfil.campoPassword.classList.toggle("inpErr", (crear && datos.password === "") || passwordInvalida);
+
+    if (faltanDatos || passwordInvalida) {
+        mostrarMensaje(faltanDatos ? "Rellena todos los campos obligatorios." : "La contraseña debe tener de 8 a 72 caracteres.");
         return;
     }
-
-    const crear = perfilModo === "crear";
 
     let guardado;
 
@@ -492,6 +522,7 @@ function alternarFormularioPerfil() {
 
 function ocultarFormularioPerfil() {
     perfil.formPerfil.reset();
+    limpiarErrores(perfil.formPerfil);
     mostrarPasswordPerfil(false);
     perfil.formPerfil.classList.add("oculto");
     perfil.campos.classList.remove("oculto");
@@ -560,13 +591,20 @@ async function guardarPerfil(evento) {
     };
     const passwordNueva = perfil.campoPerfilPassword.value; // opcional: vacía = se mantiene la actual
 
-    // required admite espacios en blanco: se comprueba también sin ellos
+    perfil.campoPerfilNombre.classList.toggle("inpErr", datos.nombre === "");
+    perfil.campoPerfilApellidos.classList.toggle("inpErr", datos.apellidos === "");
+    perfil.campoPerfilUsuario.classList.toggle("inpErr", datos.nombre_usuario === "");
+
+    const passwordInvalida = passwordNueva !== "" && (passwordNueva.length < 8 || passwordNueva.length > 72);
+
+    perfil.campoPerfilPassword.classList.toggle("inpErr", passwordInvalida);
+
     if (datos.nombre === "" || datos.apellidos === "" || datos.nombre_usuario === "") {
         mostrarMensajePerfil("Rellena nombre, apellidos y usuario.");
         return;
     }
 
-    if (passwordNueva !== "" && (passwordNueva.length < 8 || passwordNueva.length > 72)) {
+    if (passwordInvalida) {
         mostrarMensajePerfil("La contraseña debe tener de 8 a 72 caracteres.");
         perfil.campoPerfilPassword.focus();
         return;
@@ -591,6 +629,7 @@ async function guardarPerfil(evento) {
             guardado = await editarPerfilPropio(datos);
         } catch (error) {
             mostrarMensajePerfil(mensajeErrorPerfil(error.message)); // p. ej. 409: el nombre de usuario ya existe
+            perfil.campoPerfilUsuario.classList.add("inpErr");
             perfil.campoPerfilUsuario.focus();
             perfil.btnPerfilGuardar.disabled = false;
             return;
@@ -646,6 +685,7 @@ function alternarFormularioPassword() {
 
 function ocultarFormularioPassword() {
     perfil.formPassword.reset();
+    limpiarErrores(perfil.formPassword);
     mostrarPasswordNueva(false);
     perfil.formPassword.classList.add("oculto");
     perfil.btnPassword.setAttribute("aria-expanded", "false");
@@ -684,6 +724,8 @@ async function guardarPassword(evento) {
     }
 
     const nueva = perfil.campoPasswordNueva.value;
+
+    perfil.campoPasswordNueva.classList.toggle("inpErr", nueva === "" || nueva.length < 8 || nueva.length > 72);
 
     if (nueva === "") {
         mostrarMensajePassword("Indica la contraseña nueva.");

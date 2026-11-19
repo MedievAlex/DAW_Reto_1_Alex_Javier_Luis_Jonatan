@@ -531,3 +531,10 @@
 
     margin: 15px auto 0;
 }
+
+/* ---------------------------------------------- [CAMPOS CON ERROR]*/
+#modalPerfil input.inpErr,
+#modalPerfil select.inpErr {
+    background-color: var(--background-err);
+    border-color: var(--border-err);
+}
