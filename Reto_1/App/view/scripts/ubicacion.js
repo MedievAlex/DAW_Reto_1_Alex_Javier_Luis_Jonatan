@@ -60,14 +60,19 @@ if (esAdmin) {
         let ubi_btn = tr_ubi.insertCell(2); // Botones
 
         // ---------------------------------------- Boton Guardar
+        let altGuardar = "Guardar Ubicación nueva.";
+
         let btn_save = document.createElement("button");
-        btn_save.alt = "Guardar Ubicación.";
+        btn_save.alt = altGuardar;
+        btn_save.title = srcGuardar;
+
         let img_save = document.createElement("img");
         img_save.src = srcGuardar;
+        img_save.alt = altGuardar;
+
         btn_save.appendChild(img_save);
         btn_save.classList.add("btn-s");
         btn_save.classList.add("btn-edit");
-        btn_save.title = "Guardar ubicación nueva.";
 
         // [ Guarda las modificaciones de la Ubicacion editada ]
         btn_save.addEventListener("click", () => {
@@ -95,14 +100,19 @@ if (esAdmin) {
         ubi_btn.appendChild(btn_save);
 
         // ---------------------------------------- Boton Cancelar
+        let altCancelar = "Cancelar nueva ubicación.";
+
         let btn_cancel = document.createElement("button");
-        btn_cancel.alt = "Cancelar nueva ubicación.";
+        btn_cancel.alt = altCancelar;
+        btn_cancel.title = altCancelar;
+
         let img_cancel = document.createElement("img");
         img_cancel.src = srcCancelar;
+        img_cancel.alt = altCancelar;
+
         btn_cancel.appendChild(img_cancel);
         btn_cancel.classList.add("btn-s");
         btn_cancel.classList.add("btn-delete");
-        btn_cancel.title = "Cancelar.";
 
         // [ Cancela la acción ]
         btn_cancel.addEventListener("click", () => {
@@ -413,11 +423,15 @@ function generarUbicaciones(value) {
 
         if (esAdmin) {
             // ---------------------------------------- Boton Editar
+            let altEditar = "Editar ubicación " + ubi_nombre + ".";
+
             btn_edit = document.createElement("button");
-            btn_edit.alt = "Editar ubicación " + ubi_nombre + ".";
+            btn_edit.alt = altEditar;
+            btn_edit.title = altEditar;
+
             let img_edit = document.createElement("img");
             img_edit.src = srcEditar;
-            btn_edit.title = "Editar ubicación " + ubi_nombre + ".";
+            img_edit.alt = altEditar;
 
             btn_edit.appendChild(img_edit);
             btn_edit.classList.add("btn-s");
@@ -426,11 +440,15 @@ function generarUbicaciones(value) {
             ubi_btn.appendChild(btn_edit);
 
             // ---------------------------------------- Boton Guardar
+            let altGuardar = "Guardar cambios en ubicación " + ubi_nombre + ".";
+
             btn_save = document.createElement("button");
-            btn_save.alt = "Editar ubicación " + ubi_nombre + ".";
+            btn_save.alt = altGuardar;
+            btn_save.title = altGuardar;
+
             let img_save = document.createElement("img");
             img_save.src = srcGuardar;
-            btn_save.title = "Guardar modificaciones de ubicación " + ubi_nombre + ".";
+            img_save.alt = altGuardar;
 
             btn_save.appendChild(img_save);
             btn_save.classList.add("btn-s");
@@ -440,11 +458,14 @@ function generarUbicaciones(value) {
             ubi_btn.appendChild(btn_save);
 
             // ---------------------------------------- Boton Cancelar
+            let altCancelar = "Cancelar cambios en ubicación " + ubi_nombre + ".";
+
             btn_cancel = document.createElement("button");
-            btn_cancel.alt = "Cancelar nueva ubicación.";
+            btn_cancel.alt = altCancelar;
+            btn_cancel.title = altCancelar;
+
             let img_cancel = document.createElement("img");
             img_cancel.src = srcCancelar;
-            btn_cancel.title = "Cancelar.";
 
             btn_cancel.appendChild(img_cancel);
             btn_cancel.classList.add("btn-s");
@@ -455,11 +476,15 @@ function generarUbicaciones(value) {
 
             // ---------------------------------------- Boton Eliminar
             if (ubi_nombre != "Almacén") {
+                let altEliminar = "Eliminar ubicación " + ubi_nombre + ".";
+
                 btn_delete = document.createElement("button");
-                btn_delete.alt = "Eliminar ubicación " + ubi_nombre + ".";
+                btn_delete.alt = altEliminar;
+                btn_delete.title = altEliminar;
+
                 let img_delete = document.createElement("img");
                 img_delete.src = srcEliminar;
-                btn_delete.title = "Eliminar ubicación " + ubi_nombre + ".";
+                img_delete.alt = altEliminar;
 
                 btn_delete.appendChild(img_delete);
                 btn_delete.classList.add("btn-s");
@@ -482,11 +507,15 @@ function generarUbicaciones(value) {
         }
 
         // ---------------------------------------- Boton Abrir
+        let altAbrir = "Mostrar equipaciones de la ubicación " + ubi_nombre + ".";
+
         btn_open = document.createElement("button");
-        btn_open.alt = "Mostrar equipaciones de la ubicación " + ubi_nombre + ".";
+        btn_open.alt = altAbrir;
+        btn_open.title = altAbrir;
+
         let img_open = document.createElement("img");
         img_open.src = srcCerrar;
-        btn_open.title = "Mostrar equipamientos de la ubicación " + ubi_nombre + ".";
+        img_open.alt = altAbrir;
 
         btn_open.appendChild(img_open);
         btn_open.classList.add("btn-s");
@@ -495,13 +524,17 @@ function generarUbicaciones(value) {
         ubi_btn.appendChild(btn_open);
 
         // ---------------------------------------- Boton Cerrar
-        btn_close = document.createElement("button");
-        btn_close.alt = "Ocultar equipaciones de la ubicación " + ubi_nombre + ".";
-        let btn_img = document.createElement("img");
-        btn_img.src = srcAbrir;
-        btn_close.title = "Ocultar equipamientos de la ubicación " + ubi_nombre + ".";
+        let altCerrar = "Ocultar equipaciones de la ubicación " + ubi_nombre + ".";
 
-        btn_close.appendChild(btn_img);
+        btn_close = document.createElement("button");
+        btn_close.alt = altCerrar;
+        btn_close.title = srcAbrir;
+
+        let img_close = document.createElement("img");
+        img_close.src = srcAbrir;
+        img_close.alt = altCerrar;
+
+        btn_close.appendChild(img_close);
         btn_close.classList.add("btn-s");
         btn_close.classList.add("btn-close");
         btn_close.classList.add("oculto");
@@ -813,6 +846,7 @@ function generarEquipamientos(value) {
 
         let sec_equ_inf = document.createElement("section"); // Información
         sec_equ_inf.classList.add("equ-inf");
+
         let img_equ_img = document.createElement("img");
         img_equ_img.classList.add("equ-img");
         img_equ_img.src = "../assets/img/categoria_" + equ_categoria.toLowerCase() + ".jpg";
@@ -874,13 +908,19 @@ function generarEquipamientos(value) {
             art_equ.appendChild(sec_equ_btn); // Seccion de botones al artículo
 
             // ---------------------------------------- Boton Editar
+            let altEditar = "Editar campos del equipamiento " + equ_nombre + ".";
+
             let btn_edit = document.createElement("button");
-            btn_edit.classList.add("btn-s");
-            btn_edit.classList.add("btn-edit");
+            btn_edit.alt = altEditar;
+            btn_edit.title = altEditar;
+
             let img_btn_edit = document.createElement("img");
             img_btn_edit.src = srcEditar;
-            btn_edit.alt = "Editar campos del equipamiento " + equ_nombre + ".";
+            img_btn_edit.alt = altEditar;
+
             btn_edit.appendChild(img_btn_edit);
+            btn_edit.classList.add("btn-s");
+            btn_edit.classList.add("btn-edit");
 
             // [ Edita el Equipamiento selecionado ]
             btn_edit.addEventListener("click", () => {
@@ -900,14 +940,20 @@ function generarEquipamientos(value) {
             sec_equ_btn.appendChild(btn_edit);
 
             // ---------------------------------------- Boton Guardar
+            let altGuardar = "Guardar cambios del equipamiento " + equ_nombre + ".";
+
             let btn_save = document.createElement("button");
+            btn_save.alt = altGuardar;
+            btn_save.title = altGuardar;
+            
+            let img_btn_save = document.createElement("img");
+            img_btn_save.src = srcGuardar;
+            img_btn_save.alt = altGuardar;
+
+            btn_save.appendChild(img_btn_save);
             btn_save.classList.add("btn-s");
             btn_save.classList.add("btn-save");
             btn_save.classList.add("oculto");
-            let img_btn_save = document.createElement("img");
-            img_btn_save.src = srcGuardar;
-            btn_save.alt = "Guardar cambios del equipamiento " + equ_nombre + ".";
-            btn_save.appendChild(img_btn_save);
 
             // [ Guarda las modificaciones del Equipamiento editado ]
             btn_save.addEventListener("click", () => {
@@ -943,14 +989,19 @@ function generarEquipamientos(value) {
             sec_equ_btn.appendChild(btn_save);
 
             // ---------------------------------------- Boton Eliminar
+            let altEliminar = "Eliminar equipamiento " + equ_nombre + ".";
+
             let btn_delete = document.createElement("button");
-            btn_delete.classList.add("btn-s");
-            btn_delete.classList.add("btn-delete");
+            btn_delete.alt = altEliminar;
+            btn_delete.title = altEliminar;
+            
             let img_btn_delete = document.createElement("img");
             img_btn_delete.src = srcEliminar;
-            btn_delete.alt = "Eliminar equipamiento " + equ_nombre + ".";
-            btn_delete.title = "Eliminar equipamiento " + equ_nombre + ".";
+            img_btn_delete.alt = altEliminar;
+
             btn_delete.appendChild(img_btn_delete);
+            btn_delete.classList.add("btn-s");
+            btn_delete.classList.add("btn-delete");
 
             // [ Elimina el Equipamiento ]
             btn_delete.addEventListener("click", () => {
