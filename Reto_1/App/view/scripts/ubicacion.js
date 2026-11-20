@@ -82,18 +82,22 @@ if (esAdmin) {
             if (ubi_nom === "" || ubi_des === "") {
                 logMessage("[ERROR]: No se puede crear una ubicación con campos vacios.");
 
-                if (ubi_nom === "" || ubi_des === "") {
-                    logMessage("[ERROR]: No se puede guardar una ubicación con campos vacios.");
+                if (ubi_nom === "") {
+                    inp_ubi_nom.classList.add("inpErr");
+                } else {
+                    inp_ubi_nom.classList.remove("inpErr");
+                }
 
-                    if (ubi_nom === "") {
-                        inp_ubi_nom.classList.add("inpErr");
-
-                    } else if (ubi_des === "") {
-                        inp_ubi_des.classList.add("inpErr");
-                    }
+                if (ubi_des === "") {
+                    inp_ubi_des.classList.add("inpErr");
+                } else {
+                    inp_ubi_des.classList.remove("inpErr");
                 }
             } else {
                 crearUbicacion(0, ubi_nom, ubi_des);
+
+                btn_save.classList.remove("visible");
+                btn_save.classList.add("oculto");
             }
         });
 
@@ -288,7 +292,7 @@ async function crearUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
         if ("success" in value && value.success) {
             logMessage(value.message);
         } else {
-            logMessage(value.message);
+            logMessage("[ERROR]: Nombre ya en uso. No pueden existir dos ubicaciones con el mismo nombre.");
         }
 
         cargarUbicaciones();
@@ -327,7 +331,7 @@ async function editarUbicacion(ubi_id, ubi_nombre, ubi_descripcion) {
                 logMessage(value.message);
             }
         } else {
-            logMessage(value.message);
+            logMessage("[ERROR]: Nombre ya en uso. No pueden existir dos ubicaciones con el mismo nombre.");
         }
 
         cargarUbicaciones();
@@ -575,9 +579,14 @@ function generarUbicaciones(value) {
 
                     if (ubi_nom === "") {
                         inp_ubi_nom.classList.add("inpErr");
+                    } else {
+                        inp_ubi_nom.classList.remove("inpErr");
+                    }
 
-                    } else if (ubi_des === "") {
+                    if (ubi_des === "") {
                         inp_ubi_des.classList.add("inpErr");
+                    } else {
+                        inp_ubi_des.classList.remove("inpErr");
                     }
                 } else {
                     editarUbicacion(ubi_id, ubi_nom, ubi_des);
@@ -945,7 +954,7 @@ function generarEquipamientos(value) {
             let btn_save = document.createElement("button");
             btn_save.alt = altGuardar;
             btn_save.title = altGuardar;
-            
+
             let img_btn_save = document.createElement("img");
             img_btn_save.src = srcGuardar;
             img_btn_save.alt = altGuardar;
@@ -994,7 +1003,7 @@ function generarEquipamientos(value) {
             let btn_delete = document.createElement("button");
             btn_delete.alt = altEliminar;
             btn_delete.title = altEliminar;
-            
+
             let img_btn_delete = document.createElement("img");
             img_btn_delete.src = srcEliminar;
             img_btn_delete.alt = altEliminar;
